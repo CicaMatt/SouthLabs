@@ -40,7 +40,7 @@ export default function WebSolutionsSection() {
               <div className="w-12 h-12 rounded-lg bg-secondary-container flex items-center justify-center mb-6">
                 <span className="material-symbols-outlined text-on-secondary-container">shopping_cart</span>
               </div>
-              <h3 className="font-headline text-2xl font-bold text-on-background mb-3">E-commerce Solutions</h3>
+              <h3 className="font-headline text-2xl font-bold text-on-background mb-3">Piattaforme di E-commerce</h3>
               <p className="font-body text-on-surface-variant max-w-2xl mb-4">
                 Piattaforme di vendita online sicure e ad alta conversione, integrabili con i più noti metodi di pagamento.
               </p>
