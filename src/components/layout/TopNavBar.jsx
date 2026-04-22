@@ -1,10 +1,11 @@
 import { navLinks } from '../../data/content';
+import logo from '../../../media/logo.png';
 
 export default function TopNavBar() {
   return (
-    <nav className="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-2xl shadow-[0_4px_20px_rgba(19,27,46,0.04)] dark:shadow-none bg-white dark:bg-slate-900">
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-8 py-5">
-        <div className="text-2xl font-extrabold tracking-tighter text-blue-900 dark:text-blue-50 font-headline">SouthLabs</div>
+    <nav className="fixed top-0 w-full h-16 md:h-20 z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-2xl shadow-[0_4px_20px_rgba(19,27,46,0.04)] dark:shadow-none bg-white dark:bg-slate-900">
+      <div className="max-w-7xl mx-auto h-full flex items-center justify-between px-5 md:px-8">
+        <img alt="SouthLabs" className="h-16 md:h-20 w-auto object-contain" src={logo} />
 
         <div className="hidden md:flex gap-8 items-center">
           {navLinks.map((link) => (
