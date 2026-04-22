@@ -1,5 +1,27 @@
 import SectionHeader from '../SectionHeader';
-import { automationCards } from '../../data/content';
+
+const automationCards = [
+  {
+    icon: 'terminal',
+    title: 'Software Personalizzati',
+    description: 'Sviluppo di software ad-hoc per soddisfare qualsiasi esigenza operativa.'
+  },
+  {
+    icon: 'api',
+    title: 'Integrazione con Sistemi Legacy',
+    description: 'Aggiornamento e manutenzione di sistemi preesistenti.'
+  },
+  {
+    icon: 'router',
+    title: 'Domotica',
+    description: 'Controllo centralizzato di dispositivi fisici aziendali.'
+  },
+  {
+    icon: 'schema',
+    title: 'Digitalizzazione Processi',
+    description: 'Transizione verso processi digitali moderni.'
+  }
+];
 
 export default function AutomationSection() {
   return (
@@ -7,7 +29,7 @@ export default function AutomationSection() {
       <div className="max-w-7xl mx-auto px-8 relative z-10">
         <SectionHeader
           className="mb-16 max-w-3xl"
-          title="Software & Automazione"
+          title="Software e Automazione"
           subtitle="Sistemi intelligenti per digitalizzare e ottimizzare i processi aziendali."
         />
 
