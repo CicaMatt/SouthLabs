@@ -19,7 +19,7 @@ const automationCards = [
   {
     icon: 'schema',
     title: 'Digitalizzazione Processi',
-    description: 'Transizione verso processi digitali moderni.'
+    description: 'Transizione verso processi digitali veloci e moderni.'
   }
 ];
 
@@ -30,7 +30,7 @@ export default function AutomationSection() {
         <SectionHeader
           className="mb-16 max-w-3xl"
           title="Software e Automazione"
-          subtitle="Sistemi intelligenti per digitalizzare e ottimizzare i processi aziendali."
+          subtitle="Sistemi progettati per digitalizzare e ottimizzare i processi aziendali."
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -43,7 +43,7 @@ export default function AutomationSection() {
             </div>
             <h3 className="font-headline text-2xl font-bold mb-4">Sistemi di Intelligenza Artificiale</h3>
             <p className="font-body text-on-primary-container mb-8 max-w-sm">
-              Sviluppo di modelli di intelligenza artificiale avanzati per analisi predittiva, automazione del customer service e ottimizzazione dei flussi di lavoro.
+              Sviluppo di modelli di intelligenza artificiale per analisi predittiva, automazione del customer service e ottimizzazione dei flussi di lavoro.
             </p>
             <a className="inline-flex items-center text-tertiary-fixed-dim font-medium hover:text-white transition-colors" href="#contatti">
               Esplora AI

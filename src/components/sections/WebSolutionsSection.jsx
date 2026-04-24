@@ -2,12 +2,12 @@ import SectionHeader from '../SectionHeader';
 
 export default function WebSolutionsSection() {
   return (
-    <section className="py-24 bg-surface" id="soluzioni-web">
+    <section className="py-24 bg-surface" id="siti-web">
       <div className="max-w-7xl mx-auto px-8">
         <SectionHeader
           className="mb-16 max-w-2xl"
-          title="Soluzioni Web"
-          subtitle="Presenza digitale strutturata per la massima conversione e performance."
+          title="Siti Web"
+          subtitle="Progettate per la massima conversione della tua attività."
         />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -18,9 +18,9 @@ export default function WebSolutionsSection() {
               <div className="w-12 h-12 rounded-lg data-glass flex items-center justify-center mb-6">
                 <span className="material-symbols-outlined text-tertiary-fixed-dim">code_blocks</span>
               </div>
-              <h3 className="font-headline text-2xl font-bold text-on-background mb-3">Applicazioni Personalizzate</h3>
+              <h3 className="font-headline text-2xl font-bold text-on-background mb-3">Web App Personalizzate</h3>
               <p className="font-body text-on-surface-variant mb-6 max-w-md">
-                Sviluppo di applicazioni personalizzabili e scalabili per garantire performance, sicurezza e continuità nel tempo.
+                Applicazioni personalizzate per il tuo business, per garantire efficienza, sicurezza e continuità nel tempo.
               </p>
             </div>
           </div>
@@ -42,7 +42,7 @@ export default function WebSolutionsSection() {
               </div>
               <h3 className="font-headline text-2xl font-bold text-on-background mb-3">Piattaforme di E-commerce</h3>
               <p className="font-body text-on-surface-variant max-w-2xl mb-4">
-                Piattaforme di vendita online sicure e ad alta conversione, integrabili con i più noti metodi di pagamento.
+                Piattaforme di vendita online sicure ed efficaci, integrabili con i più noti metodi di pagamento.
               </p>
             </div>
             <div className="flex-shrink-0 w-full md:w-1/3 h-48 rounded-lg overflow-hidden bg-surface-container-high">

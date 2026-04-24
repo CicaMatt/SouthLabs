@@ -5,7 +5,7 @@ export default function ContactSection() {
         <div className="text-center mb-12">
           <h2 className="font-headline text-3xl md:text-4xl tracking-tight text-on-background mb-4">Inizia il tuo progetto</h2>
           <p className="font-body text-on-surface-variant">
-            Raccontaci la tua esigenza. I nostri esperti ti contatteranno per una valutazione iniziale senza impegno.
+            Raccontaci la tua idea. I nostri esperti ti contatteranno per una valutazione iniziale, senza impegno.
           </p>
         </div>
 

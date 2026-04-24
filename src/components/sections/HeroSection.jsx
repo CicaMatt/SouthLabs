@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
 
 const DEFAULT_POINTER = { pctX: 72, pctY: 42, shiftX: 0.18, shiftY: -0.1 };
-
 const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
 
 function getPointerState(e) {
@@ -9,8 +8,8 @@ function getPointerState(e) {
   const rx = clamp((e.clientX - b.left) / b.width, 0, 1);
   const ry = clamp((e.clientY - b.top) / b.height, 0, 1);
   return {
-    pctX: Number((rx * 100).toFixed(2)),
-    pctY: Number((ry * 100).toFixed(2)),
+    pctX:   Number((rx * 100).toFixed(2)),
+    pctY:   Number((ry * 100).toFixed(2)),
     shiftX: Number(((rx - 0.5) * 2).toFixed(4)),
     shiftY: Number(((ry - 0.5) * 2).toFixed(4))
   };
@@ -18,36 +17,21 @@ function getPointerState(e) {
 
 function VolcanoIllustration({ eruptionKey }) {
   /*
-   * GEOMETRY
-   * ─────────────────────────────────────────────────────────────────────────
-   * ViewBox 0 0 600 540.
+   * GEOMETRY — viewBox 0 0 600 540
    *
-   * MOUNTAIN SILHOUETTE — one unified path:
-   *   Left flank:  cubic bezier  (22, 494) → (232, 218)
-   *   Back rim:    two arcs      (232, 218) → (300, 202) → (368, 218)
-   *                              This arch is the HIGHEST visible point —
-   *                              the far wall of the crater as seen from
-   *                              slightly in front.
-   *   Right flank: cubic bezier  (368, 218) → (578, 494)
-   *   Base:        implicit Z close
+   * Base:        x = 8  →  592   (584 px wide)
+   * Crater rim:  x = 268 → 332   (64 px wide)
+   * Back-rim peak: (300, 207)
    *
-   * The flanks DO NOT meet at a tip — they terminate at the crater rim
-   * edges (232, 218) and (368, 218). The volcano is 136 px wide at the rim.
-   *
-   * CRATER BOWL — a concave path carved into the mountain top:
-   *   Re-uses the same back-rim arc as the mountain top, then curves
-   *   inward and downward to a floor at y ≈ 245, then back.
-   *   This creates a true bowl depression, not a placed overlay.
-   *
-   * Depth is reinforced by four layers:
-   *   1. Bowl fill       — dark radial gradient (darkest at floor centre)
-   *   2. Back-wall arc   — lighter inner-rim stroke (lit far wall)
-   *   3. Front-lip arc   — faint near-rim highlight (rim has thickness)
-   *   4. Floor glow      — animated vent glow ellipse
-   *
-   * Ridge strokes originate near the crater rim and run down the flanks,
-   * converging upward to point at the crater.
-   * ─────────────────────────────────────────────────────────────────────────
+   * DESIGN INTENT
+   * The mountain fill uses the same colour family as the hero background
+   * (dark blue, semi-transparent) so it reads as a shape carved out of the
+   * atmosphere rather than a solid object placed on top of it.
+   * A single bright-cyan outline stroke defines the silhouette.
+   * The crater is the only zone with higher contrast: a deep bowl fill
+   * and an animated vent glow.
+   * Everything else — ridge lines, plume, waves — is at low opacity,
+   * reinforcing the integrated look.
    */
   return (
     <svg
@@ -57,52 +41,56 @@ function VolcanoIllustration({ eruptionKey }) {
       className="v-svg"
     >
       <defs>
-        {/* Mountain — left-to-right: dark navy → mid-blue → cyan-blue → dark navy */}
-        <linearGradient id="vMtn" x1="22" y1="0" x2="578" y2="0" gradientUnits="userSpaceOnUse">
-          <stop offset="0%"   stopColor="#051848" stopOpacity="0.97" />
-          <stop offset="22%"  stopColor="#0B3C8A" stopOpacity="0.94" />
-          <stop offset="50%"  stopColor="#166EC8" stopOpacity="0.90" />
-          <stop offset="74%"  stopColor="#2AACE0" stopOpacity="0.87" />
-          <stop offset="100%" stopColor="#093680" stopOpacity="0.93" />
+        {/*
+         * Mountain fill — semi-transparent blues that sit inside
+         * the hero's existing dark-blue atmosphere.
+         * Left facet slightly lighter, right slightly darker, centre teal
+         * so the cone still reads as three-dimensional.
+         */}
+        <linearGradient id="vMtn" x1="8" y1="340" x2="592" y2="340" gradientUnits="userSpaceOnUse">
+          <stop offset="0%"   stopColor="#0D2754" stopOpacity="0.55" />
+          <stop offset="28%"  stopColor="#113A7A" stopOpacity="0.48" />
+          <stop offset="54%"  stopColor="#0E5A96" stopOpacity="0.40" />
+          <stop offset="78%"  stopColor="#0E4882" stopOpacity="0.44" />
+          <stop offset="100%" stopColor="#0A2450" stopOpacity="0.52" />
         </linearGradient>
 
-        {/* Crater bowl depth — darkest at floor centre, lightening toward rim */}
+        {/* Crater bowl — opaque dark core so the bowl reads as depth */}
         <radialGradient
           id="vCraterBowl"
           cx="0" cy="0" r="1"
-          gradientTransform="translate(300 234) scale(74 30)"
+          gradientTransform="translate(300 228) scale(40 18)"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0%"   stopColor="#00060D" />
-          <stop offset="40%"  stopColor="#031940" />
-          <stop offset="78%"  stopColor="#083064" />
-          <stop offset="100%" stopColor="#0C4088" stopOpacity="0.85" />
+          <stop offset="0%"   stopColor="#010810" />
+          <stop offset="45%"  stopColor="#021428" />
+          <stop offset="100%" stopColor="#072448" stopOpacity="0.80" />
         </radialGradient>
 
-        {/* Volcanic vent glow at crater floor */}
+        {/* Volcanic vent glow */}
         <radialGradient
           id="vCraterGlow"
           cx="0" cy="0" r="1"
-          gradientTransform="translate(300 236) scale(34 11)"
+          gradientTransform="translate(300 230) scale(20 8)"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0%"   stopColor="#50DDFF" stopOpacity="0.95" />
-          <stop offset="55%"  stopColor="#1686BE" stopOpacity="0.50" />
-          <stop offset="100%" stopColor="#0E4484" stopOpacity="0" />
+          <stop offset="0%"   stopColor="#5ADFFF" stopOpacity="1"   />
+          <stop offset="60%"  stopColor="#1A88C2" stopOpacity="0.5" />
+          <stop offset="100%" stopColor="#0E4484" stopOpacity="0"   />
         </radialGradient>
 
-        {/* Base aura */}
+        {/* Subtle base glow bleeding into the bg */}
         <radialGradient
           id="vAura"
           cx="0" cy="0" r="1"
-          gradientTransform="translate(300 494) scale(254 58)"
+          gradientTransform="translate(300 494) scale(290 52)"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0%"   stopColor="#34BBEC" stopOpacity="0.40" />
-          <stop offset="100%" stopColor="#34BBEC" stopOpacity="0" />
+          <stop offset="0%"   stopColor="#2ABAEE" stopOpacity="0.22" />
+          <stop offset="100%" stopColor="#2ABAEE" stopOpacity="0"    />
         </radialGradient>
 
-        {/* Plume cloud background fill */}
+        {/* Plume cloud fill */}
         <radialGradient
           id="vPlumeFill"
           cx="0" cy="0" r="1"
@@ -113,132 +101,106 @@ function VolcanoIllustration({ eruptionKey }) {
           <stop offset="100%" stopColor="#0A2B6A" stopOpacity="0.02" />
         </radialGradient>
 
-        {/* Wave stroke gradient */}
-        <linearGradient id="vWave" x1="20" y1="0" x2="596" y2="0" gradientUnits="userSpaceOnUse">
-          <stop offset="0%"   stopColor="#26AEEA" stopOpacity="0.10" />
-          <stop offset="50%"  stopColor="#56CEFF" stopOpacity="0.92" />
-          <stop offset="100%" stopColor="#26AEEA" stopOpacity="0.10" />
+        {/* Wave stroke */}
+        <linearGradient id="vWave" x1="8" y1="0" x2="592" y2="0" gradientUnits="userSpaceOnUse">
+          <stop offset="0%"   stopColor="#38B8EE" stopOpacity="0.06" />
+          <stop offset="50%"  stopColor="#58CEFF" stopOpacity="0.55" />
+          <stop offset="100%" stopColor="#38B8EE" stopOpacity="0.06" />
         </linearGradient>
       </defs>
 
-      {/* ── BASE AURA ────────────────────────────────────────────────────── */}
-      <ellipse cx="300" cy="494" rx="254" ry="58" fill="url(#vAura)" className="v-aura" />
+      {/* ── BASE AURA ─────────────────────────────────────────────────────── */}
+      <ellipse cx="300" cy="496" rx="290" ry="52" fill="url(#vAura)" className="v-aura" />
 
-      {/* ── FLOATING GROUP (mountain + crater + plume) ───────────────────── */}
+      {/* ── FLOATING GROUP ────────────────────────────────────────────────── */}
       <g className="v-float-group">
 
         {/*
          * MOUNTAIN BODY
-         * Left flank:  (22,494) → (232,218)  via CP (90,470)(190,294)
-         * Back rim:    (232,218)→(300,202)→(368,218)  — the visible far rim
-         * Right flank: (368,218) → (578,494) via CP (410,294)(510,470)
+         * Semi-transparent fill + single outline stroke.
+         * Wide base (8 → 592), narrow summit (268 → 332).
          */}
         <path
-          className="v-mountain"
           d="
-            M 22 494
-            C 90 470, 190 294, 232 218
-            C 252 207, 276 202, 300 202
-            C 324 202, 348 207, 368 218
-            C 410 294, 510 470, 578 494
+            M 8 494
+            C 78 472, 196 304, 268 218
+            C 280 210, 290 207, 300 207
+            C 310 207, 320 210, 332 218
+            C 404 304, 522 472, 592 494
             Z
           "
           fill="url(#vMtn)"
-          stroke="#9ADFF0"
-          strokeWidth="2.5"
+          stroke="#5ECFEE"
+          strokeWidth="1.8"
+          strokeOpacity="0.55"
           strokeLinejoin="round"
         />
 
         {/*
-         * RIDGE LINES
-         * Start near the crater rim edges and run down the flanks.
-         * Converge toward the summit, reinforcing the cone geometry.
+         * RIDGE LINES — very faint, just enough to suggest the cone facets
          */}
         <path className="v-ridge"
-          d="M 248 228 C 204 340, 152 422, 114 492"
-          stroke="#76DAFF" strokeOpacity="0.48" strokeWidth="2"
-          strokeLinecap="round" strokeDasharray="12 9" />
+          d="M 272 226 C 214 340, 148 422, 96 492"
+          stroke="#58C8EE" strokeOpacity="0.18" strokeWidth="1.4"
+          strokeLinecap="round" strokeDasharray="10 9" />
         <path className="v-ridge v-ridge-b"
-          d="M 300 248 L 300 492"
-          stroke="#76DAFF" strokeOpacity="0.38" strokeWidth="1.8"
-          strokeLinecap="round" strokeDasharray="10 8" />
+          d="M 300 244 L 300 492"
+          stroke="#58C8EE" strokeOpacity="0.14" strokeWidth="1.2"
+          strokeLinecap="round" strokeDasharray="8 8" />
         <path className="v-ridge v-ridge-c"
-          d="M 352 228 C 396 340, 448 422, 486 492"
-          stroke="#76DAFF" strokeOpacity="0.48" strokeWidth="2"
-          strokeLinecap="round" strokeDasharray="12 9" />
+          d="M 328 226 C 386 340, 452 422, 504 492"
+          stroke="#58C8EE" strokeOpacity="0.18" strokeWidth="1.4"
+          strokeLinecap="round" strokeDasharray="10 9" />
 
         {/*
          * CRATER BOWL
-         * Re-traces the back-rim arc (identical to mountain top),
-         * then curves inward to the crater floor and back.
-         * This is a concave bowl, not a circle placed on top.
-         *
-         * Back rim:   M 232 218 → (300,202) → 368 218   [same path as mountain top]
-         * Right wall: 368,218 → 318,245                 [inner right wall]
-         * Floor:      318,245 → 282,245                 [crater floor]
-         * Left wall:  282,245 → 232,218                 [inner left wall]
+         * Opaque dark fill so the bowl reads as genuine depth against the
+         * semi-transparent mountain body.
          */}
         <path
-          className="v-crater-bowl"
           d="
-            M 232 218
-            C 252 207, 276 202, 300 202
-            C 324 202, 348 207, 368 218
-            C 354 228, 337 241, 318 245
-            C 308 249, 292 249, 282 245
-            C 263 241, 246 228, 232 218
+            M 268 218
+            C 280 210, 290 207, 300 207
+            C 310 207, 320 210, 332 218
+            C 327 226, 320 233, 312 237
+            C 308 239, 292 239, 288 237
+            C 280 233, 273 226, 268 218
             Z
           "
           fill="url(#vCraterBowl)"
         />
 
-        {/*
-         * INNER BACK-WALL ARC
-         * The lit crest of the far inner crater wall — seen looking into
-         * the bowl. Lighter stroke = sunlit rim edge on the far side.
-         */}
+        {/* Inner back-wall — lit far rim */}
         <path
           className="v-crater-backwall"
-          d="M 252 221 C 267 213, 283 209, 300 209 C 317 209, 333 213, 348 221"
+          d="M 276 220 C 284 214, 292 211, 300 211 C 308 211, 316 214, 324 220"
           fill="none"
-          stroke="#58D8FF" strokeWidth="1.8" strokeOpacity="0.68" strokeLinecap="round"
+          stroke="#60DCFF" strokeWidth="1.4" strokeOpacity="0.60" strokeLinecap="round"
         />
 
-        {/*
-         * FRONT LIP ARC
-         * Faint arc below the rim — the near-side face of the rim,
-         * giving the crater wall visible thickness.
-         */}
-        <path
-          className="v-crater-lip"
-          d="M 232 218 C 252 227, 276 231, 300 232 C 324 231, 348 227, 368 218"
-          fill="none"
-          stroke="#C6F2FF" strokeWidth="1.5" strokeOpacity="0.34" strokeLinecap="round"
-        />
-
-        {/* OUTER RIM HIGHLIGHT — the prominent ridge at the crater mouth */}
+        {/* Outer rim highlight — the crater mouth crest, the brightest line */}
         <path
           className="v-crater-rim"
-          d="M 232 218 C 252 207, 276 202, 300 202 C 324 202, 348 207, 368 218"
+          d="M 268 218 C 280 210, 290 207, 300 207 C 310 207, 320 210, 332 218"
           fill="none"
-          stroke="#A4ECFF" strokeWidth="3.2" strokeLinecap="round"
+          stroke="#A8EEFF" strokeWidth="2.6" strokeLinecap="round"
         />
 
-        {/* CRATER FLOOR GLOW — volcanic heat at the vent */}
+        {/* Floor vent glow */}
         <ellipse
           className="v-crater-glow"
-          cx="300" cy="237" rx="33" ry="10"
+          cx="300" cy="230" rx="20" ry="8"
           fill="url(#vCraterGlow)"
         />
 
-        {/* Plume stem — rises from the back-rim peak */}
+        {/* Plume stem */}
         <line
           className="v-stem"
-          x1="300" y1="202" x2="300" y2="168"
+          x1="300" y1="207" x2="300" y2="172"
           stroke="#86E8FF" strokeWidth="2.6" strokeLinecap="round"
         />
 
-        {/* ── PLUME CLOUD ───────────────────────────────────────────────── */}
+        {/* ── PLUME CLOUD ─────────────────────────────────────────────── */}
         <ellipse
           className="v-plume-ring"
           cx="300" cy="106" rx="118" ry="70"
@@ -262,21 +224,16 @@ function VolcanoIllustration({ eruptionKey }) {
         <path className="v-circuit-rail" d="M 210 104 L 244 104" stroke="#78E2FF" strokeWidth="2" strokeOpacity="0.60" strokeLinecap="round" />
         <path className="v-circuit-rail" d="M 350 104 L 390 104" stroke="#78E2FF" strokeWidth="2" strokeOpacity="0.60" strokeLinecap="round" />
 
-        {/* Growth trend line — exits cloud toward top-right */}
-        <polyline
-          className="v-trend"
+        {/* Growth trend line */}
+        <polyline className="v-trend"
           points="228,114 268,88 310,102 360,74 402,58"
           stroke="#36C6F8" strokeWidth="2.8"
-          strokeLinecap="round" strokeLinejoin="round"
-          strokeOpacity="0.9" fill="none"
-        />
-        <polyline
-          className="v-trend"
+          strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.9" fill="none" />
+        {/* Arrow head */}
+        <polyline className="v-trend"
           points="392,50 404,58 394,68"
           stroke="#36C6F8" strokeWidth="2.8"
-          strokeLinecap="round" strokeLinejoin="round"
-          strokeOpacity="0.9" fill="none"
-        />
+          strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.9" fill="none" />
 
         {/* Cyan circuit nodes */}
         <circle cx="226" cy="114" r="5" fill="#8EEDFF" className="v-node" />
@@ -289,24 +246,24 @@ function VolcanoIllustration({ eruptionKey }) {
 
       </g>
 
-      {/* ── WAVES (anchored, don't float) ────────────────────────────────── */}
+      {/* ── WAVES — very faint, blending with background ───────────────────── */}
       <path className="v-wave"
-        d="M 20 510 C 90 528, 163 532, 228 517 C 290 502, 346 502, 404 521 C 445 534, 490 536, 534 522 C 558 512, 581 512, 596 518"
-        stroke="url(#vWave)" strokeWidth="4.8" strokeLinecap="round" fill="none" />
+        d="M 8 510 C 86 528, 163 532, 230 517 C 292 502, 348 502, 406 521 C 448 534, 496 536, 540 522 C 562 512, 584 512, 594 518"
+        stroke="url(#vWave)" strokeWidth="3.5" strokeLinecap="round" fill="none" />
       <path className="v-wave v-wave-b"
-        d="M 32 535 C 99 552, 166 554, 228 540 C 289 526, 346 528, 397 544 C 430 556, 470 556, 511 545 C 539 536, 567 536, 596 542"
-        stroke="url(#vWave)" strokeWidth="3.6" strokeLinecap="round" fill="none" />
+        d="M 14 535 C 90 552, 164 554, 228 540 C 290 526, 348 528, 400 544 C 432 556, 474 556, 516 545 C 542 536, 570 536, 594 542"
+        stroke="url(#vWave)" strokeWidth="2.6" strokeLinecap="round" fill="none" />
       <path className="v-wave"
-        d="M 62 557 C 124 568, 180 568, 234 556 C 290 543, 340 545, 382 557"
-        stroke="url(#vWave)" strokeWidth="2.8" strokeLinecap="round" strokeOpacity="0.44" fill="none" />
+        d="M 40 557 C 108 568, 172 568, 236 556 C 294 543, 346 545, 390 557"
+        stroke="url(#vWave)" strokeWidth="1.8" strokeLinecap="round" strokeOpacity="0.40" fill="none" />
 
-      {/* ── ERUPTION RINGS (on click) ─────────────────────────────────────── */}
+      {/* ── ERUPTION RINGS ────────────────────────────────────────────────── */}
       {eruptionKey ? (
         <g key={eruptionKey} className="v-eruption">
-          <circle cx="300" cy="220" r="14" fill="none"
-            stroke="#A6F5FF" strokeWidth="2.2" className="v-eruption-ring" />
-          <circle cx="300" cy="220" r="14" fill="none"
-            stroke="#7AE8FF" strokeWidth="1.6" className="v-eruption-ring v-eruption-ring-b" />
+          <circle cx="300" cy="218" r="10" fill="none"
+            stroke="#A6F5FF" strokeWidth="1.8" className="v-eruption-ring" />
+          <circle cx="300" cy="218" r="10" fill="none"
+            stroke="#7AE8FF" strokeWidth="1.2" className="v-eruption-ring v-eruption-ring-b" />
         </g>
       ) : null}
     </svg>
@@ -316,7 +273,7 @@ function VolcanoIllustration({ eruptionKey }) {
 export default function HeroSection() {
   const [pointer, setPointer] = useState(DEFAULT_POINTER);
   const [isActive, setIsActive] = useState(false);
-  const [wave, setWave] = useState(null);
+  const [wave, setWave]         = useState(null);
   const [eruptionKey, setEruptionKey] = useState(null);
 
   const handlePointerMove  = (e) => { setPointer(getPointerState(e)); setIsActive(true); };
@@ -378,8 +335,7 @@ export default function HeroSection() {
             <span className="text-tertiary-fixed">per Tutti</span>
           </h1>
           <p className="font-body text-lg text-[#d4dbea] mb-10 max-w-2xl leading-relaxed sm:text-xl">
-            Consulenza tecnologica su misura per far crescere il tuo business.
-            Progettiamo soluzioni architetturali per aziende che puntano al futuro.
+            Consulenza su misura per far crescere il tuo business
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <a

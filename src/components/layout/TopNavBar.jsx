@@ -1,7 +1,7 @@
 import logo from '../../../media/logo.png';
 
 const navLinks = [
-  { href: '#soluzioni-web', label: 'Soluzioni Web' },
+  { href: '#siti-web', label: 'Siti Web' },
   { href: '#automazione', label: 'Software e Automazione' },
   { href: '#infrastruttura', label: 'Infrastrutture' },
   { href: '#supporto', label: 'Manutenzione e Supporto' }
