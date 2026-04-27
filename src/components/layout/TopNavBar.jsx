@@ -29,7 +29,7 @@ export default function TopNavBar() {
           className="hidden md:inline-flex items-center justify-center px-6 py-2.5 rounded-md text-sm font-medium transition-all duration-200 active:scale-95 bg-primary text-on-primary bg-gradient-to-br from-primary to-primary-container shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] hover:opacity-90"
           href="#contatti"
         >
-          I Nostri Servizi
+          Contattaci
         </a>
 
         <button className="md:hidden p-2 text-primary" aria-label="Apri menu mobile">

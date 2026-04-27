@@ -6,7 +6,7 @@ const infrastructureCards = [
     src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDe3dI_UeRG8MAEBEMgFDXXRwju0bBup-H1ZtHM4SnZGzIDpxFyqLKlB1B_6Uj9W9wRzp0iQ2UfwJG9I0FhLfNshOCBjeEL_C4WuPXHtEWIBObI6uPtpo9e6u7lqJgSrf-zhlSuZYw0DPwlJ2CvWK9efeMij6vbQfOr2nsid-Lj1aH_IEp6bwsPq6DFwcwJid74D9kVwLer8ky3nLFCgSKoOsp1X0oe5I1Sn6OZoPJWukj2mxumBA6Yyrl3_bQnKwGSZRRQPQHlX6A',
     title: 'PC e Workstation',
     description:
-      'Assemblaggio e configurazione di macchine per qualsiasi esigenza operativa.'
+      'Assemblaggio e configurazione di macchine e postazioni, per qualsiasi esigenza operativa.'
   },
   {
     alt: 'Server',

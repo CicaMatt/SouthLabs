@@ -117,7 +117,7 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
 
 .hero-volcano-stage {
   position: absolute;
-  right:  clamp(-160px, -8vw, -16px);
+  right:  clamp(-132px, -7vw, -4px);
   bottom: clamp(-86px, -10vh, -16px);
   width:  min(60vw, 740px);
   min-width: 420px;
@@ -177,6 +177,43 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
 .v-ridge-c { animation-delay: -11s; }
 
 /* ──────────────────────────────────────────────────
+   Mountain wave ribbons
+────────────────────────────────────────────────── */
+.v-mtn-wave-group {
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 9px rgba(92, 214, 255, 0.22));
+}
+
+.v-mtn-wave {
+  stroke-linecap: round;
+  stroke-width: 2.8;
+  stroke-opacity: 0.56;
+  stroke-dasharray: 20 13;
+  animation: vMtnWaveFlow 22s linear infinite;
+}
+.v-mtn-wave-a { stroke-opacity: 0.46; animation-duration: 18s; }
+.v-mtn-wave-b { stroke-width: 3.1; stroke-opacity: 0.72; animation-duration: 24s; animation-delay: -5s; }
+.v-mtn-wave-c { stroke-width: 2.3; stroke-opacity: 0.40; animation-duration: 28s; animation-delay: -10s; }
+.v-mtn-wave-e { stroke-width: 2.1; stroke-opacity: 0.34; animation-duration: 30s; animation-delay: -12s; }
+
+.v-mtn-crest-group {
+  mix-blend-mode: screen;
+  filter: blur(0.2px) drop-shadow(0 0 5px rgba(196, 244, 255, 0.28));
+}
+
+.v-mtn-crest {
+  stroke: #d8fbff;
+  stroke-linecap: round;
+  stroke-width: 1.25;
+  stroke-opacity: 0.52;
+  stroke-dasharray: 5 30;
+  animation: vMtnCrestFlow 16s linear infinite;
+}
+.v-mtn-crest-a { animation-delay: -1.2s; }
+.v-mtn-crest-b { stroke-width: 1.35; stroke-opacity: 0.62; animation-delay: -2.6s; }
+.v-mtn-crest-c { stroke-opacity: 0.42; animation-delay: -3.8s; }
+
+/* ──────────────────────────────────────────────────
    Crater
 ────────────────────────────────────────────────── */
 .v-crater-backwall { animation: vBackwall 6s ease-in-out 0.4s infinite; }
@@ -221,7 +258,7 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   stroke-linecap: round;
   stroke-opacity: 0.92;
   stroke-dasharray: 16 12;
-  animation: vCloudDashFlow 13s linear infinite;
+  animation: vPlumeBaselineFlow 13s linear infinite;
 }
 
 .v-plume-side-link {
@@ -230,7 +267,7 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   stroke-linecap: round;
   stroke-opacity: 0.56;
   stroke-dasharray: 14 11;
-  animation: vCloudDashFlow 12s linear infinite;
+  animation: vPlumeSideFlow 12s linear infinite;
 }
 .v-plume-side-link-b { stroke-opacity: 0.62; }
 
@@ -240,7 +277,7 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   stroke-linecap: round;
   stroke-opacity: 0.66;
   stroke-dasharray: 12 10;
-  animation: vBarPulse 3.6s ease-in-out infinite, vCloudDashFlow 12s linear infinite;
+  animation: vBarPulse 3.6s ease-in-out infinite, vBarDashFlow 12s linear infinite;
   animation-delay: 0s, 0s;
 }
 .v-bar-1 { animation-delay: 0s, 0s;    }
@@ -258,7 +295,7 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   stroke-linejoin: round;
   stroke-opacity: 0.92;
   stroke-dasharray: 18 12;
-  animation: vTrendPulse 4s ease-in-out infinite, vCloudDashFlow 11s linear infinite;
+  animation: vTrendPulse 4s ease-in-out infinite, vTrendDashFlow 11s linear infinite;
 }
 
 .v-plume-trend-arrow {
@@ -286,7 +323,7 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
 .v-node-orange {
   transform-box: fill-box;
   transform-origin: center;
-  filter: drop-shadow(0 0 10px rgba(255, 167, 38, 0.72));
+  filter: drop-shadow(0 0 10px rgba(121, 231, 255, 0.62));
   animation: vOrangePulse 4.4s ease-in-out infinite;
 }
 .v-node-orange-b { animation-delay: 1.7s; }
@@ -348,6 +385,14 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   from { stroke-dashoffset: 0;    }
   to   { stroke-dashoffset: -152; }
 }
+@keyframes vMtnWaveFlow {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -198; }
+}
+@keyframes vMtnCrestFlow {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -140; }
+}
 @keyframes vBackwall {
   0%, 100% { stroke-opacity: 0.36; }
   50%       { stroke-opacity: 0.68; }
@@ -360,7 +405,19 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   0%, 100% { opacity: 0.45; transform: scale(0.86); }
   50%       { opacity: 1;   transform: scale(1.16); }
 }
-@keyframes vCloudDashFlow {
+@keyframes vPlumeBaselineFlow {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -168; }
+}
+@keyframes vPlumeSideFlow {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -175; }
+}
+@keyframes vBarDashFlow {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -176; }
+}
+@keyframes vTrendDashFlow {
   from { stroke-dashoffset: 0; }
   to   { stroke-dashoffset: -180; }
 }
@@ -382,7 +439,7 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
 }
 @keyframes vWaveFlow {
   from { stroke-dashoffset: 0;    }
-  to   { stroke-dashoffset: -240; }
+  to   { stroke-dashoffset: -228; }
 }
 @keyframes vEruptionRing {
   0%, 18% { opacity: 0.85; transform: scale(0.5); }
@@ -396,7 +453,7 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   .hero-volcano-stage {
     width: min(72vw, 600px);
     min-width: 0;
-    right:  -22%;
+    right:  -18%;
     bottom: -14%;
   }
 }
@@ -404,7 +461,7 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   .hero-atmosphere-grid { background-size: 54px 54px; opacity: 0.20; }
   .hero-volcano-stage {
     width: min(88vw, 540px);
-    right:  -36%;
+    right:  -32%;
     bottom: -16%;
     opacity: 0.70;
   }
@@ -423,6 +480,8 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   .v-float-group,
   .v-aura,
   .v-ridge,
+  .v-mtn-wave,
+  .v-mtn-crest,
   .v-crater-backwall,
   .v-crater-rim,
   .v-crater-glow,

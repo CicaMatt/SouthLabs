@@ -40,8 +40,6 @@ function PlumeCloud() {
         <polyline className="v-trend v-plume-trend-out" points="206,122 248,92 314,108 374,74 416,60 452,42" />
 
         <g clipPath="url(#vPlumeClip)">
-          <ellipse className="v-plume-core" cx="300" cy="108" rx="126" ry="74" fill="url(#vPlumeCore)" />
-
           <line className="v-plume-baseline" x1="172" y1="134" x2="420" y2="134" />
           <line className="v-bar v-bar-1" x1="208" y1="134" x2="208" y2="96" />
           <line className="v-bar v-bar-2" x1="246" y1="134" x2="246" y2="84" />
@@ -53,11 +51,11 @@ function PlumeCloud() {
           <line className="v-plume-side-link" x1="176" y1="122" x2="206" y2="122" />
           <line className="v-plume-side-link v-plume-side-link-b" x1="342" y1="108" x2="408" y2="108" />
 
-          <circle cx="206" cy="122" r="6.5" fill="#8EEDFF" className="v-node" />
-          <circle cx="372" cy="108" r="6.2" fill="#8EEDFF" className="v-node v-node-b" />
+          <circle cx="208" cy="122" r="6.5" fill="#8EEDFF" className="v-node" />
+          <circle cx="364" cy="108" r="6.2" fill="#8EEDFF" className="v-node v-node-b" />
 
-          <circle cx="248" cy="92" r="12.2" fill="#FFA726" className="v-node-orange" />
-          <circle cx="374" cy="74" r="11.8" fill="#FFA726" className="v-node-orange v-node-orange-b" />
+          <circle cx="248" cy="92" r="12.2" fill="#8EEDFF" className="v-node-orange" />
+          <circle cx="374" cy="74" r="11.8" fill="#8EEDFF" className="v-node-orange v-node-orange-b" />
         </g>
 
         <polyline className="v-trend v-plume-trend-arrow v-plume-trend-out" points="440,43 452,42 444,51" />
@@ -105,6 +103,20 @@ function VolcanoIllustration({ eruptionKey }) {
           <stop offset="78%"  stopColor="#0E4882" stopOpacity="0.44" />
           <stop offset="100%" stopColor="#0A2450" stopOpacity="0.52" />
         </linearGradient>
+        <path
+          id="vMtnShape"
+          d="
+            M 8 494
+            C 78 472, 196 304, 268 218
+            C 280 210, 290 207, 300 207
+            C 310 207, 320 210, 332 218
+            C 404 304, 522 472, 592 494
+            Z
+          "
+        />
+        <clipPath id="vMtnClip">
+          <use href="#vMtnShape" />
+        </clipPath>
 
         {/* Crater bowl — opaque dark core so the bowl reads as depth */}
         <radialGradient
@@ -202,15 +214,8 @@ function VolcanoIllustration({ eruptionKey }) {
          * Semi-transparent fill + single outline stroke.
          * Wide base (8 → 592), narrow summit (268 → 332).
          */}
-        <path
-          d="
-            M 8 494
-            C 78 472, 196 304, 268 218
-            C 280 210, 290 207, 300 207
-            C 310 207, 320 210, 332 218
-            C 404 304, 522 472, 592 494
-            Z
-          "
+        <use
+          href="#vMtnShape"
           fill="url(#vMtn)"
           stroke="#5ECFEE"
           strokeWidth="1.8"
@@ -233,6 +238,35 @@ function VolcanoIllustration({ eruptionKey }) {
           d="M 328 226 C 386 340, 452 422, 504 492"
           stroke="#58C8EE" strokeOpacity="0.18" strokeWidth="1.4"
           strokeLinecap="round" strokeDasharray="10 9" />
+
+        {/* Logo-inspired internal wave ribbons */}
+        <g className="v-mtn-wave-group" clipPath="url(#vMtnClip)" transform="translate(0 -34)">
+          <path className="v-mtn-wave v-mtn-wave-a"
+            d="M 40 466 C 114 486, 180 480, 242 448 C 304 416, 368 416, 430 446 C 490 474, 544 474, 586 458"
+            stroke="url(#vWave)" fill="none" />
+          <path className="v-mtn-wave v-mtn-wave-b"
+            d="M 58 488 C 126 506, 188 500, 246 472 C 306 442, 366 442, 424 468 C 476 492, 526 492, 566 478"
+            stroke="url(#vWave)" fill="none" />
+          <path className="v-mtn-wave v-mtn-wave-c"
+            d="M 82 500 C 142 512, 198 510, 250 492 C 304 474, 358 474, 410 490 C 454 504, 492 504, 526 496"
+            stroke="url(#vWave)" fill="none" />
+          <path className="v-mtn-wave v-mtn-wave-e"
+            d="M 96 516 C 150 524, 202 522, 252 508 C 304 492, 354 492, 404 506 C 444 516, 476 516, 508 510"
+            stroke="url(#vWave)" fill="none" />
+
+          {/* Crest foam artifact to make ribbons read as water waves */}
+          <g className="v-mtn-crest-group" transform="translate(0 -3)">
+            <path className="v-mtn-crest v-mtn-crest-a"
+              d="M 40 466 C 114 486, 180 480, 242 448 C 304 416, 368 416, 430 446 C 490 474, 544 474, 586 458"
+              fill="none" />
+            <path className="v-mtn-crest v-mtn-crest-b"
+              d="M 58 488 C 126 506, 188 500, 246 472 C 306 442, 366 442, 424 468 C 476 492, 526 492, 566 478"
+              fill="none" />
+            <path className="v-mtn-crest v-mtn-crest-c"
+              d="M 82 500 C 142 512, 198 510, 250 492 C 304 474, 358 474, 410 490 C 454 504, 492 504, 526 496"
+              fill="none" />
+          </g>
+        </g>
 
         {/*
          * CRATER BOWL

@@ -14,7 +14,7 @@ const automationCards = [
   {
     icon: 'router',
     title: 'Domotica',
-    description: 'Controllo centralizzato di dispositivi fisici aziendali.'
+    description: 'Controllo centralizzato dei tuoi dispositivi aziendali.'
   },
   {
     icon: 'schema',
