@@ -192,21 +192,85 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
 /* ──────────────────────────────────────────────────
    Plume
 ────────────────────────────────────────────────── */
-.v-plume-ring { animation: vPlumeRotate 30s linear infinite; }
+.v-plume-cloud {
+  isolation: isolate;
+}
+
+.v-plume-shell {
+  opacity: 0.96;
+  filter: drop-shadow(0 4px 12px rgba(7, 20, 52, 0.32));
+}
+
+.v-plume-shell-highlight {
+  animation: vTrendPulse 4.8s ease-in-out infinite;
+}
+
+.v-plume-core {
+  transform-box: fill-box;
+  transform-origin: center;
+  mix-blend-mode: screen;
+  animation: vCraterGlowPulse 5.4s ease-in-out infinite;
+}
 
 /* ──────────────────────────────────────────────────
-   Circuit / bars / trend
+   Chart internals
 ────────────────────────────────────────────────── */
-.v-circuit-rail { animation: vCircuitFlow 9s linear infinite; }
+.v-plume-baseline {
+  stroke: #48cdf4;
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  stroke-opacity: 0.92;
+  stroke-dasharray: 16 12;
+  animation: vCloudDashFlow 13s linear infinite;
+}
 
-.v-bar { animation: vBarPulse 3.6s ease-in-out infinite; }
-.v-bar-1 { animation-delay: 0s;    }
-.v-bar-2 { animation-delay: 0.18s; }
-.v-bar-3 { animation-delay: 0.36s; }
-.v-bar-4 { animation-delay: 0.54s; }
-.v-bar-5 { animation-delay: 0.72s; }
+.v-plume-side-link {
+  stroke: #7cdfff;
+  stroke-width: 3.8;
+  stroke-linecap: round;
+  stroke-opacity: 0.56;
+  stroke-dasharray: 14 11;
+  animation: vCloudDashFlow 12s linear infinite;
+}
+.v-plume-side-link-b { stroke-opacity: 0.62; }
 
-.v-trend { animation: vTrendPulse 4s ease-in-out infinite; }
+.v-bar {
+  stroke: #49cff6;
+  stroke-width: 4.8;
+  stroke-linecap: round;
+  stroke-opacity: 0.66;
+  stroke-dasharray: 12 10;
+  animation: vBarPulse 3.6s ease-in-out infinite, vCloudDashFlow 12s linear infinite;
+  animation-delay: 0s, 0s;
+}
+.v-bar-1 { animation-delay: 0s, 0s;    }
+.v-bar-2 { animation-delay: 0.18s, 0s; }
+.v-bar-3 { animation-delay: 0.36s, 0s; }
+.v-bar-4 { animation-delay: 0.54s, 0s; }
+.v-bar-5 { animation-delay: 0.72s, 0s; }
+.v-bar-6 { animation-delay: 0.9s, 0s;  }
+
+.v-trend {
+  fill: none;
+  stroke: #33c4f3;
+  stroke-width: 4.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-opacity: 0.92;
+  stroke-dasharray: 18 12;
+  animation: vTrendPulse 4s ease-in-out infinite, vCloudDashFlow 11s linear infinite;
+}
+
+.v-plume-trend-arrow {
+  stroke-width: 4.2;
+  stroke-dasharray: none;
+  stroke-linejoin: miter;
+  stroke-miterlimit: 2;
+  animation: vTrendPulse 4s ease-in-out infinite;
+}
+.v-plume-trend-out {
+  stroke-opacity: 0.98;
+}
 
 /* ──────────────────────────────────────────────────
    Nodes
@@ -214,6 +278,7 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
 .v-node {
   transform-box: fill-box;
   transform-origin: center;
+  filter: drop-shadow(0 0 9px rgba(121, 231, 255, 0.5));
   animation: vNodePulse 4s ease-in-out infinite;
 }
 .v-node-b { animation-delay: 1.6s; }
@@ -295,14 +360,9 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   0%, 100% { opacity: 0.45; transform: scale(0.86); }
   50%       { opacity: 1;   transform: scale(1.16); }
 }
-@keyframes vPlumeRotate {
-  from { stroke-dashoffset: 0;    }
-  to   { stroke-dashoffset: -290; }
-}
-@keyframes vCircuitFlow {
-  from { stroke-dashoffset: 0;    opacity: 0.72; }
-  50%  {                           opacity: 1.00; }
-  to   { stroke-dashoffset: -208; opacity: 0.72; }
+@keyframes vCloudDashFlow {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -180; }
 }
 @keyframes vBarPulse {
   0%, 100% { stroke-opacity: 0.52; }
@@ -366,8 +426,10 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   .v-crater-backwall,
   .v-crater-rim,
   .v-crater-glow,
-  .v-plume-ring,
-  .v-circuit-rail,
+  .v-plume-shell-highlight,
+  .v-plume-core,
+  .v-plume-baseline,
+  .v-plume-side-link,
   .v-bar,
   .v-trend,
   .v-node,

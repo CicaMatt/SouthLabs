@@ -2,9 +2,9 @@ import logo from '../../../media/logo.png';
 
 const navLinks = [
   { href: '#siti-web', label: 'Siti Web' },
-  { href: '#automazione', label: 'Software e Automazione' },
-  { href: '#infrastruttura', label: 'Infrastrutture' },
-  { href: '#supporto', label: 'Manutenzione e Supporto' }
+  { href: '#software-automazione', label: 'Software e Automazione' },
+  { href: '#infrastrutture-hardware', label: 'Infrastrutture Hardware' },
+  { href: '#manutenzione-supporto', label: 'Manutenzione e Supporto' }
 ];
 
 export default function TopNavBar() {

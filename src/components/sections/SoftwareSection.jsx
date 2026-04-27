@@ -25,7 +25,7 @@ const automationCards = [
 
 export default function AutomationSection() {
   return (
-    <section className="py-24 bg-surface-container-low relative" id="automazione">
+    <section className="py-24 bg-surface-container-low relative" id="software-automazione">
       <div className="max-w-7xl mx-auto px-8 relative z-10">
         <SectionHeader
           className="mb-16 max-w-3xl"

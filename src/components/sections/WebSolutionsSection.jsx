@@ -20,7 +20,7 @@ export default function WebSolutionsSection() {
               </div>
               <h3 className="font-headline text-2xl font-bold text-on-background mb-3">Web App Personalizzate</h3>
               <p className="font-body text-on-surface-variant mb-6 max-w-md">
-                Applicazioni personalizzate per il tuo business, per garantire efficienza, sicurezza e continuità nel tempo.
+                Applicazioni personalizzate per il tuo business, per garantire efficienza, sicurezza e flessibilità nel tempo.
               </p>
             </div>
           </div>

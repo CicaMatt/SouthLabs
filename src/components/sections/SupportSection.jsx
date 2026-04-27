@@ -6,7 +6,7 @@ const supportItems = [
 
 export default function SupportSection() {
   return (
-    <section className="py-24 bg-tertiary text-on-tertiary" id="supporto">
+    <section className="py-24 bg-tertiary text-on-tertiary" id="manutenzione-supporto">
       <div className="max-w-7xl mx-auto px-8 flex flex-col md:flex-row gap-16 items-center">
         <div className="flex-1">
           <h2 className="font-headline text-3xl md:text-4xl tracking-tight mb-6">Supporto e Formazione Continua</h2>

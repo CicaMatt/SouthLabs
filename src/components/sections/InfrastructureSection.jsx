@@ -30,7 +30,7 @@ const infrastructureCards = [
 
 export default function InfrastructureSection() {
   return (
-    <section className="py-24 bg-surface" id="infrastruttura">
+    <section className="py-24 bg-surface" id="infrastrutture-hardware">
       <div className="max-w-7xl mx-auto px-8">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-surface-container-high pb-8 border-transparent">
           <div className="max-w-2xl">
