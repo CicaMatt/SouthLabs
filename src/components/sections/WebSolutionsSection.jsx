@@ -5,7 +5,7 @@ const webSolutionCards = [
     icon: 'code_blocks',
     title: 'Web App Personalizzate',
     description:
-      'Applicazioni personalizzate per il tuo business, per garantire efficienza, sicurezza e flessibilità nel tempo.'
+      'Applicazioni personalizzate per garantire efficienza, sicurezza e flessibilità nel tempo.'
   },
   {
     icon: 'web',
@@ -35,25 +35,29 @@ export default function WebSolutionsSection() {
           subtitle="Progettate per la massima conversione della tua attività."
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {webSolutionCards.map((card) => (
             <article
               key={card.title}
-              className="group relative isolate overflow-hidden rounded-[1.75rem] border border-[#cfdbe6] bg-gradient-to-br from-[#ffffff] via-[#f8fbff] to-[#edf4fa] p-8 md:p-9 min-h-[240px] shadow-[0_14px_34px_rgba(6,35,51,0.10)] transition-all duration-300 hover:-translate-y-1 hover:border-[#b7cbdb] hover:shadow-[0_24px_56px_rgba(6,35,51,0.16)]"
+              className="group relative isolate flex min-h-[220px] flex-col overflow-hidden rounded-[1.75rem] border-2 border-[#8ea6ba] bg-gradient-to-br from-[#ffffff] via-[#f9fcff] to-[#eef5fb] p-8 md:p-9 shadow-[0_10px_28px_rgba(7,34,54,0.08)] transition-all duration-300 hover:-translate-y-1 hover:border-[#6f8ea8] hover:shadow-[0_20px_45px_rgba(7,34,54,0.14)]"
             >
               <div
                 aria-hidden
-                className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(71,214,255,0.10),transparent_52%),radial-gradient(circle_at_86%_6%,rgba(182,235,255,0.15),transparent_35%)]"
+                className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-[#5fb8d7]/55 to-transparent"
+              />
+              <div
+                aria-hidden
+                className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#9ed8ef]/20 blur-3xl transition-transform duration-300 group-hover:scale-110"
               />
               <span
                 aria-hidden
-                className="material-symbols-outlined absolute inset-0 z-0 m-auto h-fit w-fit text-[132px] leading-none text-[#4f7ea2]/[0.10] transition-all duration-300 group-hover:text-[#4f7ea2]/[0.16]"
+                className="material-symbols-outlined pointer-events-none absolute inset-0 z-0 m-auto h-fit w-fit text-[118px] leading-none text-[#3f6988]/[0.10] transition-all duration-300 group-hover:text-[#3f6988]/[0.16]"
               >
                 {card.icon}
               </span>
               <div className="relative z-10 flex h-full flex-col">
-                <h3 className="font-headline text-[1.42rem] font-bold text-on-background mb-3">{card.title}</h3>
-                <p className="font-body text-on-surface-variant flex-grow">{card.description}</p>
+                <h3 className="mb-3 font-headline text-[1.4rem] font-bold leading-tight text-on-background">{card.title}</h3>
+                <p className="flex-grow font-body text-[1.07rem] leading-relaxed text-on-surface-variant">{card.description}</p>
               </div>
             </article>
           ))}
