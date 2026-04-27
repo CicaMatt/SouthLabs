@@ -1,6 +1,8 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 const DEFAULT_POINTER = { pctX: 72, pctY: 42, shiftX: 0.18, shiftY: -0.1 };
+const BOOST_PLAYBACK_RATE = 2.8;
+const BOOST_DURATION_MS = 520;
 const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
 
 function getPointerState(e) {
@@ -64,7 +66,7 @@ function PlumeCloud() {
   );
 }
 
-function VolcanoIllustration({ eruptionKey }) {
+function VolcanoIllustration({ svgRef }) {
   /*
    * GEOMETRY — viewBox 0 0 600 540
    *
@@ -84,6 +86,7 @@ function VolcanoIllustration({ eruptionKey }) {
    */
   return (
     <svg
+      ref={svgRef}
       viewBox="0 0 600 540"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -332,15 +335,6 @@ function VolcanoIllustration({ eruptionKey }) {
         d="M 40 557 C 108 568, 172 568, 236 556 C 294 543, 346 545, 390 557"
         stroke="url(#vWave)" strokeWidth="1.8" strokeLinecap="round" strokeOpacity="0.40" fill="none" />
 
-      {/* ── ERUPTION RINGS ────────────────────────────────────────────────── */}
-      {eruptionKey ? (
-        <g key={eruptionKey} className="v-eruption">
-          <circle cx="300" cy="218" r="10" fill="none"
-            stroke="#A6F5FF" strokeWidth="1.8" className="v-eruption-ring" />
-          <circle cx="300" cy="218" r="10" fill="none"
-            stroke="#7AE8FF" strokeWidth="1.2" className="v-eruption-ring v-eruption-ring-b" />
-        </g>
-      ) : null}
     </svg>
   );
 }
@@ -348,8 +342,51 @@ function VolcanoIllustration({ eruptionKey }) {
 export default function HeroSection() {
   const [pointer, setPointer] = useState(DEFAULT_POINTER);
   const [isActive, setIsActive] = useState(false);
-  const [wave, setWave]         = useState(null);
-  const [eruptionKey, setEruptionKey] = useState(null);
+  const volcanoSvgRef = useRef(null);
+  const boostTimeoutRef = useRef(null);
+  const boostedAnimationsRef = useRef([]);
+
+  const resetVolcanoBoost = useCallback(() => {
+    if (boostTimeoutRef.current !== null) {
+      clearTimeout(boostTimeoutRef.current);
+      boostTimeoutRef.current = null;
+    }
+    boostedAnimationsRef.current.forEach(({ animation, playbackRate }) => {
+      animation.playbackRate = playbackRate;
+    });
+    boostedAnimationsRef.current = [];
+  }, []);
+
+  const boostVolcanoAnimations = useCallback(() => {
+    const volcanoSvg = volcanoSvgRef.current;
+    if (!volcanoSvg || typeof volcanoSvg.getAnimations !== 'function') return;
+
+    resetVolcanoBoost();
+    const runningAnimations = volcanoSvg
+      .getAnimations({ subtree: true })
+      .filter((animation) => typeof CSSAnimation === 'undefined' || animation instanceof CSSAnimation);
+
+    if (!runningAnimations.length) return;
+
+    boostedAnimationsRef.current = runningAnimations.map((animation) => ({
+      animation,
+      playbackRate: animation.playbackRate || 1
+    }));
+
+    boostedAnimationsRef.current.forEach(({ animation, playbackRate }) => {
+      animation.playbackRate = playbackRate * BOOST_PLAYBACK_RATE;
+    });
+
+    boostTimeoutRef.current = setTimeout(() => {
+      boostedAnimationsRef.current.forEach(({ animation, playbackRate }) => {
+        animation.playbackRate = playbackRate;
+      });
+      boostedAnimationsRef.current = [];
+      boostTimeoutRef.current = null;
+    }, BOOST_DURATION_MS);
+  }, [resetVolcanoBoost]);
+
+  useEffect(() => () => resetVolcanoBoost(), [resetVolcanoBoost]);
 
   const handlePointerMove  = (e) => { setPointer(getPointerState(e)); setIsActive(true); };
   const handlePointerLeave = ()  => { setPointer(DEFAULT_POINTER); setIsActive(false); };
@@ -357,8 +394,7 @@ export default function HeroSection() {
     const p = getPointerState(e);
     setPointer(p);
     setIsActive(true);
-    setEruptionKey(Date.now());
-    setWave({ key: Date.now(), pctX: p.pctX, pctY: p.pctY });
+    boostVolcanoAnimations();
   };
 
   const heroStyle = useMemo(() => ({
@@ -384,16 +420,8 @@ export default function HeroSection() {
         <div className="hero-atmosphere-stream hero-atmosphere-stream-a absolute inset-0" />
         <div className="hero-atmosphere-stream hero-atmosphere-stream-b absolute inset-0" />
 
-        {wave ? (
-          <span
-            key={wave.key}
-            className="hero-click-wave absolute inset-0"
-            style={{ '--hero-wave-x': `${wave.pctX}%`, '--hero-wave-y': `${wave.pctY}%` }}
-          />
-        ) : null}
-
         <div className="hero-volcano-stage">
-          <VolcanoIllustration eruptionKey={eruptionKey} />
+          <VolcanoIllustration svgRef={volcanoSvgRef} />
         </div>
 
         <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#081022] to-transparent" />
@@ -406,7 +434,7 @@ export default function HeroSection() {
             Digital Consulting
           </div>
           <h1 className="font-headline text-[3rem] leading-[1.05] tracking-tight text-surface-bright sm:text-[3.4rem] lg:text-[4rem] mb-6">
-            Soluzioni Digitali e Innovazione,{' '}
+            Soluzioni digitali e innovazione,{' '}
             alla portata di <span className="text-tertiary-fixed">tutti</span>
           </h1>
           <p className="font-body text-lg text-[#d4dbea] mb-10 max-w-2xl leading-relaxed sm:text-xl">
@@ -421,7 +449,7 @@ export default function HeroSection() {
               <span className="material-symbols-outlined ml-2 text-[20px] transition-transform duration-300 group-hover:translate-x-1">arrow_forward</span>
             </a>
             <a
-              href="#soluzioni-web"
+              href="#siti-web"
               className="inline-flex items-center justify-center px-8 py-4 rounded-md border border-white/25 bg-white/5 text-surface-bright text-base font-medium transition-all duration-300 hover:bg-white/10 active:scale-95"
             >
               Scopri le Soluzioni

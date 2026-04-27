@@ -36,6 +36,8 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   --hero-shift-x:   0.18;
   --hero-shift-y:  -0.10;
   --hero-active:    0;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 /* ──────────────────────────────────────────────────
@@ -88,28 +90,6 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   animation: heroStreamDriftReverse 22s ease-in-out infinite;
 }
 
-/* Click ripple */
-.hero-click-wave::before,
-.hero-click-wave::after {
-  content: '';
-  position: absolute;
-  left: var(--hero-wave-x);
-  top:  var(--hero-wave-y);
-  border-radius: 999px;
-  transform: translate(-50%, -50%);
-}
-.hero-click-wave::before {
-  width: 18px; height: 18px;
-  border: 1.5px solid rgba(173, 241, 255, 0.85);
-  box-shadow: 0 0 22px rgba(89, 224, 255, 0.35);
-  animation: heroClickWave 940ms cubic-bezier(0.2, 0.7, 0.15, 1) forwards;
-}
-.hero-click-wave::after {
-  width: 7px; height: 7px;
-  background: rgba(173, 241, 255, 0.88);
-  animation: heroClickCore 940ms cubic-bezier(0.2, 0.7, 0.15, 1) forwards;
-}
-
 /* ──────────────────────────────────────────────────
    Volcano stage
 ────────────────────────────────────────────────── */
@@ -131,14 +111,6 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
     )
     scale(calc(1 + var(--hero-active) * 0.014));
   transition: transform 280ms ease;
-}
-.hero-shell:active .hero-volcano-stage {
-  transform:
-    translate3d(
-      calc(var(--hero-shift-x) * 22px),
-      calc(var(--hero-shift-y) * -18px - 3px), 0
-    )
-    scale(1.032);
 }
 
 /* ──────────────────────────────────────────────────
@@ -338,16 +310,6 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
 .v-wave-b { animation-delay: -7s; }
 
 /* ──────────────────────────────────────────────────
-   Eruption rings
-────────────────────────────────────────────────── */
-.v-eruption-ring {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: vEruptionRing 900ms cubic-bezier(0.2, 0.7, 0.15, 1) forwards;
-}
-.v-eruption-ring-b { animation-delay: 140ms; }
-
-/* ──────────────────────────────────────────────────
    Keyframes — atmosphere
 ────────────────────────────────────────────────── */
 @keyframes heroStreamDrift {
@@ -360,16 +322,6 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   50%  { transform: translate3d(calc(var(--hero-shift-x)*-26px - 18px), calc(var(--hero-shift-y)*18px + 8px), 0) scale(1.06); }
   100% { transform: translate3d(calc(var(--hero-shift-x)*-22px), calc(var(--hero-shift-y)*14px), 0) scale(1);    }
 }
-@keyframes heroClickWave {
-  0%   { opacity: 0.75; transform: translate(-50%, -50%) scale(0.28); }
-  100% { opacity: 0;    transform: translate(-50%, -50%) scale(9.8);  }
-}
-@keyframes heroClickCore {
-  0%   { opacity: 0.95; transform: translate(-50%, -50%) scale(0.45); }
-  60%  { opacity: 0.55; }
-  100% { opacity: 0;    transform: translate(-50%, -50%) scale(5.4);  }
-}
-
 /* ──────────────────────────────────────────────────
    Keyframes — volcano
 ────────────────────────────────────────────────── */
@@ -441,11 +393,6 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   from { stroke-dashoffset: 0;    }
   to   { stroke-dashoffset: -228; }
 }
-@keyframes vEruptionRing {
-  0%, 18% { opacity: 0.85; transform: scale(0.5); }
-  100%    { opacity: 0;    transform: scale(6.0); }
-}
-
 /* ──────────────────────────────────────────────────
    Responsive
 ────────────────────────────────────────────────── */
@@ -475,8 +422,6 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   .hero-reveal-delayed,
   .hero-atmosphere-stream-a,
   .hero-atmosphere-stream-b,
-  .hero-click-wave::before,
-  .hero-click-wave::after,
   .v-float-group,
   .v-aura,
   .v-ridge,
@@ -493,8 +438,7 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   .v-trend,
   .v-node,
   .v-node-orange,
-  .v-wave,
-  .v-eruption-ring {
+  .v-wave {
     animation: none !important;
   }
 }
