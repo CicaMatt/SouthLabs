@@ -52,10 +52,10 @@ export default function AutomationSection() {
           </div>
 
           {automationCards.map((card) => (
-            <div key={card.title} className="bg-surface-container-lowest rounded-xl p-6 shadow-[0_4px_20px_rgba(19,27,46,0.04)]">
+            <div key={card.title} className="flex h-full flex-col bg-surface-container-lowest rounded-xl p-6 shadow-[0_4px_20px_rgba(19,27,46,0.04)]">
               <span className="material-symbols-outlined text-secondary mb-4 text-[28px]">{card.icon}</span>
-              <h4 className="font-headline font-bold text-on-background mb-2">{card.title}</h4>
-              <p className="font-body text-sm text-on-surface-variant">{card.description}</p>
+              <h4 className="mb-2 min-h-[3rem] font-headline font-bold leading-snug text-on-background">{card.title}</h4>
+              <p className="font-body text-sm leading-relaxed text-on-surface-variant">{card.description}</p>
             </div>
           ))}
         </div>
