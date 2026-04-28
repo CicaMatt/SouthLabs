@@ -1,77 +1,165 @@
 import SectionHeader from '../SectionHeader';
 import wordpressLogo from '../../../media/icons/wordpress.png';
+import customWebAppImage from '../../../media/images/custom_web_app.png';
+import ecommerceImage from '../../../media/images/ecommerce.png';
+import seoOrientedImage from '../../../media/images/seo_oriented.png';
 
-const webSolutionCards = [
+const leftWebSolutionCards = [
   {
     icon: 'code_blocks',
     title: 'Web App Personalizzate',
     description:
-      'Applicazioni personalizzate per garantire efficienza, sicurezza e flessibilità nel tempo.'
+      'Applicazioni personalizzate per garantire efficienza, sicurezza e flessibilità nel tempo.',
+    previewImage: customWebAppImage
   },
   {
     icon: 'web',
-    image: wordpressLogo,
     title: 'Soluzioni WordPress',
-    description: 'Siti vetrina ottimizzati per SEO e visibilità, veloci e gestibili in autonomia.'
-  },
-  {
-    icon: 'shopping_cart',
-    title: 'Piattaforme di E-commerce',
-    description:
-      'Piattaforme di vendita online sicure ed efficaci, integrabili con i più noti metodi di pagamento.'
+    description: 'Siti vetrina ottimizzati per SEO e visibilità, veloci e gestibili in autonomia.',
+    previewImage: seoOrientedImage
   }
 ];
 
-export default function WebSolutionsSection() {
+const rightWebSolutionCard = {
+  icon: 'shopping_cart',
+  title: 'Piattaforme di E-commerce',
+  description:
+    'Piattaforme di vendita online sicure ed efficaci, integrabili con i più noti metodi di pagamento.',
+  previewImage: ecommerceImage
+};
+
+function CardOverlayIcon({ title, icon, placement = 'left' }) {
+  const isWordpress = title === 'Soluzioni WordPress';
+  const positionClass =
+    placement === 'top-left'
+      ? 'left-5 top-1/2 -translate-y-1/2'
+      : placement === 'bottom-right'
+        ? 'right-5 top-1/2 -translate-y-1/2'
+      : placement === 'top-right'
+        ? 'left-1/2 top-2 -translate-x-1/2'
+        : 'left-5 top-1/2 -translate-y-1/2';
+
   return (
-    <section className="py-24 bg-surface relative overflow-hidden" id="siti-web">
-      <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-20 top-6 h-64 w-64 rounded-full bg-primary-fixed/50 blur-3xl" />
-        <div className="absolute -right-24 bottom-0 h-80 w-80 rounded-full bg-secondary-container/70 blur-3xl" />
+    <span className={`pointer-events-none absolute z-0 hidden lg:block ${positionClass}`}>
+      {isWordpress ? (
+        <img src={wordpressLogo} alt="" aria-hidden className="h-44 w-44 object-contain opacity-[0.08]" />
+      ) : (
+        <span className="material-symbols-outlined fill text-[200px] leading-none text-[#2f5a75] opacity-[0.07]">{icon}</span>
+      )}
+    </span>
+  );
+}
+
+function LeftSolutionCard({ card }) {
+  const isWordpressCard = card.title === 'Soluzioni WordPress';
+
+  return (
+    <article className="group relative flex min-h-[226px] items-center overflow-hidden rounded-xl border border-[#d9e0e6] bg-white shadow-[0_8px_20px_rgba(15,34,52,0.07)] transition-all duration-300 hover:-translate-y-[2px] hover:shadow-[0_14px_28px_rgba(15,34,52,0.12)] lg:col-span-2 lg:block lg:h-[280px]">
+      <CardOverlayIcon title={card.title} icon={card.icon} placement={isWordpressCard ? 'bottom-right' : 'top-left'} />
+
+      <div className="relative z-10 flex w-full items-center gap-3 p-4 sm:gap-4 sm:p-5 md:p-6 lg:hidden">
+        <div className="min-w-0 flex-1 pr-1 text-left sm:pr-2">
+          <h3 className="mb-2 font-headline text-[1.08rem] font-bold leading-[1.18] text-[#1f2630] sm:text-[1.22rem] md:text-[1.34rem]">{card.title}</h3>
+          <p className="font-body text-[0.82rem] leading-relaxed text-[#505763] sm:text-[0.89rem] md:text-[0.94rem]">{card.description}</p>
+        </div>
+
+        <div className="w-[48%] shrink-0 sm:w-[46%]">
+          <div className="relative aspect-[16/10] w-full overflow-hidden bg-white">
+            <img
+              src={card.previewImage}
+              alt={card.title}
+              className={`absolute inset-0 h-full w-full object-cover scale-[1.08] sm:scale-[1.13] ${
+                isWordpressCard ? 'object-[48%_50%]' : 'object-[52%_50%]'
+              }`}
+            />
+          </div>
+        </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-8 relative">
+      <div className="relative z-10 hidden h-full px-7 py-6 lg:block">
+        <div className="flex h-full flex-col justify-center">
+          <div className={`flex flex-col lg:max-w-[58%] ${isWordpressCard ? 'lg:ml-auto lg:items-end lg:text-right' : ''}`}>
+            <h3 className="mb-2 font-headline text-[1.5rem] font-bold leading-[1.18] text-[#1f2630]">{card.title}</h3>
+            <p className="font-body text-[0.96rem] leading-relaxed text-[#505763] lg:min-h-[4.4rem]">{card.description}</p>
+          </div>
+        </div>
+
+        <div
+          className={`w-full sm:max-w-none lg:absolute lg:bottom-6 lg:top-6 lg:w-[38%] ${
+            isWordpressCard ? 'lg:left-6' : 'lg:right-6'
+          }`}
+        >
+          <div className="relative h-[240px] w-full overflow-hidden bg-white sm:h-[280px] lg:h-full">
+            <img
+              src={card.previewImage}
+              alt={card.title}
+              className={`absolute inset-0 h-full w-full object-cover scale-[1.2] ${
+                isWordpressCard ? 'object-[48%_50%]' : 'object-[52%_50%]'
+              }`}
+            />
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function RightSolutionCard({ card }) {
+  return (
+    <article className="group relative flex min-h-[226px] items-center overflow-hidden rounded-xl border border-[#d9e0e6] bg-white shadow-[0_8px_20px_rgba(15,34,52,0.07)] transition-all duration-300 hover:-translate-y-[2px] hover:shadow-[0_14px_28px_rgba(15,34,52,0.12)] lg:col-span-1 lg:block lg:row-span-2 lg:min-h-[584px]">
+      <CardOverlayIcon title={card.title} icon={card.icon} placement="top-right" />
+
+      <div className="relative z-10 flex w-full items-center gap-3 p-4 sm:gap-4 sm:p-5 md:p-6 lg:hidden">
+        <div className="w-[48%] shrink-0 sm:w-[46%]">
+          <div className="relative aspect-[16/10] w-full overflow-hidden bg-white">
+            <img
+              src={card.previewImage}
+              alt={card.title}
+              className="absolute inset-0 h-full w-full scale-[1.1] object-contain object-top"
+            />
+          </div>
+        </div>
+
+        <div className="min-w-0 flex-1 pl-1 text-right sm:pl-2">
+          <h3 className="mb-2 font-headline text-[1.08rem] font-bold leading-[1.18] text-[#1f2630] sm:text-[1.22rem] md:text-[1.34rem]">{card.title}</h3>
+          <p className="font-body text-[0.82rem] leading-relaxed text-[#505763] sm:text-[0.89rem] md:text-[0.94rem]">{card.description}</p>
+        </div>
+      </div>
+
+      <div className="relative z-10 hidden h-full flex-col justify-center gap-6 px-7 pt-[54px] pb-[54px] lg:flex">
+        <div className="flex flex-col">
+          <h3 className="mb-2 font-headline text-[1.5rem] font-bold leading-[1.18] text-[#1f2630]">{card.title}</h3>
+          <p className="font-body text-[0.96rem] leading-relaxed text-[#505763]">{card.description}</p>
+        </div>
+
+        <div className="relative min-h-[250px] flex-1 overflow-hidden bg-white">
+          <img
+            src={card.previewImage}
+            alt={card.title}
+            className="absolute inset-0 h-full w-full scale-[1.04] object-contain object-top"
+          />
+        </div>
+      </div>
+    </article>
+  );
+}
+
+export default function WebSolutionsSection() {
+  const [topLeftCard, bottomLeftCard] = leftWebSolutionCards;
+
+  return (
+    <section className="relative overflow-hidden bg-surface py-20 lg:py-24" id="siti-web">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeader
-          className="mb-16 max-w-2xl"
+          className="mb-12 max-w-2xl sm:mb-14 lg:mb-16"
           title="Siti Web"
           subtitle="Progettate per la massima conversione della tua attività."
         />
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {webSolutionCards.map((card) => (
-            <article
-              key={card.title}
-              className="group relative isolate flex min-h-[220px] flex-col overflow-hidden rounded-[1.75rem] border-2 border-[#8ea6ba] bg-gradient-to-br from-[#ffffff] via-[#f9fcff] to-[#eef5fb] p-8 md:p-9 shadow-[0_10px_28px_rgba(7,34,54,0.08)] transition-all duration-300 hover:-translate-y-1 hover:border-[#6f8ea8] hover:shadow-[0_20px_45px_rgba(7,34,54,0.14)]"
-            >
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-[#5fb8d7]/55 to-transparent"
-              />
-              <div
-                aria-hidden
-                className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#9ed8ef]/20 blur-3xl transition-transform duration-300 group-hover:scale-110"
-              />
-              {card.image ? (
-                <img
-                  aria-hidden
-                  alt=""
-                  src={card.image}
-                  className="pointer-events-none absolute inset-0 z-0 m-auto h-[116px] w-[116px] object-contain opacity-[0.12] transition-all duration-300 group-hover:opacity-[0.18]"
-                />
-              ) : (
-                <span
-                  aria-hidden
-                  className="material-symbols-outlined pointer-events-none absolute inset-0 z-0 m-auto h-fit w-fit text-[118px] leading-none text-[#3f6988]/[0.10] transition-all duration-300 group-hover:text-[#3f6988]/[0.16]"
-                >
-                  {card.icon}
-                </span>
-              )}
-              <div className="relative z-10 flex h-full flex-col">
-                <h3 className="mb-3 font-headline text-[1.4rem] font-bold leading-tight text-on-background">{card.title}</h3>
-                <p className="flex-grow font-body text-[1.07rem] leading-relaxed text-on-surface-variant">{card.description}</p>
-              </div>
-            </article>
-          ))}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+          <LeftSolutionCard card={topLeftCard} />
+          <RightSolutionCard card={rightWebSolutionCard} />
+          <LeftSolutionCard card={bottomLeftCard} />
         </div>
       </div>
     </section>
