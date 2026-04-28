@@ -1,4 +1,5 @@
 import SectionHeader from '../SectionHeader';
+import wordpressLogo from '../../../media/icons/wordpress.png';
 
 const webSolutionCards = [
   {
@@ -9,6 +10,7 @@ const webSolutionCards = [
   },
   {
     icon: 'web',
+    image: wordpressLogo,
     title: 'Soluzioni WordPress',
     description: 'Siti vetrina ottimizzati per SEO e visibilità, veloci e gestibili in autonomia.'
   },
@@ -49,12 +51,21 @@ export default function WebSolutionsSection() {
                 aria-hidden
                 className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#9ed8ef]/20 blur-3xl transition-transform duration-300 group-hover:scale-110"
               />
-              <span
-                aria-hidden
-                className="material-symbols-outlined pointer-events-none absolute inset-0 z-0 m-auto h-fit w-fit text-[118px] leading-none text-[#3f6988]/[0.10] transition-all duration-300 group-hover:text-[#3f6988]/[0.16]"
-              >
-                {card.icon}
-              </span>
+              {card.image ? (
+                <img
+                  aria-hidden
+                  alt=""
+                  src={card.image}
+                  className="pointer-events-none absolute inset-0 z-0 m-auto h-[116px] w-[116px] object-contain opacity-[0.12] transition-all duration-300 group-hover:opacity-[0.18]"
+                />
+              ) : (
+                <span
+                  aria-hidden
+                  className="material-symbols-outlined pointer-events-none absolute inset-0 z-0 m-auto h-fit w-fit text-[118px] leading-none text-[#3f6988]/[0.10] transition-all duration-300 group-hover:text-[#3f6988]/[0.16]"
+                >
+                  {card.icon}
+                </span>
+              )}
               <div className="relative z-10 flex h-full flex-col">
                 <h3 className="mb-3 font-headline text-[1.4rem] font-bold leading-tight text-on-background">{card.title}</h3>
                 <p className="flex-grow font-body text-[1.07rem] leading-relaxed text-on-surface-variant">{card.description}</p>
