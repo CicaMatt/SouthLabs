@@ -433,17 +433,19 @@ export default function HeroSection() {
             <span className="h-2 w-2 rounded-full bg-tertiary-fixed" />
             Digital Consulting
           </div>
-          <h1 className="font-headline text-[3rem] leading-[1.05] tracking-tight text-surface-bright sm:text-[3.4rem] lg:text-[4rem] mb-6">
+          <h1 className="hero-title-balance font-headline text-[3rem] leading-[1.05] tracking-tight text-surface-bright sm:text-[3.4rem] lg:text-[4rem] mb-6">
             Soluzioni digitali e innovazione,{' '}
             alla portata di <span className="text-tertiary-fixed">tutti</span>
           </h1>
           <p className="font-body text-lg text-[#d4dbea] mb-10 max-w-2xl leading-relaxed sm:text-xl">
-            Consulenza su misura per far crescere il tuo business
+            Consulenza su misura per
+            <br className="sm:hidden" />
+            {' '}far crescere il tuo business
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <a
               href="#contatti"
-              className="group inline-flex items-center justify-center px-8 py-4 rounded-md text-base font-medium transition-all duration-300 bg-gradient-to-br from-tertiary-fixed to-[#9ce6fb] text-[#06222a] shadow-[0_18px_45px_rgba(12,35,46,0.45)] hover:shadow-[0_22px_55px_rgba(12,35,46,0.58)] active:scale-95"
+              className="hero-consultancy-cta group inline-flex items-center justify-center px-8 py-4 rounded-md text-base font-medium transition-all duration-300 bg-gradient-to-br from-tertiary-fixed to-[#9ce6fb] text-[#06222a] shadow-[0_18px_45px_rgba(12,35,46,0.45)] hover:shadow-[0_22px_55px_rgba(12,35,46,0.58)] active:scale-95"
             >
               Richiedi una Consulenza
               <span className="material-symbols-outlined ml-2 text-[20px] transition-transform duration-300 group-hover:translate-x-1">arrow_forward</span>

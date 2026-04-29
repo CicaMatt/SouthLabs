@@ -12,7 +12,7 @@ export default function ContactSection() {
           </p>
         </div>
 
-        <div className="bg-surface-container-lowest rounded-xl p-8 shadow-[0_4px_20px_rgba(19,27,46,0.04)]">
+        <div className="bg-surface-container-lowest rounded-xl border-t-4 border-primary p-8 shadow-[0_4px_20px_rgba(19,27,46,0.04)]">
           <form className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>

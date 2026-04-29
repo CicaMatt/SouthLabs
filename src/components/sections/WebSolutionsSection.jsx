@@ -9,7 +9,7 @@ const leftWebSolutionCards = [
   {
     icon: 'code_blocks',
     title: 'Web App Personalizzate',
-    description: 'Applicazioni personalizzate per garantire efficienza, sicurezza e flessibilità nel tempo.',
+    description: 'Soluzioni personalizzate per garantire efficienza, sicurezza e flessibilità nel tempo.',
     previewImage: customWebAppImage
   },
   {
@@ -23,27 +23,202 @@ const leftWebSolutionCards = [
 const rightWebSolutionCard = {
   icon: 'shopping_cart',
   title: 'Piattaforme di E-Commerce',
-  description: 'Piattaforme di vendita online sicure ed efficaci, integrabili con i più noti metodi di pagamento.',
+  description: 'Portali di vendita online sicuri ed efficaci, integrabili con i più noti metodi di pagamento.',
   previewImage: ecommerceImage
 };
+
+function WordpressMaskedIcon({ className = '' }) {
+  return (
+    <span
+      aria-hidden
+      className={`block ${className}`}
+      style={{
+        maskImage: `url(${wordpressLogo})`,
+        WebkitMaskImage: `url(${wordpressLogo})`,
+        maskRepeat: 'no-repeat',
+        WebkitMaskRepeat: 'no-repeat',
+        maskPosition: 'center',
+        WebkitMaskPosition: 'center',
+        maskSize: 'contain',
+        WebkitMaskSize: 'contain'
+      }}
+    />
+  );
+}
 
 function CardOverlayIcon({ title, icon, placement = 'left' }) {
   const isWordpress = title === 'Soluzioni WordPress';
   const positionClass =
     placement === 'top-left'
-      ? 'left-5 top-1/2 -translate-y-1/2'
+      ? 'left-[29%] top-1/2 -translate-x-1/2 -translate-y-1/2'
       : placement === 'bottom-right'
-        ? 'right-5 top-1/2 -translate-y-1/2'
+        ? 'left-[71%] top-1/2 -translate-x-1/2 -translate-y-1/2'
       : placement === 'top-right'
-        ? 'left-1/2 top-2 -translate-x-1/2'
-        : 'left-5 top-1/2 -translate-y-1/2';
+        ? 'left-1/2 top-[23%] -translate-x-1/2 -translate-y-1/2'
+        : 'left-[29%] top-1/2 -translate-x-1/2 -translate-y-1/2';
 
   return (
     <span className={`pointer-events-none absolute z-0 hidden lg:block ${positionClass}`}>
       {isWordpress ? (
-        <img src={wordpressLogo} alt="" aria-hidden className="h-44 w-44 object-contain opacity-[0.08]" />
+        <WordpressMaskedIcon className="h-44 w-44 bg-[#2f5a75] opacity-[0.1] transition-all duration-300 group-hover:bg-[#1f73b7] group-hover:opacity-[0.16]" />
       ) : (
-        <span className="material-symbols-outlined fill text-[200px] leading-none text-[#2f5a75] opacity-[0.07]">{icon}</span>
+        <span className="material-symbols-outlined fill text-[200px] leading-none text-[#2f5a75] opacity-[0.09] transition-all duration-300 group-hover:text-[#1f73b7] group-hover:opacity-[0.16]">
+          {icon}
+        </span>
+      )}
+    </span>
+  );
+}
+
+function getRenderedTextCenterX(element) {
+  if (!element) return null;
+
+  const range = document.createRange();
+  range.selectNodeContents(element);
+  const rects = Array.from(range.getClientRects());
+
+  if (!rects.length) return null;
+
+  const left = Math.min(...rects.map((rect) => rect.left));
+  const right = Math.max(...rects.map((rect) => rect.right));
+  return (left + right) / 2;
+}
+
+function useStackedIconTextCenter() {
+  const textWrapRef = useRef(null);
+  const titleRef = useRef(null);
+  const descriptionRef = useRef(null);
+  const [iconLeft, setIconLeft] = useState('50%');
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+
+    const updateIconCenter = () => {
+      const textWrap = textWrapRef.current;
+      const title = titleRef.current;
+      const description = descriptionRef.current;
+
+      if (!textWrap || !title || !description) return;
+
+      if (!window.matchMedia('(max-width: 960px)').matches) {
+        setIconLeft('50%');
+        return;
+      }
+
+      const wrapRect = textWrap.getBoundingClientRect();
+      const titleCenter = getRenderedTextCenterX(title);
+      const descriptionCenter = getRenderedTextCenterX(description);
+      const centers = [titleCenter, descriptionCenter].filter((center) => center !== null);
+
+      if (!centers.length) {
+        setIconLeft('50%');
+        return;
+      }
+
+      const averageCenter = centers.reduce((sum, center) => sum + center, 0) / centers.length;
+      const clampedLocalX = Math.max(0, Math.min(wrapRect.width, averageCenter - wrapRect.left));
+      const nextLeft = `${clampedLocalX.toFixed(1)}px`;
+      setIconLeft((currentLeft) => (currentLeft === nextLeft ? currentLeft : nextLeft));
+    };
+
+    const resizeObserver = new ResizeObserver(updateIconCenter);
+    if (textWrapRef.current) resizeObserver.observe(textWrapRef.current);
+    if (titleRef.current) resizeObserver.observe(titleRef.current);
+    if (descriptionRef.current) resizeObserver.observe(descriptionRef.current);
+
+    window.addEventListener('resize', updateIconCenter);
+    updateIconCenter();
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', updateIconCenter);
+    };
+  }, []);
+
+  return { textWrapRef, titleRef, descriptionRef, iconLeft };
+}
+
+function useDesktopIconTextCenter() {
+  const textWrapRef = useRef(null);
+  const titleRef = useRef(null);
+  const descriptionRef = useRef(null);
+  const [iconLeft, setIconLeft] = useState('50%');
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+
+    const updateIconCenter = () => {
+      const textWrap = textWrapRef.current;
+      const title = titleRef.current;
+      const description = descriptionRef.current;
+
+      if (!textWrap || !title || !description) return;
+
+      if (!window.matchMedia('(min-width: 1024px)').matches) {
+        setIconLeft('50%');
+        return;
+      }
+
+      const wrapRect = textWrap.getBoundingClientRect();
+      const titleCenter = getRenderedTextCenterX(title);
+      const descriptionCenter = getRenderedTextCenterX(description);
+      const centers = [titleCenter, descriptionCenter].filter((center) => center !== null);
+
+      if (!centers.length) {
+        setIconLeft('50%');
+        return;
+      }
+
+      const averageCenter = centers.reduce((sum, center) => sum + center, 0) / centers.length;
+      const clampedLocalX = Math.max(0, Math.min(wrapRect.width, averageCenter - wrapRect.left));
+      const nextLeft = `${clampedLocalX.toFixed(1)}px`;
+      setIconLeft((currentLeft) => (currentLeft === nextLeft ? currentLeft : nextLeft));
+    };
+
+    const resizeObserver = new ResizeObserver(updateIconCenter);
+    if (textWrapRef.current) resizeObserver.observe(textWrapRef.current);
+    if (titleRef.current) resizeObserver.observe(titleRef.current);
+    if (descriptionRef.current) resizeObserver.observe(descriptionRef.current);
+
+    window.addEventListener('resize', updateIconCenter);
+    updateIconCenter();
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', updateIconCenter);
+    };
+  }, []);
+
+  return { textWrapRef, titleRef, descriptionRef, iconLeft };
+}
+
+function StackedCenterOverlayIcon({ title, icon, left = '50%', visibilityClass = 'lg:hidden' }) {
+  const isWordpress = title === 'Soluzioni WordPress';
+
+  return (
+    <span className={`pointer-events-none absolute top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 ${visibilityClass}`} style={{ left }}>
+      {isWordpress ? (
+        <WordpressMaskedIcon className="h-28 w-28 bg-[#2f5a75] opacity-[0.09] transition-all duration-300 group-hover:bg-[#1f73b7] group-hover:opacity-[0.14] sm:h-28 sm:w-28 md:h-32 md:w-32" />
+      ) : (
+        <span className="material-symbols-outlined fill text-[116px] leading-none text-[#2f5a75] opacity-[0.08] transition-all duration-300 group-hover:text-[#1f73b7] group-hover:opacity-[0.13] sm:text-[120px] md:text-[150px]">
+          {icon}
+        </span>
+      )}
+    </span>
+  );
+}
+
+function DesktopCenterOverlayIcon({ title, icon, left = '50%' }) {
+  const isWordpress = title === 'Soluzioni WordPress';
+
+  return (
+    <span className="pointer-events-none absolute top-1/2 z-0 hidden -translate-x-1/2 -translate-y-1/2 lg:block" style={{ left }}>
+      {isWordpress ? (
+        <WordpressMaskedIcon className="h-44 w-44 bg-[#2f5a75] opacity-[0.1] transition-all duration-300 group-hover:bg-[#1f73b7] group-hover:opacity-[0.16]" />
+      ) : (
+        <span className="material-symbols-outlined fill text-[200px] leading-none text-[#2f5a75] opacity-[0.09] transition-all duration-300 group-hover:text-[#1f73b7] group-hover:opacity-[0.16]">
+          {icon}
+        </span>
       )}
     </span>
   );
@@ -51,15 +226,25 @@ function CardOverlayIcon({ title, icon, placement = 'left' }) {
 
 function LeftSolutionCard({ card }) {
   const isWordpressCard = card.title === 'Soluzioni WordPress';
+  const { textWrapRef, titleRef, descriptionRef, iconLeft } = useStackedIconTextCenter();
+  const {
+    textWrapRef: desktopTextWrapRef,
+    titleRef: desktopTitleRef,
+    descriptionRef: desktopDescriptionRef,
+    iconLeft: desktopIconLeft
+  } = useDesktopIconTextCenter();
 
   return (
-    <article className="group relative flex min-h-[208px] items-center overflow-hidden rounded-xl border border-[#d9e0e6] bg-white shadow-[0_8px_20px_rgba(15,34,52,0.07)] transition-all duration-300 hover:-translate-y-[2px] hover:shadow-[0_14px_28px_rgba(15,34,52,0.12)] sm:min-h-[228px] md:min-h-[252px] lg:col-span-2 lg:block lg:h-[312px]">
-      <CardOverlayIcon title={card.title} icon={card.icon} placement={isWordpressCard ? 'bottom-right' : 'top-left'} />
+    <article className="group relative flex min-h-[208px] items-center overflow-hidden rounded-xl border border-[#d9e0e6] bg-white shadow-[0_8px_20px_rgba(15,34,52,0.07)] transition-all duration-300 hover:-translate-y-[2px] hover:shadow-[0_14px_28px_rgba(15,34,52,0.12)] sm:min-h-[228px] md:min-h-[252px] lg:col-span-2 lg:block lg:h-[284px]">
+      <StackedCenterOverlayIcon title={card.title} icon={card.icon} visibilityClass="hidden min-[961px]:block lg:hidden" />
 
-      <div className="relative z-10 flex w-full items-center gap-3 p-3 sm:gap-4 sm:p-4 md:p-5 lg:hidden">
+      <div className="relative z-10 flex w-full items-center gap-3 px-6 py-3 sm:gap-4 sm:px-7 sm:py-4 md:px-8 md:py-5 lg:hidden">
         <div className="min-w-0 flex-1 pr-1 text-left sm:pr-2">
-          <h3 className="mb-2 font-headline text-[1.12rem] font-bold leading-[1.2] text-[#1f2630] sm:text-[1.24rem] md:text-[1.38rem]">{card.title}</h3>
-          <p className="max-w-[30ch] font-body text-[0.9rem] leading-relaxed text-[#505763] sm:text-[0.97rem] md:max-w-[32ch] md:text-[1.02rem]">{card.description}</p>
+          <div ref={textWrapRef} className="relative mr-auto w-fit max-w-[30ch] sm:max-w-[32ch]">
+            <StackedCenterOverlayIcon title={card.title} icon={card.icon} left={iconLeft} visibilityClass="block min-[961px]:hidden" />
+            <h3 ref={titleRef} className="relative z-10 mb-2 font-headline text-[1.12rem] font-bold leading-[1.2] text-[#1f2630] sm:text-[1.24rem] md:text-[1.38rem]">{card.title}</h3>
+            <p ref={descriptionRef} className="relative z-10 font-body text-[0.9rem] leading-relaxed text-[#505763] sm:text-[0.97rem] md:text-[1.02rem]">{card.description}</p>
+          </div>
         </div>
 
         <div className="w-[48%] shrink-0 sm:w-[46%] md:w-[34%]">
@@ -77,9 +262,23 @@ function LeftSolutionCard({ card }) {
 
       <div className="relative z-10 hidden h-full px-7 py-6 lg:block">
         <div className="flex h-full flex-col justify-center">
-          <div className={`flex flex-col lg:max-w-[58%] ${isWordpressCard ? 'lg:ml-auto lg:items-end lg:text-right' : ''}`}>
-            <h3 className="mb-2 font-headline text-[1.52rem] font-bold leading-[1.18] text-[#1f2630] xl:text-[1.58rem]">{card.title}</h3>
-            <p className="max-w-[34ch] font-body text-[1rem] leading-relaxed text-[#505763] lg:min-h-[4.4rem] xl:text-[1.04rem]">{card.description}</p>
+          <div
+            ref={desktopTextWrapRef}
+            className={`relative flex flex-col lg:max-w-[58%] ${isWordpressCard ? 'lg:ml-auto lg:items-end lg:text-right' : ''}`}
+          >
+            <DesktopCenterOverlayIcon title={card.title} icon={card.icon} left={desktopIconLeft} />
+            <h3
+              ref={desktopTitleRef}
+              className="relative z-10 mb-2 font-headline text-[1.52rem] font-bold leading-[1.18] text-[#1f2630] xl:text-[1.58rem]"
+            >
+              {card.title}
+            </h3>
+            <p
+              ref={desktopDescriptionRef}
+              className="relative z-10 max-w-[34ch] font-body text-[1rem] leading-relaxed text-[#505763] lg:min-h-[4.4rem] xl:text-[1.04rem]"
+            >
+              {card.description}
+            </p>
           </div>
         </div>
 
@@ -107,6 +306,10 @@ function RightSolutionCard({ card }) {
   const desktopTitleWrapRef = useRef(null);
   const desktopTitleMeasureRef = useRef(null);
   const [useShortDesktopTitle, setUseShortDesktopTitle] = useState(false);
+  const stackedTitleWrapRef = useRef(null);
+  const stackedTitleMeasureRef = useRef(null);
+  const [useShortStackedTitle, setUseShortStackedTitle] = useState(false);
+  const { textWrapRef, titleRef, descriptionRef, iconLeft } = useStackedIconTextCenter();
 
   useEffect(() => {
     if (typeof window === 'undefined') return undefined;
@@ -141,27 +344,75 @@ function RightSolutionCard({ card }) {
   }, []);
 
   const desktopTitle = useShortDesktopTitle ? 'E-Commerce' : card.title;
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+
+    const evaluateStackedTitle = () => {
+      const wrap = stackedTitleWrapRef.current;
+      const measure = stackedTitleMeasureRef.current;
+
+      if (!wrap || !measure) return;
+
+      const isStacked = window.matchMedia('(max-width: 1023px)').matches;
+      if (!isStacked) {
+        setUseShortStackedTitle(false);
+        return;
+      }
+
+      const availableWidth = wrap.getBoundingClientRect().width;
+      const fullTitleWidth = measure.getBoundingClientRect().width;
+      setUseShortStackedTitle(fullTitleWidth > availableWidth);
+    };
+
+    const resizeObserver = new ResizeObserver(evaluateStackedTitle);
+    if (stackedTitleWrapRef.current) resizeObserver.observe(stackedTitleWrapRef.current);
+
+    window.addEventListener('resize', evaluateStackedTitle);
+    evaluateStackedTitle();
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', evaluateStackedTitle);
+    };
+  }, []);
+
+  const stackedTitle = useShortStackedTitle ? 'E-Commerce' : card.title;
 
   return (
-    <article className="group relative flex min-h-[208px] items-center overflow-hidden rounded-xl border border-[#d9e0e6] bg-white shadow-[0_8px_20px_rgba(15,34,52,0.07)] transition-all duration-300 hover:-translate-y-[2px] hover:shadow-[0_14px_28px_rgba(15,34,52,0.12)] sm:min-h-[228px] md:min-h-[252px] lg:col-span-1 lg:block lg:row-span-2 lg:min-h-[648px]">
+    <article className="group relative flex min-h-[208px] items-center overflow-hidden rounded-xl border border-[#d9e0e6] bg-white shadow-[0_8px_20px_rgba(15,34,52,0.07)] transition-all duration-300 hover:-translate-y-[2px] hover:shadow-[0_14px_28px_rgba(15,34,52,0.12)] sm:min-h-[228px] md:min-h-[252px] lg:col-span-1 lg:block lg:row-span-2 lg:min-h-[592px]">
       <CardOverlayIcon title={card.title} icon={card.icon} placement="top-right" />
+      <StackedCenterOverlayIcon title={card.title} icon={card.icon} visibilityClass="hidden min-[961px]:block lg:hidden" />
 
-      <div className="relative z-10 flex w-full items-center gap-3 p-3 sm:gap-4 sm:p-4 md:p-5 lg:hidden">
+      <div className="relative z-10 flex w-full items-center gap-3 px-6 py-3 sm:gap-4 sm:px-7 sm:py-4 md:px-8 md:py-5 lg:hidden">
         <div className="w-[48%] shrink-0 sm:w-[46%] md:w-[34%]">
           <div className="relative aspect-[4/3] w-full overflow-hidden bg-white">
             <img
               src={card.previewImage}
               alt={card.title}
-              className="absolute inset-0 h-full w-full scale-[1.02] object-contain object-top"
+              className="absolute inset-0 h-full w-full scale-[1.02] object-contain object-left-top"
             />
           </div>
         </div>
 
         <div className="min-w-0 flex-1 text-right sm:pl-1 md:pl-2">
-          <h3 className="mb-2 font-headline text-[1.12rem] font-bold leading-[1.2] text-[#1f2630] sm:text-[1.24rem] md:text-[1.38rem]">{card.title}</h3>
-          <p className="ml-auto max-w-[30ch] font-body text-[0.9rem] leading-relaxed text-[#505763] sm:text-[0.97rem] md:max-w-[32ch] md:text-[1.02rem]">
-            {card.description}
-          </p>
+          <div ref={textWrapRef} className="relative ml-auto w-fit max-w-[30ch] sm:max-w-[32ch]">
+            <StackedCenterOverlayIcon title={card.title} icon={card.icon} left={iconLeft} visibilityClass="block min-[961px]:hidden" />
+            <div ref={stackedTitleWrapRef} className="relative">
+              <span
+                ref={stackedTitleMeasureRef}
+                aria-hidden
+                className="pointer-events-none absolute left-0 top-0 inline-block whitespace-nowrap font-headline text-[1.12rem] font-bold leading-[1.2] opacity-0 sm:text-[1.24rem] md:text-[1.38rem]"
+              >
+                {card.title}
+              </span>
+              <h3 ref={titleRef} className="relative z-10 mb-2 font-headline text-[1.12rem] font-bold leading-[1.2] text-[#1f2630] sm:text-[1.24rem] md:text-[1.38rem]">
+                {stackedTitle}
+              </h3>
+            </div>
+            <p ref={descriptionRef} className="relative z-10 font-body text-[0.9rem] leading-relaxed text-[#505763] sm:text-[0.97rem] md:text-[1.02rem]">
+              {card.description}
+            </p>
+          </div>
         </div>
       </div>
 
