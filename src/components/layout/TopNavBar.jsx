@@ -29,7 +29,7 @@ export default function TopNavBar() {
       <div className="relative max-w-7xl mx-auto h-full flex items-center justify-between px-5 lg:px-8">
         <img alt="SouthLabs" className="h-12 lg:h-14 w-auto object-contain" src={logo} />
 
-        <div className="hidden md:flex gap-14 lg:gap-8 items-center">
+        <div className="hidden md:flex gap-14 lg:gap-10 items-center">
           {navLinks.map((link) => (
             <a
               key={link.href}
