@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import logo from '../../../media/logo.png';
+import logoImage from '../../../media/logo/logo_image.png';
+import logoText from '../../../media/logo/logo_text.png';
 
 const navLinks = [
   { href: '#siti-web', label: 'Siti Web', tabletLines: ['Siti', 'Web'] },
@@ -27,7 +28,17 @@ export default function TopNavBar() {
   return (
     <nav className="fixed top-0 w-full h-16 lg:h-20 z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-2xl shadow-[0_4px_20px_rgba(19,27,46,0.04)] dark:shadow-none bg-white dark:bg-slate-900">
       <div className="relative max-w-7xl mx-auto h-full flex items-center justify-between px-5 lg:px-8">
-        <img alt="SouthLabs" className="h-12 lg:h-14 w-auto object-contain" src={logo} />
+        <div aria-label="SouthLabs" className="ml-1.5 lg:ml-0 shrink-0 flex items-center gap-1.5 lg:gap-2.5" role="img">
+          <img alt="" aria-hidden="true" className="h-[3.25rem] lg:h-[3.75rem] w-auto object-contain object-center" src={logoImage} />
+          <div className="flex h-[3.25rem] lg:h-[3.75rem] items-center">
+            <img
+              alt=""
+              aria-hidden="true"
+              className="relative translate-y-0.5 h-9 lg:h-11 w-auto object-contain object-center"
+              src={logoText}
+            />
+          </div>
+        </div>
 
         <div className="hidden md:flex gap-14 lg:gap-10 items-center">
           {navLinks.map((link) => (
