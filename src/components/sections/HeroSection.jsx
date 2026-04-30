@@ -39,7 +39,7 @@ function PlumeCloud() {
       />
 
       <g transform={plumeInnerMirrorTransform}>
-        <polyline className="v-trend v-plume-trend-out" points="206,122 248,92 314,108 374,74 416,60 452,42" />
+        <polyline className="v-trend v-plume-trend-out" points="206,122 248,92 314,108 374,74 452,42" />
 
         <g clipPath="url(#vPlumeClip)">
           <line className="v-plume-baseline" x1="172" y1="134" x2="420" y2="134" />
@@ -66,24 +66,7 @@ function PlumeCloud() {
   );
 }
 
-function VolcanoIllustration({ svgRef }) {
-  /*
-   * GEOMETRY — viewBox 0 0 600 540
-   *
-   * Base:        x = 8  →  592   (584 px wide)
-   * Crater rim:  x = 268 → 332   (64 px wide)
-   * Back-rim peak: (300, 207)
-   *
-   * DESIGN INTENT
-   * The mountain fill uses the same colour family as the hero background
-   * (dark blue, semi-transparent) so it reads as a shape carved out of the
-   * atmosphere rather than a solid object placed on top of it.
-   * A single bright-cyan outline stroke defines the silhouette.
-   * The crater is the only zone with higher contrast: a deep bowl fill
-   * and an animated vent glow.
-   * Everything else — ridge lines, plume, waves — is at low opacity,
-   * reinforcing the integrated look.
-   */
+function FactoryIllustration({ svgRef }) {
   return (
     <svg
       ref={svgRef}
@@ -93,63 +76,68 @@ function VolcanoIllustration({ svgRef }) {
       className="v-svg"
     >
       <defs>
-        {/*
-         * Mountain fill — semi-transparent blues that sit inside
-         * the hero's existing dark-blue atmosphere.
-         * Left facet slightly lighter, right slightly darker, centre teal
-         * so the cone still reads as three-dimensional.
-         */}
-        <linearGradient id="vMtn" x1="8" y1="340" x2="592" y2="340" gradientUnits="userSpaceOnUse">
-          <stop offset="0%"   stopColor="#0D2754" stopOpacity="0.55" />
-          <stop offset="28%"  stopColor="#113A7A" stopOpacity="0.48" />
-          <stop offset="54%"  stopColor="#0E5A96" stopOpacity="0.40" />
-          <stop offset="78%"  stopColor="#0E4882" stopOpacity="0.44" />
-          <stop offset="100%" stopColor="#0A2450" stopOpacity="0.52" />
+        <linearGradient id="vFactoryFill" x1="70" y1="238" x2="530" y2="500" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#0A2550" stopOpacity="0.60" />
+          <stop offset="42%" stopColor="#0E437F" stopOpacity="0.48" />
+          <stop offset="76%" stopColor="#0C376D" stopOpacity="0.56" />
+          <stop offset="100%" stopColor="#071B3D" stopOpacity="0.60" />
+        </linearGradient>
+        <linearGradient id="vPipeFill" x1="238" y1="192" x2="304" y2="322" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#123f7f" stopOpacity="0.64" />
+          <stop offset="100%" stopColor="#082a5a" stopOpacity="0.56" />
+        </linearGradient>
+        <linearGradient id="vFootingFill" x1="20" y1="500" x2="580" y2="520" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#0A2D62" stopOpacity="0.58" />
+          <stop offset="50%" stopColor="#0E4A92" stopOpacity="0.46" />
+          <stop offset="100%" stopColor="#0A2D62" stopOpacity="0.58" />
+        </linearGradient>
+        <linearGradient id="vWindowFill" x1="118" y1="418" x2="478" y2="494" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#20A5EE" stopOpacity="0.65" />
+          <stop offset="100%" stopColor="#1281CD" stopOpacity="0.46" />
         </linearGradient>
         <path
-          id="vMtnShape"
+          id="vFactoryShape"
           d="
-            M 8 494
-            C 78 472, 196 304, 268 218
-            C 280 210, 290 207, 300 207
-            C 310 207, 320 210, 332 218
-            C 404 304, 522 472, 592 494
+            M 70 500
+            L 70 410
+            L 420 224
+            L 530 320
+            L 530 500
             Z
           "
         />
-        <clipPath id="vMtnClip">
-          <use href="#vMtnShape" />
+        <clipPath id="vFactoryClip">
+          <use href="#vFactoryShape" />
         </clipPath>
-
-        {/* Crater bowl — opaque dark core so the bowl reads as depth */}
+        <path
+          id="vPipeShape"
+          d="
+            M 236 322
+            L 252 192
+            L 290 192
+            L 306 285
+            Z
+          "
+        />
+        <clipPath id="vPipeClip">
+          <use href="#vPipeShape" />
+        </clipPath>
         <radialGradient
-          id="vCraterBowl"
+          id="vPipeGlow"
           cx="0" cy="0" r="1"
-          gradientTransform="translate(300 228) scale(40 18)"
+          gradientTransform="translate(271 192) scale(18 8)"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0%"   stopColor="#010810" />
-          <stop offset="45%"  stopColor="#021428" />
-          <stop offset="100%" stopColor="#072448" stopOpacity="0.80" />
-        </radialGradient>
-
-        {/* Volcanic vent glow */}
-        <radialGradient
-          id="vCraterGlow"
-          cx="0" cy="0" r="1"
-          gradientTransform="translate(300 230) scale(20 8)"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop offset="0%"   stopColor="#5ADFFF" stopOpacity="1"   />
-          <stop offset="60%"  stopColor="#1A88C2" stopOpacity="0.5" />
-          <stop offset="100%" stopColor="#0E4484" stopOpacity="0"   />
+          <stop offset="0%" stopColor="#7EE7FF" stopOpacity="1" />
+          <stop offset="62%" stopColor="#2AA1D2" stopOpacity="0.52" />
+          <stop offset="100%" stopColor="#0E4382" stopOpacity="0" />
         </radialGradient>
 
         {/* Subtle base glow bleeding into the bg */}
         <radialGradient
           id="vAura"
           cx="0" cy="0" r="1"
-          gradientTransform="translate(300 494) scale(290 52)"
+          gradientTransform="translate(292 500) scale(272 52)"
           gradientUnits="userSpaceOnUse"
         >
           <stop offset="0%"   stopColor="#2ABAEE" stopOpacity="0.22" />
@@ -174,8 +162,9 @@ function VolcanoIllustration({ svgRef }) {
             C 392 173, 384 171, 376 168
             C 365 178, 351 184, 336 184
             C 321 184, 307 178, 297 168
-            C 286 179, 271 186, 254 186
-            C 234 186, 216 175, 206 158
+            C 286 178, 272 186, 255 186
+            C 238 186, 223 178, 212 166
+            C 209 162, 207 158, 206 154
             Z
           "
         />
@@ -199,7 +188,7 @@ function VolcanoIllustration({ svgRef }) {
         </radialGradient>
 
         {/* Wave stroke */}
-        <linearGradient id="vWave" x1="8" y1="0" x2="592" y2="0" gradientUnits="userSpaceOnUse">
+        <linearGradient id="vWave" x1="20" y1="0" x2="580" y2="0" gradientUnits="userSpaceOnUse">
           <stop offset="0%"   stopColor="#38B8EE" stopOpacity="0.06" />
           <stop offset="50%"  stopColor="#58CEFF" stopOpacity="0.55" />
           <stop offset="100%" stopColor="#38B8EE" stopOpacity="0.06" />
@@ -207,117 +196,56 @@ function VolcanoIllustration({ svgRef }) {
       </defs>
 
       {/* ── BASE AURA ─────────────────────────────────────────────────────── */}
-      <ellipse cx="300" cy="496" rx="290" ry="52" fill="url(#vAura)" className="v-aura" />
+      <ellipse cx="292" cy="500" rx="272" ry="52" fill="url(#vAura)" className="v-aura" />
 
       {/* ── FLOATING GROUP ────────────────────────────────────────────────── */}
       <g className="v-float-group">
+        <path d="M 20 500 H 580 V 520 H 20 Z" fill="url(#vWindowFill)" className="v-factory-footing" />
 
-        {/*
-         * MOUNTAIN BODY
-         * Semi-transparent fill + single outline stroke.
-         * Wide base (8 → 592), narrow summit (268 → 332).
-         */}
-        <use
-          href="#vMtnShape"
-          fill="url(#vMtn)"
-          stroke="#5ECFEE"
-          strokeWidth="1.8"
-          strokeOpacity="0.55"
-          strokeLinejoin="round"
+        <use href="#vFactoryShape" fill="url(#vFactoryFill)" className="v-factory-shell" />
+        <line className="v-factory-crease" x1="420" y1="224" x2="420" y2="500" />
+        <line
+          x1="232"
+          y1="324"
+          x2="310"
+          y2="283"
+          stroke="#1A4E8A"
+          strokeWidth="7.2"
+          strokeLinecap="round"
+          strokeOpacity="0.96"
+          clipPath="url(#vPipeClip)"
         />
+        <use href="#vPipeShape" fill="url(#vPipeFill)" className="v-factory-shell v-pipe-shell" />
+        <path className="v-pipe-outline" d="M 252 192 L 290 192 M 252 192 L 236 322 M 290 192 L 306 285" />
 
-        {/*
-         * RIDGE LINES — very faint, just enough to suggest the cone facets
-         */}
-        <path className="v-ridge"
-          d="M 272 226 C 214 340, 148 422, 96 492"
-          stroke="#58C8EE" strokeOpacity="0.18" strokeWidth="1.4"
-          strokeLinecap="round" strokeDasharray="10 9" />
-        <path className="v-ridge v-ridge-b"
-          d="M 300 244 L 300 492"
-          stroke="#58C8EE" strokeOpacity="0.14" strokeWidth="1.2"
-          strokeLinecap="round" strokeDasharray="8 8" />
-        <path className="v-ridge v-ridge-c"
-          d="M 328 226 C 386 340, 452 422, 504 492"
-          stroke="#58C8EE" strokeOpacity="0.18" strokeWidth="1.4"
-          strokeLinecap="round" strokeDasharray="10 9" />
+        <path className="v-factory-window" d="M 132 438 L 188 408 L 188 500 H 132 Z" />
+        <path className="v-factory-window v-factory-window-b" d="M 448 420 L 504 469 V 500 H 448 Z" />
+        <path className="v-factory-window-highlight" d="M 132 438 L 188 408 L 188 500 H 132 Z" />
+        <path className="v-factory-window-highlight v-factory-window-highlight-b" d="M 448 420 L 504 469 V 500 H 448 Z" />
 
-        {/* Logo-inspired internal wave ribbons */}
-        <g className="v-mtn-wave-group" clipPath="url(#vMtnClip)" transform="translate(0 -34)">
-          <path className="v-mtn-wave v-mtn-wave-a"
-            d="M 40 466 C 114 486, 180 480, 242 448 C 304 416, 368 416, 430 446 C 490 474, 544 474, 586 458"
-            stroke="url(#vWave)" fill="none" />
-          <path className="v-mtn-wave v-mtn-wave-b"
-            d="M 58 488 C 126 506, 188 500, 246 472 C 306 442, 366 442, 424 468 C 476 492, 526 492, 566 478"
-            stroke="url(#vWave)" fill="none" />
-          <path className="v-mtn-wave v-mtn-wave-c"
-            d="M 82 500 C 142 512, 198 510, 250 492 C 304 474, 358 474, 410 490 C 454 504, 492 504, 526 496"
-            stroke="url(#vWave)" fill="none" />
-          <path className="v-mtn-wave v-mtn-wave-e"
-            d="M 96 516 C 150 524, 202 522, 252 508 C 304 492, 354 492, 404 506 C 444 516, 476 516, 508 510"
-            stroke="url(#vWave)" fill="none" />
+        <path className="v-factory-cutout" d="M 246 370 L 348 310 V 346 L 246 406 Z" />
+        <path className="v-factory-cutout v-factory-cutout-b" d="M 246 420 L 348 360 V 396 L 246 456 Z" />
+        <path className="v-factory-cutout v-factory-cutout-c" d="M 448 312 L 504 361 V 397 L 448 348 Z" />
+        <path className="v-factory-cutout-highlight" d="M 246 370 L 348 310 V 346 L 246 406 Z" />
+        <path className="v-factory-cutout-highlight v-factory-cutout-highlight-b" d="M 246 420 L 348 360 V 396 L 246 456 Z" />
+        <path className="v-factory-cutout-highlight v-factory-cutout-highlight-c" d="M 448 312 L 504 361 V 397 L 448 348 Z" />
 
-          {/* Crest foam artifact to make ribbons read as water waves */}
-          <g className="v-mtn-crest-group" transform="translate(0 -3)">
-            <path className="v-mtn-crest v-mtn-crest-a"
-              d="M 40 466 C 114 486, 180 480, 242 448 C 304 416, 368 416, 430 446 C 490 474, 544 474, 586 458"
-              fill="none" />
-            <path className="v-mtn-crest v-mtn-crest-b"
-              d="M 58 488 C 126 506, 188 500, 246 472 C 306 442, 366 442, 424 468 C 476 492, 526 492, 566 478"
-              fill="none" />
-            <path className="v-mtn-crest v-mtn-crest-c"
-              d="M 82 500 C 142 512, 198 510, 250 492 C 304 474, 358 474, 410 490 C 454 504, 492 504, 526 496"
-              fill="none" />
-          </g>
+        <line className="v-pipe-link" x1="271" y1="192" x2="271" y2="166" />
+        <ellipse className="v-pipe-glow" cx="271" cy="192" rx="18" ry="8" fill="url(#vPipeGlow)" />
+
+        <g className="v-factory-trace-layer">
+          <path className="v-factory-trace" d="M 20 500 H 580 V 520 H 20 Z" />
+          <use href="#vFactoryShape" className="v-factory-trace" />
+          <path className="v-factory-trace" d="M 252 192 L 290 192 M 252 192 L 236 322 M 290 192 L 306 285" />
+          <line className="v-factory-trace" x1="271" y1="192" x2="271" y2="166" />
         </g>
 
-        {/*
-         * CRATER BOWL
-         * Opaque dark fill so the bowl reads as genuine depth against the
-         * semi-transparent mountain body.
-         */}
-        <path
-          d="
-            M 268 218
-            C 280 210, 290 207, 300 207
-            C 310 207, 320 210, 332 218
-            C 327 226, 320 233, 312 237
-            C 308 239, 292 239, 288 237
-            C 280 233, 273 226, 268 218
-            Z
-          "
-          fill="url(#vCraterBowl)"
-        />
-
-        {/* Inner back-wall — lit far rim */}
-        <path
-          className="v-crater-backwall"
-          d="M 276 220 C 284 214, 292 211, 300 211 C 308 211, 316 214, 324 220"
-          fill="none"
-          stroke="#60DCFF" strokeWidth="1.4" strokeOpacity="0.60" strokeLinecap="round"
-        />
-
-        {/* Outer rim highlight — the crater mouth crest, the brightest line */}
-        <path
-          className="v-crater-rim"
-          d="M 268 218 C 280 210, 290 207, 300 207 C 310 207, 320 210, 332 218"
-          fill="none"
-          stroke="#A8EEFF" strokeWidth="2.6" strokeLinecap="round"
-        />
-
-        {/* Floor vent glow */}
-        <ellipse
-          className="v-crater-glow"
-          cx="300" cy="230" rx="20" ry="8"
-          fill="url(#vCraterGlow)"
-        />
-
-        {/* Plume stem */}
-        <line
-          className="v-stem"
-          x1="300" y1="207" x2="300" y2="172"
-          stroke="#86E8FF" strokeWidth="2.6" strokeLinecap="round"
-        />
+        <g className="v-factory-trace-layer v-factory-trace-layer-b">
+          <path className="v-factory-trace v-factory-trace-b" d="M 20 500 H 580 V 520 H 20 Z" />
+          <use href="#vFactoryShape" className="v-factory-trace v-factory-trace-b" />
+          <path className="v-factory-trace v-factory-trace-b" d="M 252 192 L 290 192 M 252 192 L 236 322 M 290 192 L 306 285" />
+          <line className="v-factory-trace v-factory-trace-b" x1="271" y1="192" x2="271" y2="166" />
+        </g>
 
         {/* ── PLUME CLOUD ─────────────────────────────────────────────── */}
         <PlumeCloud />
@@ -342,11 +270,11 @@ function VolcanoIllustration({ svgRef }) {
 export default function HeroSection() {
   const [pointer, setPointer] = useState(DEFAULT_POINTER);
   const [isActive, setIsActive] = useState(false);
-  const volcanoSvgRef = useRef(null);
+  const factorySvgRef = useRef(null);
   const boostTimeoutRef = useRef(null);
   const boostedAnimationsRef = useRef([]);
 
-  const resetVolcanoBoost = useCallback(() => {
+  const resetFactoryBoost = useCallback(() => {
     if (boostTimeoutRef.current !== null) {
       clearTimeout(boostTimeoutRef.current);
       boostTimeoutRef.current = null;
@@ -357,12 +285,12 @@ export default function HeroSection() {
     boostedAnimationsRef.current = [];
   }, []);
 
-  const boostVolcanoAnimations = useCallback(() => {
-    const volcanoSvg = volcanoSvgRef.current;
-    if (!volcanoSvg || typeof volcanoSvg.getAnimations !== 'function') return;
+  const boostFactoryAnimations = useCallback(() => {
+    const factorySvg = factorySvgRef.current;
+    if (!factorySvg || typeof factorySvg.getAnimations !== 'function') return;
 
-    resetVolcanoBoost();
-    const runningAnimations = volcanoSvg
+    resetFactoryBoost();
+    const runningAnimations = factorySvg
       .getAnimations({ subtree: true })
       .filter((animation) => typeof CSSAnimation === 'undefined' || animation instanceof CSSAnimation);
 
@@ -384,9 +312,9 @@ export default function HeroSection() {
       boostedAnimationsRef.current = [];
       boostTimeoutRef.current = null;
     }, BOOST_DURATION_MS);
-  }, [resetVolcanoBoost]);
+  }, [resetFactoryBoost]);
 
-  useEffect(() => () => resetVolcanoBoost(), [resetVolcanoBoost]);
+  useEffect(() => () => resetFactoryBoost(), [resetFactoryBoost]);
 
   const handlePointerMove  = (e) => { setPointer(getPointerState(e)); setIsActive(true); };
   const handlePointerLeave = ()  => { setPointer(DEFAULT_POINTER); setIsActive(false); };
@@ -394,7 +322,7 @@ export default function HeroSection() {
     const p = getPointerState(e);
     setPointer(p);
     setIsActive(true);
-    boostVolcanoAnimations();
+    boostFactoryAnimations();
   };
 
   const heroStyle = useMemo(() => ({
@@ -420,8 +348,8 @@ export default function HeroSection() {
         <div className="hero-atmosphere-stream hero-atmosphere-stream-a absolute inset-0" />
         <div className="hero-atmosphere-stream hero-atmosphere-stream-b absolute inset-0" />
 
-        <div className="hero-volcano-stage">
-          <VolcanoIllustration svgRef={volcanoSvgRef} />
+        <div className="hero-factory-stage">
+          <FactoryIllustration svgRef={factorySvgRef} />
         </div>
 
         <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#081022] to-transparent" />
