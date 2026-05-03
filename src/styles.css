@@ -161,6 +161,78 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   stroke-linejoin: round;
 }
 
+.v-factory-depth-layer {
+  pointer-events: none;
+}
+
+.v-factory-side-plane {
+  fill: url(#vFactorySideFill);
+  mix-blend-mode: multiply;
+}
+
+.v-factory-roof-plane {
+  fill: url(#vFactoryRoofPlaneFill);
+  opacity: 0.72;
+  mix-blend-mode: multiply;
+}
+
+.v-factory-face-sheen {
+  fill: url(#vFactoryFaceSheen);
+  opacity: 0.38;
+  mix-blend-mode: screen;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: vFactorySheenLift 7.4s ease-in-out infinite;
+}
+
+.v-factory-base-depth {
+  fill: url(#vFactoryBaseDepthFill);
+  opacity: 0.72;
+  mix-blend-mode: multiply;
+}
+
+.v-factory-corner-shadow {
+  fill: rgba(1, 8, 21, 0.34);
+  opacity: 0.48;
+  mix-blend-mode: multiply;
+}
+
+.v-factory-panel-ridge {
+  fill: none;
+  stroke: rgba(205, 250, 255, 0.22);
+  stroke-width: 1.15;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 44 26;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 5px rgba(132, 236, 255, 0.18));
+  animation: vFactoryPanelGlide 15s linear infinite;
+}
+
+.v-factory-roof-highlight,
+.v-factory-left-depth,
+.v-factory-right-depth {
+  fill: none;
+  stroke: url(#vFactoryEdgeStroke);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  mix-blend-mode: screen;
+}
+
+.v-factory-roof-highlight {
+  stroke-width: 1.9;
+  stroke-opacity: 0.54;
+  filter: drop-shadow(0 0 8px rgba(142, 238, 255, 0.26));
+  stroke-dasharray: 180 420;
+  animation: vFactoryEdgeGlint 8.6s cubic-bezier(0.38, 0, 0.18, 1) infinite;
+}
+
+.v-factory-left-depth,
+.v-factory-right-depth {
+  stroke-width: 1.45;
+  stroke-opacity: 0.2;
+}
+
 .v-factory-crease {
   stroke: #9ce8ff;
   stroke-width: 1.15;
@@ -170,7 +242,85 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   animation: vCreaseDashFlow 9s linear infinite, vFeatureEdgePulse 5.8s ease-in-out infinite;
 }
 
-.v-pipe-shell { stroke: none; }
+.v-pipe-shell {
+  stroke: none;
+  filter:
+    drop-shadow(0 6px 9px rgba(0, 9, 28, 0.18))
+    drop-shadow(0 0 6px rgba(83, 210, 255, 0.08));
+}
+
+.v-pipe-depth-layer {
+  pointer-events: none;
+}
+
+.v-pipe-cast-shadow {
+  fill: url(#vPipeCastShadowFill);
+  opacity: 0.7;
+  mix-blend-mode: multiply;
+}
+
+.v-pipe-core-shadow {
+  fill: url(#vPipeInnerShadowFill);
+  opacity: 0.76;
+  mix-blend-mode: multiply;
+}
+
+.v-pipe-right-shadow {
+  fill: url(#vPipeRightInnerShadowFill);
+  opacity: 0.76;
+  mix-blend-mode: multiply;
+}
+
+.v-pipe-shadow-facet {
+  fill: url(#vPipeShadowFacetFill);
+  opacity: 0.62;
+  mix-blend-mode: screen;
+}
+
+.v-pipe-edge {
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-opacity: 0.58;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 5px rgba(165, 247, 255, 0.18));
+}
+
+.v-pipe-left-edge { stroke: url(#vPipeLeftEdgeStroke); }
+.v-pipe-right-edge { stroke: url(#vPipeRightEdgeStroke); }
+
+.v-pipe-collar-line {
+  fill: none;
+  stroke: #c9fbff;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-opacity: 0.24;
+  stroke-dasharray: 18 10;
+  mix-blend-mode: screen;
+  animation: vPipeCollarPulse 4.8s ease-in-out infinite;
+}
+
+.v-pipe-flow-line {
+  fill: none;
+  stroke: url(#vPipeFlowStroke);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-opacity: 0.86;
+  stroke-dasharray: 9 13;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 8px rgba(102, 239, 255, 0.4));
+  animation: vPipeFlowRise 3.8s linear infinite, vPipeFlowPulse 4.4s ease-in-out infinite;
+}
+
+.v-pipe-top-edge {
+  fill: none;
+  stroke: #d9feff;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-opacity: 0.38;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 5px rgba(125, 235, 255, 0.22));
+}
 
 .v-pipe-outline {
   fill: none;
@@ -184,10 +334,9 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   fill: url(#vWindowFill);
   stroke: #8de6ff;
   stroke-width: 1.25;
-  stroke-opacity: 0.4;
+  stroke-opacity: 0.48;
   transform-box: fill-box;
   transform-origin: center;
-  filter: drop-shadow(0 0 5px rgba(110, 233, 255, 0.22));
   animation: vDoorGlowPulse 5.8s ease-in-out infinite, vDoorBreathe 8.2s ease-in-out infinite;
 }
 .v-factory-window-b { animation-delay: 1.5s, 2.2s; }
@@ -201,14 +350,36 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
 }
 .v-factory-window-highlight-b { animation-delay: 1.9s; }
 
+.v-factory-window-bevel {
+  fill: none;
+  stroke: url(#vWindowBevelStroke);
+  stroke-width: 1.35;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-opacity: 0.46;
+  mix-blend-mode: screen;
+  animation: vWindowBevelPulse 5.6s ease-in-out infinite;
+}
+.v-factory-window-bevel-b { animation-delay: 1.4s; }
+
+.v-factory-window-grid {
+  fill: none;
+  stroke: #d8fbff;
+  stroke-width: 0.85;
+  stroke-linecap: round;
+  stroke-opacity: 0.16;
+  mix-blend-mode: screen;
+}
+.v-factory-window-grid-b { stroke-opacity: 0.14; }
+
 .v-factory-cutout {
   fill: rgba(222, 233, 247, 0.38);
   transform-box: fill-box;
   transform-origin: center;
-  animation: vSlotShimmer 6.6s ease-in-out infinite, vSlotTwinkle 4.9s ease-in-out infinite;
+  animation: vSlotShimmer 6.6s ease-in-out infinite;
 }
-.v-factory-cutout-b { fill-opacity: 0.34; animation-delay: 1.7s, 0.9s; }
-.v-factory-cutout-c { fill-opacity: 0.32; animation-delay: 3s, 2.4s; }
+.v-factory-cutout-b { fill-opacity: 0.34; animation-delay: 1.7s; }
+.v-factory-cutout-c { fill-opacity: 0.32; animation-delay: 3s; }
 
 .v-factory-cutout-highlight {
   fill: none;
@@ -220,17 +391,23 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
 .v-factory-cutout-highlight-b { animation-delay: 1.2s; }
 .v-factory-cutout-highlight-c { animation-delay: 2.3s; }
 
+.v-factory-cutout-bevel {
+  fill: none;
+  stroke: #f1feff;
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-opacity: 0.24;
+  mix-blend-mode: screen;
+  animation: vWindowBevelPulse 5.2s ease-in-out infinite;
+}
+.v-factory-cutout-bevel-b { animation-delay: 1.2s; }
+.v-factory-cutout-bevel-c { animation-delay: 2s; }
+
 .v-pipe-link {
   stroke: #91ecff;
   stroke-width: 2.2;
   stroke-linecap: round;
   stroke-opacity: 0.8;
-}
-
-.v-pipe-glow {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: vCoreGlowPulse 4s ease-in-out infinite;
 }
 
 .v-factory-trace-layer {
@@ -282,23 +459,62 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   transform-box: fill-box;
   transform-origin: center;
   mix-blend-mode: screen;
+  opacity: 0.82;
   animation: vCoreGlowPulse 5.4s ease-in-out infinite;
 }
 
 /* ──────────────────────────────────────────────────
    Chart internals
 ────────────────────────────────────────────────── */
+.v-graph-grid {
+  opacity: 0.34;
+  mix-blend-mode: screen;
+}
+.v-graph-grid line {
+  stroke: rgba(191, 247, 255, 0.36);
+  stroke-width: 0.9;
+  stroke-linecap: round;
+  stroke-dasharray: 2 12;
+  animation: vGraphGridFlow 18s linear infinite, vGraphGridPulse 7s ease-in-out infinite;
+}
+
+.v-graph-halo-line {
+  fill: none;
+  stroke: url(#vGraphStroke);
+  stroke-width: 12;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-opacity: 0.18;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 15px rgba(86, 226, 255, 0.44));
+  animation: vGraphHaloPulse 5.4s ease-in-out infinite;
+}
+
+.v-graph-halo-bars {
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 15px rgba(75, 221, 255, 0.4));
+  opacity: 0.34;
+  animation: vGraphHaloPulse 4.8s ease-in-out infinite;
+}
+.v-graph-halo-bars line {
+  stroke: url(#vGraphColumnGlow);
+  stroke-width: 13;
+  stroke-linecap: round;
+  stroke-opacity: 0.42;
+}
+
 .v-plume-baseline {
-  stroke: #48cdf4;
+  stroke: url(#vGraphColumnGlow);
   stroke-width: 3.2;
   stroke-linecap: round;
   stroke-opacity: 0.92;
   stroke-dasharray: 16 12;
+  filter: drop-shadow(0 0 8px rgba(84, 226, 255, 0.28));
   animation: vPlumeBaselineFlow 13s linear infinite;
 }
 
 .v-plume-side-link {
-  stroke: #7cdfff;
+  stroke: url(#vGraphStroke);
   stroke-width: 3.8;
   stroke-linecap: round;
   stroke-opacity: 0.56;
@@ -308,11 +524,12 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
 .v-plume-side-link-b { stroke-opacity: 0.62; }
 
 .v-bar {
-  stroke: #49cff6;
+  stroke: url(#vGraphColumnGlow);
   stroke-width: 4.8;
   stroke-linecap: round;
   stroke-opacity: 0.66;
   stroke-dasharray: 12 10;
+  filter: drop-shadow(0 0 8px rgba(102, 240, 255, 0.34));
   animation: vBarPulse 3.6s ease-in-out infinite, vBarDashFlow 12s linear infinite;
   animation-delay: 0s, 0s;
 }
@@ -325,20 +542,44 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
 
 .v-trend {
   fill: none;
-  stroke: #33c4f3;
+  stroke: url(#vGraphStroke);
   stroke-width: 4.8;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-opacity: 0.92;
   stroke-dasharray: 18 12;
+  filter: drop-shadow(0 0 9px rgba(128, 244, 255, 0.42));
   animation: vTrendPulse 4s ease-in-out infinite, vTrendDashFlow 11s linear infinite;
 }
 
+.v-graph-sheen {
+  fill: none;
+  stroke: #f7feff;
+  stroke-width: 2.15;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-opacity: 0.82;
+  stroke-dasharray: 18 292;
+  stroke-dashoffset: 310;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 9px rgba(233, 254, 255, 0.68));
+  animation: vGraphSheenFlow 5.2s cubic-bezier(0.5, 0, 0.18, 1) infinite;
+}
+.v-graph-sheen-arrow {
+  stroke-width: 1.7;
+  stroke-dasharray: 6 42;
+  animation-duration: 4.6s;
+}
+
 .v-plume-trend-arrow {
+  stroke: #e9feff;
   stroke-width: 4.2;
   stroke-dasharray: none;
   stroke-linejoin: round;
   stroke-linecap: round;
+  filter:
+    drop-shadow(0 0 8px rgba(245, 252, 255, 0.62))
+    drop-shadow(0 0 14px rgba(73, 209, 255, 0.2));
   animation: vTrendPulse 4s ease-in-out infinite;
 }
 .v-plume-trend-out {
@@ -351,7 +592,10 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
 .v-node {
   transform-box: fill-box;
   transform-origin: center;
-  filter: drop-shadow(0 0 9px rgba(121, 231, 255, 0.5));
+  fill: #c9fbff;
+  filter:
+    drop-shadow(0 0 7px rgba(121, 231, 255, 0.62))
+    drop-shadow(0 0 14px rgba(73, 209, 255, 0.24));
   animation: vNodePulse 4s ease-in-out infinite;
 }
 .v-node-b { animation-delay: 1.6s; }
@@ -359,10 +603,37 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
 .v-node-orange {
   transform-box: fill-box;
   transform-origin: center;
-  filter: drop-shadow(0 0 10px rgba(121, 231, 255, 0.62));
+  fill: #e9feff;
+  filter:
+    drop-shadow(0 0 8px rgba(245, 252, 255, 0.74))
+    drop-shadow(0 0 18px rgba(255, 207, 124, 0.28));
   animation: vOrangePulse 4.4s ease-in-out infinite;
 }
 .v-node-orange-b { animation-delay: 1.7s; }
+
+.v-node-ring {
+  fill: none;
+  stroke: url(#vGraphStroke);
+  stroke-width: 1.6;
+  stroke-opacity: 0.58;
+  transform-box: fill-box;
+  transform-origin: center;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 10px rgba(149, 247, 255, 0.5));
+  animation: vNodeRingPulse 4.4s ease-in-out infinite;
+}
+.v-node-ring-b { animation-delay: 1.7s; }
+
+.v-node-spark {
+  fill: #ffffff;
+  opacity: 0.86;
+  transform-box: fill-box;
+  transform-origin: center;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 9px rgba(255, 255, 255, 0.82));
+  animation: vNodeSpark 3.6s ease-in-out infinite;
+}
+.v-node-spark-b { animation-delay: 1.4s; }
 
 /* ──────────────────────────────────────────────────
    Waves
@@ -413,18 +684,57 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   0%, 100% { opacity: 0.24; }
   50%       { opacity: 0.68; }
 }
+@keyframes vFactorySheenLift {
+  0%, 100% {
+    opacity: 0.36;
+    transform: translateY(2px);
+  }
+  50% {
+    opacity: 0.72;
+    transform: translateY(-1px);
+  }
+}
+@keyframes vFactoryPanelGlide {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -140; }
+}
+@keyframes vFactoryEdgeGlint {
+  0%, 18% {
+    stroke-dashoffset: 360;
+    stroke-opacity: 0.18;
+  }
+  42% {
+    stroke-opacity: 0.62;
+  }
+  72%, 100% {
+    stroke-dashoffset: -220;
+    stroke-opacity: 0.2;
+  }
+}
 @keyframes vCreaseDashFlow {
   from { stroke-dashoffset: 0; }
   to   { stroke-dashoffset: -112; }
 }
+@keyframes vPipeCollarPulse {
+  0%, 100% { stroke-opacity: 0.14; }
+  50%       { stroke-opacity: 0.36; }
+}
+@keyframes vPipeFlowRise {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -88; }
+}
+@keyframes vPipeFlowPulse {
+  0%, 100% { opacity: 0.44; }
+  50%       { opacity: 1; }
+}
 @keyframes vDoorGlowPulse {
   0%, 100% {
-    opacity: 0.74;
-    filter: drop-shadow(0 0 4px rgba(110, 233, 255, 0.2));
+    opacity: 0.82;
+    stroke-opacity: 0.34;
   }
   50% {
     opacity: 1;
-    filter: drop-shadow(0 0 9px rgba(146, 244, 255, 0.42));
+    stroke-opacity: 0.58;
   }
 }
 @keyframes vDoorBreathe {
@@ -437,6 +747,10 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
     stroke-opacity: 0.56;
   }
 }
+@keyframes vWindowBevelPulse {
+  0%, 100% { stroke-opacity: 0.18; }
+  50%       { stroke-opacity: 0.58; }
+}
 @keyframes vSlotShimmer {
   0%, 100% {
     opacity: 0.34;
@@ -445,14 +759,6 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   50% {
     opacity: 0.58;
     transform: translateY(-1.2px);
-  }
-}
-@keyframes vSlotTwinkle {
-  0%, 100% {
-    filter: drop-shadow(0 0 0 rgba(207, 244, 255, 0));
-  }
-  50% {
-    filter: drop-shadow(0 0 6px rgba(207, 244, 255, 0.22));
   }
 }
 @keyframes vFeatureEdgePulse {
@@ -466,6 +772,22 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
 @keyframes vCoreGlowPulse {
   0%, 100% { opacity: 0.45; transform: scale(0.86); }
   50%       { opacity: 1;   transform: scale(1.16); }
+}
+@keyframes vGraphGridFlow {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -84; }
+}
+@keyframes vGraphGridPulse {
+  0%, 100% { opacity: 0.18; }
+  50%       { opacity: 0.52; }
+}
+@keyframes vGraphHaloPulse {
+  0%, 100% { opacity: 0.18; }
+  50%       { opacity: 0.48; }
+}
+@keyframes vGraphSheenFlow {
+  from { stroke-dashoffset: 310; }
+  to   { stroke-dashoffset: -310; }
 }
 @keyframes vPlumeBaselineFlow {
   from { stroke-dashoffset: 0; }
@@ -498,6 +820,33 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
 @keyframes vOrangePulse {
   0%, 100% { transform: scale(0.85); opacity: 0.68; }
   50%       { transform: scale(1.18); opacity: 1.00; }
+}
+@keyframes vNodeRingPulse {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.86);
+    stroke-opacity: 0.18;
+  }
+  42% {
+    opacity: 0.78;
+    transform: scale(1.08);
+    stroke-opacity: 0.66;
+  }
+  72% {
+    opacity: 0;
+    transform: scale(1.28);
+    stroke-opacity: 0;
+  }
+}
+@keyframes vNodeSpark {
+  0%, 100% {
+    opacity: 0.22;
+    transform: scale(0.62);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.18);
+  }
 }
 @keyframes vWaveFlow {
   from { stroke-dashoffset: 0;    }
@@ -556,22 +905,34 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   .v-aura,
   .v-factory-footing,
   .v-factory-shell,
+  .v-factory-face-sheen,
+  .v-factory-panel-ridge,
+  .v-factory-roof-highlight,
   .v-factory-crease,
+  .v-pipe-collar-line,
+  .v-pipe-flow-line,
   .v-pipe-outline,
   .v-factory-window,
   .v-factory-window-highlight,
+  .v-factory-window-bevel,
   .v-factory-cutout,
   .v-factory-cutout-highlight,
+  .v-factory-cutout-bevel,
   .v-pipe-link,
-  .v-pipe-glow,
   .v-factory-trace,
   .v-plume-shell-highlight,
   .v-plume-core,
+  .v-graph-grid line,
+  .v-graph-halo-line,
+  .v-graph-halo-bars,
+  .v-graph-sheen,
   .v-plume-baseline,
   .v-plume-side-link,
   .v-bar,
   .v-trend,
   .v-node,
+  .v-node-ring,
+  .v-node-spark,
   .v-node-orange,
   .v-wave {
     animation: none !important;
