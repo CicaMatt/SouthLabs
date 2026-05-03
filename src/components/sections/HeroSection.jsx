@@ -316,9 +316,14 @@ export default function HeroSection() {
 
   useEffect(() => () => resetFactoryBoost(), [resetFactoryBoost]);
 
-  const handlePointerMove  = (e) => { setPointer(getPointerState(e)); setIsActive(true); };
+  const handlePointerMove  = (e) => {
+    if (e.pointerType === 'touch') return;
+    setPointer(getPointerState(e));
+    setIsActive(true);
+  };
   const handlePointerLeave = ()  => { setPointer(DEFAULT_POINTER); setIsActive(false); };
   const handlePointerDown  = (e) => {
+    if (e.pointerType === 'touch') return;
     const p = getPointerState(e);
     setPointer(p);
     setIsActive(true);

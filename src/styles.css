@@ -407,7 +407,7 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
 }
 @keyframes vFactoryTraceFlowReverse {
   from { stroke-dashoffset: 0; }
-  to   { stroke-dashoffset: 200; }
+  to   { stroke-dashoffset: 196; }
 }
 @keyframes vFactoryTracePulse {
   0%, 100% { opacity: 0.24; }
@@ -415,7 +415,7 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
 }
 @keyframes vCreaseDashFlow {
   from { stroke-dashoffset: 0; }
-  to   { stroke-dashoffset: -120; }
+  to   { stroke-dashoffset: -112; }
 }
 @keyframes vDoorGlowPulse {
   0%, 100% {

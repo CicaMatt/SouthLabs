@@ -9,7 +9,7 @@ export default function SupportSection() {
     <section className="py-24 bg-tertiary text-on-tertiary" id="manutenzione-supporto">
       <div className="max-w-7xl mx-auto px-8 flex flex-col md:flex-row gap-16 items-center">
         <div className="flex-1">
-          <h2 className="font-headline text-3xl md:text-4xl tracking-tight mb-6">Supporto e Formazione Continua</h2>
+          <h2 className="font-headline text-3xl md:text-4xl tracking-tight mb-6">Supporto e Formazione</h2>
           <p className="font-body text-on-tertiary/80 text-lg mb-8 leading-relaxed">
             Il nostro impegno non termina con la consegna. Forniamo piani di assistenza mensile e formazione specifica per rendere il tuo team autonomo sull'utilizzo dei tuoi nuovi strumenti digitali.
           </p>

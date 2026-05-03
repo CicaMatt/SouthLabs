@@ -1,8 +1,7 @@
 const footerLinks = ['Privacy Policy', 'Termini di Servizio'];
 const socialLinks = [
   { href: 'https://www.facebook.com', label: 'Facebook' },
-  { href: 'https://www.instagram.com', label: 'Instagram' },
-  { href: 'https://www.tiktok.com', label: 'TikTok' }
+  { href: 'https://www.instagram.com', label: 'Instagram' }
 ];
 
 export default function Footer() {
