@@ -168,8 +168,8 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
 }
 
 .v-factory-side-plane {
-  fill: #1e638f;
-  opacity: 0.74;
+  fill: url(#vFactorySidePlaneFill);
+  opacity: 0.76;
   mix-blend-mode: normal;
 }
 
@@ -177,6 +177,27 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   fill: url(#vFactoryRoofPlaneFill);
   opacity: 0.72;
   mix-blend-mode: multiply;
+}
+
+.v-factory-roof-upper-shade {
+  fill: url(#vFactoryRoofUpperShadeFill);
+  opacity: 0.50;
+  mix-blend-mode: normal;
+  filter: url(#vFactorySoftShadeBlur);
+}
+
+.v-factory-roof-upper-light {
+  fill: url(#vFactoryRoofUpperLightFill);
+  opacity: 0.36;
+  mix-blend-mode: screen;
+  filter: url(#vFactorySoftLightBlur);
+}
+
+.v-factory-roof-light-plane {
+  fill: url(#vFactoryRoofRightLightFill);
+  opacity: 0.28;
+  mix-blend-mode: screen;
+  filter: url(#vFactorySoftLightBlur);
 }
 
 .v-factory-face-sheen {
@@ -190,20 +211,42 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
 
 .v-factory-base-depth {
   fill: url(#vFactoryBaseDepthFill);
-  opacity: 0.72;
+  opacity: 0.58;
   mix-blend-mode: multiply;
 }
 
 .v-factory-left-shade {
-  fill: #185a86;
-  opacity: 0.46;
+  fill: url(#vFactoryLeftShadeFill);
+  opacity: 0.62;
   mix-blend-mode: normal;
 }
 
-.v-factory-corner-shadow {
-  fill: rgba(1, 8, 21, 0.34);
-  opacity: 0.36;
+.v-factory-left-inner-shadow {
+  fill: url(#vFactoryLeftOcclusionFill);
+  opacity: 0.52;
   mix-blend-mode: multiply;
+  filter: url(#vFactorySoftShadeBlur);
+}
+
+.v-factory-left-reflected-light {
+  fill: url(#vFactoryLeftRimFill);
+  opacity: 0.30;
+  mix-blend-mode: screen;
+  filter: url(#vFactorySoftLightBlur);
+}
+
+.v-factory-right-inner-shadow {
+  fill: url(#vFactoryRightInnerShadeFill);
+  opacity: 0.38;
+  mix-blend-mode: multiply;
+  filter: url(#vFactorySoftShadeBlur);
+}
+
+.v-factory-right-light-wash {
+  fill: url(#vFactoryRightLightWashFill);
+  opacity: 0.44;
+  mix-blend-mode: screen;
+  filter: url(#vFactorySoftLightBlur);
 }
 
 .v-factory-panel-ridge,
@@ -270,37 +313,38 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
 
 .v-pipe-shell {
   stroke: none;
-  filter:
-    drop-shadow(0 6px 9px rgba(0, 9, 28, 0.18))
-    drop-shadow(0 0 6px rgba(83, 210, 255, 0.08));
+  filter: drop-shadow(0 0 7px rgba(83, 210, 255, 0.08));
 }
 
 .v-pipe-depth-layer {
   pointer-events: none;
 }
 
-.v-pipe-cast-shadow {
-  fill: url(#vPipeCastShadowFill);
-  opacity: 0.7;
+.v-pipe-body-depth {
+  fill: url(#vPipeBodyDepthFill);
+  opacity: 0.64;
   mix-blend-mode: multiply;
 }
 
-.v-pipe-core-shadow {
-  fill: url(#vPipeInnerShadowFill);
-  opacity: 0.76;
+.v-pipe-left-occlusion {
+  fill: url(#vPipeLeftOcclusionFill);
+  opacity: 0.54;
   mix-blend-mode: multiply;
+  filter: url(#vPipeSoftShadeBlur);
 }
 
-.v-pipe-right-shadow {
-  fill: url(#vPipeRightInnerShadowFill);
-  opacity: 0.76;
-  mix-blend-mode: multiply;
-}
-
-.v-pipe-shadow-facet {
-  fill: url(#vPipeShadowFacetFill);
-  opacity: 0.62;
+.v-pipe-right-light {
+  fill: url(#vPipeRightLightWashFill);
+  opacity: 0.50;
   mix-blend-mode: screen;
+  filter: url(#vPipeSoftLightBlur);
+}
+
+.v-pipe-top-light {
+  fill: url(#vPipeTopLightFill);
+  opacity: 0.38;
+  mix-blend-mode: screen;
+  filter: url(#vPipeSoftLightBlur);
 }
 
 .v-pipe-edge {
@@ -335,7 +379,7 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   stroke-dasharray: 9 13;
   mix-blend-mode: screen;
   filter: drop-shadow(0 0 8px rgba(102, 239, 255, 0.4));
-  animation: vPipeFlowRise 3.8s linear infinite, vPipeFlowPulse 4.4s ease-in-out infinite;
+  animation: vPipeFlowDescend 3.8s linear infinite, vPipeFlowPulse 4.4s ease-in-out infinite;
 }
 
 .v-pipe-top-edge {
@@ -363,18 +407,14 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   stroke-opacity: 0.48;
   transform-box: fill-box;
   transform-origin: center;
-  animation: vDoorGlowPulse 5.8s ease-in-out infinite, vDoorBreathe 8.2s ease-in-out infinite;
 }
-.v-factory-window-b { animation-delay: 1.5s, 2.2s; }
 
 .v-factory-window-highlight {
   fill: none;
   stroke: #d3fbff;
   stroke-width: 0.95;
   stroke-opacity: 0.26;
-  animation: vFeatureEdgePulse 5.2s ease-in-out infinite;
 }
-.v-factory-window-highlight-b { animation-delay: 1.9s; }
 
 .v-factory-window-bevel {
   fill: none;
@@ -384,38 +424,22 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   stroke-linejoin: round;
   stroke-opacity: 0.46;
   mix-blend-mode: screen;
-  animation: vWindowBevelPulse 5.6s ease-in-out infinite;
 }
-.v-factory-window-bevel-b { animation-delay: 1.4s; }
-
-.v-factory-window-grid {
-  fill: none;
-  stroke: #d8fbff;
-  stroke-width: 0.85;
-  stroke-linecap: round;
-  stroke-opacity: 0.16;
-  mix-blend-mode: screen;
-}
-.v-factory-window-grid-b { stroke-opacity: 0.14; }
 
 .v-factory-cutout {
   fill: rgba(222, 233, 247, 0.38);
   transform-box: fill-box;
   transform-origin: center;
-  animation: vSlotShimmer 6.6s ease-in-out infinite;
 }
-.v-factory-cutout-b { fill-opacity: 0.34; animation-delay: 1.7s; }
-.v-factory-cutout-c { fill-opacity: 0.32; animation-delay: 3s; }
+.v-factory-cutout-b { fill-opacity: 0.34; }
+.v-factory-cutout-c { fill-opacity: 0.32; }
 
 .v-factory-cutout-highlight {
   fill: none;
   stroke: #eefbff;
   stroke-width: 0.85;
   stroke-opacity: 0.2;
-  animation: vFeatureEdgePulse 4.8s ease-in-out infinite;
 }
-.v-factory-cutout-highlight-b { animation-delay: 1.2s; }
-.v-factory-cutout-highlight-c { animation-delay: 2.3s; }
 
 .v-factory-cutout-bevel {
   fill: none;
@@ -424,10 +448,7 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   stroke-linecap: round;
   stroke-opacity: 0.24;
   mix-blend-mode: screen;
-  animation: vWindowBevelPulse 5.2s ease-in-out infinite;
 }
-.v-factory-cutout-bevel-b { animation-delay: 1.2s; }
-.v-factory-cutout-bevel-c { animation-delay: 2s; }
 
 .v-pipe-link {
   stroke: #91ecff;
@@ -745,47 +766,13 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   0%, 100% { stroke-opacity: 0.14; }
   50%       { stroke-opacity: 0.36; }
 }
-@keyframes vPipeFlowRise {
+@keyframes vPipeFlowDescend {
   from { stroke-dashoffset: 0; }
-  to   { stroke-dashoffset: -88; }
+  to   { stroke-dashoffset: 88; }
 }
 @keyframes vPipeFlowPulse {
   0%, 100% { opacity: 0.44; }
   50%       { opacity: 1; }
-}
-@keyframes vDoorGlowPulse {
-  0%, 100% {
-    opacity: 0.82;
-    stroke-opacity: 0.34;
-  }
-  50% {
-    opacity: 1;
-    stroke-opacity: 0.58;
-  }
-}
-@keyframes vDoorBreathe {
-  0%, 100% {
-    transform: translateY(0) scale(1);
-    stroke-opacity: 0.34;
-  }
-  50% {
-    transform: translateY(-0.8px) scale(1.012);
-    stroke-opacity: 0.56;
-  }
-}
-@keyframes vWindowBevelPulse {
-  0%, 100% { stroke-opacity: 0.18; }
-  50%       { stroke-opacity: 0.58; }
-}
-@keyframes vSlotShimmer {
-  0%, 100% {
-    opacity: 0.34;
-    transform: translateY(0);
-  }
-  50% {
-    opacity: 0.58;
-    transform: translateY(-1.2px);
-  }
 }
 @keyframes vFeatureEdgePulse {
   0%, 100% {
