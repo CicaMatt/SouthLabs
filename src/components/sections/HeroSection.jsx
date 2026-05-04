@@ -116,11 +116,6 @@ function FactoryIllustration({ svgRef }) {
           <stop offset="76%" stopColor="#0C376D" stopOpacity="0.56" />
           <stop offset="100%" stopColor="#071B3D" stopOpacity="0.60" />
         </linearGradient>
-        <linearGradient id="vFactorySideFill" x1="380" y1="264" x2="494" y2="500" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#1C6EA2" stopOpacity="0.12" />
-          <stop offset="58%" stopColor="#082D5D" stopOpacity="0.24" />
-          <stop offset="100%" stopColor="#020A1C" stopOpacity="0.36" />
-        </linearGradient>
         <linearGradient id="vFactoryFaceSheen" x1="90" y1="434" x2="480" y2="288" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0" />
           <stop offset="42%" stopColor="#A8F2FF" stopOpacity="0.14" />
@@ -305,16 +300,15 @@ function FactoryIllustration({ svgRef }) {
         <use href="#vFactoryShape" fill="url(#vFactoryFill)" className="v-factory-shell" />
 
         <g clipPath="url(#vFactoryClip)" className="v-factory-depth-layer">
-          <path className="v-factory-side-plane" d="M 380 264 L 494 337 V 500 H 380 Z" />
           <path className="v-factory-roof-plane" d="M 104 402 L 380 264 L 494 337 L 494 355 L 380 282 L 104 417 Z" />
           <path
             className="v-factory-face-sheen"
             d="
               M 122 414 L 244 353 L 244 364 L 122 425 Z
-              M 410 407 L 466 443 L 466 451 L 410 415 Z
             "
           />
           <path className="v-factory-base-depth" d="M 104 452 L 494 452 V 500 H 104 Z" />
+          <path className="v-factory-left-shade" d="M 104 417 L 380 282 V 500 H 104 Z" />
           <path
             className="v-factory-corner-shadow"
             d="
@@ -322,6 +316,7 @@ function FactoryIllustration({ svgRef }) {
               M 456 330.7 L 488 351.2 V 500 H 456 Z
             "
           />
+          <path className="v-factory-side-plane" d="M 380 282 L 494 355 V 500 H 380 Z" />
           <path className="v-factory-roof-highlight" d="M 104 402 L 380 264 L 494 337" />
           <path className="v-factory-left-depth" d="M 104 417 L 380 282" />
           <path className="v-factory-right-depth" d="M 380 282 L 494 355" />

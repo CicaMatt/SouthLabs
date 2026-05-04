@@ -168,8 +168,9 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
 }
 
 .v-factory-side-plane {
-  fill: url(#vFactorySideFill);
-  mix-blend-mode: multiply;
+  fill: #1e638f;
+  opacity: 0.74;
+  mix-blend-mode: normal;
 }
 
 .v-factory-roof-plane {
@@ -191,6 +192,12 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   fill: url(#vFactoryBaseDepthFill);
   opacity: 0.72;
   mix-blend-mode: multiply;
+}
+
+.v-factory-left-shade {
+  fill: #185a86;
+  opacity: 0.46;
+  mix-blend-mode: normal;
 }
 
 .v-factory-corner-shadow {
