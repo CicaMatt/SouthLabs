@@ -110,7 +110,7 @@ function FactoryIllustration({ svgRef }) {
       className="v-svg"
     >
       <defs>
-        <linearGradient id="vFactoryFill" x1="104" y1="256" x2="494" y2="500" gradientUnits="userSpaceOnUse">
+        <linearGradient id="vFactoryFill" x1="126" y1="256" x2="494" y2="500" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#0A2550" stopOpacity="0.60" />
           <stop offset="42%" stopColor="#0E437F" stopOpacity="0.48" />
           <stop offset="76%" stopColor="#0C376D" stopOpacity="0.56" />
@@ -122,7 +122,7 @@ function FactoryIllustration({ svgRef }) {
           <stop offset="58%" stopColor="#FFFFFF" stopOpacity="0.03" />
           <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
         </linearGradient>
-        <linearGradient id="vFactoryLeftShadeFill" x1="104" y1="500" x2="380" y2="282" gradientUnits="userSpaceOnUse">
+        <linearGradient id="vFactoryLeftShadeFill" x1="126" y1="500" x2="380" y2="282" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#020817" stopOpacity="0.64" />
           <stop offset="16%" stopColor="#031126" stopOpacity="0.58" />
           <stop offset="34%" stopColor="#06214A" stopOpacity="0.49" />
@@ -131,7 +131,7 @@ function FactoryIllustration({ svgRef }) {
           <stop offset="86%" stopColor="#3FAED0" stopOpacity="0.20" />
           <stop offset="100%" stopColor="#91F1FF" stopOpacity="0.11" />
         </linearGradient>
-        <linearGradient id="vFactoryLeftOcclusionFill" x1="104" y1="470" x2="304" y2="352" gradientUnits="userSpaceOnUse">
+        <linearGradient id="vFactoryLeftOcclusionFill" x1="126" y1="470" x2="304" y2="352" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#010611" stopOpacity="0.46" />
           <stop offset="24%" stopColor="#020C1D" stopOpacity="0.36" />
           <stop offset="48%" stopColor="#041833" stopOpacity="0.23" />
@@ -170,7 +170,7 @@ function FactoryIllustration({ svgRef }) {
           <stop offset="84%" stopColor="#C5FBFF" stopOpacity="0.22" />
           <stop offset="100%" stopColor="#F2FFFF" stopOpacity="0.29" />
         </linearGradient>
-        <linearGradient id="vFactoryRoofUpperShadeFill" x1="104" y1="417" x2="494" y2="337" gradientUnits="userSpaceOnUse">
+        <linearGradient id="vFactoryRoofUpperShadeFill" x1="126" y1="406" x2="494" y2="337" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#010817" stopOpacity="0.20" />
           <stop offset="28%" stopColor="#052044" stopOpacity="0.14" />
           <stop offset="56%" stopColor="#12618A" stopOpacity="0.05" />
@@ -203,12 +203,12 @@ function FactoryIllustration({ svgRef }) {
           <stop offset="76%" stopColor="#03162F" stopOpacity="0.22" />
           <stop offset="100%" stopColor="#010614" stopOpacity="0.40" />
         </linearGradient>
-        <linearGradient id="vFactoryRoofPlaneFill" x1="104" y1="412" x2="494" y2="337" gradientUnits="userSpaceOnUse">
+        <linearGradient id="vFactoryRoofPlaneFill" x1="126" y1="401" x2="494" y2="337" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#020A1A" stopOpacity="0.10" />
           <stop offset="50%" stopColor="#0B315F" stopOpacity="0.22" />
           <stop offset="100%" stopColor="#020918" stopOpacity="0.32" />
         </linearGradient>
-        <linearGradient id="vFactoryEdgeStroke" x1="104" y1="412" x2="494" y2="337" gradientUnits="userSpaceOnUse">
+        <linearGradient id="vFactoryEdgeStroke" x1="126" y1="401" x2="494" y2="337" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#6EE4FF" stopOpacity="0.08" />
           <stop offset="42%" stopColor="#DBFDFF" stopOpacity="0.54" />
           <stop offset="100%" stopColor="#7DEBFF" stopOpacity="0.18" />
@@ -264,7 +264,7 @@ function FactoryIllustration({ svgRef }) {
           <stop offset="58%" stopColor="#58DFFF" stopOpacity="0.22" />
           <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
         </linearGradient>
-        <linearGradient id="vFootingFill" x1="54" y1="500" x2="544" y2="520" gradientUnits="userSpaceOnUse">
+        <linearGradient id="vFootingFill" x1="76" y1="500" x2="544" y2="520" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#0A2D62" stopOpacity="0.58" />
           <stop offset="50%" stopColor="#0E4A92" stopOpacity="0.46" />
           <stop offset="100%" stopColor="#0A2D62" stopOpacity="0.58" />
@@ -281,8 +281,8 @@ function FactoryIllustration({ svgRef }) {
         <path
           id="vFactoryShape"
           d="
-            M 104 500
-            L 104 402
+            M 126 500
+            L 126 391
             L 380 264
             L 494 337
             L 494 500
@@ -309,7 +309,7 @@ function FactoryIllustration({ svgRef }) {
         <radialGradient
           id="vAura"
           cx="0" cy="0" r="1"
-          gradientTransform="translate(299 500) scale(245 52)"
+          gradientTransform="translate(310 500) scale(234 52)"
           gradientUnits="userSpaceOnUse"
         >
           <stop offset="0%"   stopColor="#2ABAEE" stopOpacity="0.22" />
@@ -379,34 +379,34 @@ function FactoryIllustration({ svgRef }) {
       </defs>
 
       {/* ── BASE AURA ─────────────────────────────────────────────────────── */}
-      <ellipse cx="299" cy="500" rx="245" ry="52" fill="url(#vAura)" className="v-aura" />
+      <ellipse cx="310" cy="500" rx="234" ry="52" fill="url(#vAura)" className="v-aura" />
 
       {/* ── FLOATING GROUP ────────────────────────────────────────────────── */}
       <g className="v-float-group">
-        <path d="M 54 500 H 544 V 520 H 54 Z" fill="url(#vFootingFill)" className="v-factory-footing" />
+        <path d="M 76 500 H 544 V 520 H 76 Z" fill="url(#vFootingFill)" className="v-factory-footing" />
 
         <use href="#vFactoryShape" fill="url(#vFactoryFill)" className="v-factory-shell" />
 
         <g clipPath="url(#vFactoryClip)" className="v-factory-depth-layer">
-          <path className="v-factory-roof-plane" d="M 104 402 L 380 264 L 494 337 L 494 355 L 380 282 L 104 417 Z" />
-          <path className="v-factory-roof-upper-shade" d="M 104 402 L 380 264 L 494 337 L 494 355 L 380 282 L 104 417 Z" />
+          <path className="v-factory-roof-plane" d="M 126 391 L 380 264 L 494 337 L 494 355 L 380 282 L 126 406 Z" />
+          <path className="v-factory-roof-upper-shade" d="M 126 391 L 380 264 L 494 337 L 494 355 L 380 282 L 126 406 Z" />
           <path className="v-factory-roof-upper-light" d="M 308 300 L 380 264 L 494 337 L 494 355 L 406 300 Z" />
           <path className="v-factory-roof-light-plane" d="M 346 281 L 380 264 L 494 337 L 494 355 L 420 308 Z" />
           <path
             className="v-factory-face-sheen"
             d="
-              M 122 414 L 244 353 L 244 364 L 122 425 Z
+              M 144 403 L 244 353 L 244 364 L 144 414 Z
             "
           />
-          <path className="v-factory-base-depth" d="M 104 402 L 380 264 L 494 337 V 532 H 104 Z" />
-          <path className="v-factory-left-shade" d="M 104 417 L 380 282 V 532 H 104 Z" />
-          <path className="v-factory-left-inner-shadow" d="M 104 417 L 230 355 L 204 532 H 104 Z" />
+          <path className="v-factory-base-depth" d="M 126 391 L 380 264 L 494 337 V 532 H 126 Z" />
+          <path className="v-factory-left-shade" d="M 126 406 L 380 282 V 532 H 126 Z" />
+          <path className="v-factory-left-inner-shadow" d="M 126 406 L 252 355 L 226 532 H 126 Z" />
           <path className="v-factory-left-reflected-light" d="M 320 311 L 408 294 V 532 H 344 Z" />
           <path className="v-factory-side-plane" d="M 380 282 L 494 355 V 532 H 380 Z" />
           <path className="v-factory-right-inner-shadow" d="M 368 274 L 434 316 V 532 H 368 Z" />
           <path className="v-factory-right-light-wash" d="M 420 308 L 494 355 V 532 H 448 Z" />
-          <path className="v-factory-roof-highlight" d="M 104 402 L 380 264 L 494 337" />
-          <path className="v-factory-left-depth" d="M 104 417 L 380 282" />
+          <path className="v-factory-roof-highlight" d="M 126 391 L 380 264 L 494 337" />
+          <path className="v-factory-left-depth" d="M 126 406 L 380 282" />
           <path className="v-factory-right-depth" d="M 380 282 L 494 355" />
         </g>
 
@@ -426,36 +426,40 @@ function FactoryIllustration({ svgRef }) {
         <path className="v-pipe-top-edge" d="M 252 210 H 290" />
         <path className="v-pipe-outline" d="M 252 210 L 290 210 M 252 210 L 236 336 M 290 210 L 306 301" />
 
-        <path className="v-factory-window" d="M 132 430 L 188 402 L 188 500 H 132 Z" />
+        <g className="v-factory-left-door-group" transform="translate(22 0)">
+          <path className="v-factory-window" d="M 132 430 L 188 402 L 188 500 H 132 Z" />
+          <path className="v-factory-window-highlight" d="M 132 430 L 188 402 L 188 500 H 132 Z" />
+          <path className="v-factory-window-bevel" d="M 132 430 L 188 402 M 188 402 V 500 M 132 500 H 188" />
+        </g>
         <path className="v-factory-window v-factory-window-b" d="M 410 420 L 466 456 V 500 H 410 Z" />
-        <path className="v-factory-window-highlight" d="M 132 430 L 188 402 L 188 500 H 132 Z" />
         <path className="v-factory-window-highlight v-factory-window-highlight-b" d="M 410 420 L 466 456 V 500 H 410 Z" />
-        <path className="v-factory-window-bevel" d="M 132 430 L 188 402 M 188 402 V 500 M 132 500 H 188" />
         <path className="v-factory-window-bevel v-factory-window-bevel-b" d="M 410 420 L 466 456 M 466 456 V 500 M 410 500 H 466" />
 
-        <path className="v-factory-cutout" d="M 264 366 L 350 323 V 359 L 264 402 Z" />
-        <path className="v-factory-cutout v-factory-cutout-b" d="M 264 416 L 350 373 V 409 L 264 452 Z" />
+        <g className="v-factory-left-window-group" transform="translate(0 0)">
+          <path className="v-factory-cutout" d="M 264 366 L 350 323 V 359 L 264 402 Z" />
+          <path className="v-factory-cutout v-factory-cutout-b" d="M 264 416 L 350 373 V 409 L 264 452 Z" />
+          <path className="v-factory-cutout-highlight" d="M 264 366 L 350 323 V 359 L 264 402 Z" />
+          <path className="v-factory-cutout-highlight v-factory-cutout-highlight-b" d="M 264 416 L 350 373 V 409 L 264 452 Z" />
+          <path className="v-factory-cutout-bevel" d="M 264 366 L 350 323 M 264 402 L 350 359" />
+          <path className="v-factory-cutout-bevel v-factory-cutout-bevel-b" d="M 264 416 L 350 373 M 264 452 L 350 409" />
+        </g>
         <path className="v-factory-cutout v-factory-cutout-c" d="M 410 338 L 466 374 V 410 L 410 374 Z" />
-        <path className="v-factory-cutout-highlight" d="M 264 366 L 350 323 V 359 L 264 402 Z" />
-        <path className="v-factory-cutout-highlight v-factory-cutout-highlight-b" d="M 264 416 L 350 373 V 409 L 264 452 Z" />
         <path className="v-factory-cutout-highlight v-factory-cutout-highlight-c" d="M 410 338 L 466 374 V 410 L 410 374 Z" />
-        <path className="v-factory-cutout-bevel" d="M 264 366 L 350 323 M 264 402 L 350 359" />
-        <path className="v-factory-cutout-bevel v-factory-cutout-bevel-b" d="M 264 416 L 350 373 M 264 452 L 350 409" />
         <path className="v-factory-cutout-bevel v-factory-cutout-bevel-c" d="M 410 338 L 466 374 M 410 374 L 466 410" />
-        <path className="v-factory-panel-ridge-base" d="M 116 418 L 380 289 L 484 356" />
+        <path className="v-factory-panel-ridge-base" d="M 138 410 L 380 289 L 484 356" />
         <path className="v-factory-panel-ridge-bridge" d="M 336 311 L 380 289 L 424 317" />
-        <path className="v-factory-panel-ridge" d="M 116 418 L 380 289 L 484 356" />
+        <path className="v-factory-panel-ridge" d="M 138 410 L 380 289 L 484 356" />
 
         <line className="v-pipe-link" x1="271" y1="210" x2="271" y2="166" />
 
         <g className="v-factory-trace-layer">
-          <path className="v-factory-trace" d="M 104 500 L 104 402 L 380 264 L 494 337 L 494 500" />
+          <path className="v-factory-trace" d="M 126 500 L 126 391 L 380 264 L 494 337 L 494 500" />
           <path className="v-factory-trace" d="M 252 210 L 290 210 M 252 210 L 236 336 M 290 210 L 306 301" />
           <line className="v-factory-trace" x1="271" y1="210" x2="271" y2="166" />
         </g>
 
         <g className="v-factory-trace-layer v-factory-trace-layer-b">
-          <path className="v-factory-trace v-factory-trace-b" d="M 104 500 L 104 402 L 380 264 L 494 337 L 494 500" />
+          <path className="v-factory-trace v-factory-trace-b" d="M 126 500 L 126 391 L 380 264 L 494 337 L 494 500" />
           <path className="v-factory-trace v-factory-trace-b" d="M 252 210 L 290 210 M 252 210 L 236 336 M 290 210 L 306 301" />
           <line className="v-factory-trace v-factory-trace-b" x1="271" y1="210" x2="271" y2="166" />
         </g>
