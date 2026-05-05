@@ -552,6 +552,8 @@ function FactoryIllustration({ svgRef }) {
 export default function HeroSection() {
   const [pointer, setPointer] = useState(DEFAULT_POINTER);
   const [isActive, setIsActive] = useState(false);
+  const [headlineLineWidth, setHeadlineLineWidth] = useState(null);
+  const headlineRef = useRef(null);
   const factorySvgRef = useRef(null);
   const boostTimeoutRef = useRef(null);
   const boostedAnimationsRef = useRef([]);
@@ -598,6 +600,50 @@ export default function HeroSection() {
 
   useEffect(() => () => resetFactoryBoost(), [resetFactoryBoost]);
 
+  useEffect(() => {
+    const headline = headlineRef.current;
+    if (!headline) return undefined;
+
+    let frameId = null;
+    let isMounted = true;
+
+    const measureHeadline = () => {
+      if (frameId !== null) cancelAnimationFrame(frameId);
+
+      frameId = requestAnimationFrame(() => {
+        if (!isMounted) return;
+
+        const range = document.createRange();
+        range.selectNodeContents(headline);
+        const lineWidths = Array.from(range.getClientRects())
+          .filter((rect) => rect.width > 1 && rect.height > 1)
+          .map((rect) => rect.width);
+        range.detach();
+
+        const fallbackWidth = headline.getBoundingClientRect().width;
+        const nextWidth = Math.ceil(lineWidths.length ? Math.max(...lineWidths) : fallbackWidth);
+        setHeadlineLineWidth((currentWidth) => (currentWidth === nextWidth ? currentWidth : nextWidth));
+      });
+    };
+
+    measureHeadline();
+
+    const resizeObserver = typeof ResizeObserver === 'undefined'
+      ? null
+      : new ResizeObserver(measureHeadline);
+    resizeObserver?.observe(headline);
+
+    window.addEventListener('resize', measureHeadline);
+    document.fonts?.ready?.then(measureHeadline);
+
+    return () => {
+      isMounted = false;
+      if (frameId !== null) cancelAnimationFrame(frameId);
+      resizeObserver?.disconnect();
+      window.removeEventListener('resize', measureHeadline);
+    };
+  }, []);
+
   const handlePointerMove  = (e) => {
     if (e.pointerType === 'touch') return;
     setPointer(getPointerState(e));
@@ -619,6 +665,9 @@ export default function HeroSection() {
     '--hero-shift-y':   `${pointer.shiftY}`,
     '--hero-active':    isActive ? '1' : '0'
   }), [isActive, pointer]);
+  const heroActionsStyle = useMemo(() => (
+    headlineLineWidth ? { '--hero-text-inline-width': `${headlineLineWidth}px` } : undefined
+  ), [headlineLineWidth]);
 
   return (
     <section
@@ -648,34 +697,36 @@ export default function HeroSection() {
             <span className="h-2 w-2 rounded-full bg-tertiary-fixed" />
             Digital Consulting
           </div>
-          <h1 className="hero-title-balance font-headline text-[3rem] leading-[1.05] tracking-tight text-surface-bright sm:text-[3.4rem] lg:text-[4rem] mb-6">
-            Soluzioni digitali
-            <br className="hidden md:block" />
-            <span className="md:hidden"> </span>
-            e innovazione<span className="md:hidden lg:inline">,</span>
-            <br className="hidden md:block" />
-            <span className="md:hidden"> </span>
-            alla portata di <span className="text-tertiary-fixed">tutti</span>
-          </h1>
-          <p className="font-body text-lg text-[#d4dbea] mb-10 max-w-2xl leading-relaxed sm:text-xl">
-            Consulenza su misura per
-            <br className="sm:hidden" />
-            {' '}far crescere il tuo business
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <a
-              href="#contatti"
-              className="hero-consultancy-cta group inline-flex items-center justify-center px-8 py-4 rounded-md text-base font-medium transition-all duration-300 bg-gradient-to-br from-tertiary-fixed to-[#9ce6fb] text-[#06222a] shadow-[0_18px_45px_rgba(12,35,46,0.45)] hover:shadow-[0_22px_55px_rgba(12,35,46,0.58)] active:scale-95"
-            >
-              Richiedi una Consulenza
-              <span className="material-symbols-outlined ml-2 text-[20px] transition-transform duration-300 group-hover:translate-x-1">arrow_forward</span>
-            </a>
-            <a
-              href="#siti-web"
-              className="inline-flex items-center justify-center px-8 py-4 rounded-md border border-white/25 bg-white/5 text-surface-bright text-base font-medium transition-all duration-300 hover:bg-white/10 active:scale-95"
-            >
-              Scopri le Soluzioni
-            </a>
+          <div className="md:flex md:w-fit md:flex-col md:items-stretch lg:block lg:w-auto">
+            <h1 ref={headlineRef} className="hero-title-balance font-headline text-[3rem] leading-[1.05] tracking-tight text-surface-bright sm:text-[3.4rem] lg:text-[4rem] mb-6">
+              Soluzioni digitali
+              <br className="hidden md:block" />
+              <span className="md:hidden"> </span>
+              e innovazione<span className="md:hidden lg:inline">,</span>
+              <br className="hidden md:block" />
+              <span className="md:hidden"> </span>
+              alla portata di <span className="text-tertiary-fixed">tutti</span>
+            </h1>
+            <p className="font-body text-lg text-[#d4dbea] mb-10 max-w-2xl leading-relaxed sm:text-xl">
+              Consulenza su misura per
+              <br className="sm:hidden md:block lg:hidden" />
+              {' '}far crescere il tuo business
+            </p>
+            <div className="hero-actions flex flex-col sm:flex-row md:flex-col lg:flex-row gap-4" style={heroActionsStyle}>
+              <a
+                href="#contatti"
+                className="hero-consultancy-cta group inline-flex items-center justify-center px-8 py-4 rounded-md text-base font-medium transition-all duration-300 bg-gradient-to-br from-tertiary-fixed to-[#9ce6fb] text-[#06222a] shadow-[0_18px_45px_rgba(12,35,46,0.45)] hover:shadow-[0_22px_55px_rgba(12,35,46,0.58)] active:scale-95"
+              >
+                Richiedi una Consulenza
+                <span className="material-symbols-outlined ml-2 text-[20px] transition-transform duration-300 group-hover:translate-x-1">arrow_forward</span>
+              </a>
+              <a
+                href="#siti-web"
+                className="inline-flex items-center justify-center px-8 py-4 rounded-md border border-white/25 bg-white/5 text-surface-bright text-base font-medium transition-all duration-300 hover:bg-white/10 active:scale-95"
+              >
+                Scopri le Soluzioni
+              </a>
+            </div>
           </div>
         </div>
       </div>
