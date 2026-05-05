@@ -1116,7 +1116,7 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
 }
 @media (max-width: 639px) {
   .hero-factory-stage {
-    --factory-stage-width: min(72vw, 420px);
+    --factory-stage-width: min(62vw, 360px);
     right: -8%;
   }
 
