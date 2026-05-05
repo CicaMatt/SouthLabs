@@ -1121,7 +1121,7 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   }
 
   .hero-actions {
-    width: min(100%, calc(var(--hero-subheadline-inline-width, 100%) - 0.75rem));
+    width: min(100%, calc(var(--hero-subheadline-inline-width, 100%) - 1.5rem));
   }
 
   .hero-actions a {
