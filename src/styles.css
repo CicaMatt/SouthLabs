@@ -181,21 +181,21 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
 
 .v-factory-roof-upper-shade {
   fill: url(#vFactoryRoofUpperShadeFill);
-  opacity: 0.50;
+  opacity: 0.66;
   mix-blend-mode: normal;
   filter: url(#vFactorySoftShadeBlur);
 }
 
 .v-factory-roof-upper-light {
   fill: url(#vFactoryRoofUpperLightFill);
-  opacity: 0.36;
+  opacity: 0.42;
   mix-blend-mode: screen;
   filter: url(#vFactorySoftLightBlur);
 }
 
 .v-factory-roof-light-plane {
   fill: url(#vFactoryRoofRightLightFill);
-  opacity: 0.28;
+  opacity: 0.32;
   mix-blend-mode: screen;
   filter: url(#vFactorySoftLightBlur);
 }
@@ -401,54 +401,132 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
 }
 
 .v-factory-window {
-  fill: url(#vWindowFill);
-  stroke: #8de6ff;
-  stroke-width: 1.25;
-  stroke-opacity: 0.48;
+  fill: url(#vDoorPanelFill);
+  stroke: url(#vPanelStroke);
+  stroke-width: 1.35;
+  stroke-opacity: 0.82;
   transform-box: fill-box;
   transform-origin: center;
+  will-change: filter, stroke-opacity;
 }
 
-.v-factory-window-highlight {
-  fill: none;
-  stroke: #d3fbff;
-  stroke-width: 0.95;
-  stroke-opacity: 0.26;
+.v-door-panel { animation: vDoorPanelSignal 6.8s ease-in-out infinite; }
+
+.v-factory-left-door-group .v-factory-window {
+  stroke: url(#vLeftDoorPanelStroke);
+  stroke-opacity: 0.88;
 }
 
-.v-factory-window-bevel {
+.v-factory-window-b {
+  fill: url(#vDoorPanelFillRight);
+  animation-delay: -2.2s;
+}
+
+.v-door-perimeter-signal {
   fill: none;
-  stroke: url(#vWindowBevelStroke);
-  stroke-width: 1.35;
+  stroke: #dcfbff;
+  stroke-width: 1.5;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-opacity: 0.46;
-  mix-blend-mode: screen;
+  stroke-dasharray: 32 156;
+  stroke-dashoffset: 188;
+  opacity: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 0 4px rgba(122, 235, 255, 0.42));
+  vector-effect: non-scaling-stroke;
+  animation: vDoorSignalTravel 3.2s linear infinite;
+}
+
+.v-door-perimeter-signal-b {
+  animation-delay: -1.6s;
 }
 
 .v-factory-cutout {
-  fill: rgba(222, 233, 247, 0.38);
+  fill: url(#vSlotPanelFill);
+  stroke: url(#vWindowPanelStroke);
+  stroke-width: 0.9;
+  stroke-opacity: 0.78;
+  stroke-linejoin: round;
   transform-box: fill-box;
   transform-origin: center;
-}
-.v-factory-cutout-b { fill-opacity: 0.34; }
-.v-factory-cutout-c { fill-opacity: 0.32; }
-
-.v-factory-cutout-highlight {
-  fill: none;
-  stroke: #eefbff;
-  stroke-width: 0.85;
-  stroke-opacity: 0.2;
+  will-change: filter, stroke-opacity;
 }
 
-.v-factory-cutout-bevel {
+.v-window-panel { animation: vWindowPanelShimmer 4.6s ease-in-out infinite; }
+
+.v-factory-cutout-b {
+  fill: url(#vSlotPanelFill);
+  animation-delay: 0s;
+}
+
+.v-factory-cutout-c {
+  fill: url(#vSlotPanelFillRight);
+  animation-delay: -2.3s;
+}
+
+.v-window-sweep {
   fill: none;
-  stroke: #f1feff;
-  stroke-width: 1;
   stroke-linecap: round;
-  stroke-opacity: 0.24;
+  stroke-dasharray: 34 118;
+  stroke-dashoffset: 152;
+  opacity: 0;
+  pointer-events: none;
+  vector-effect: non-scaling-stroke;
+  animation: vWindowSweepTravel 4.6s linear infinite;
+}
+
+.v-window-sweep-glow {
+  stroke: #c8f7ff;
+  stroke-width: 6;
+  stroke-opacity: 0.22;
   mix-blend-mode: screen;
 }
+
+.v-window-sweep-core {
+  stroke: #f8ffff;
+  stroke-width: 1.7;
+  stroke-opacity: 0.62;
+}
+
+.v-window-sweep-b { animation-delay: -1.15s; }
+.v-window-sweep-c { animation-delay: -2.3s; }
+
+.v-panel-edge-light,
+.v-panel-edge-depth {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.v-panel-edge-light {
+  stroke: url(#vPanelEdgeLightStroke);
+  stroke-width: 0.78;
+  stroke-opacity: 0.68;
+}
+
+.v-panel-edge-depth {
+  stroke: url(#vPanelEdgeDepthStroke);
+  stroke-width: 0.84;
+  stroke-opacity: 0.58;
+}
+
+.v-panel-edge-light-soft { stroke-opacity: 0.54; }
+.v-panel-edge-depth-soft { stroke-opacity: 0.46; }
+
+.v-door-edge-light { animation: vDoorEdgeLightPulse 3.2s ease-in-out infinite; }
+.v-door-edge-depth { animation: vDoorEdgeDepthPulse 3.2s ease-in-out infinite; }
+.v-door-edge-light-b,
+.v-door-edge-depth-b { animation-delay: -1.6s; }
+
+.v-window-edge-light { animation: vWindowEdgeGlint 4.6s ease-in-out infinite; }
+.v-window-edge-depth { animation: vWindowEdgeSettle 4.6s ease-in-out infinite; }
+.v-window-edge-light-b,
+.v-window-edge-depth-b { animation-delay: 0s; }
+.v-window-edge-light-c,
+.v-window-edge-depth-c { animation-delay: -2.3s; }
+
 
 .v-pipe-link {
   stroke: #91ecff;
@@ -782,6 +860,95 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
     stroke-opacity: 0.56;
   }
 }
+@keyframes vDoorPanelSignal {
+  0%, 100% {
+    filter: brightness(0.86) saturate(0.94);
+    stroke-opacity: 0.58;
+  }
+  48% {
+    filter: brightness(1.02) saturate(1.02);
+    stroke-opacity: 0.78;
+  }
+}
+@keyframes vDoorSignalTravel {
+  0% {
+    opacity: 0;
+    stroke-dashoffset: 188;
+  }
+  12% {
+    opacity: 0.94;
+  }
+  62% {
+    opacity: 0.94;
+  }
+  100% {
+    opacity: 0;
+    stroke-dashoffset: -188;
+  }
+}
+@keyframes vDoorEdgeLightPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 0 rgba(150, 240, 255, 0));
+    stroke-opacity: 0.36;
+  }
+  48% {
+    filter: drop-shadow(0 0 6px rgba(150, 240, 255, 0.5));
+    stroke-opacity: 1;
+  }
+}
+@keyframes vDoorEdgeDepthPulse {
+  0%, 100% { stroke-opacity: 0.3; }
+  48%       { stroke-opacity: 0.78; }
+}
+@keyframes vWindowPanelShimmer {
+  0%, 100% {
+    filter: brightness(0.78) saturate(0.9);
+    stroke-opacity: 0.48;
+  }
+  36% {
+    filter: brightness(0.88) saturate(0.92);
+    stroke-opacity: 0.54;
+  }
+  62% {
+    filter: brightness(0.82) saturate(0.9);
+    stroke-opacity: 0.5;
+  }
+}
+@keyframes vWindowSweepTravel {
+  0% {
+    opacity: 0;
+    stroke-dashoffset: 152;
+  }
+  10% {
+    opacity: 0.62;
+  }
+  68% {
+    opacity: 0.62;
+  }
+  100% {
+    opacity: 0;
+    stroke-dashoffset: -152;
+  }
+}
+@keyframes vWindowEdgeGlint {
+  0%, 100% {
+    filter: drop-shadow(0 0 0 rgba(235, 255, 255, 0));
+    stroke-opacity: 0.24;
+  }
+  36% {
+    filter: drop-shadow(0 0 2px rgba(235, 255, 255, 0.18));
+    stroke-opacity: 0.5;
+  }
+  62% {
+    filter: drop-shadow(0 0 0 rgba(235, 255, 255, 0));
+    stroke-opacity: 0.36;
+  }
+}
+@keyframes vWindowEdgeSettle {
+  0%, 100% { stroke-opacity: 0.22; }
+  36%       { stroke-opacity: 0.34; }
+  62%       { stroke-opacity: 0.3; }
+}
 @keyframes vCoreGlowPulse {
   0%, 100% { opacity: 0.45; transform: scale(0.86); }
   50%       { opacity: 1;   transform: scale(1.16); }
@@ -926,11 +1093,13 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
   .v-pipe-flow-line,
   .v-pipe-outline,
   .v-factory-window,
-  .v-factory-window-highlight,
-  .v-factory-window-bevel,
   .v-factory-cutout,
-  .v-factory-cutout-highlight,
-  .v-factory-cutout-bevel,
+  .v-door-perimeter-signal,
+  .v-window-sweep,
+  .v-door-edge-light,
+  .v-door-edge-depth,
+  .v-window-edge-light,
+  .v-window-edge-depth,
   .v-pipe-link,
   .v-factory-trace,
   .v-plume-shell-highlight,

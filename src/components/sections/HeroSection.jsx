@@ -171,24 +171,24 @@ function FactoryIllustration({ svgRef }) {
           <stop offset="100%" stopColor="#F2FFFF" stopOpacity="0.29" />
         </linearGradient>
         <linearGradient id="vFactoryRoofUpperShadeFill" x1="126" y1="406" x2="494" y2="337" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#010817" stopOpacity="0.20" />
-          <stop offset="28%" stopColor="#052044" stopOpacity="0.14" />
-          <stop offset="56%" stopColor="#12618A" stopOpacity="0.05" />
-          <stop offset="82%" stopColor="#62DDF1" stopOpacity="0.055" />
-          <stop offset="100%" stopColor="#E8FEFF" stopOpacity="0.12" />
+          <stop offset="0%" stopColor="#010817" stopOpacity="0.42" />
+          <stop offset="26%" stopColor="#031833" stopOpacity="0.34" />
+          <stop offset="52%" stopColor="#0A3E6A" stopOpacity="0.19" />
+          <stop offset="78%" stopColor="#24B5D2" stopOpacity="0.10" />
+          <stop offset="100%" stopColor="#D9FEFF" stopOpacity="0.16" />
         </linearGradient>
         <linearGradient id="vFactoryRoofUpperLightFill" x1="324" y1="372" x2="494" y2="337" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#44D0F2" stopOpacity="0" />
-          <stop offset="42%" stopColor="#66E4F8" stopOpacity="0.045" />
-          <stop offset="72%" stopColor="#A4F7FF" stopOpacity="0.09" />
-          <stop offset="100%" stopColor="#F5FFFF" stopOpacity="0.16" />
+          <stop offset="0%" stopColor="#1FB9E8" stopOpacity="0" />
+          <stop offset="40%" stopColor="#51E2FA" stopOpacity="0.07" />
+          <stop offset="72%" stopColor="#A5FBFF" stopOpacity="0.15" />
+          <stop offset="100%" stopColor="#F3FFFF" stopOpacity="0.22" />
         </linearGradient>
         <linearGradient id="vFactoryRoofRightLightFill" x1="344" y1="352" x2="494" y2="337" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#42D0F2" stopOpacity="0" />
-          <stop offset="28%" stopColor="#4FD7F4" stopOpacity="0.04" />
-          <stop offset="54%" stopColor="#75ECFF" stopOpacity="0.075" />
-          <stop offset="78%" stopColor="#BDF9FF" stopOpacity="0.12" />
-          <stop offset="100%" stopColor="#F6FFFF" stopOpacity="0.16" />
+          <stop offset="30%" stopColor="#43D9F7" stopOpacity="0.055" />
+          <stop offset="58%" stopColor="#77F2FF" stopOpacity="0.105" />
+          <stop offset="82%" stopColor="#C5FCFF" stopOpacity="0.16" />
+          <stop offset="100%" stopColor="#F6FFFF" stopOpacity="0.20" />
         </linearGradient>
         <filter id="vFactorySoftShadeBlur" x="-18%" y="-18%" width="136%" height="136%" colorInterpolationFilters="sRGB">
           <feGaussianBlur stdDeviation="7" />
@@ -269,14 +269,53 @@ function FactoryIllustration({ svgRef }) {
           <stop offset="50%" stopColor="#0E4A92" stopOpacity="0.46" />
           <stop offset="100%" stopColor="#0A2D62" stopOpacity="0.58" />
         </linearGradient>
-        <linearGradient id="vWindowFill" x1="118" y1="418" x2="478" y2="494" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#20A5EE" stopOpacity="0.65" />
-          <stop offset="100%" stopColor="#1281CD" stopOpacity="0.46" />
+        <linearGradient id="vDoorPanelFill" x1="132" y1="402" x2="188" y2="500" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#1A6C9F" />
+          <stop offset="44%" stopColor="#0B3E74" />
+          <stop offset="100%" stopColor="#061A38" />
         </linearGradient>
-        <linearGradient id="vWindowBevelStroke" x1="132" y1="408" x2="504" y2="500" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#F3FFFF" stopOpacity="0.7" />
-          <stop offset="48%" stopColor="#84EFFF" stopOpacity="0.22" />
-          <stop offset="100%" stopColor="#06162E" stopOpacity="0.34" />
+        <linearGradient id="vDoorPanelFillRight" x1="410" y1="412" x2="466" y2="500" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#2484AE" />
+          <stop offset="48%" stopColor="#0D4B7C" />
+          <stop offset="100%" stopColor="#061A38" />
+        </linearGradient>
+        <linearGradient id="vSlotPanelFill" x1="264" y1="323" x2="350" y2="452" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#D8F7FB" />
+          <stop offset="22%" stopColor="#A6EAF2" />
+          <stop offset="48%" stopColor="#55B9CC" />
+          <stop offset="74%" stopColor="#1D638F" />
+          <stop offset="100%" stopColor="#082242" />
+        </linearGradient>
+        <linearGradient id="vSlotPanelFillRight" x1="410" y1="338" x2="466" y2="410" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#DDF8FB" />
+          <stop offset="24%" stopColor="#AFEFF5" />
+          <stop offset="52%" stopColor="#63C6D6" />
+          <stop offset="100%" stopColor="#14527A" />
+        </linearGradient>
+        <linearGradient id="vPanelStroke" x1="132" y1="402" x2="466" y2="500" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#E4FEFF" />
+          <stop offset="44%" stopColor="#73E7F8" />
+          <stop offset="100%" stopColor="#2E719B" />
+        </linearGradient>
+        <linearGradient id="vLeftDoorPanelStroke" x1="132" y1="402" x2="188" y2="500" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#F3FFFF" />
+          <stop offset="48%" stopColor="#A9F4FA" />
+          <stop offset="100%" stopColor="#6DB9CF" />
+        </linearGradient>
+        <linearGradient id="vWindowPanelStroke" x1="264" y1="323" x2="466" y2="452" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#B9EEF4" />
+          <stop offset="48%" stopColor="#5FC5D5" />
+          <stop offset="100%" stopColor="#1F5D82" />
+        </linearGradient>
+        <linearGradient id="vPanelEdgeLightStroke" x1="132" y1="402" x2="466" y2="374" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#C7F7FA" />
+          <stop offset="56%" stopColor="#7DDCE8" />
+          <stop offset="100%" stopColor="#A6F0F6" />
+        </linearGradient>
+        <linearGradient id="vPanelEdgeDepthStroke" x1="132" y1="500" x2="466" y2="410" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#04112A" />
+          <stop offset="58%" stopColor="#092A52" />
+          <stop offset="100%" stopColor="#0D3D64" />
         </linearGradient>
         <path
           id="vFactoryShape"
@@ -304,6 +343,18 @@ function FactoryIllustration({ svgRef }) {
         />
         <clipPath id="vPipeClip">
           <use href="#vPipeShape" />
+        </clipPath>
+        <path id="vLeftWindowTopShape" d="M 264 366 L 350 323 V 359 L 264 402 Z" />
+        <path id="vLeftWindowBottomShape" d="M 264 416 L 350 373 V 409 L 264 452 Z" />
+        <path id="vRightWindowShape" d="M 410 338 L 466 374 V 410 L 410 374 Z" />
+        <clipPath id="vLeftWindowTopClip">
+          <use href="#vLeftWindowTopShape" />
+        </clipPath>
+        <clipPath id="vLeftWindowBottomClip">
+          <use href="#vLeftWindowBottomShape" />
+        </clipPath>
+        <clipPath id="vRightWindowClip">
+          <use href="#vRightWindowShape" />
         </clipPath>
         {/* Subtle base glow bleeding into the bg */}
         <radialGradient
@@ -427,28 +478,42 @@ function FactoryIllustration({ svgRef }) {
         <path className="v-pipe-outline" d="M 252 210 L 290 210 M 252 210 L 236 336 M 290 210 L 306 301" />
 
         <g className="v-factory-left-door-group" transform="translate(22 0)">
-          <path className="v-factory-window" d="M 132 430 L 188 402 L 188 500 H 132 Z" />
-          <path className="v-factory-window-highlight" d="M 132 430 L 188 402 L 188 500 H 132 Z" />
-          <path className="v-factory-window-bevel" d="M 132 430 L 188 402 M 188 402 V 500 M 132 500 H 188" />
+          <path className="v-factory-window v-door-panel" d="M 132 430 L 188 402 L 188 500 H 132 Z" />
+          <path className="v-door-perimeter-signal" d="M 132 430 L 188 402 L 188 500 H 132 Z" />
+          <path className="v-panel-edge-light v-door-edge-light" d="M 132 430 L 188 402" />
+          <path className="v-panel-edge-depth v-door-edge-depth" d="M 188 402 V 500 M 132 500 H 188" />
         </g>
-        <path className="v-factory-window v-factory-window-b" d="M 410 420 L 466 456 V 500 H 410 Z" />
-        <path className="v-factory-window-highlight v-factory-window-highlight-b" d="M 410 420 L 466 456 V 500 H 410 Z" />
-        <path className="v-factory-window-bevel v-factory-window-bevel-b" d="M 410 420 L 466 456 M 466 456 V 500 M 410 500 H 466" />
+        <path className="v-factory-window v-factory-window-b v-door-panel" d="M 410 412 L 466 448 V 500 H 410 Z" />
+        <path className="v-door-perimeter-signal v-door-perimeter-signal-b" d="M 410 412 L 466 448 V 500 H 410 Z" />
+        <path className="v-panel-edge-light v-door-edge-light v-door-edge-light-b" d="M 410 412 L 466 448" />
+        <path className="v-panel-edge-depth v-door-edge-depth v-door-edge-depth-b" d="M 466 448 V 500 M 410 500 H 466" />
 
         <g className="v-factory-left-window-group" transform="translate(0 0)">
-          <path className="v-factory-cutout" d="M 264 366 L 350 323 V 359 L 264 402 Z" />
-          <path className="v-factory-cutout v-factory-cutout-b" d="M 264 416 L 350 373 V 409 L 264 452 Z" />
-          <path className="v-factory-cutout-highlight" d="M 264 366 L 350 323 V 359 L 264 402 Z" />
-          <path className="v-factory-cutout-highlight v-factory-cutout-highlight-b" d="M 264 416 L 350 373 V 409 L 264 452 Z" />
-          <path className="v-factory-cutout-bevel" d="M 264 366 L 350 323 M 264 402 L 350 359" />
-          <path className="v-factory-cutout-bevel v-factory-cutout-bevel-b" d="M 264 416 L 350 373 M 264 452 L 350 409" />
+          <path className="v-factory-cutout v-window-panel" d="M 264 366 L 350 323 V 359 L 264 402 Z" />
+          <g clipPath="url(#vLeftWindowTopClip)">
+            <path className="v-window-sweep v-window-sweep-glow" d="M 268 398 L 348 358" />
+            <path className="v-window-sweep v-window-sweep-core" d="M 268 398 L 348 358" />
+          </g>
+          <path className="v-panel-edge-light v-panel-edge-light-soft v-window-edge-light" d="M 264 366 L 350 323" />
+          <path className="v-panel-edge-depth v-panel-edge-depth-soft v-window-edge-depth" d="M 264 402 L 350 359" />
+          <path className="v-factory-cutout v-factory-cutout-b v-window-panel" d="M 264 416 L 350 373 V 409 L 264 452 Z" />
+          <g clipPath="url(#vLeftWindowBottomClip)">
+            <path className="v-window-sweep v-window-sweep-glow v-window-sweep-b" d="M 268 448 L 348 408" />
+            <path className="v-window-sweep v-window-sweep-core v-window-sweep-b" d="M 268 448 L 348 408" />
+          </g>
+          <path className="v-panel-edge-light v-panel-edge-light-soft v-window-edge-light v-window-edge-light-b" d="M 264 416 L 350 373" />
+          <path className="v-panel-edge-depth v-panel-edge-depth-soft v-window-edge-depth v-window-edge-depth-b" d="M 264 452 L 350 409" />
         </g>
-        <path className="v-factory-cutout v-factory-cutout-c" d="M 410 338 L 466 374 V 410 L 410 374 Z" />
-        <path className="v-factory-cutout-highlight v-factory-cutout-highlight-c" d="M 410 338 L 466 374 V 410 L 410 374 Z" />
-        <path className="v-factory-cutout-bevel v-factory-cutout-bevel-c" d="M 410 338 L 466 374 M 410 374 L 466 410" />
-        <path className="v-factory-panel-ridge-base" d="M 138 410 L 380 289 L 484 356" />
-        <path className="v-factory-panel-ridge-bridge" d="M 336 311 L 380 289 L 424 317" />
-        <path className="v-factory-panel-ridge" d="M 138 410 L 380 289 L 484 356" />
+        <path className="v-factory-cutout v-factory-cutout-c v-window-panel" d="M 410 338 L 466 374 V 410 L 410 374 Z" />
+        <g clipPath="url(#vRightWindowClip)">
+          <path className="v-window-sweep v-window-sweep-glow v-window-sweep-c" d="M 414 375 L 462 405" />
+          <path className="v-window-sweep v-window-sweep-core v-window-sweep-c" d="M 414 375 L 462 405" />
+        </g>
+        <path className="v-panel-edge-light v-panel-edge-light-soft v-window-edge-light v-window-edge-light-c" d="M 410 338 L 466 374" />
+        <path className="v-panel-edge-depth v-panel-edge-depth-soft v-window-edge-depth v-window-edge-depth-c" d="M 410 374 L 466 410" />
+        <path className="v-factory-panel-ridge-base" d="M 138 407.1 L 380 289 L 484 355.6" />
+        <path className="v-factory-panel-ridge-bridge" d="M 336 310.5 L 380 289 L 424 317.2" />
+        <path className="v-factory-panel-ridge" d="M 138 407.1 L 380 289 L 484 355.6" />
 
         <line className="v-pipe-link" x1="271" y1="210" x2="271" y2="166" />
 
@@ -585,11 +650,11 @@ export default function HeroSection() {
           </div>
           <h1 className="hero-title-balance font-headline text-[3rem] leading-[1.05] tracking-tight text-surface-bright sm:text-[3.4rem] lg:text-[4rem] mb-6">
             Soluzioni digitali
-            <br className="hidden lg:block" />
-            <span className="lg:hidden"> </span>
-            e innovazione,
-            <br className="hidden lg:block" />
-            <span className="lg:hidden"> </span>
+            <br className="hidden md:block" />
+            <span className="md:hidden"> </span>
+            e innovazione<span className="md:hidden lg:inline">,</span>
+            <br className="hidden md:block" />
+            <span className="md:hidden"> </span>
             alla portata di <span className="text-tertiary-fixed">tutti</span>
           </h1>
           <p className="font-body text-lg text-[#d4dbea] mb-10 max-w-2xl leading-relaxed sm:text-xl">
