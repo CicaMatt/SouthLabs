@@ -1,5 +1,6 @@
 import SectionHeader from '../SectionHeader';
 
+// Secondary automation offers rendered as compact cards beside the AI feature card.
 const automationCards = [
   {
     icon: 'terminal',
@@ -23,7 +24,19 @@ const automationCards = [
   }
 ];
 
-export default function AutomationSection() {
+// Compact card used for each non-feature automation service.
+function AutomationCard({ description, icon, title }) {
+  return (
+    <div className="flex h-full flex-col bg-surface-container-lowest rounded-xl p-6 shadow-[inset_0_4px_0_0_#222a3e,0_4px_20px_rgba(19,27,46,0.04)] transition-shadow duration-300 hover:shadow-[inset_0_0_0_4px_#222a3e,0_4px_20px_rgba(19,27,46,0.04)]">
+      <span className="material-symbols-outlined text-secondary mb-4 text-[28px]">{icon}</span>
+      <h4 className="mb-2 min-h-[3rem] font-headline font-bold leading-snug text-on-background">{title}</h4>
+      <p className="font-body text-sm leading-relaxed text-on-surface-variant">{description}</p>
+    </div>
+  );
+}
+
+// Software and automation section with one highlighted AI offer plus supporting cards.
+export default function SoftwareSection() {
   return (
     <section className="py-24 bg-surface-container-low relative" id="software-automazione">
       <div className="max-w-7xl mx-auto px-8 relative z-10">
@@ -45,18 +58,14 @@ export default function AutomationSection() {
             <p className="font-body text-on-primary-container mb-8 max-w-sm">
               Sviluppo di modelli di intelligenza artificiale per analisi predittiva, automazione del customer service e ottimizzazione dei flussi di lavoro.
             </p>
-            <a className="inline-flex items-center text-tertiary-fixed-dim font-medium hover:text-white transition-colors lg:absolute lg:bottom-[5.75rem] lg:left-8 lg:translate-y-1/2" href="#contatti">
+            <a className="inline-flex items-center text-tertiary-fixed-dim font-medium hover:text-white transition-colors lg:absolute lg:bottom-20 lg:left-8 lg:translate-y-1/2" href="#contatti">
               Esplora AI
               <span className="material-symbols-outlined ml-1 text-sm">arrow_forward</span>
             </a>
           </div>
 
           {automationCards.map((card) => (
-            <div key={card.title} className="flex h-full flex-col bg-surface-container-lowest rounded-xl p-6 shadow-[inset_0_4px_0_0_#222a3e,0_4px_20px_rgba(19,27,46,0.04)] transition-shadow duration-300 hover:shadow-[inset_0_0_0_4px_#222a3e,0_4px_20px_rgba(19,27,46,0.04)]">
-              <span className="material-symbols-outlined text-secondary mb-4 text-[28px]">{card.icon}</span>
-              <h4 className="mb-2 min-h-[3rem] font-headline font-bold leading-snug text-on-background">{card.title}</h4>
-              <p className="font-body text-sm leading-relaxed text-on-surface-variant">{card.description}</p>
-            </div>
+            <AutomationCard key={card.title} {...card} />
           ))}
         </div>
       </div>

@@ -1,0 +1,425 @@
+/* Factory SVG presentation classes. Selectors map directly to FactoryIllustration.jsx. */
+/* Float group (factory + cloud) */
+.v-float-group { animation: vFloat 14s ease-in-out infinite; }
+
+/* Base aura */
+.v-aura {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: vAura 9s ease-in-out infinite;
+}
+
+/* Factory body */
+.v-factory-footing {
+  stroke: #57cbef;
+  stroke-width: 1.6;
+  stroke-opacity: 0.56;
+}
+
+.v-factory-shell {
+  stroke: #61d2f0;
+  stroke-width: 1.9;
+  stroke-opacity: 0.58;
+  stroke-linejoin: round;
+}
+
+.v-factory-depth-layer {
+  pointer-events: none;
+}
+
+.v-factory-side-plane {
+  fill: url(#vFactorySidePlaneFill);
+  opacity: 0.76;
+  mix-blend-mode: normal;
+}
+
+.v-factory-roof-plane {
+  fill: url(#vFactoryRoofPlaneFill);
+  opacity: 0.72;
+  mix-blend-mode: multiply;
+}
+
+.v-factory-roof-upper-shade {
+  fill: url(#vFactoryRoofUpperShadeFill);
+  opacity: 0.66;
+  mix-blend-mode: normal;
+  filter: url(#vFactorySoftShadeBlur);
+}
+
+.v-factory-roof-upper-light {
+  fill: url(#vFactoryRoofUpperLightFill);
+  opacity: 0.42;
+  mix-blend-mode: screen;
+  filter: url(#vFactorySoftLightBlur);
+}
+
+.v-factory-roof-light-plane {
+  fill: url(#vFactoryRoofRightLightFill);
+  opacity: 0.32;
+  mix-blend-mode: screen;
+  filter: url(#vFactorySoftLightBlur);
+}
+
+.v-factory-face-sheen {
+  fill: url(#vFactoryFaceSheen);
+  opacity: 0.28;
+  mix-blend-mode: screen;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: vFactorySheenLift 7.4s ease-in-out infinite;
+}
+
+.v-factory-base-depth {
+  fill: url(#vFactoryBaseDepthFill);
+  opacity: 0.64;
+  mix-blend-mode: multiply;
+}
+
+.v-factory-left-shade {
+  fill: url(#vFactoryLeftShadeFill);
+  opacity: 0.62;
+  mix-blend-mode: normal;
+}
+
+.v-factory-left-inner-shadow {
+  fill: url(#vFactoryLeftOcclusionFill);
+  opacity: 0.52;
+  mix-blend-mode: multiply;
+  filter: url(#vFactorySoftShadeBlur);
+}
+
+.v-factory-left-reflected-light {
+  fill: url(#vFactoryLeftRimFill);
+  opacity: 0.30;
+  mix-blend-mode: screen;
+  filter: url(#vFactorySoftLightBlur);
+}
+
+.v-factory-right-inner-shadow {
+  fill: url(#vFactoryRightInnerShadeFill);
+  opacity: 0.38;
+  mix-blend-mode: multiply;
+  filter: url(#vFactorySoftShadeBlur);
+}
+
+.v-factory-right-light-wash {
+  fill: url(#vFactoryRightLightWashFill);
+  opacity: 0.44;
+  mix-blend-mode: screen;
+  filter: url(#vFactorySoftLightBlur);
+}
+
+.v-factory-panel-ridge,
+.v-factory-panel-ridge-bridge,
+.v-factory-panel-ridge-base {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  mix-blend-mode: screen;
+}
+
+.v-factory-panel-ridge-base {
+  stroke: rgba(205, 250, 255, 0.08);
+  stroke-width: 0.62;
+  filter: drop-shadow(0 0 3px rgba(132, 236, 255, 0.04));
+}
+
+.v-factory-panel-ridge-bridge {
+  stroke: rgba(220, 252, 255, 0.12);
+  stroke-width: 0.66;
+  filter: drop-shadow(0 0 4px rgba(132, 236, 255, 0.05));
+}
+
+.v-factory-panel-ridge {
+  stroke: rgba(220, 252, 255, 0.22);
+  stroke-width: 0.68;
+  stroke-dasharray: 9 5;
+  filter: drop-shadow(0 0 4px rgba(132, 236, 255, 0.08));
+  animation: vFactoryPanelGlide 12s linear infinite;
+}
+
+.v-factory-roof-highlight,
+.v-factory-left-depth,
+.v-factory-right-depth {
+  fill: none;
+  stroke: url(#vFactoryEdgeStroke);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  mix-blend-mode: screen;
+}
+
+.v-factory-roof-highlight {
+  stroke-width: 1.9;
+  stroke-opacity: 0.54;
+  filter: drop-shadow(0 0 8px rgba(142, 238, 255, 0.26));
+  stroke-dasharray: 180 420;
+  animation: vFactoryEdgeGlint 8.6s cubic-bezier(0.38, 0, 0.18, 1) infinite;
+}
+
+.v-factory-left-depth,
+.v-factory-right-depth {
+  stroke-width: 1.45;
+  stroke-opacity: 0.2;
+}
+
+.v-factory-crease {
+  stroke: #9ce8ff;
+  stroke-width: 1.15;
+  stroke-opacity: 0.3;
+  stroke-linecap: round;
+  stroke-dasharray: 7 9;
+  animation: vCreaseDashFlow 9s linear infinite, vFeatureEdgePulse 5.8s ease-in-out infinite;
+}
+
+.v-pipe-shell {
+  stroke: none;
+  filter: drop-shadow(0 0 7px rgba(83, 210, 255, 0.08));
+}
+
+.v-pipe-depth-layer {
+  pointer-events: none;
+}
+
+.v-pipe-body-depth {
+  fill: url(#vPipeBodyDepthFill);
+  opacity: 0.64;
+  mix-blend-mode: multiply;
+}
+
+.v-pipe-left-occlusion {
+  fill: url(#vPipeLeftOcclusionFill);
+  opacity: 0.54;
+  mix-blend-mode: multiply;
+  filter: url(#vPipeSoftShadeBlur);
+}
+
+.v-pipe-right-light {
+  fill: url(#vPipeRightLightWashFill);
+  opacity: 0.50;
+  mix-blend-mode: screen;
+  filter: url(#vPipeSoftLightBlur);
+}
+
+.v-pipe-top-light {
+  fill: url(#vPipeTopLightFill);
+  opacity: 0.38;
+  mix-blend-mode: screen;
+  filter: url(#vPipeSoftLightBlur);
+}
+
+.v-pipe-edge {
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-opacity: 0.58;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 5px rgba(165, 247, 255, 0.18));
+}
+
+.v-pipe-left-edge { stroke: url(#vPipeLeftEdgeStroke); }
+.v-pipe-right-edge { stroke: url(#vPipeRightEdgeStroke); }
+
+.v-pipe-collar-line {
+  fill: none;
+  stroke: #c9fbff;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-opacity: 0.24;
+  stroke-dasharray: 18 10;
+  mix-blend-mode: screen;
+  animation: vPipeCollarPulse 4.8s ease-in-out infinite;
+}
+
+.v-pipe-flow-line {
+  fill: none;
+  stroke: url(#vPipeFlowStroke);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-opacity: 0.86;
+  stroke-dasharray: 9 13;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 8px rgba(102, 239, 255, 0.4));
+  animation: vPipeFlowDescend 3.8s linear infinite, vPipeFlowPulse 4.4s ease-in-out infinite;
+}
+
+.v-pipe-top-edge {
+  fill: none;
+  stroke: #d9feff;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-opacity: 0.38;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 5px rgba(125, 235, 255, 0.22));
+}
+
+.v-pipe-outline {
+  fill: none;
+  stroke: #61d2f0;
+  stroke-width: 1.9;
+  stroke-opacity: 0.7;
+  stroke-linecap: round;
+}
+
+.v-factory-window {
+  fill: url(#vDoorPanelFill);
+  stroke: url(#vPanelStroke);
+  stroke-width: 1.35;
+  stroke-opacity: 0.82;
+  transform-box: fill-box;
+  transform-origin: center;
+  will-change: filter, stroke-opacity;
+}
+
+.v-door-panel { animation: vDoorPanelSignal 6.8s ease-in-out infinite; }
+
+.v-factory-left-door-group .v-factory-window {
+  stroke: url(#vLeftDoorPanelStroke);
+  stroke-opacity: 0.88;
+}
+
+.v-factory-window-b {
+  fill: url(#vDoorPanelFillRight);
+  animation-delay: -2.2s;
+}
+
+.v-door-perimeter-signal {
+  fill: none;
+  stroke: #dcfbff;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 32 156;
+  stroke-dashoffset: 188;
+  opacity: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 0 4px rgba(122, 235, 255, 0.42));
+  vector-effect: non-scaling-stroke;
+  animation: vDoorSignalTravel 3.2s linear infinite;
+}
+
+.v-door-perimeter-signal-b {
+  animation-delay: -1.6s;
+}
+
+.v-factory-cutout {
+  fill: url(#vSlotPanelFill);
+  stroke: url(#vWindowPanelStroke);
+  stroke-width: 0.9;
+  stroke-opacity: 0.78;
+  stroke-linejoin: round;
+  transform-box: fill-box;
+  transform-origin: center;
+  will-change: filter, stroke-opacity;
+}
+
+.v-window-panel { animation: vWindowPanelShimmer 4.6s ease-in-out infinite; }
+
+.v-factory-cutout-b {
+  fill: url(#vSlotPanelFill);
+  animation-delay: 0s;
+}
+
+.v-factory-cutout-c {
+  fill: url(#vSlotPanelFillRight);
+  animation-delay: -2.3s;
+}
+
+.v-window-sweep {
+  fill: none;
+  stroke-linecap: round;
+  stroke-dasharray: 34 118;
+  stroke-dashoffset: 152;
+  opacity: 0;
+  pointer-events: none;
+  vector-effect: non-scaling-stroke;
+  animation: vWindowSweepTravel 4.6s linear infinite;
+}
+
+.v-window-sweep-glow {
+  stroke: #c8f7ff;
+  stroke-width: 6;
+  stroke-opacity: 0.22;
+  mix-blend-mode: screen;
+}
+
+.v-window-sweep-core {
+  stroke: #f8ffff;
+  stroke-width: 1.7;
+  stroke-opacity: 0.62;
+}
+
+.v-window-sweep-b { animation-delay: -1.15s; }
+.v-window-sweep-c { animation-delay: -2.3s; }
+
+.v-panel-edge-light,
+.v-panel-edge-depth {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.v-panel-edge-light {
+  stroke: url(#vPanelEdgeLightStroke);
+  stroke-width: 0.78;
+  stroke-opacity: 0.68;
+}
+
+.v-panel-edge-depth {
+  stroke: url(#vPanelEdgeDepthStroke);
+  stroke-width: 0.84;
+  stroke-opacity: 0.58;
+}
+
+.v-panel-edge-light-soft { stroke-opacity: 0.54; }
+.v-panel-edge-depth-soft { stroke-opacity: 0.46; }
+
+.v-door-edge-light { animation: vDoorEdgeLightPulse 3.2s ease-in-out infinite; }
+.v-door-edge-depth { animation: vDoorEdgeDepthPulse 3.2s ease-in-out infinite; }
+.v-door-edge-light-b,
+.v-door-edge-depth-b { animation-delay: -1.6s; }
+
+.v-window-edge-light { animation: vWindowEdgeGlint 4.6s ease-in-out infinite; }
+.v-window-edge-depth { animation: vWindowEdgeSettle 4.6s ease-in-out infinite; }
+.v-window-edge-light-b,
+.v-window-edge-depth-b { animation-delay: 0s; }
+.v-window-edge-light-c,
+.v-window-edge-depth-c { animation-delay: -2.3s; }
+
+
+.v-pipe-link {
+  stroke: #91ecff;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-opacity: 0.8;
+}
+
+.v-factory-trace-layer {
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 5px rgba(112, 229, 255, 0.22));
+}
+
+.v-factory-trace-layer-b {
+  filter: drop-shadow(0 0 7px rgba(191, 247, 255, 0.36));
+}
+
+.v-factory-trace {
+  fill: none;
+  stroke: #77e6ff;
+  stroke-width: 1.45;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-opacity: 0.62;
+  stroke-dasharray: 18 12;
+  animation: vFactoryTraceFlow 9.8s linear infinite, vFactoryTracePulse 4.6s ease-in-out infinite;
+}
+
+.v-factory-trace-b {
+  stroke: #defbff;
+  stroke-width: 0.95;
+  stroke-opacity: 0.82;
+  stroke-dasharray: 3 25;
+  animation: vFactoryTraceFlowReverse 7.2s linear infinite, vFactoryTracePulse 3.7s ease-in-out infinite;
+  animation-delay: -1.3s, -0.9s;
+}

@@ -7,6 +7,7 @@ import InfrastructureSection from './components/sections/InfrastructureSection';
 import SupportSection from './components/sections/SupportSection';
 import ContactSection from './components/sections/ContactSection';
 
+// Single-page composition: nav, ordered content sections, and footer.
 export default function App() {
   return (
     <>

@@ -1,3 +1,6 @@
+import SectionHeader from '../SectionHeader';
+
+// Hardware service cards. Images are external and use data-alt to preserve prompt context.
 const infrastructureCards = [
   {
     alt: 'Workstation',
@@ -28,18 +31,16 @@ const infrastructureCards = [
   }
 ];
 
+// Hardware infrastructure section with three image-backed service summaries.
 export default function InfrastructureSection() {
   return (
     <section className="py-24 bg-surface" id="infrastrutture-hardware">
       <div className="max-w-7xl mx-auto px-8">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-surface-container-high pb-8 border-transparent">
-          <div className="max-w-2xl">
-            <h2 className="font-headline text-3xl md:text-4xl tracking-tight text-on-background mb-4">Infrastruttura Hardware</h2>
-            <p className="font-body text-on-surface-variant">
-              Le fondamenta fisiche e virtuali per garantire continuità operativa e sicurezza dei dati.
-            </p>
-          </div>
-        </div>
+        <SectionHeader
+          className="mb-16 max-w-2xl"
+          title="Infrastruttura Hardware"
+          subtitle="Le fondamenta fisiche e virtuali per garantire continuità operativa e sicurezza dei dati."
+        />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {infrastructureCards.map((card) => (

@@ -1,9 +1,11 @@
+// Checklist copy for ongoing support and enablement services.
 const supportItems = [
   'Manutenzione preventiva e correttiva programmata.',
   "Sessioni di training per la formazione del personale.",
   'Supporto per eventi critici.'
 ];
 
+// Support section pairing service promises with a call-to-action panel.
 export default function SupportSection() {
   return (
     <section className="py-24 bg-tertiary text-on-tertiary" id="manutenzione-supporto">

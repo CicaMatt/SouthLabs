@@ -5,6 +5,21 @@ import customWebAppImage from '../../../media/images/custom_web_app.png';
 import ecommerceImage from '../../../media/images/ecommerce.png';
 import seoOrientedImage from '../../../media/images/seo_oriented.png';
 
+const WORDPRESS_TITLE = 'Soluzioni WordPress';
+const SOLUTION_CARD_BASE_CLASS = [
+  'group relative flex min-h-[208px] items-center overflow-hidden rounded-xl',
+  'border border-[#d9e0e6] bg-white shadow-[0_8px_20px_rgba(15,34,52,0.07)]',
+  'motion-safe:transform-gpu motion-safe:transition-all motion-safe:duration-[420ms]',
+  'motion-safe:ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none',
+  'hover:-translate-y-[2px] hover:border-[#b8cfe3] hover:shadow-[0_14px_28px_rgba(15,34,52,0.12)]',
+  'sm:min-h-[228px] md:min-h-[252px]'
+].join(' ');
+const MOBILE_CARD_ROW_CLASS = [
+  'relative z-10 flex w-full items-center gap-3 px-6 py-3',
+  'sm:gap-4 sm:px-7 sm:py-4 md:px-8 md:py-5 lg:hidden'
+].join(' ');
+
+// Two horizontal cards on desktop; the third solution is handled by RightSolutionCard.
 const leftWebSolutionCards = [
   {
     icon: 'code_blocks',
@@ -15,7 +30,7 @@ const leftWebSolutionCards = [
   },
   {
     icon: 'web',
-    title: 'Soluzioni WordPress',
+    title: WORDPRESS_TITLE,
     description: 'Siti vetrina ottimizzati per SEO e visibilità, veloci e gestibili in autonomia.',
     mobileDescription: 'Siti vetrina ottimizzati per SEO e visibilità',
     previewImage: seoOrientedImage
@@ -30,6 +45,7 @@ const rightWebSolutionCard = {
   previewImage: ecommerceImage
 };
 
+// Renders the WordPress PNG as a mask so it can be tinted like Material Symbols.
 function WordpressMaskedIcon({ className = '' }) {
   return (
     <span
@@ -49,6 +65,7 @@ function WordpressMaskedIcon({ className = '' }) {
   );
 }
 
+// Uses rendered text boxes rather than container width so overlay icons align visually.
 function getRenderedTextCenterX(element) {
   if (!element) return null;
 
@@ -63,7 +80,8 @@ function getRenderedTextCenterX(element) {
   return (left + right) / 2;
 }
 
-function useStackedIconTextCenter() {
+// Keeps the decorative background icon centered behind wrapped title/description text.
+function useIconTextCenter(mediaQuery) {
   const textWrapRef = useRef(null);
   const titleRef = useRef(null);
   const descriptionRef = useRef(null);
@@ -79,7 +97,7 @@ function useStackedIconTextCenter() {
 
       if (!textWrap || !title || !description) return;
 
-      if (!window.matchMedia('(max-width: 960px)').matches) {
+      if (!window.matchMedia(mediaQuery).matches) {
         setIconLeft('50%');
         return;
       }
@@ -112,65 +130,15 @@ function useStackedIconTextCenter() {
       resizeObserver.disconnect();
       window.removeEventListener('resize', updateIconCenter);
     };
-  }, []);
+  }, [mediaQuery]);
 
   return { textWrapRef, titleRef, descriptionRef, iconLeft };
 }
 
-function useDesktopIconTextCenter() {
-  const textWrapRef = useRef(null);
-  const titleRef = useRef(null);
-  const descriptionRef = useRef(null);
-  const [iconLeft, setIconLeft] = useState('50%');
+const useStackedIconTextCenter = () => useIconTextCenter('(max-width: 960px)');
+const useDesktopIconTextCenter = () => useIconTextCenter('(min-width: 1024px)');
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return undefined;
-
-    const updateIconCenter = () => {
-      const textWrap = textWrapRef.current;
-      const title = titleRef.current;
-      const description = descriptionRef.current;
-
-      if (!textWrap || !title || !description) return;
-
-      if (!window.matchMedia('(min-width: 1024px)').matches) {
-        setIconLeft('50%');
-        return;
-      }
-
-      const wrapRect = textWrap.getBoundingClientRect();
-      const titleCenter = getRenderedTextCenterX(title);
-      const descriptionCenter = getRenderedTextCenterX(description);
-      const centers = [titleCenter, descriptionCenter].filter((center) => center !== null);
-
-      if (!centers.length) {
-        setIconLeft('50%');
-        return;
-      }
-
-      const averageCenter = centers.reduce((sum, center) => sum + center, 0) / centers.length;
-      const clampedLocalX = Math.max(0, Math.min(wrapRect.width, averageCenter - wrapRect.left));
-      const nextLeft = `${clampedLocalX.toFixed(1)}px`;
-      setIconLeft((currentLeft) => (currentLeft === nextLeft ? currentLeft : nextLeft));
-    };
-
-    const resizeObserver = new ResizeObserver(updateIconCenter);
-    if (textWrapRef.current) resizeObserver.observe(textWrapRef.current);
-    if (titleRef.current) resizeObserver.observe(titleRef.current);
-    if (descriptionRef.current) resizeObserver.observe(descriptionRef.current);
-
-    window.addEventListener('resize', updateIconCenter);
-    updateIconCenter();
-
-    return () => {
-      resizeObserver.disconnect();
-      window.removeEventListener('resize', updateIconCenter);
-    };
-  }, []);
-
-  return { textWrapRef, titleRef, descriptionRef, iconLeft };
-}
-
+// Reveals cards as they enter the viewport, while respecting reduced-motion settings.
 function useCardReveal(revealDelayMs = 0) {
   const cardRef = useRef(null);
   const [isVisible, setIsVisible] = useState(() => {
@@ -217,6 +185,7 @@ function useCardReveal(revealDelayMs = 0) {
   return { cardRef, isVisible };
 }
 
+// Direction-aware hover glow; CSS variables change the gradient origin and mask.
 function CardHoverGlow({ mobileImageSide = 'right', desktopImageSide = mobileImageSide }) {
   return (
     <span
@@ -226,8 +195,9 @@ function CardHoverGlow({ mobileImageSide = 'right', desktopImageSide = mobileIma
   );
 }
 
+// Decorative icon used behind text on mobile and intermediate widths.
 function StackedCenterOverlayIcon({ title, icon, left = '50%', visibilityClass = 'lg:hidden' }) {
-  const isWordpress = title === 'Soluzioni WordPress';
+  const isWordpress = title === WORDPRESS_TITLE;
 
   return (
     <span className={`pointer-events-none absolute top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 ${visibilityClass}`} style={{ left }}>
@@ -242,8 +212,9 @@ function StackedCenterOverlayIcon({ title, icon, left = '50%', visibilityClass =
   );
 }
 
+// Larger desktop-only version of the decorative icon.
 function DesktopCenterOverlayIcon({ title, icon, left = '50%' }) {
-  const isWordpress = title === 'Soluzioni WordPress';
+  const isWordpress = title === WORDPRESS_TITLE;
 
   return (
     <span className="pointer-events-none absolute top-1/2 z-0 hidden -translate-x-1/2 -translate-y-1/2 lg:block" style={{ left }}>
@@ -258,8 +229,9 @@ function DesktopCenterOverlayIcon({ title, icon, left = '50%' }) {
   );
 }
 
+// Horizontal solution card used for custom web apps and WordPress.
 function LeftSolutionCard({ card, revealDelayMs = 0 }) {
-  const isWordpressCard = card.title === 'Soluzioni WordPress';
+  const isWordpressCard = card.title === WORDPRESS_TITLE;
   const mobileDescription = card.mobileDescription ?? card.description;
   const { cardRef, isVisible } = useCardReveal(revealDelayMs);
   const { textWrapRef, titleRef, descriptionRef, iconLeft } = useStackedIconTextCenter();
@@ -273,14 +245,14 @@ function LeftSolutionCard({ card, revealDelayMs = 0 }) {
   return (
     <article
       ref={cardRef}
-      className={`group relative flex min-h-[208px] items-center overflow-hidden rounded-xl border border-[#d9e0e6] bg-white shadow-[0_8px_20px_rgba(15,34,52,0.07)] motion-safe:transform-gpu motion-safe:transition-all motion-safe:duration-[420ms] motion-safe:ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none hover:border-[#b8cfe3] hover:-translate-y-[2px] hover:shadow-[0_14px_28px_rgba(15,34,52,0.12)] sm:min-h-[228px] md:min-h-[252px] lg:col-span-2 lg:block lg:h-[284px] ${
+      className={`${SOLUTION_CARD_BASE_CLASS} lg:col-span-2 lg:block lg:h-[284px] ${
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
       }`}
     >
       <CardHoverGlow mobileImageSide="right" desktopImageSide={isWordpressCard ? 'left' : 'right'} />
       <StackedCenterOverlayIcon title={card.title} icon={card.icon} visibilityClass="hidden min-[961px]:block lg:hidden" />
 
-      <div className="relative z-10 flex w-full items-center gap-3 px-6 py-3 sm:gap-4 sm:px-7 sm:py-4 md:px-8 md:py-5 lg:hidden">
+      <div className={MOBILE_CARD_ROW_CLASS}>
         <div className="min-w-0 flex-1 pr-1 text-left sm:pr-2">
           <div ref={textWrapRef} className="relative mr-auto w-fit max-w-[30ch] sm:max-w-[32ch]">
             <StackedCenterOverlayIcon title={card.title} icon={card.icon} left={iconLeft} visibilityClass="block min-[961px]:hidden" />
@@ -344,6 +316,7 @@ function LeftSolutionCard({ card, revealDelayMs = 0 }) {
   );
 }
 
+// Tall desktop card for e-commerce, with title shortening when space is tight.
 function RightSolutionCard({ card, revealDelayMs = 0 }) {
   const mobileDescription = card.mobileDescription ?? card.description;
   const desktopTitleWrapRef = useRef(null);
@@ -394,14 +367,14 @@ function RightSolutionCard({ card, revealDelayMs = 0 }) {
   return (
     <article
       ref={cardRef}
-      className={`group relative flex min-h-[208px] items-center overflow-hidden rounded-xl border border-[#d9e0e6] bg-white shadow-[0_8px_20px_rgba(15,34,52,0.07)] motion-safe:transform-gpu motion-safe:transition-all motion-safe:duration-[420ms] motion-safe:ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none hover:border-[#b8cfe3] hover:-translate-y-[2px] hover:shadow-[0_14px_28px_rgba(15,34,52,0.12)] sm:min-h-[228px] md:min-h-[252px] lg:col-span-1 lg:block lg:row-span-2 lg:min-h-[592px] ${
+      className={`${SOLUTION_CARD_BASE_CLASS} lg:col-span-1 lg:block lg:row-span-2 lg:min-h-[592px] ${
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
       }`}
     >
       <CardHoverGlow mobileImageSide="left" desktopImageSide="bottom" />
       <StackedCenterOverlayIcon title={card.title} icon={card.icon} visibilityClass="hidden min-[961px]:block lg:hidden" />
 
-      <div className="relative z-10 flex w-full items-center gap-3 px-6 py-3 sm:gap-4 sm:px-7 sm:py-4 md:px-8 md:py-5 lg:hidden">
+      <div className={MOBILE_CARD_ROW_CLASS}>
         <div className="w-[48%] shrink-0 sm:w-[46%] md:w-[34%]">
           <div className="relative aspect-[4/3] w-full overflow-hidden bg-white">
             <img
@@ -457,6 +430,7 @@ function RightSolutionCard({ card, revealDelayMs = 0 }) {
   );
 }
 
+// Siti Web section with three responsive cards and image previews.
 export default function WebSolutionsSection() {
   const [topLeftCard, bottomLeftCard] = leftWebSolutionCards;
 

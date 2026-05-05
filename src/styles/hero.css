@@ -1,0 +1,6 @@
+/* Hero style manifest. Each imported file owns one part of the animated hero. */
+@import './hero/layout.css';
+@import './hero/factory.css';
+@import './hero/plume-chart.css';
+@import './hero/keyframes.css';
+@import './hero/responsive.css';

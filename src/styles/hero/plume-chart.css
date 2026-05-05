@@ -1,0 +1,197 @@
+/* Plume/chart SVG presentation classes used by the hero illustration. */
+/* Plume */
+.v-plume-cloud {
+  isolation: isolate;
+}
+
+.v-plume-shell {
+  opacity: 0.96;
+  filter: drop-shadow(0 4px 12px rgba(7, 20, 52, 0.32));
+}
+
+.v-plume-shell-highlight {
+  animation: vTrendPulse 4.8s ease-in-out infinite;
+}
+
+.v-plume-core {
+  transform-box: fill-box;
+  transform-origin: center;
+  mix-blend-mode: screen;
+  opacity: 0.82;
+  animation: vCoreGlowPulse 5.4s ease-in-out infinite;
+}
+
+/* Chart internals */
+.v-graph-grid {
+  opacity: 0.34;
+  mix-blend-mode: screen;
+}
+.v-graph-grid line {
+  stroke: rgba(191, 247, 255, 0.36);
+  stroke-width: 0.9;
+  stroke-linecap: round;
+  stroke-dasharray: 2 12;
+  animation: vGraphGridFlow 18s linear infinite, vGraphGridPulse 7s ease-in-out infinite;
+}
+
+.v-graph-halo-line {
+  fill: none;
+  stroke: url(#vGraphStroke);
+  stroke-width: 12;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-opacity: 0.18;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 15px rgba(86, 226, 255, 0.44));
+  animation: vGraphHaloPulse 5.4s ease-in-out infinite;
+}
+
+.v-graph-halo-bars {
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 15px rgba(75, 221, 255, 0.4));
+  opacity: 0.34;
+  animation: vGraphHaloPulse 4.8s ease-in-out infinite;
+}
+.v-graph-halo-bars line {
+  stroke: url(#vGraphColumnGlow);
+  stroke-width: 13;
+  stroke-linecap: round;
+  stroke-opacity: 0.42;
+}
+
+.v-plume-baseline {
+  stroke: url(#vGraphColumnGlow);
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  stroke-opacity: 0.92;
+  stroke-dasharray: 16 12;
+  filter: drop-shadow(0 0 8px rgba(84, 226, 255, 0.28));
+  animation: vPlumeBaselineFlow 13s linear infinite;
+}
+
+.v-plume-side-link {
+  stroke: url(#vGraphStroke);
+  stroke-width: 3.8;
+  stroke-linecap: round;
+  stroke-opacity: 0.56;
+  stroke-dasharray: 14 11;
+  animation: vPlumeSideFlow 12s linear infinite;
+}
+.v-plume-side-link-b { stroke-opacity: 0.62; }
+
+.v-bar {
+  stroke: url(#vGraphColumnGlow);
+  stroke-width: 4.8;
+  stroke-linecap: round;
+  stroke-opacity: 0.66;
+  stroke-dasharray: 12 10;
+  filter: drop-shadow(0 0 8px rgba(102, 240, 255, 0.34));
+  animation: vBarPulse 3.6s ease-in-out infinite, vBarDashFlow 12s linear infinite;
+  animation-delay: 0s, 0s;
+}
+.v-bar-1 { animation-delay: 0s, 0s;    }
+.v-bar-2 { animation-delay: 0.18s, 0s; }
+.v-bar-3 { animation-delay: 0.36s, 0s; }
+.v-bar-4 { animation-delay: 0.54s, 0s; }
+.v-bar-5 { animation-delay: 0.72s, 0s; }
+.v-bar-6 { animation-delay: 0.9s, 0s;  }
+
+.v-trend {
+  fill: none;
+  stroke: url(#vGraphStroke);
+  stroke-width: 4.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-opacity: 0.92;
+  stroke-dasharray: 18 12;
+  filter: drop-shadow(0 0 9px rgba(128, 244, 255, 0.42));
+  animation: vTrendPulse 4s ease-in-out infinite, vTrendDashFlow 11s linear infinite;
+}
+
+.v-graph-sheen {
+  fill: none;
+  stroke: #f7feff;
+  stroke-width: 2.15;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-opacity: 0.82;
+  stroke-dasharray: 18 292;
+  stroke-dashoffset: 310;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 9px rgba(233, 254, 255, 0.68));
+  animation: vGraphSheenFlow 5.2s cubic-bezier(0.5, 0, 0.18, 1) infinite;
+}
+.v-graph-sheen-arrow {
+  stroke-width: 1.7;
+  stroke-dasharray: 6 42;
+  animation-duration: 4.6s;
+}
+
+.v-plume-trend-arrow {
+  stroke: #e9feff;
+  stroke-width: 4.2;
+  stroke-dasharray: none;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  filter:
+    drop-shadow(0 0 8px rgba(245, 252, 255, 0.62))
+    drop-shadow(0 0 14px rgba(73, 209, 255, 0.2));
+  animation: vTrendPulse 4s ease-in-out infinite;
+}
+.v-plume-trend-out {
+  stroke-opacity: 0.98;
+}
+
+/* Nodes */
+.v-node {
+  transform-box: fill-box;
+  transform-origin: center;
+  fill: #c9fbff;
+  filter:
+    drop-shadow(0 0 7px rgba(121, 231, 255, 0.62))
+    drop-shadow(0 0 14px rgba(73, 209, 255, 0.24));
+  animation: vNodePulse 4s ease-in-out infinite;
+}
+.v-node-b { animation-delay: 1.6s; }
+
+.v-node-orange {
+  transform-box: fill-box;
+  transform-origin: center;
+  fill: #e9feff;
+  filter:
+    drop-shadow(0 0 8px rgba(245, 252, 255, 0.74))
+    drop-shadow(0 0 18px rgba(255, 207, 124, 0.28));
+  animation: vOrangePulse 4.4s ease-in-out infinite;
+}
+.v-node-orange-b { animation-delay: 1.7s; }
+
+.v-node-ring {
+  fill: none;
+  stroke: url(#vGraphStroke);
+  stroke-width: 1.6;
+  stroke-opacity: 0.58;
+  transform-box: fill-box;
+  transform-origin: center;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 10px rgba(149, 247, 255, 0.5));
+  animation: vNodeRingPulse 4.4s ease-in-out infinite;
+}
+.v-node-ring-b { animation-delay: 1.7s; }
+
+.v-node-spark {
+  fill: #ffffff;
+  opacity: 0.86;
+  transform-box: fill-box;
+  transform-origin: center;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 9px rgba(255, 255, 255, 0.82));
+  animation: vNodeSpark 3.6s ease-in-out infinite;
+}
+.v-node-spark-b { animation-delay: 1.4s; }
+
+/* Waves */
+.v-wave   {
+  stroke-dasharray: 24 14;
+  animation: vWaveFlow 24s linear infinite;
+}
+.v-wave-b { animation-delay: -7s; }
