@@ -10,12 +10,14 @@ const leftWebSolutionCards = [
     icon: 'code_blocks',
     title: 'Web App Personalizzate',
     description: 'Soluzioni personalizzate per garantire efficienza, sicurezza e flessibilità nel tempo.',
+    mobileDescription: 'Soluzioni ad-hoc che garantiscono sicurezza, efficienza e flessibilità',
     previewImage: customWebAppImage
   },
   {
     icon: 'web',
     title: 'Soluzioni WordPress',
     description: 'Siti vetrina ottimizzati per SEO e visibilità, veloci e gestibili in autonomia.',
+    mobileDescription: 'Siti vetrina ottimizzati per SEO e visibilità',
     previewImage: seoOrientedImage
   }
 ];
@@ -24,6 +26,7 @@ const rightWebSolutionCard = {
   icon: 'shopping_cart',
   title: 'Piattaforme di E-Commerce',
   description: 'Portali di vendita online sicuri ed efficaci, integrabili con i più noti metodi di pagamento.',
+  mobileDescription: 'Portali di vendita online sicuri ed efficaci',
   previewImage: ecommerceImage
 };
 
@@ -229,9 +232,9 @@ function StackedCenterOverlayIcon({ title, icon, left = '50%', visibilityClass =
   return (
     <span className={`pointer-events-none absolute top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 ${visibilityClass}`} style={{ left }}>
       {isWordpress ? (
-        <WordpressMaskedIcon className="h-28 w-28 bg-[#2f5a75] opacity-[0.09] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:bg-[#1f73b7] group-hover:opacity-[0.14] sm:h-28 sm:w-28 md:h-32 md:w-32" />
+        <WordpressMaskedIcon className="h-28 w-28 bg-[#2f5a75] opacity-[0.09] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:bg-[#1284e0] group-hover:opacity-[0.22] group-hover:drop-shadow-[0_0_22px_rgba(18,132,224,0.38)] sm:h-28 sm:w-28 md:h-32 md:w-32" />
       ) : (
-        <span className="material-symbols-outlined fill text-[116px] leading-none text-[#2f5a75] opacity-[0.08] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:text-[#1f73b7] group-hover:opacity-[0.13] sm:text-[120px] md:text-[150px]">
+        <span className="material-symbols-outlined fill text-[116px] leading-none text-[#2f5a75] opacity-[0.08] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:text-[#1284e0] group-hover:opacity-[0.21] group-hover:drop-shadow-[0_0_22px_rgba(18,132,224,0.38)] sm:text-[120px] md:text-[150px]">
           {icon}
         </span>
       )}
@@ -245,9 +248,9 @@ function DesktopCenterOverlayIcon({ title, icon, left = '50%' }) {
   return (
     <span className="pointer-events-none absolute top-1/2 z-0 hidden -translate-x-1/2 -translate-y-1/2 lg:block" style={{ left }}>
       {isWordpress ? (
-        <WordpressMaskedIcon className="h-44 w-44 bg-[#2f5a75] opacity-[0.1] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:bg-[#1f73b7] group-hover:opacity-[0.16]" />
+        <WordpressMaskedIcon className="h-44 w-44 bg-[#2f5a75] opacity-[0.1] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:bg-[#1284e0] group-hover:opacity-[0.24] group-hover:drop-shadow-[0_0_28px_rgba(18,132,224,0.42)]" />
       ) : (
-        <span className="material-symbols-outlined fill text-[200px] leading-none text-[#2f5a75] opacity-[0.09] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:text-[#1f73b7] group-hover:opacity-[0.16]">
+        <span className="material-symbols-outlined fill text-[200px] leading-none text-[#2f5a75] opacity-[0.09] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:text-[#1284e0] group-hover:opacity-[0.24] group-hover:drop-shadow-[0_0_28px_rgba(18,132,224,0.42)]">
           {icon}
         </span>
       )}
@@ -257,6 +260,7 @@ function DesktopCenterOverlayIcon({ title, icon, left = '50%' }) {
 
 function LeftSolutionCard({ card, revealDelayMs = 0 }) {
   const isWordpressCard = card.title === 'Soluzioni WordPress';
+  const mobileDescription = card.mobileDescription ?? card.description;
   const { cardRef, isVisible } = useCardReveal(revealDelayMs);
   const { textWrapRef, titleRef, descriptionRef, iconLeft } = useStackedIconTextCenter();
   const {
@@ -281,7 +285,7 @@ function LeftSolutionCard({ card, revealDelayMs = 0 }) {
           <div ref={textWrapRef} className="relative mr-auto w-fit max-w-[30ch] sm:max-w-[32ch]">
             <StackedCenterOverlayIcon title={card.title} icon={card.icon} left={iconLeft} visibilityClass="block min-[961px]:hidden" />
             <h3 ref={titleRef} className="relative z-10 mb-2 font-headline text-[1.12rem] font-bold leading-[1.2] text-[#1f2630] sm:text-[1.24rem] md:text-[1.38rem]">{card.title}</h3>
-            <p ref={descriptionRef} className="relative z-10 font-body text-[0.9rem] leading-relaxed text-[#505763] sm:text-[0.97rem] md:text-[1.02rem]">{card.description}</p>
+            <p ref={descriptionRef} className="relative z-10 font-body text-[0.9rem] leading-relaxed text-[#505763] sm:text-[0.97rem] md:text-[1.02rem]">{mobileDescription}</p>
           </div>
         </div>
 
@@ -290,7 +294,7 @@ function LeftSolutionCard({ card, revealDelayMs = 0 }) {
             <img
               src={card.previewImage}
               alt={card.title}
-              className={`absolute inset-0 h-full w-full object-cover scale-[1.02] sm:scale-[1.06] ${
+              className={`absolute inset-0 h-full w-full object-cover scale-[1.08] sm:scale-[1.1] ${
                 isWordpressCard ? 'object-[48%_50%]' : 'object-[52%_50%]'
               }`}
             />
@@ -329,7 +333,7 @@ function LeftSolutionCard({ card, revealDelayMs = 0 }) {
             <img
               src={card.previewImage}
               alt={card.title}
-              className={`absolute inset-0 h-full w-full object-cover scale-[1.08] ${
+              className={`absolute inset-0 h-full w-full object-cover scale-[1.12] ${
                 isWordpressCard ? 'object-[48%_50%]' : 'object-[52%_50%]'
               }`}
             />
@@ -341,6 +345,7 @@ function LeftSolutionCard({ card, revealDelayMs = 0 }) {
 }
 
 function RightSolutionCard({ card, revealDelayMs = 0 }) {
+  const mobileDescription = card.mobileDescription ?? card.description;
   const desktopTitleWrapRef = useRef(null);
   const desktopTitleMeasureRef = useRef(null);
   const [useShortDesktopTitle, setUseShortDesktopTitle] = useState(false);
@@ -438,7 +443,7 @@ function RightSolutionCard({ card, revealDelayMs = 0 }) {
             <img
               src={card.previewImage}
               alt={card.title}
-              className="absolute inset-0 h-full w-full scale-[1.02] object-contain object-left-top"
+              className="absolute inset-0 h-full w-full scale-[1.08] object-contain object-left-top"
             />
           </div>
         </div>
@@ -459,7 +464,7 @@ function RightSolutionCard({ card, revealDelayMs = 0 }) {
               </h3>
             </div>
             <p ref={descriptionRef} className="relative z-10 font-body text-[0.9rem] leading-relaxed text-[#505763] sm:text-[0.97rem] md:text-[1.02rem]">
-              {card.description}
+              {mobileDescription}
             </p>
           </div>
         </div>
@@ -487,7 +492,7 @@ function RightSolutionCard({ card, revealDelayMs = 0 }) {
               <img
                 src={card.previewImage}
                 alt={card.title}
-                className="absolute inset-0 h-full w-full scale-[1.04] object-contain object-top"
+                className="absolute inset-0 h-full w-full scale-[1.1] object-contain object-top"
               />
             </div>
           </div>
