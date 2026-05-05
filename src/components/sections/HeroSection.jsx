@@ -702,7 +702,7 @@ export default function HeroSection() {
               Soluzioni digitali
               <br className="hidden md:block" />
               <span className="md:hidden"> </span>
-              e innovazione<span className="hidden md:inline">,</span>
+              e innovazione,
               <br className="hidden md:block" />
               <span className="md:hidden"> </span>
               alla portata di <span className="text-tertiary-fixed">tutti</span>

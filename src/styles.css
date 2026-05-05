@@ -1136,8 +1136,9 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
     padding-right: 2.35rem;
   }
 
-  .hero-actions .material-symbols-outlined {
-    font-size: 18px;
+  .hero-actions .hero-consultancy-cta .material-symbols-outlined {
+    right: 0.55rem;
+    font-size: 16px;
   }
 
   .hero-consultancy-cta {

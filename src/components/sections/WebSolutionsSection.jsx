@@ -416,7 +416,7 @@ function RightSolutionCard({ card, revealDelayMs = 0 }) {
           <div ref={textWrapRef} className="relative ml-auto w-fit max-w-[30ch] sm:max-w-[32ch]">
             <StackedCenterOverlayIcon title={card.title} icon={card.icon} left={iconLeft} visibilityClass="block min-[961px]:hidden" />
             <h3 ref={titleRef} className="relative z-10 mb-2 font-headline text-[1.12rem] font-bold leading-[1.2] text-[#1f2630] sm:text-[1.24rem] md:text-[1.38rem]">
-              {card.title}
+              Piattaforme <span className="whitespace-nowrap">di E-Commerce</span>
             </h3>
             <p ref={descriptionRef} className="relative z-10 font-body text-[0.9rem] leading-relaxed text-[#505763] sm:text-[0.97rem] md:text-[1.02rem]">
               {mobileDescription}
