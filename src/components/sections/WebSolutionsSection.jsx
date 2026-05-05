@@ -294,7 +294,7 @@ function LeftSolutionCard({ card, revealDelayMs = 0 }) {
             <img
               src={card.previewImage}
               alt={card.title}
-              className={`absolute inset-0 h-full w-full object-cover scale-[1.08] sm:scale-[1.1] ${
+              className={`absolute inset-0 h-full w-full object-cover scale-[1.12] sm:scale-[1.14] ${
                 isWordpressCard ? 'object-[48%_50%]' : 'object-[52%_50%]'
               }`}
             />
@@ -349,9 +349,6 @@ function RightSolutionCard({ card, revealDelayMs = 0 }) {
   const desktopTitleWrapRef = useRef(null);
   const desktopTitleMeasureRef = useRef(null);
   const [useShortDesktopTitle, setUseShortDesktopTitle] = useState(false);
-  const stackedTitleWrapRef = useRef(null);
-  const stackedTitleMeasureRef = useRef(null);
-  const [useShortStackedTitle, setUseShortStackedTitle] = useState(false);
   const { textWrapRef, titleRef, descriptionRef, iconLeft } = useStackedIconTextCenter();
   const {
     titleRef: desktopTitleRef,
@@ -393,39 +390,6 @@ function RightSolutionCard({ card, revealDelayMs = 0 }) {
   }, []);
 
   const desktopTitle = useShortDesktopTitle ? 'E-Commerce' : card.title;
-  useEffect(() => {
-    if (typeof window === 'undefined') return undefined;
-
-    const evaluateStackedTitle = () => {
-      const wrap = stackedTitleWrapRef.current;
-      const measure = stackedTitleMeasureRef.current;
-
-      if (!wrap || !measure) return;
-
-      const isStacked = window.matchMedia('(max-width: 1023px)').matches;
-      if (!isStacked) {
-        setUseShortStackedTitle(false);
-        return;
-      }
-
-      const availableWidth = wrap.getBoundingClientRect().width;
-      const fullTitleWidth = measure.getBoundingClientRect().width;
-      setUseShortStackedTitle(fullTitleWidth > availableWidth);
-    };
-
-    const resizeObserver = new ResizeObserver(evaluateStackedTitle);
-    if (stackedTitleWrapRef.current) resizeObserver.observe(stackedTitleWrapRef.current);
-
-    window.addEventListener('resize', evaluateStackedTitle);
-    evaluateStackedTitle();
-
-    return () => {
-      resizeObserver.disconnect();
-      window.removeEventListener('resize', evaluateStackedTitle);
-    };
-  }, []);
-
-  const stackedTitle = useShortStackedTitle ? 'E-Commerce' : card.title;
 
   return (
     <article
@@ -443,7 +407,7 @@ function RightSolutionCard({ card, revealDelayMs = 0 }) {
             <img
               src={card.previewImage}
               alt={card.title}
-              className="absolute inset-0 h-full w-full scale-[1.08] object-contain object-left-top"
+              className="absolute inset-0 h-full w-full scale-[1.12] object-contain object-left-top"
             />
           </div>
         </div>
@@ -451,18 +415,9 @@ function RightSolutionCard({ card, revealDelayMs = 0 }) {
         <div className="min-w-0 flex-1 text-right sm:pl-1 md:pl-2">
           <div ref={textWrapRef} className="relative ml-auto w-fit max-w-[30ch] sm:max-w-[32ch]">
             <StackedCenterOverlayIcon title={card.title} icon={card.icon} left={iconLeft} visibilityClass="block min-[961px]:hidden" />
-            <div ref={stackedTitleWrapRef} className="relative">
-              <span
-                ref={stackedTitleMeasureRef}
-                aria-hidden
-                className="pointer-events-none absolute left-0 top-0 inline-block whitespace-nowrap font-headline text-[1.12rem] font-bold leading-[1.2] opacity-0 sm:text-[1.24rem] md:text-[1.38rem]"
-              >
-                {card.title}
-              </span>
-              <h3 ref={titleRef} className="relative z-10 mb-2 font-headline text-[1.12rem] font-bold leading-[1.2] text-[#1f2630] sm:text-[1.24rem] md:text-[1.38rem]">
-                {stackedTitle}
-              </h3>
-            </div>
+            <h3 ref={titleRef} className="relative z-10 mb-2 font-headline text-[1.12rem] font-bold leading-[1.2] text-[#1f2630] sm:text-[1.24rem] md:text-[1.38rem]">
+              {card.title}
+            </h3>
             <p ref={descriptionRef} className="relative z-10 font-body text-[0.9rem] leading-relaxed text-[#505763] sm:text-[0.97rem] md:text-[1.02rem]">
               {mobileDescription}
             </p>
