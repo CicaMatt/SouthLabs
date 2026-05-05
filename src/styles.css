@@ -1050,6 +1050,11 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
     opacity: 0.70;
   }
 }
+@media (max-width: 767px) {
+  .hero-actions {
+    width: min(100%, calc(var(--hero-subheadline-inline-width, 100%) + 2rem));
+  }
+}
 @media (max-width: 639px) {
   .hero-factory-stage {
     --factory-stage-width: min(72vw, 420px);

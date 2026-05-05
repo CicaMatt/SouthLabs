@@ -501,7 +501,7 @@ export default function WebSolutionsSection() {
 
   return (
     <section className="relative overflow-hidden bg-surface py-20 lg:py-24" id="siti-web">
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-8">
         <SectionHeader
           className="mb-12 max-w-2xl sm:mb-14 lg:mb-16"
           title="Siti Web"

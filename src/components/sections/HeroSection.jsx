@@ -702,17 +702,17 @@ export default function HeroSection() {
               Soluzioni digitali
               <br className="hidden md:block" />
               <span className="md:hidden"> </span>
-              e innovazione<span className="md:hidden lg:inline">,</span>
+              e innovazione<span className="hidden md:inline">,</span>
               <br className="hidden md:block" />
               <span className="md:hidden"> </span>
               alla portata di <span className="text-tertiary-fixed">tutti</span>
             </h1>
             <p ref={subheadlineRef} className="font-body text-lg text-[#d4dbea] mb-10 max-w-2xl leading-relaxed sm:text-xl">
               Consulenza su misura per
-              <br className="sm:hidden md:block lg:hidden" />
+              <br className="lg:hidden" />
               {' '}far crescere il tuo business
             </p>
-            <div className="hero-actions flex flex-col sm:flex-row md:flex-col lg:flex-row gap-4" style={heroActionsStyle}>
+            <div className="hero-actions flex flex-col lg:flex-row gap-4" style={heroActionsStyle}>
               <a
                 href="#contatti"
                 className="hero-consultancy-cta group relative inline-flex items-center justify-center px-8 py-4 pr-12 rounded-md text-base font-medium transition-all duration-300 bg-gradient-to-br from-tertiary-fixed to-[#9ce6fb] text-[#06222a] shadow-[0_18px_45px_rgba(12,35,46,0.45)] hover:shadow-[0_22px_55px_rgba(12,35,46,0.58)] active:scale-95"
