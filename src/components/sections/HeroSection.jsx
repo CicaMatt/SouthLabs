@@ -651,7 +651,12 @@ export default function HeroSection() {
   };
   const handlePointerLeave = ()  => { setPointer(DEFAULT_POINTER); setIsActive(false); };
   const handlePointerDown  = (e) => {
-    if (e.pointerType === 'touch') return;
+    if (e.pointerType === 'touch') {
+      setPointer(DEFAULT_POINTER);
+      setIsActive(false);
+      boostFactoryAnimations();
+      return;
+    }
     const p = getPointerState(e);
     setPointer(p);
     setIsActive(true);

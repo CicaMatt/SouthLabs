@@ -294,7 +294,7 @@ function LeftSolutionCard({ card, revealDelayMs = 0 }) {
             <img
               src={card.previewImage}
               alt={card.title}
-              className={`absolute inset-0 h-full w-full object-cover scale-[1.12] sm:scale-[1.14] ${
+              className={`absolute inset-0 h-full w-full translate-x-1.5 object-cover scale-[1.12] sm:scale-[1.14] ${
                 isWordpressCard ? 'object-[48%_50%]' : 'object-[52%_50%]'
               }`}
             />

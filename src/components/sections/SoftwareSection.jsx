@@ -36,7 +36,7 @@ export default function AutomationSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="group col-span-1 md:col-span-2 row-span-2 flex h-full flex-col justify-center bg-primary text-on-primary rounded-xl border-[3px] border-transparent p-8 shadow-[0_8px_40px_rgba(19,27,46,0.08)] transition-colors duration-150 relative overflow-hidden hover:border-tertiary-fixed-dim">
             <div className="absolute bottom-0 right-0 p-2 opacity-10 transition-opacity duration-150 group-hover:opacity-25 md:top-1/2 md:bottom-auto md:-translate-y-1/2 md:p-6 lg:top-auto lg:bottom-0 lg:translate-y-0 lg:p-2">
-              <span className="material-symbols-outlined text-[84px] md:text-[108px] lg:text-[120px] transition-colors duration-150 group-hover:text-tertiary-fixed-dim">smart_toy</span>
+              <span className="material-symbols-outlined text-[76px] md:text-[108px] lg:text-[120px] transition-colors duration-150 group-hover:text-tertiary-fixed-dim">smart_toy</span>
             </div>
             <div className="absolute top-8 left-8 hidden h-12 w-12 items-center justify-center rounded-lg bg-surface-container/20 backdrop-blur-sm lg:flex">
               <span className="material-symbols-outlined text-tertiary-fixed-dim">memory</span>
