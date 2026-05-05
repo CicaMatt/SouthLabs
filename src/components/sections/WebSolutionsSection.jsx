@@ -214,11 +214,12 @@ function useCardReveal(revealDelayMs = 0) {
   return { cardRef, isVisible };
 }
 
-function CardHoverGlow() {
+function CardHoverGlow({ mobileImageSide = 'right', desktopImageSide = mobileImageSide }) {
   return (
-    <span className="pointer-events-none absolute inset-0 z-[1] opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 motion-reduce:transition-none" aria-hidden>
-      <span className="absolute inset-0 bg-[radial-gradient(120%_70%_at_50%_0%,rgba(31,115,183,0.12)_0%,rgba(31,115,183,0)_72%)]" />
-    </span>
+    <span
+      className={`web-solution-card-glow web-solution-card-glow--mobile-image-${mobileImageSide} web-solution-card-glow--desktop-image-${desktopImageSide} pointer-events-none absolute inset-0 z-[1] opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 motion-reduce:transition-none`}
+      aria-hidden
+    />
   );
 }
 
@@ -272,7 +273,7 @@ function LeftSolutionCard({ card, revealDelayMs = 0 }) {
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
       }`}
     >
-      <CardHoverGlow />
+      <CardHoverGlow mobileImageSide="right" desktopImageSide={isWordpressCard ? 'left' : 'right'} />
       <StackedCenterOverlayIcon title={card.title} icon={card.icon} visibilityClass="hidden min-[961px]:block lg:hidden" />
 
       <div className="relative z-10 flex w-full items-center gap-3 px-6 py-3 sm:gap-4 sm:px-7 sm:py-4 md:px-8 md:py-5 lg:hidden">
@@ -428,7 +429,7 @@ function RightSolutionCard({ card, revealDelayMs = 0 }) {
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
       }`}
     >
-      <CardHoverGlow />
+      <CardHoverGlow mobileImageSide="left" desktopImageSide="bottom" />
       <StackedCenterOverlayIcon title={card.title} icon={card.icon} visibilityClass="hidden min-[961px]:block lg:hidden" />
 
       <div className="relative z-10 flex w-full items-center gap-3 px-6 py-3 sm:gap-4 sm:px-7 sm:py-4 md:px-8 md:py-5 lg:hidden">

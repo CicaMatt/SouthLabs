@@ -18,6 +18,65 @@ h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
 }
 
 /* ──────────────────────────────────────────────────
+   Web solutions cards
+────────────────────────────────────────────────── */
+.web-solution-card-glow {
+  --web-solution-glow-size: 78% 128%;
+  --web-solution-glow-origin: 0% 50%;
+  --web-solution-glow-mask: linear-gradient(90deg, #000 0%, #000 46%, transparent 68%);
+}
+
+.web-solution-card-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    var(--web-solution-glow-size) at var(--web-solution-glow-origin),
+    rgba(31, 115, 183, 0.12) 0%,
+    rgba(31, 115, 183, 0.07) 34%,
+    rgba(31, 115, 183, 0) 64%
+  );
+  -webkit-mask-image: var(--web-solution-glow-mask);
+  mask-image: var(--web-solution-glow-mask);
+}
+
+.web-solution-card-glow--mobile-image-right {
+  --web-solution-glow-origin: 0% 50%;
+  --web-solution-glow-mask: linear-gradient(90deg, #000 0%, #000 46%, transparent 68%);
+}
+
+.web-solution-card-glow--mobile-image-left {
+  --web-solution-glow-origin: 100% 50%;
+  --web-solution-glow-mask: linear-gradient(270deg, #000 0%, #000 46%, transparent 68%);
+}
+
+.web-solution-card-glow--mobile-image-bottom {
+  --web-solution-glow-size: 118% 54%;
+  --web-solution-glow-origin: 50% 0%;
+  --web-solution-glow-mask: linear-gradient(180deg, #000 0%, #000 34%, transparent 62%);
+}
+
+@media (min-width: 1024px) {
+  .web-solution-card-glow--desktop-image-right {
+    --web-solution-glow-size: 78% 128%;
+    --web-solution-glow-origin: 0% 50%;
+    --web-solution-glow-mask: linear-gradient(90deg, #000 0%, #000 48%, transparent 70%);
+  }
+
+  .web-solution-card-glow--desktop-image-left {
+    --web-solution-glow-size: 78% 128%;
+    --web-solution-glow-origin: 100% 50%;
+    --web-solution-glow-mask: linear-gradient(270deg, #000 0%, #000 48%, transparent 70%);
+  }
+
+  .web-solution-card-glow--desktop-image-bottom {
+    --web-solution-glow-size: 118% 54%;
+    --web-solution-glow-origin: 50% 0%;
+    --web-solution-glow-mask: linear-gradient(180deg, #000 0%, #000 34%, transparent 62%);
+  }
+}
+
+/* ──────────────────────────────────────────────────
    Hero entrance
 ────────────────────────────────────────────────── */
 @keyframes heroFadeUp {
