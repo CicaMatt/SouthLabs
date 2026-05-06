@@ -21,10 +21,15 @@ const MOBILE_LINK_CLASS = [
   'dark:text-slate-200 dark:hover:bg-slate-800/70'
 ].join(' ');
 
-// Combines the icon and text mark while exposing one accessible brand label.
-function BrandLogo() {
+// Combines the icon and text mark while exposing one accessible brand link.
+function BrandLogo({ onNavigate }) {
   return (
-    <div aria-label="SouthLabs" className="ml-1.5 lg:ml-0 shrink-0 flex items-center gap-1.5 lg:gap-2.5" role="img">
+    <a
+      aria-label="SouthLabs - torna alla sezione principale"
+      className="ml-1.5 lg:ml-0 shrink-0 flex items-center gap-1.5 lg:gap-2.5"
+      href="#hero"
+      onClick={onNavigate}
+    >
       <img alt="" aria-hidden="true" className="h-[3.25rem] lg:h-[3.75rem] w-auto object-contain object-center" src={logoImage} />
       <div className="flex h-[3.25rem] lg:h-[3.75rem] items-center">
         <img
@@ -34,7 +39,7 @@ function BrandLogo() {
           src={logoText}
         />
       </div>
-    </div>
+    </a>
   );
 }
 
@@ -115,7 +120,7 @@ export default function TopNavBar() {
   return (
     <nav className="fixed top-0 w-full h-16 lg:h-20 z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-2xl shadow-[0_4px_20px_rgba(19,27,46,0.04)] dark:shadow-none bg-white dark:bg-slate-900">
       <div className="relative max-w-7xl mx-auto h-full flex items-center justify-between px-5 lg:px-8">
-        <BrandLogo />
+        <BrandLogo onNavigate={closeMobileMenu} />
         <DesktopNavLinks />
 
         <div className="flex items-center gap-2 lg:gap-3">

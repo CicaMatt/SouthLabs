@@ -161,6 +161,7 @@ export default function HeroSection() {
 
   return (
     <section
+      id="hero"
       className="hero-shell relative isolate overflow-hidden bg-primary pt-32 pb-24 lg:pt-40 lg:pb-36"
       onPointerDown={handlePointerDown}
       onPointerLeave={handlePointerLeave}

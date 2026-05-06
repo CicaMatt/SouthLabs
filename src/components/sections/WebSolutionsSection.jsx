@@ -261,12 +261,12 @@ function LeftSolutionCard({ card, revealDelayMs = 0 }) {
           </div>
         </div>
 
-        <div className="w-[48%] shrink-0 sm:w-[46%] md:w-[34%]">
+        <div className="-mr-2.5 w-[52%] shrink-0 sm:-mr-3.5 sm:w-[50%] md:-mr-3.5 md:w-[38%]">
           <div className="relative aspect-[4/3] w-full overflow-hidden bg-white">
             <img
               src={card.previewImage}
               alt={card.title}
-              className={`absolute inset-0 h-full w-full translate-x-1.5 object-cover scale-[1.12] sm:scale-[1.14] ${
+              className={`absolute inset-0 h-full w-full translate-x-1.5 object-cover scale-[1.18] sm:scale-[1.2] ${
                 isWordpressCard ? 'object-[48%_50%]' : 'object-[52%_50%]'
               }`}
             />
@@ -375,12 +375,12 @@ function RightSolutionCard({ card, revealDelayMs = 0 }) {
       <StackedCenterOverlayIcon title={card.title} icon={card.icon} visibilityClass="hidden min-[961px]:block lg:hidden" />
 
       <div className={MOBILE_CARD_ROW_CLASS}>
-        <div className="w-[48%] shrink-0 sm:w-[46%] md:w-[34%]">
+        <div className="-ml-2.5 w-[54%] shrink-0 sm:-ml-3.5 sm:w-[52%] md:-ml-3.5 md:w-[40%]">
           <div className="relative aspect-[4/3] w-full overflow-hidden bg-white">
             <img
               src={card.previewImage}
               alt={card.title}
-              className="absolute inset-0 h-full w-full scale-[1.12] object-contain object-left-top"
+              className="absolute inset-0 h-full w-full object-contain object-left-top"
             />
           </div>
         </div>

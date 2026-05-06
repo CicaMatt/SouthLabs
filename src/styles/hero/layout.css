@@ -74,6 +74,7 @@
 
 .hero-factory-stage {
   --factory-stage-width: min(60vw, 740px);
+  --factory-stage-scale: 1;
   position: absolute;
   right:  clamp(-40px, -1.2vw, 64px);
   bottom: calc(var(--factory-stage-width) / -30);
@@ -87,7 +88,7 @@
       calc(var(--hero-shift-x) * 18px),
       0, 0
     )
-    scale(calc(1 + var(--hero-active) * 0.014));
+    scale(calc(var(--factory-stage-scale) + var(--hero-active) * 0.014));
   transform-origin: 52% 100%;
   transition: transform 280ms ease;
 }
