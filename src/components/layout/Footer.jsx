@@ -52,9 +52,9 @@ export default function Footer() {
             <FooterColumn className="md:border-x md:border-slate-200/70 md:px-10 lg:px-14 md:dark:border-slate-800/70" title="Contatti">
               <a
                 className={`max-w-full break-all ${FOOTER_LINK_CLASS}`}
-                href="mailto:southlabs.consulting@gmail.com"
+                href="mailto:matteocicalese.consulting@gmail.com"
               >
-                southlabs.consulting@gmail.com
+                matteocicalese.consulting@gmail.com
               </a>
               <span className="font-inter text-sm leading-relaxed text-slate-600 dark:text-slate-400">+39 3928139527</span>
             </FooterColumn>

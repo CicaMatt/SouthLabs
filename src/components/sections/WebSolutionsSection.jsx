@@ -264,8 +264,8 @@ function LeftSolutionCard({ card, revealDelayMs = 0 }) {
         <div className="min-w-0 flex-1 pr-1 text-left sm:pr-2">
           <div ref={textWrapRef} className="relative mr-auto w-fit max-w-[30ch] sm:max-w-[32ch]">
             <StackedCenterOverlayIcon title={card.title} icon={card.icon} left={iconLeft} visibilityClass="block min-[961px]:hidden" />
-            <h3 ref={titleRef} className="relative z-10 mb-2 font-headline text-[1.12rem] font-bold leading-[1.2] text-[#1f2630] sm:text-[1.24rem] md:text-[1.38rem]">{card.title}</h3>
-            <p ref={descriptionRef} className="relative z-10 font-body text-[0.9rem] leading-relaxed text-[#505763] sm:text-[0.97rem] md:text-[1.02rem]">
+            <h3 ref={titleRef} className="relative z-10 mb-2 font-headline text-[1.08rem] font-bold leading-[1.2] text-[#1f2630] sm:text-[1.19rem] md:text-[1.32rem]">{card.title}</h3>
+            <p ref={descriptionRef} className="relative z-10 font-body text-[0.86rem] leading-relaxed text-[#505763] sm:text-[0.93rem] md:text-[0.98rem]">
               <ResponsiveSolutionDescription description={card.description} mobileDescription={card.mobileDescription} />
             </p>
           </div>
@@ -397,10 +397,10 @@ function RightSolutionCard({ card, revealDelayMs = 0 }) {
         <div className="min-w-0 flex-1 text-right sm:pl-1 md:pl-2">
           <div ref={textWrapRef} className="relative ml-auto w-fit max-w-[30ch] sm:max-w-[32ch]">
             <StackedCenterOverlayIcon title={card.title} icon={card.icon} left={iconLeft} visibilityClass="block min-[961px]:hidden" />
-            <h3 ref={titleRef} className="relative z-10 mb-2 font-headline text-[1.12rem] font-bold leading-[1.2] text-[#1f2630] sm:text-[1.24rem] md:text-[1.38rem]">
+            <h3 ref={titleRef} className="relative z-10 mb-2 font-headline text-[1.08rem] font-bold leading-[1.2] text-[#1f2630] sm:text-[1.19rem] md:text-[1.32rem]">
               Piattaforme <span className="whitespace-nowrap">di E-Commerce</span>
             </h3>
-            <p ref={descriptionRef} className="relative z-10 font-body text-[0.9rem] leading-relaxed text-[#505763] sm:text-[0.97rem] md:text-[1.02rem]">
+            <p ref={descriptionRef} className="relative z-10 font-body text-[0.86rem] leading-relaxed text-[#505763] sm:text-[0.93rem] md:text-[0.98rem]">
               <ResponsiveSolutionDescription description={card.description} mobileDescription={card.mobileDescription} />
             </p>
           </div>
