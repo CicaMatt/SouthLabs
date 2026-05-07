@@ -1,3 +1,7 @@
+import { useState } from 'react';
+
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xykodzgw';
+
 const FIELD_LABEL_CLASS = [
   'block font-label text-sm font-medium',
   'text-on-surface-variant mb-2'
@@ -9,12 +13,33 @@ const FIELD_CONTROL_CLASS = [
   'focus:shadow-[inset_0_0_0_1px_rgba(71,214,255,1)]'
 ].join(' ');
 const TEXT_FIELD_CLASS = `${FIELD_CONTROL_CLASS} placeholder:text-outline-variant`;
+const FORM_MESSAGE_CLASS = 'flex items-center justify-center rounded-md px-4 py-3 text-center text-sm font-medium';
 
 // Contact form configuration. Field ids match label htmlFor values.
 const contactFields = [
-  { id: 'name', label: 'Nome e Cognome', placeholder: 'Mario Rossi', type: 'text' },
-  { id: 'company', label: 'Azienda', placeholder: 'La tua azienda Srl', type: 'text' },
-  { id: 'email', label: 'Email', placeholder: 'mario.rossi@esempio.it', type: 'email' }
+  {
+    autoComplete: 'name',
+    id: 'name',
+    label: 'Nome e Cognome',
+    placeholder: 'Mario Rossi',
+    required: true,
+    type: 'text'
+  },
+  {
+    autoComplete: 'organization',
+    id: 'company',
+    label: 'Azienda',
+    placeholder: 'La tua azienda Srl',
+    type: 'text'
+  },
+  {
+    autoComplete: 'email',
+    id: 'email',
+    label: 'Email',
+    placeholder: 'mario.rossi@esempio.it',
+    required: true,
+    type: 'email'
+  }
 ];
 
 const interestOptions = [
@@ -37,22 +62,60 @@ function Field({ children, id, label }) {
 }
 
 // Standard text-like input used for name, company, and email fields.
-function TextField({ id, label, placeholder, type = 'text' }) {
+function TextField({ autoComplete, id, label, placeholder, required = false, type = 'text' }) {
   return (
     <Field id={id} label={label}>
       <input
+        autoComplete={autoComplete}
         className={TEXT_FIELD_CLASS}
         id={id}
+        name={id}
         placeholder={placeholder}
+        required={required}
         type={type}
       />
     </Field>
   );
 }
 
-// Contact form section. Submission handling can be wired here when a backend exists.
+// Contact form section. Submissions are sent to Formspree without adding a runtime dependency.
 export default function ContactSection() {
+  const [formState, setFormState] = useState({ status: 'idle', message: '' });
   const [nameField, companyField, emailField] = contactFields;
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    setFormState({ status: 'submitting', message: '' });
+
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Accept: 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Formspree submission failed');
+      }
+
+      form.reset();
+      setFormState({
+        status: 'succeeded',
+        message: 'Grazie, richiesta inviata. Ti ricontatteremo al piu presto.'
+      });
+    } catch {
+      setFormState({
+        status: 'failed',
+        message: 'Non siamo riusciti a inviare la richiesta. Riprova tra poco o scrivici via email.'
+      });
+    }
+  }
 
   return (
     <section className="py-24 bg-surface-container-low" id="contatti">
@@ -68,7 +131,13 @@ export default function ContactSection() {
         </div>
 
         <div className="bg-surface-container-lowest rounded-xl border-t-4 border-primary p-8 shadow-[0_4px_20px_rgba(19,27,46,0.04)]">
-          <form className="space-y-6">
+          <form
+            action={FORMSPREE_ENDPOINT}
+            className="space-y-6"
+            method="POST"
+            onSubmit={handleSubmit}
+          >
+            <input name="_subject" type="hidden" value="Nuova richiesta dal sito SouthLabs" />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <TextField {...nameField} />
               <TextField {...companyField} />
@@ -80,9 +149,10 @@ export default function ContactSection() {
               <select
                 className={FIELD_CONTROL_CLASS}
                 id="interest"
+                name="interest"
               >
                 {interestOptions.map((option) => (
-                  <option key={option}>{option}</option>
+                  <option key={option} value={option}>{option}</option>
                 ))}
               </select>
             </Field>
@@ -91,16 +161,33 @@ export default function ContactSection() {
               <textarea
                 className={TEXT_FIELD_CLASS}
                 id="message"
+                name="message"
                 placeholder="Descrivi brevemente il tuo progetto..."
+                required
                 rows="4"
               />
             </Field>
 
+            {formState.message ? (
+              <p
+                aria-live="polite"
+                className={[
+                  FORM_MESSAGE_CLASS,
+                  formState.status === 'succeeded'
+                    ? 'bg-primary-fixed text-on-primary-fixed'
+                    : 'bg-error/10 text-error'
+                ].join(' ')}
+              >
+                {formState.message}
+              </p>
+            ) : null}
+
             <button
-              className="w-full inline-flex items-center justify-center px-6 py-4 rounded-md text-base font-medium transition-all duration-200 bg-primary text-on-primary bg-gradient-to-br from-primary to-primary-container shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] hover:shadow-[0_8px_40px_rgba(34,42,62,0.15)] active:scale-95"
+              className="w-full inline-flex items-center justify-center px-6 py-4 rounded-md text-base font-medium transition-all duration-200 bg-primary text-on-primary bg-gradient-to-br from-primary to-primary-container shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] hover:shadow-[0_8px_40px_rgba(34,42,62,0.15)] active:scale-95 disabled:cursor-wait disabled:opacity-70"
+              disabled={formState.status === 'submitting'}
               type="submit"
             >
-              Invia Richiesta
+              {formState.status === 'submitting' ? 'Invio in corso...' : 'Invia Richiesta'}
             </button>
           </form>
         </div>
