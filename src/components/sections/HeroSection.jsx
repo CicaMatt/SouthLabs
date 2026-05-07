@@ -359,7 +359,7 @@ export default function HeroSection() {
         <div className="hero-reveal hero-content max-w-4xl">
           <div className="mb-8 inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-surface-bright backdrop-blur-md">
             <span className="h-2 w-2 rounded-full bg-tertiary-fixed" />
-            Digital Consulting
+            Consulenza Informatica
           </div>
           <div className="md:flex md:w-fit md:flex-col md:items-stretch lg:block lg:w-auto">
             <h1 className="hero-title-balance font-headline text-[3rem] leading-[1.05] tracking-tight text-surface-bright sm:text-[3.4rem] lg:text-[4rem] mb-6">

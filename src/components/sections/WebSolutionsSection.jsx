@@ -195,6 +195,15 @@ function CardHoverGlow({ mobileImageSide = 'right', desktopImageSide = mobileIma
   );
 }
 
+function ResponsiveSolutionDescription({ description, mobileDescription }) {
+  return (
+    <>
+      <span className="md:hidden">{mobileDescription ?? description}</span>
+      <span className="hidden md:inline">{description}</span>
+    </>
+  );
+}
+
 // Decorative icon used behind text on mobile and intermediate widths.
 function StackedCenterOverlayIcon({ title, icon, left = '50%', visibilityClass = 'lg:hidden' }) {
   const isWordpress = title === WORDPRESS_TITLE;
@@ -232,7 +241,6 @@ function DesktopCenterOverlayIcon({ title, icon, left = '50%' }) {
 // Horizontal solution card used for custom web apps and WordPress.
 function LeftSolutionCard({ card, revealDelayMs = 0 }) {
   const isWordpressCard = card.title === WORDPRESS_TITLE;
-  const mobileDescription = card.mobileDescription ?? card.description;
   const { cardRef, isVisible } = useCardReveal(revealDelayMs);
   const { textWrapRef, titleRef, descriptionRef, iconLeft } = useStackedIconTextCenter();
   const {
@@ -257,7 +265,9 @@ function LeftSolutionCard({ card, revealDelayMs = 0 }) {
           <div ref={textWrapRef} className="relative mr-auto w-fit max-w-[30ch] sm:max-w-[32ch]">
             <StackedCenterOverlayIcon title={card.title} icon={card.icon} left={iconLeft} visibilityClass="block min-[961px]:hidden" />
             <h3 ref={titleRef} className="relative z-10 mb-2 font-headline text-[1.12rem] font-bold leading-[1.2] text-[#1f2630] sm:text-[1.24rem] md:text-[1.38rem]">{card.title}</h3>
-            <p ref={descriptionRef} className="relative z-10 font-body text-[0.9rem] leading-relaxed text-[#505763] sm:text-[0.97rem] md:text-[1.02rem]">{mobileDescription}</p>
+            <p ref={descriptionRef} className="relative z-10 font-body text-[0.9rem] leading-relaxed text-[#505763] sm:text-[0.97rem] md:text-[1.02rem]">
+              <ResponsiveSolutionDescription description={card.description} mobileDescription={card.mobileDescription} />
+            </p>
           </div>
         </div>
 
@@ -318,7 +328,6 @@ function LeftSolutionCard({ card, revealDelayMs = 0 }) {
 
 // Tall desktop card for e-commerce, with title shortening when space is tight.
 function RightSolutionCard({ card, revealDelayMs = 0 }) {
-  const mobileDescription = card.mobileDescription ?? card.description;
   const desktopTitleWrapRef = useRef(null);
   const desktopTitleMeasureRef = useRef(null);
   const [useShortDesktopTitle, setUseShortDesktopTitle] = useState(false);
@@ -392,7 +401,7 @@ function RightSolutionCard({ card, revealDelayMs = 0 }) {
               Piattaforme <span className="whitespace-nowrap">di E-Commerce</span>
             </h3>
             <p ref={descriptionRef} className="relative z-10 font-body text-[0.9rem] leading-relaxed text-[#505763] sm:text-[0.97rem] md:text-[1.02rem]">
-              {mobileDescription}
+              <ResponsiveSolutionDescription description={card.description} mobileDescription={card.mobileDescription} />
             </p>
           </div>
         </div>
