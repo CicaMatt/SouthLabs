@@ -96,14 +96,15 @@ export default function HeroParticleField({ pointerRef }) {
       ctx.clearRect(0, 0, size.width, size.height);
 
       const pointer = pointerRef.current;
+      const isRepelling = Boolean(pointer.active || pointer.repelActive);
       const burstDuration = Math.max(1, (pointer.burstUntil || 0) - (pointer.burstStart || 0));
       const burstProgress = !isStatic && now < (pointer.burstUntil || 0)
         ? clamp((now - pointer.burstStart) / burstDuration, 0, 1)
         : 0;
       const burstEase = Math.sin(burstProgress * Math.PI);
-      const repelX = pointer.active ? pointer.x : pointer.burstX;
-      const repelY = pointer.active ? pointer.y : pointer.burstY;
-      const hasPointer = !isStatic && (pointer.active || burstEase > 0) && repelX >= 0 && repelY >= 0;
+      const repelX = isRepelling ? pointer.x : pointer.burstX;
+      const repelY = isRepelling ? pointer.y : pointer.burstY;
+      const hasPointer = !isStatic && (isRepelling || burstEase > 0) && repelX >= 0 && repelY >= 0;
       const touchDuration = Math.max(1, (pointer.touchNudgeUntil || 0) - (pointer.touchNudgeStart || 0));
       const touchProgress = !isStatic && now < (pointer.touchNudgeUntil || 0)
         ? clamp((now - pointer.touchNudgeStart) / touchDuration, 0, 1)
@@ -151,9 +152,10 @@ export default function HeroParticleField({ pointerRef }) {
       frameId = requestAnimationFrame(render);
 
       const pointer = pointerRef.current;
+      const isRepelling = Boolean(pointer.active || pointer.repelActive);
       const isTouchNudging = now < (pointer.touchNudgeUntil || 0);
       const isBursting = now < (pointer.burstUntil || 0);
-      const frameInterval = pointer.active || isTouchNudging || isBursting
+      const frameInterval = isRepelling || isTouchNudging || isBursting
         ? FRAME_INTERVAL_ACTIVE
         : size.width < 700
           ? FRAME_INTERVAL_IDLE_MOBILE

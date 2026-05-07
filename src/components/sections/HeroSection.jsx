@@ -154,7 +154,8 @@ export default function HeroSection() {
     burstStart: 0,
     burstUntil: 0,
     burstX: -1,
-    burstY: -1
+    burstY: -1,
+    repelActive: false
   });
   const pointerActiveRef = useRef(false);
   const styleFrameRef = useRef(null);
@@ -225,9 +226,32 @@ export default function HeroSection() {
     pointerRef.current = {
       ...pointerRef.current,
       ...nextPointer,
-      active: nextActive
+      active: nextActive,
+      repelActive: nextActive
     };
     setPointerActive(nextActive);
+    schedulePointerStyle();
+  }, [schedulePointerStyle, setPointerActive]);
+
+  const updateTouchPointer = useCallback((nextPointer, nextRepelActive) => {
+    pointerRef.current = {
+      ...pointerRef.current,
+      x: nextPointer.x,
+      y: nextPointer.y,
+      pctX: nextPointer.pctX,
+      pctY: nextPointer.pctY,
+      shiftX: DEFAULT_POINTER.shiftX,
+      shiftY: DEFAULT_POINTER.shiftY,
+      active: false,
+      repelActive: nextRepelActive
+    };
+    setPointerActive(false);
+    schedulePointerStyle();
+  }, [schedulePointerStyle, setPointerActive]);
+
+  const endTouchPointer = useCallback(() => {
+    pointerRef.current.repelActive = false;
+    setPointerActive(false);
     schedulePointerStyle();
   }, [schedulePointerStyle, setPointerActive]);
 
@@ -254,11 +278,18 @@ export default function HeroSection() {
   }, []);
 
   const handlePointerMove  = (e) => {
-    if (e.pointerType === 'touch') return;
+    if (e.pointerType === 'touch') {
+      if (pointerRef.current.repelActive) updateTouchPointer(getPointerState(e), true);
+      return;
+    }
     setHeroTransitionMode('active');
     updatePointer(getPointerState(e), true);
   };
-  const handlePointerLeave = ()  => {
+  const handlePointerLeave = (e)  => {
+    if (e.pointerType === 'touch') {
+      endTouchPointer();
+      return;
+    }
     setHeroTransitionMode('return');
     updatePointer(getDefaultPointerState(heroRef.current), false);
   };
@@ -266,7 +297,8 @@ export default function HeroSection() {
     setHeroTransitionMode('active');
     if (e.pointerType === 'touch') {
       const p = getPointerState(e);
-      updatePointer(p, false);
+      updateTouchPointer(p, true);
+      triggerPointerBurst(p);
       triggerTouchParticleNudge(p);
       boostFactoryAnimations();
       return;
@@ -275,6 +307,9 @@ export default function HeroSection() {
     updatePointer(p, true);
     triggerPointerBurst(p);
     boostFactoryAnimations();
+  };
+  const handlePointerUp = (e) => {
+    if (e.pointerType === 'touch') endTouchPointer();
   };
 
   const heroStyle = useMemo(() => ({
@@ -301,6 +336,8 @@ export default function HeroSection() {
       onPointerEnter={handlePointerMove}
       onPointerLeave={handlePointerLeave}
       onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerUp}
       style={heroStyle}
     >
       <div aria-hidden="true" className="hero-atmosphere absolute inset-0 z-0">
