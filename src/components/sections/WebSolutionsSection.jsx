@@ -385,7 +385,7 @@ function RightSolutionCard({ card, revealDelayMs = 0 }) {
 
       <div className={MOBILE_CARD_ROW_CLASS}>
         <div className="-ml-2.5 w-[54%] shrink-0 sm:-ml-3.5 sm:w-[52%] md:-ml-3.5 md:w-[40%]">
-          <div className="relative aspect-[4/3] w-full overflow-hidden bg-white">
+          <div className="relative aspect-square w-full overflow-hidden bg-white">
             <img
               src={card.previewImage}
               alt={card.title}
