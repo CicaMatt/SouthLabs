@@ -4,10 +4,12 @@ const TAU = Math.PI * 2;
 const TOUCH_NUDGE_MS = 720;
 const POINTER_BURST_MS = 420;
 const PARTICLE_DENSITY = 4400;
-const POINTER_RADIUS = 170;
+const POINTER_RADIUS = 135;
+const POINTER_BURST_RADIUS_BOOST = 0.12;
 const POINTER_FORCE = 92;
 const MAX_PIXEL_RATIO = 1.25;
 const MOBILE_FIELD_MAX_WIDTH = 700;
+const PARTICLE_MOTION_SPEED = 1.35;
 const FRAME_INTERVAL_MS = {
   active: 18,
   idleDesktop: 48,
@@ -54,10 +56,10 @@ function createParticles(width, height) {
       x,
       y,
       radius: 0.95 + Math.random() * 1.35,
-      driftX: (Math.random() - 0.5) * 0.18,
-      driftY: (Math.random() - 0.5) * 0.14,
+      driftX: (Math.random() - 0.5) * 0.18 * PARTICLE_MOTION_SPEED,
+      driftY: (Math.random() - 0.5) * 0.14 * PARTICLE_MOTION_SPEED,
       phase: Math.random() * TAU,
-      phaseSpeed: 0.008 + Math.random() * 0.014,
+      phaseSpeed: (0.008 + Math.random() * 0.014) * PARTICLE_MOTION_SPEED,
       wander: 1.4 + Math.random() * 2.8,
       fillStyle: `rgba(${color}, ${alpha})`
     };
@@ -122,7 +124,9 @@ export default function HeroParticleField({ pointerRef }) {
       const touchEase = Math.sin(touchProgress * Math.PI);
       const touchOffsetX = touchEase * pointer.touchNudgeX;
       const touchOffsetY = touchEase * pointer.touchNudgeY;
-      const repelRadius = POINTER_RADIUS * (size.width < MOBILE_FIELD_MAX_WIDTH ? 0.76 : 1) * (1 + burstEase * 0.34);
+      const repelRadius = POINTER_RADIUS
+        * (size.width < MOBILE_FIELD_MAX_WIDTH ? 0.76 : 1)
+        * (1 + burstEase * POINTER_BURST_RADIUS_BOOST);
       const repelRadiusSq = repelRadius * repelRadius;
       const repelForce = POINTER_FORCE * (1 + burstEase * 1.35);
 

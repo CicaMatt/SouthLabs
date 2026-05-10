@@ -4,12 +4,17 @@ import HeroParticleField, { POINTER_BURST_MS } from '../hero/HeroParticleField';
 
 const DEFAULT_POINTER = { pctX: 72, pctY: 42, shiftX: 0.18, shiftY: -0.1 };
 const BOOST_PLAYBACK_RATE = 2.8;
-const BOOST_DURATION_MS = 520;
+const BOOST_RAMP_UP_MS = 260;
+const BOOST_HOLD_MS = 140;
+const BOOST_RAMP_DOWN_MS = 620;
+const BOOST_TOTAL_MS = BOOST_RAMP_UP_MS + BOOST_HOLD_MS + BOOST_RAMP_DOWN_MS;
 const TOUCH_PARTICLE_NUDGE_MS = 720;
 const POINTER_RETURN_GLOW_MS = 2400;
 const POINTER_RETURN_OPACITY_MS = 720;
 const POINTER_RETURN_FACTORY_MS = 1600;
 const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
+const lerp = (start, end, progress) => start + (end - start) * progress;
+const smoothStep = (progress) => progress * progress * (3 - 2 * progress);
 
 const HERO_TRANSITION_TIMING = {
   active: {
@@ -93,50 +98,99 @@ function getDefaultPointerState(heroElement) {
   };
 }
 
+function getAnimationPlaybackRate(animation, fallback = 1) {
+  return Number.isFinite(animation.playbackRate) ? animation.playbackRate : fallback;
+}
+
+function setAnimationPlaybackRate(animation, playbackRate) {
+  try {
+    animation.playbackRate = playbackRate;
+  } catch {
+    // The animation may have been removed while the boost was easing out.
+  }
+}
+
 // Temporarily speeds up SVG animations when the hero is pressed/clicked.
 function useFactoryAnimationBoost(factorySvgRef) {
-  const boostTimeoutRef = useRef(null);
+  const boostFrameRef = useRef(null);
   const boostedAnimationsRef = useRef([]);
 
-  const resetFactoryBoost = useCallback(() => {
-    if (boostTimeoutRef.current !== null) {
-      clearTimeout(boostTimeoutRef.current);
-      boostTimeoutRef.current = null;
+  const cancelBoostFrame = useCallback(() => {
+    if (boostFrameRef.current !== null) {
+      cancelAnimationFrame(boostFrameRef.current);
+      boostFrameRef.current = null;
     }
+  }, []);
+
+  const resetFactoryBoost = useCallback(() => {
+    cancelBoostFrame();
     boostedAnimationsRef.current.forEach(({ animation, playbackRate }) => {
-      animation.playbackRate = playbackRate;
+      setAnimationPlaybackRate(animation, playbackRate);
     });
     boostedAnimationsRef.current = [];
-  }, []);
+  }, [cancelBoostFrame]);
 
   const boostFactoryAnimations = useCallback(() => {
     const factorySvg = factorySvgRef.current;
     if (!factorySvg || typeof factorySvg.getAnimations !== 'function') return;
 
-    resetFactoryBoost();
+    const previousPlaybackRates = new Map(
+      boostedAnimationsRef.current.map(({ animation, playbackRate }) => [animation, playbackRate])
+    );
+    cancelBoostFrame();
+
     const runningAnimations = factorySvg
       .getAnimations({ subtree: true })
       .filter((animation) => typeof CSSAnimation === 'undefined' || animation instanceof CSSAnimation);
 
-    if (!runningAnimations.length) return;
+    if (!runningAnimations.length) {
+      resetFactoryBoost();
+      return;
+    }
 
     boostedAnimationsRef.current = runningAnimations.map((animation) => ({
       animation,
-      playbackRate: animation.playbackRate || 1
+      playbackRate: previousPlaybackRates.get(animation) ?? getAnimationPlaybackRate(animation),
+      boostStartPlaybackRate: getAnimationPlaybackRate(
+        animation,
+        previousPlaybackRates.get(animation) ?? 1
+      )
     }));
 
-    boostedAnimationsRef.current.forEach(({ animation, playbackRate }) => {
-      animation.playbackRate = playbackRate * BOOST_PLAYBACK_RATE;
-    });
+    const boostStart = performance.now();
+    const updateBoost = (timestamp) => {
+      const elapsed = Math.max(0, timestamp - boostStart);
 
-    boostTimeoutRef.current = setTimeout(() => {
-      boostedAnimationsRef.current.forEach(({ animation, playbackRate }) => {
-        animation.playbackRate = playbackRate;
+      boostedAnimationsRef.current.forEach(({ animation, playbackRate, boostStartPlaybackRate }) => {
+        const maxPlaybackRate = playbackRate * BOOST_PLAYBACK_RATE;
+        let nextPlaybackRate = playbackRate;
+
+        if (elapsed < BOOST_RAMP_UP_MS) {
+          const progress = smoothStep(clamp(elapsed / BOOST_RAMP_UP_MS, 0, 1));
+          nextPlaybackRate = lerp(boostStartPlaybackRate, maxPlaybackRate, progress);
+        } else if (elapsed < BOOST_RAMP_UP_MS + BOOST_HOLD_MS) {
+          nextPlaybackRate = maxPlaybackRate;
+        } else if (elapsed < BOOST_TOTAL_MS) {
+          const progress = smoothStep(
+            clamp((elapsed - BOOST_RAMP_UP_MS - BOOST_HOLD_MS) / BOOST_RAMP_DOWN_MS, 0, 1)
+          );
+          nextPlaybackRate = lerp(maxPlaybackRate, playbackRate, progress);
+        }
+
+        setAnimationPlaybackRate(animation, nextPlaybackRate);
       });
+
+      if (elapsed < BOOST_TOTAL_MS) {
+        boostFrameRef.current = requestAnimationFrame(updateBoost);
+        return;
+      }
+
       boostedAnimationsRef.current = [];
-      boostTimeoutRef.current = null;
-    }, BOOST_DURATION_MS);
-  }, [resetFactoryBoost]);
+      boostFrameRef.current = null;
+    };
+
+    boostFrameRef.current = requestAnimationFrame(updateBoost);
+  }, [cancelBoostFrame, factorySvgRef, resetFactoryBoost]);
 
   useEffect(() => () => resetFactoryBoost(), [resetFactoryBoost]);
 
@@ -383,7 +437,7 @@ export default function HeroSection() {
               e innovazione,
               <br className="hidden md:block" />
               <br className="md:hidden" />
-              alla portata di <br className="md:hidden" /><span className="text-tertiary-fixed">tutti</span>
+              alla portata <br className="md:hidden" />di <span className="text-tertiary-fixed">tutti</span>
             </h1>
             <p ref={subheadlineRef} className="font-body text-lg text-[#d4dbea] mb-10 max-w-2xl leading-relaxed sm:text-xl">
               Consulenza su misura per

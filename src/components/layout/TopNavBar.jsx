@@ -9,7 +9,7 @@ const NAV_LINKS = [
   { href: '#siti-web', label: 'Siti Web', tabletLines: ['Siti', 'Web'] },
   { href: '#software-automazione', label: 'Software e Automazione', tabletLines: ['Software e', 'Automazione'] },
   { href: '#infrastrutture-hardware', label: 'Infrastrutture Hardware', tabletLines: ['Infrastrutture', 'Hardware'] },
-  { href: '#manutenzione-supporto', label: 'Manutenzione e Supporto', tabletLines: ['Manutenzione e', 'Supporto'] }
+  { href: '#manutenzione-supporto', label: 'Manutenzione e Supporto', tabletLines: ['Manutenzione', 'e Supporto'] }
 ];
 
 const NAVBAR_CLASS = [

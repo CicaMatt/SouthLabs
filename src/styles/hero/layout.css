@@ -14,6 +14,7 @@
   --hero-shift-y:  -0.10;
   --hero-active:    0;
   --hero-grid-size: 64px;
+  --hero-atmosphere-bleed: clamp(56px, 6vw, 96px);
   --hero-glow-position-duration: 2400ms;
   --hero-glow-position-ease: cubic-bezier(0.16, 0.82, 0.14, 1);
   --hero-glow-opacity-duration: 720ms;
@@ -41,6 +42,7 @@
   background-size: 118% 118%, 116% 116%, 100% 100%;
 }
 .hero-atmosphere-grid {
+  inset: calc(var(--hero-atmosphere-bleed) * -1);
   opacity: 0.26;
   background-image:
     linear-gradient(rgba(190, 198, 224, 0.16) 1px, transparent 1px),
@@ -86,7 +88,10 @@
     opacity var(--hero-glow-opacity-duration) ease;
   will-change: left, top, opacity;
 }
-.hero-atmosphere-stream { opacity: 0.48; }
+.hero-atmosphere-stream {
+  inset: calc(var(--hero-atmosphere-bleed) * -1);
+  opacity: 0.48;
+}
 .hero-atmosphere-stream-a {
   background:
     radial-gradient(ellipse at 68% 34%, rgba(72, 151, 255, 0.32), transparent 54%),
