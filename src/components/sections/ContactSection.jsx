@@ -1,6 +1,16 @@
 import { useState } from 'react';
 
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xykodzgw';
+const FORM_STATUS = {
+  idle: 'idle',
+  submitting: 'submitting',
+  succeeded: 'succeeded',
+  failed: 'failed'
+};
+const FORM_MESSAGES = {
+  succeeded: 'Grazie, richiesta inviata. Ti ricontatteremo al piu presto.',
+  failed: 'Non siamo riusciti a inviare la richiesta. Riprova tra poco o scrivici via email.'
+};
 
 const FIELD_LABEL_CLASS = [
   'block font-label text-sm font-medium',
@@ -14,9 +24,18 @@ const FIELD_CONTROL_CLASS = [
 ].join(' ');
 const TEXT_FIELD_CLASS = `${FIELD_CONTROL_CLASS} placeholder:text-outline-variant`;
 const FORM_MESSAGE_CLASS = 'flex items-center justify-center rounded-md px-4 py-3 text-center text-sm font-medium';
+const SECTION_CLASS = 'py-20 lg:py-24 bg-surface-container-low';
+const SECTION_CONTENT_CLASS = 'max-w-3xl mx-auto px-5 sm:px-6 md:px-8';
+const FORM_PANEL_CLASS = 'bg-surface-container-lowest rounded-xl border-t-4 border-primary p-8 shadow-[0_4px_20px_rgba(19,27,46,0.04)]';
+const SUBMIT_BUTTON_CLASS = [
+  'w-full inline-flex items-center justify-center px-6 py-4 rounded-md text-base font-medium',
+  'transition-all duration-200 bg-primary text-on-primary bg-gradient-to-br from-primary to-primary-container',
+  'shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] hover:shadow-[0_8px_40px_rgba(34,42,62,0.15)]',
+  'active:scale-95 disabled:cursor-wait disabled:opacity-70'
+].join(' ');
 
 // Contact form configuration. Field ids match label htmlFor values.
-const contactFields = [
+const CONTACT_FIELDS = [
   {
     autoComplete: 'name',
     id: 'name',
@@ -42,7 +61,7 @@ const contactFields = [
   }
 ];
 
-const interestOptions = [
+const INTEREST_OPTIONS = [
   'Sviluppo Web / E-commerce',
   'Software Custom & AI',
   'Infrastruttura & Sicurezza',
@@ -80,8 +99,8 @@ function TextField({ autoComplete, id, label, placeholder, required = false, typ
 
 // Contact form section. Submissions are sent to Formspree without adding a runtime dependency.
 export default function ContactSection() {
-  const [formState, setFormState] = useState({ status: 'idle', message: '' });
-  const [nameField, companyField, emailField] = contactFields;
+  const [formState, setFormState] = useState({ status: FORM_STATUS.idle, message: '' });
+  const [nameField, companyField, emailField] = CONTACT_FIELDS;
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -89,7 +108,7 @@ export default function ContactSection() {
     const form = event.currentTarget;
     const formData = new FormData(form);
 
-    setFormState({ status: 'submitting', message: '' });
+    setFormState({ status: FORM_STATUS.submitting, message: '' });
 
     try {
       const response = await fetch(FORMSPREE_ENDPOINT, {
@@ -106,20 +125,20 @@ export default function ContactSection() {
 
       form.reset();
       setFormState({
-        status: 'succeeded',
-        message: 'Grazie, richiesta inviata. Ti ricontatteremo al piu presto.'
+        status: FORM_STATUS.succeeded,
+        message: FORM_MESSAGES.succeeded
       });
     } catch {
       setFormState({
-        status: 'failed',
-        message: 'Non siamo riusciti a inviare la richiesta. Riprova tra poco o scrivici via email.'
+        status: FORM_STATUS.failed,
+        message: FORM_MESSAGES.failed
       });
     }
   }
 
   return (
-    <section className="py-20 lg:py-24 bg-surface-container-low" id="contatti">
-      <div className="max-w-3xl mx-auto px-5 sm:px-6 md:px-8">
+    <section className={SECTION_CLASS} id="contatti">
+      <div className={SECTION_CONTENT_CLASS}>
         <div className="text-center mb-10 md:mb-12">
           <h2 className="font-headline text-3xl md:text-4xl tracking-tight text-on-background mb-4">Inizia il tuo progetto</h2>
           <p className="font-body text-on-surface-variant">
@@ -130,7 +149,7 @@ export default function ContactSection() {
           </p>
         </div>
 
-        <div className="bg-surface-container-lowest rounded-xl border-t-4 border-primary p-8 shadow-[0_4px_20px_rgba(19,27,46,0.04)]">
+        <div className={FORM_PANEL_CLASS}>
           <form
             action={FORMSPREE_ENDPOINT}
             className="space-y-6"
@@ -151,7 +170,7 @@ export default function ContactSection() {
                 id="interest"
                 name="interest"
               >
-                {interestOptions.map((option) => (
+                {INTEREST_OPTIONS.map((option) => (
                   <option key={option} value={option}>{option}</option>
                 ))}
               </select>
@@ -173,7 +192,7 @@ export default function ContactSection() {
                 aria-live="polite"
                 className={[
                   FORM_MESSAGE_CLASS,
-                  formState.status === 'succeeded'
+                  formState.status === FORM_STATUS.succeeded
                     ? 'bg-primary-fixed text-on-primary-fixed'
                     : 'bg-error/10 text-error'
                 ].join(' ')}
@@ -183,11 +202,11 @@ export default function ContactSection() {
             ) : null}
 
             <button
-              className="w-full inline-flex items-center justify-center px-6 py-4 rounded-md text-base font-medium transition-all duration-200 bg-primary text-on-primary bg-gradient-to-br from-primary to-primary-container shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] hover:shadow-[0_8px_40px_rgba(34,42,62,0.15)] active:scale-95 disabled:cursor-wait disabled:opacity-70"
-              disabled={formState.status === 'submitting'}
+              className={SUBMIT_BUTTON_CLASS}
+              disabled={formState.status === FORM_STATUS.submitting}
               type="submit"
             >
-              {formState.status === 'submitting' ? 'Invio in corso...' : 'Invia Richiesta'}
+              {formState.status === FORM_STATUS.submitting ? 'Invio in corso...' : 'Invia Richiesta'}
             </button>
           </form>
         </div>

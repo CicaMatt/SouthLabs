@@ -2,14 +2,22 @@ import { useEffect, useState } from 'react';
 import logoImage from '../../../media/logo/logo_image.png';
 import logoText from '../../../media/logo/logo_text.png';
 
+const NAV_DESKTOP_MIN_WIDTH = 768;
+
 // Navigation labels and anchors are the source of truth for desktop and mobile menus.
-const navLinks = [
+const NAV_LINKS = [
   { href: '#siti-web', label: 'Siti Web', tabletLines: ['Siti', 'Web'] },
   { href: '#software-automazione', label: 'Software e Automazione', tabletLines: ['Software e', 'Automazione'] },
   { href: '#infrastrutture-hardware', label: 'Infrastrutture Hardware', tabletLines: ['Infrastrutture', 'Hardware'] },
   { href: '#manutenzione-supporto', label: 'Manutenzione e Supporto', tabletLines: ['Manutenzione e', 'Supporto'] }
 ];
 
+const NAVBAR_CLASS = [
+  'fixed top-0 w-full h-16 lg:h-20 z-50',
+  'bg-white/80 dark:bg-slate-950/80 backdrop-blur-2xl',
+  'shadow-[0_4px_20px_rgba(19,27,46,0.04)] dark:shadow-none bg-white dark:bg-slate-900'
+].join(' ');
+const NAV_CONTENT_CLASS = 'relative max-w-7xl mx-auto h-full flex items-center justify-between px-5 lg:px-8';
 const DESKTOP_LINK_CLASS = [
   'font-headline text-center text-[13px] font-semibold leading-tight tracking-tight',
   'text-slate-500 transition-all duration-300 hover:text-blue-700',
@@ -20,6 +28,16 @@ const MOBILE_LINK_CLASS = [
   'font-headline text-[14px] font-semibold text-slate-700',
   'transition-colors hover:bg-blue-100/70 hover:text-blue-800 active:bg-blue-100',
   'dark:text-slate-100 dark:hover:bg-blue-400/15 dark:hover:text-blue-100 dark:active:bg-blue-400/20'
+].join(' ');
+const CONTACT_CTA_CLASS = [
+  'inline-flex items-center justify-center px-3.5 py-2 rounded-md text-xs lg:text-sm font-medium',
+  'whitespace-nowrap transition-all duration-200 active:scale-95',
+  'bg-primary text-on-primary bg-gradient-to-br from-primary to-primary-container',
+  'shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] hover:opacity-90 lg:px-6 lg:py-2.5'
+].join(' ');
+const MOBILE_MENU_BUTTON_CLASS = [
+  'md:hidden inline-flex items-center justify-center h-10 w-10',
+  'rounded-lg text-primary hover:bg-primary/10 transition-colors'
 ].join(' ');
 
 // Combines the icon and text mark while exposing one accessible brand link.
@@ -48,7 +66,7 @@ function BrandLogo({ onNavigate }) {
 function DesktopNavLinks() {
   return (
     <div className="hidden md:flex gap-14 lg:gap-10 items-center">
-      {navLinks.map((link) => (
+      {NAV_LINKS.map((link) => (
         <a
           key={link.href}
           className={DESKTOP_LINK_CLASS}
@@ -86,7 +104,7 @@ function MobileNavMenu({ onNavigate }) {
       id="mobile-nav-menu"
     >
       <div className="flex flex-col gap-1">
-        {navLinks.map((link) => (
+        {NAV_LINKS.map((link) => (
           <a
             key={link.href}
             className={MOBILE_LINK_CLASS}
@@ -110,7 +128,7 @@ export default function TopNavBar() {
 
   useEffect(() => {
     function handleResize() {
-      if (window.innerWidth >= 768) {
+      if (window.innerWidth >= NAV_DESKTOP_MIN_WIDTH) {
         setIsMobileMenuOpen(false);
       }
     }
@@ -122,14 +140,14 @@ export default function TopNavBar() {
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   return (
-    <nav className="fixed top-0 w-full h-16 lg:h-20 z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-2xl shadow-[0_4px_20px_rgba(19,27,46,0.04)] dark:shadow-none bg-white dark:bg-slate-900">
-      <div className="relative max-w-7xl mx-auto h-full flex items-center justify-between px-5 lg:px-8">
+    <nav className={NAVBAR_CLASS}>
+      <div className={NAV_CONTENT_CLASS}>
         <BrandLogo onNavigate={closeMobileMenu} />
         <DesktopNavLinks />
 
         <div className="flex items-center gap-2 lg:gap-3">
           <a
-            className="inline-flex items-center justify-center px-3.5 py-2 rounded-md text-xs lg:text-sm font-medium whitespace-nowrap transition-all duration-200 active:scale-95 bg-primary text-on-primary bg-gradient-to-br from-primary to-primary-container shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] hover:opacity-90 lg:px-6 lg:py-2.5"
+            className={CONTACT_CTA_CLASS}
             href="#contatti"
             onClick={closeMobileMenu}
           >
@@ -140,7 +158,7 @@ export default function TopNavBar() {
             aria-controls="mobile-nav-menu"
             aria-expanded={isMobileMenuOpen}
             aria-label={isMobileMenuOpen ? 'Chiudi menu mobile' : 'Apri menu mobile'}
-            className="md:hidden inline-flex items-center justify-center h-10 w-10 rounded-lg text-primary hover:bg-primary/10 transition-colors"
+            className={MOBILE_MENU_BUTTON_CLASS}
             onClick={() => setIsMobileMenuOpen((open) => !open)}
             type="button"
           >

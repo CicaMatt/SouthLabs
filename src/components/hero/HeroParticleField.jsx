@@ -7,17 +7,27 @@ const PARTICLE_DENSITY = 4400;
 const POINTER_RADIUS = 170;
 const POINTER_FORCE = 92;
 const MAX_PIXEL_RATIO = 1.25;
-const FRAME_INTERVAL_ACTIVE = 18;
-const FRAME_INTERVAL_IDLE_DESKTOP = 48;
-const FRAME_INTERVAL_IDLE_MOBILE = 64;
+const MOBILE_FIELD_MAX_WIDTH = 700;
+const FRAME_INTERVAL_MS = {
+  active: 18,
+  idleDesktop: 48,
+  idleMobile: 64
+};
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
 function getParticleCount(width, height) {
-  const coarseViewport = width < 700;
+  const coarseViewport = width < MOBILE_FIELD_MAX_WIDTH;
   const min = coarseViewport ? 64 : 125;
   const max = coarseViewport ? 112 : 250;
   return clamp(Math.round((width * height) / PARTICLE_DENSITY), min, max);
+}
+
+function getFrameInterval(width, isActiveFrame) {
+  if (isActiveFrame) return FRAME_INTERVAL_MS.active;
+  return width < MOBILE_FIELD_MAX_WIDTH
+    ? FRAME_INTERVAL_MS.idleMobile
+    : FRAME_INTERVAL_MS.idleDesktop;
 }
 
 function createParticles(width, height) {
@@ -112,7 +122,7 @@ export default function HeroParticleField({ pointerRef }) {
       const touchEase = Math.sin(touchProgress * Math.PI);
       const touchOffsetX = touchEase * pointer.touchNudgeX;
       const touchOffsetY = touchEase * pointer.touchNudgeY;
-      const repelRadius = POINTER_RADIUS * (size.width < 700 ? 0.76 : 1) * (1 + burstEase * 0.34);
+      const repelRadius = POINTER_RADIUS * (size.width < MOBILE_FIELD_MAX_WIDTH ? 0.76 : 1) * (1 + burstEase * 0.34);
       const repelRadiusSq = repelRadius * repelRadius;
       const repelForce = POINTER_FORCE * (1 + burstEase * 1.35);
 
@@ -155,11 +165,7 @@ export default function HeroParticleField({ pointerRef }) {
       const isRepelling = Boolean(pointer.active || pointer.repelActive);
       const isTouchNudging = now < (pointer.touchNudgeUntil || 0);
       const isBursting = now < (pointer.burstUntil || 0);
-      const frameInterval = isRepelling || isTouchNudging || isBursting
-        ? FRAME_INTERVAL_ACTIVE
-        : size.width < 700
-          ? FRAME_INTERVAL_IDLE_MOBILE
-          : FRAME_INTERVAL_IDLE_DESKTOP;
+      const frameInterval = getFrameInterval(size.width, isRepelling || isTouchNudging || isBursting);
       if (now - lastFrameTime < frameInterval) return;
 
       lastFrameTime = now;

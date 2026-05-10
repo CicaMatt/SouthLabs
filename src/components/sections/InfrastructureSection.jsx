@@ -1,7 +1,7 @@
 import SectionHeader from '../SectionHeader';
 
 // Hardware service cards. Images are external and use data-alt to preserve prompt context.
-const infrastructureCards = [
+const INFRASTRUCTURE_CARDS = [
   {
     alt: 'Workstation',
     dataAlt:
@@ -31,24 +31,30 @@ const infrastructureCards = [
   }
 ];
 
+const SECTION_CLASS = 'py-20 lg:py-24 bg-surface';
+const SECTION_CONTENT_CLASS = 'max-w-7xl mx-auto px-5 sm:px-6 md:px-8';
+const CARD_GRID_CLASS = 'grid grid-cols-1 md:grid-cols-3 gap-8';
+const IMAGE_FRAME_CLASS = 'h-48 rounded-xl bg-surface-container-high mb-6 overflow-hidden';
+const IMAGE_CLASS = 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-500';
+
 // Hardware infrastructure section with three image-backed service summaries.
 export default function InfrastructureSection() {
   return (
-    <section className="py-20 lg:py-24 bg-surface" id="infrastrutture-hardware">
-      <div className="max-w-7xl mx-auto px-5 sm:px-6 md:px-8">
+    <section className={SECTION_CLASS} id="infrastrutture-hardware">
+      <div className={SECTION_CONTENT_CLASS}>
         <SectionHeader
           className="mb-12 max-w-2xl lg:mb-16"
           title="Infrastruttura Hardware"
           subtitle="Le fondamenta fisiche e virtuali per garantire continuità operativa e sicurezza dei dati."
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {infrastructureCards.map((card) => (
+        <div className={CARD_GRID_CLASS}>
+          {INFRASTRUCTURE_CARDS.map((card) => (
             <div key={card.title} className="group">
-              <div className="h-48 rounded-xl bg-surface-container-high mb-6 overflow-hidden">
+              <div className={IMAGE_FRAME_CLASS}>
                 <img
                   alt={card.alt}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className={IMAGE_CLASS}
                   data-alt={card.dataAlt}
                   src={card.src}
                 />

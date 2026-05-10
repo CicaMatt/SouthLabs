@@ -1,22 +1,29 @@
 // Checklist copy for ongoing support and enablement services.
-const supportItems = [
+const SUPPORT_ITEMS = [
   'Manutenzione preventiva e correttiva programmata.',
   "Sessioni di training per la formazione del personale.",
   'Supporto per eventi critici.'
 ];
 
+const SECTION_CLASS = 'py-20 lg:py-24 bg-tertiary text-on-tertiary';
+const SECTION_CONTENT_CLASS = 'max-w-7xl mx-auto px-5 sm:px-6 md:px-8 flex flex-col md:flex-row gap-10 md:gap-16 items-center';
+const CTA_PANEL_CLASS = [
+  'flex-1 w-full bg-surface-container-lowest/5 backdrop-blur-md rounded-xl',
+  'border border-white/10 p-8 shadow-[0_8px_40px_rgba(0,0,0,0.2)]'
+].join(' ');
+
 // Support section pairing service promises with a call-to-action panel.
 export default function SupportSection() {
   return (
-    <section className="py-20 lg:py-24 bg-tertiary text-on-tertiary" id="manutenzione-supporto">
-      <div className="max-w-7xl mx-auto px-5 sm:px-6 md:px-8 flex flex-col md:flex-row gap-10 md:gap-16 items-center">
+    <section className={SECTION_CLASS} id="manutenzione-supporto">
+      <div className={SECTION_CONTENT_CLASS}>
         <div className="flex-1">
           <h2 className="font-headline text-3xl md:text-4xl tracking-tight mb-6">Supporto e Formazione</h2>
           <p className="font-body text-on-tertiary/80 text-lg mb-8 leading-relaxed">
             Il nostro impegno non termina con la consegna. Forniamo piani di assistenza mensile e formazione specifica per rendere il tuo team autonomo sull'utilizzo dei tuoi nuovi strumenti digitali.
           </p>
           <ul className="space-y-4">
-            {supportItems.map((item) => (
+            {SUPPORT_ITEMS.map((item) => (
               <li key={item} className="flex items-start">
                 <span className="material-symbols-outlined text-tertiary-fixed-dim mr-3 mt-1">check_circle</span>
                 <span className="font-body">{item}</span>
@@ -25,7 +32,7 @@ export default function SupportSection() {
           </ul>
         </div>
 
-        <div className="flex-1 w-full bg-surface-container-lowest/5 backdrop-blur-md rounded-xl border border-white/10 p-8 shadow-[0_8px_40px_rgba(0,0,0,0.2)]">
+        <div className={CTA_PANEL_CLASS}>
           <div className="text-center">
             <span className="material-symbols-outlined text-[64px] text-tertiary-fixed-dim mb-4">support_agent</span>
             <h3 className="font-headline text-2xl font-bold mb-2">Sempre al tuo fianco</h3>

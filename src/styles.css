@@ -3,6 +3,7 @@
 @import './styles/hero.css';
 
 /* Web solutions card glow utilities live here because they are the only section-specific globals. */
+/* Base glow layer shared by every responsive card view. */
 .web-solution-card-glow {
   --web-solution-glow-size: 78% 128%;
   --web-solution-glow-origin: 0% 50%;
@@ -52,6 +53,7 @@
   transform: translateX(18%);
 }
 
+/* Stacked/mobile image-side modes. */
 .web-solution-card-glow--mobile-image-right {
   --web-solution-glow-origin: 0% 50%;
   --web-solution-glow-mask: linear-gradient(90deg, #000 0%, #000 42%, transparent 58%);
@@ -68,6 +70,7 @@
   --web-solution-glow-mask: linear-gradient(180deg, #000 0%, #000 30%, transparent 48%);
 }
 
+/* Desktop image-side modes. */
 @media (min-width: 1024px) {
   .web-solution-card-glow--desktop-image-right {
     --web-solution-glow-size: 78% 128%;
@@ -88,6 +91,7 @@
   }
 }
 
+/* Keep reduced-motion card hovers static while retaining the glow artwork. */
 @media (prefers-reduced-motion: reduce) {
   .web-solution-card-glow::before,
   .web-solution-card-glow::after {

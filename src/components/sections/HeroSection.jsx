@@ -11,6 +11,64 @@ const POINTER_RETURN_OPACITY_MS = 720;
 const POINTER_RETURN_FACTORY_MS = 1600;
 const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
 
+const HERO_TRANSITION_TIMING = {
+  active: {
+    '--hero-glow-position-duration': '90ms',
+    '--hero-glow-position-ease': 'linear',
+    '--hero-glow-opacity-duration': '160ms',
+    '--hero-factory-motion-duration': '180ms',
+    '--hero-factory-motion-ease': 'ease-out'
+  },
+  return: {
+    '--hero-glow-position-duration': `${POINTER_RETURN_GLOW_MS}ms`,
+    '--hero-glow-position-ease': 'cubic-bezier(0.16, 0.82, 0.14, 1)',
+    '--hero-glow-opacity-duration': `${POINTER_RETURN_OPACITY_MS}ms`,
+    '--hero-factory-motion-duration': `${POINTER_RETURN_FACTORY_MS}ms`,
+    '--hero-factory-motion-ease': 'cubic-bezier(0.16, 0.82, 0.14, 1)'
+  }
+};
+
+const HERO_INITIAL_STYLE = {
+  '--hero-pointer-x': `${DEFAULT_POINTER.pctX}%`,
+  '--hero-pointer-y': `${DEFAULT_POINTER.pctY}%`,
+  '--hero-shift-x': `${DEFAULT_POINTER.shiftX}`,
+  '--hero-shift-y': `${DEFAULT_POINTER.shiftY}`,
+  '--hero-active': '0'
+};
+
+const createPointerState = (overrides = {}) => ({
+  ...DEFAULT_POINTER,
+  x: -1,
+  y: -1,
+  active: false,
+  touchNudgeStart: 0,
+  touchNudgeUntil: 0,
+  touchNudgeX: 0,
+  touchNudgeY: 0,
+  burstStart: 0,
+  burstUntil: 0,
+  burstX: -1,
+  burstY: -1,
+  repelActive: false,
+  ...overrides
+});
+
+function applyStyleProperties(element, properties) {
+  Object.entries(properties).forEach(([property, value]) => {
+    element.style.setProperty(property, value);
+  });
+}
+
+function getPointerStyleProperties(pointer) {
+  return {
+    '--hero-pointer-x': `${pointer.pctX}%`,
+    '--hero-pointer-y': `${pointer.pctY}%`,
+    '--hero-shift-x': `${pointer.shiftX}`,
+    '--hero-shift-y': `${pointer.shiftY}`,
+    '--hero-active': pointer.active ? '1' : '0'
+  };
+}
+
 // Converts pointer position into CSS variables for the hero parallax/glow effects.
 function getPointerState(e) {
   const b = e.currentTarget.getBoundingClientRect();
@@ -142,21 +200,7 @@ export default function HeroSection() {
   const heroRef = useRef(null);
   const subheadlineRef = useRef(null);
   const factorySvgRef = useRef(null);
-  const pointerRef = useRef({
-    ...DEFAULT_POINTER,
-    x: -1,
-    y: -1,
-    active: false,
-    touchNudgeStart: 0,
-    touchNudgeUntil: 0,
-    touchNudgeX: 0,
-    touchNudgeY: 0,
-    burstStart: 0,
-    burstUntil: 0,
-    burstX: -1,
-    burstY: -1,
-    repelActive: false
-  });
+  const pointerRef = useRef(createPointerState());
   const pointerActiveRef = useRef(false);
   const styleFrameRef = useRef(null);
   const transitionTimingModeRef = useRef('idle');
@@ -169,27 +213,7 @@ export default function HeroSection() {
     const heroElement = heroRef.current;
     if (!heroElement) return;
 
-    const isReturnMode = mode === 'return';
-    heroElement.style.setProperty(
-      '--hero-glow-position-duration',
-      isReturnMode ? `${POINTER_RETURN_GLOW_MS}ms` : '90ms'
-    );
-    heroElement.style.setProperty(
-      '--hero-glow-position-ease',
-      isReturnMode ? 'cubic-bezier(0.16, 0.82, 0.14, 1)' : 'linear'
-    );
-    heroElement.style.setProperty(
-      '--hero-glow-opacity-duration',
-      isReturnMode ? `${POINTER_RETURN_OPACITY_MS}ms` : '160ms'
-    );
-    heroElement.style.setProperty(
-      '--hero-factory-motion-duration',
-      isReturnMode ? `${POINTER_RETURN_FACTORY_MS}ms` : '180ms'
-    );
-    heroElement.style.setProperty(
-      '--hero-factory-motion-ease',
-      isReturnMode ? 'cubic-bezier(0.16, 0.82, 0.14, 1)' : 'ease-out'
-    );
+    applyStyleProperties(heroElement, HERO_TRANSITION_TIMING[mode]);
     transitionTimingModeRef.current = mode;
   }, []);
 
@@ -198,11 +222,7 @@ export default function HeroSection() {
     if (!heroElement) return;
 
     const pointer = pointerRef.current;
-    heroElement.style.setProperty('--hero-pointer-x', `${pointer.pctX}%`);
-    heroElement.style.setProperty('--hero-pointer-y', `${pointer.pctY}%`);
-    heroElement.style.setProperty('--hero-shift-x', `${pointer.shiftX}`);
-    heroElement.style.setProperty('--hero-shift-y', `${pointer.shiftY}`);
-    heroElement.style.setProperty('--hero-active', pointer.active ? '1' : '0');
+    applyStyleProperties(heroElement, getPointerStyleProperties(pointer));
   }, []);
 
   const schedulePointerStyle = useCallback(() => {
@@ -312,13 +332,7 @@ export default function HeroSection() {
     if (e.pointerType === 'touch') endTouchPointer();
   };
 
-  const heroStyle = useMemo(() => ({
-    '--hero-pointer-x': `${DEFAULT_POINTER.pctX}%`,
-    '--hero-pointer-y': `${DEFAULT_POINTER.pctY}%`,
-    '--hero-shift-x':   `${DEFAULT_POINTER.shiftX}`,
-    '--hero-shift-y':   `${DEFAULT_POINTER.shiftY}`,
-    '--hero-active':    '0'
-  }), []);
+  const heroStyle = useMemo(() => HERO_INITIAL_STYLE, []);
   const heroClassName = [
     'hero-shell relative isolate overflow-hidden bg-primary pt-32 pb-24 lg:pt-40 lg:pb-36',
     isActive ? 'hero-shell--pointer-active' : ''
