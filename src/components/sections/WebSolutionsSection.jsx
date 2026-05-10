@@ -2,8 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import SectionHeader from '../SectionHeader';
 import wordpressLogo from '../../../media/icons/wordpress.png';
 import customWebAppImage from '../../../media/images/custom_web_app.png';
+import customWebAppSquareImage from '../../../media/images/custom_web_app_square.png';
 import ecommerceImage from '../../../media/images/ecommerce.png';
 import seoOrientedImage from '../../../media/images/seo_oriented.png';
+import seoOrientedSquareImage from '../../../media/images/seo_oriented_square.png';
 
 const WORDPRESS_TITLE = 'Soluzioni WordPress';
 const SOLUTION_CARD_BASE_CLASS = [
@@ -11,13 +13,14 @@ const SOLUTION_CARD_BASE_CLASS = [
   'border border-[#d9e0e6] bg-white shadow-[0_8px_20px_rgba(15,34,52,0.07)]',
   'motion-safe:transform-gpu motion-safe:transition-all motion-safe:duration-[420ms]',
   'motion-safe:ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none',
-  'hover:-translate-y-[2px] hover:border-[#b8cfe3] hover:shadow-[0_14px_28px_rgba(15,34,52,0.12)]',
+  'hover:-translate-y-[3px] hover:border-[#7eaac8] hover:shadow-[0_20px_38px_rgba(10,27,43,0.2),0_0_0_1px_rgba(18,84,132,0.12)]',
   'sm:min-h-[228px] md:min-h-[252px]'
 ].join(' ');
 const MOBILE_CARD_ROW_CLASS = [
   'relative z-10 flex w-full items-center gap-3 px-6 py-3',
   'sm:gap-4 sm:px-7 sm:py-4 md:px-8 md:py-5 lg:hidden'
 ].join(' ');
+const SOLUTION_IMAGE_SHELL_CLASS = 'relative w-full overflow-hidden bg-white';
 
 // Two horizontal cards on desktop; the third solution is handled by RightSolutionCard.
 const leftWebSolutionCards = [
@@ -26,20 +29,22 @@ const leftWebSolutionCards = [
     title: 'Web App Personalizzate',
     description: 'Soluzioni personalizzate per garantire efficienza, sicurezza e flessibilità nel tempo.',
     mobileDescription: 'Soluzioni ad-hoc che garantiscono sicurezza, efficienza e flessibilità',
-    previewImage: customWebAppImage
+    previewImage: customWebAppImage,
+    stackedPreviewImage: customWebAppSquareImage
   },
   {
     icon: 'web',
     title: WORDPRESS_TITLE,
     description: 'Siti vetrina ottimizzati per SEO e visibilità, veloci e gestibili in autonomia.',
     mobileDescription: 'Siti vetrina ottimizzati per SEO e visibilità',
-    previewImage: seoOrientedImage
+    previewImage: seoOrientedImage,
+    stackedPreviewImage: seoOrientedSquareImage
   }
 ];
 
 const rightWebSolutionCard = {
   icon: 'shopping_cart',
-  title: 'Piattaforme di E-Commerce',
+  title: 'Piattaforme E-Commerce',
   description: 'Portali di vendita online sicuri ed efficaci, integrabili con i più noti metodi di pagamento.',
   mobileDescription: 'Portali di vendita online sicuri ed efficaci',
   previewImage: ecommerceImage
@@ -241,6 +246,7 @@ function DesktopCenterOverlayIcon({ title, icon, left = '50%' }) {
 // Horizontal solution card used for custom web apps and WordPress.
 function LeftSolutionCard({ card, revealDelayMs = 0 }) {
   const isWordpressCard = card.title === WORDPRESS_TITLE;
+  const hasStackedPreviewImage = Boolean(card.stackedPreviewImage);
   const { cardRef, isVisible } = useCardReveal(revealDelayMs);
   const { textWrapRef, titleRef, descriptionRef, iconLeft } = useStackedIconTextCenter();
   const {
@@ -271,13 +277,21 @@ function LeftSolutionCard({ card, revealDelayMs = 0 }) {
           </div>
         </div>
 
-        <div className="-mr-2.5 w-[52%] shrink-0 sm:-mr-3.5 sm:w-[50%] md:-mr-3.5 md:w-[38%]">
-          <div className="relative aspect-[4/3] w-full overflow-hidden bg-white">
+        <div
+          className={`shrink-0 ${
+            hasStackedPreviewImage ? 'w-[54%] sm:w-[52%] md:w-[40%]' : 'w-[52%] sm:w-[50%] md:w-[38%]'
+          } ${hasStackedPreviewImage ? '-mr-4 sm:-mr-5 md:-mr-5' : '-mr-2.5 sm:-mr-3.5 md:-mr-3.5'}`}
+        >
+          <div className={`${SOLUTION_IMAGE_SHELL_CLASS} ${hasStackedPreviewImage ? 'aspect-square' : 'aspect-[4/3]'}`}>
             <img
-              src={card.previewImage}
+              src={card.stackedPreviewImage ?? card.previewImage}
               alt={card.title}
-              className={`absolute inset-0 h-full w-full translate-x-1.5 object-cover scale-[1.18] sm:scale-[1.2] ${
-                isWordpressCard ? 'object-[48%_50%]' : 'object-[52%_50%]'
+              className={`absolute inset-0 h-full w-full ${
+                hasStackedPreviewImage
+                  ? 'object-contain object-center'
+                  : `translate-x-1.5 object-cover scale-[1.18] sm:scale-[1.2] ${
+                      isWordpressCard ? 'object-[48%_50%]' : 'object-[52%_50%]'
+                    }`
               }`}
             />
           </div>
@@ -311,7 +325,7 @@ function LeftSolutionCard({ card, revealDelayMs = 0 }) {
             isWordpressCard ? 'lg:left-6' : 'lg:right-6'
           }`}
         >
-          <div className="relative h-[240px] w-full overflow-hidden bg-white sm:h-[280px] lg:h-full">
+          <div className={`${SOLUTION_IMAGE_SHELL_CLASS} h-[240px] sm:h-[280px] lg:h-full`}>
             <img
               src={card.previewImage}
               alt={card.title}
@@ -385,11 +399,11 @@ function RightSolutionCard({ card, revealDelayMs = 0 }) {
 
       <div className={MOBILE_CARD_ROW_CLASS}>
         <div className="-ml-2.5 w-[54%] shrink-0 sm:-ml-3.5 sm:w-[52%] md:-ml-3.5 md:w-[40%]">
-          <div className="relative aspect-square w-full overflow-hidden bg-white">
+          <div className={`${SOLUTION_IMAGE_SHELL_CLASS} aspect-square`}>
             <img
               src={card.previewImage}
               alt={card.title}
-              className="absolute inset-0 h-full w-full object-contain object-left-top"
+              className="absolute inset-0 h-full w-full scale-[0.88] object-contain object-left-top sm:scale-100"
             />
           </div>
         </div>
@@ -398,7 +412,7 @@ function RightSolutionCard({ card, revealDelayMs = 0 }) {
           <div ref={textWrapRef} className="relative ml-auto w-fit max-w-[30ch] sm:max-w-[32ch]">
             <StackedCenterOverlayIcon title={card.title} icon={card.icon} left={iconLeft} visibilityClass="block min-[961px]:hidden" />
             <h3 ref={titleRef} className="relative z-10 mb-2 font-headline text-[1.08rem] font-bold leading-[1.2] text-[#1f2630] sm:text-[1.19rem] md:text-[1.32rem]">
-              Piattaforme <span className="whitespace-nowrap">di E-Commerce</span>
+              Piattaforme <span className="whitespace-nowrap">E-Commerce</span>
             </h3>
             <p ref={descriptionRef} className="relative z-10 font-body text-[0.86rem] leading-relaxed text-[#505763] sm:text-[0.93rem] md:text-[0.98rem]">
               <ResponsiveSolutionDescription description={card.description} mobileDescription={card.mobileDescription} />
@@ -425,7 +439,7 @@ function RightSolutionCard({ card, revealDelayMs = 0 }) {
           </div>
 
           <div className="flex min-h-0 flex-1 items-end pb-[18px]">
-            <div className="relative h-[280px] w-full overflow-hidden bg-white">
+            <div className={`${SOLUTION_IMAGE_SHELL_CLASS} h-[280px]`}>
               <img
                 src={card.previewImage}
                 alt={card.title}

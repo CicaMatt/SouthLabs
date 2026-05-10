@@ -379,10 +379,9 @@ export default function HeroSection() {
             <div className="hero-actions flex flex-col lg:flex-row gap-4" style={heroActionsStyle}>
               <a
                 href="#contatti"
-                className="hero-consultancy-cta group relative inline-flex items-center justify-center px-8 py-4 pr-12 rounded-md text-base font-medium transition-all duration-300 bg-gradient-to-br from-tertiary-fixed to-[#9ce6fb] text-[#06222a] shadow-[0_18px_45px_rgba(12,35,46,0.45)] hover:shadow-[0_22px_55px_rgba(12,35,46,0.58)] active:scale-95"
+                className="hero-consultancy-cta inline-flex items-center justify-center px-8 py-4 rounded-md text-base font-medium transition-all duration-300 bg-gradient-to-br from-tertiary-fixed to-[#9ce6fb] text-[#06222a] shadow-[0_18px_45px_rgba(12,35,46,0.45)] hover:shadow-[0_22px_55px_rgba(12,35,46,0.58)] active:scale-95"
               >
                 Richiedi una Consulenza
-                <span className="material-symbols-outlined absolute right-3 text-[20px] transition-transform duration-300 group-hover:translate-x-1">arrow_forward</span>
               </a>
               <a
                 href="#siti-web"

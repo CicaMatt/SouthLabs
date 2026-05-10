@@ -50,15 +50,6 @@
     white-space: nowrap;
   }
 
-  .hero-actions .hero-consultancy-cta {
-    padding-right: 2.20rem;
-  }
-
-  .hero-actions .hero-consultancy-cta .material-symbols-outlined {
-    right: 0.70rem;
-    font-size: 16px;
-  }
-
   .hero-consultancy-cta {
     background: linear-gradient(135deg, rgba(182, 235, 255, 0.68), rgba(156, 230, 251, 0.48)) !important;
     border: 1px solid rgba(226, 251, 255, 0.48);
