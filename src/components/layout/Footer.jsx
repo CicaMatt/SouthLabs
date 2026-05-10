@@ -14,7 +14,7 @@ const FOOTER_HEADING_CLASS = [
   'text-blue-900 dark:text-blue-300'
 ].join(' ');
 const FOOTER_LINK_CLASS = [
-  'font-inter text-sm leading-relaxed text-slate-600 transition-colors',
+  'font-inter text-sm leading-relaxed text-on-surface-variant transition-colors',
   'hover:text-blue-800 dark:text-slate-400 dark:hover:text-blue-200'
 ].join(' ');
 
@@ -56,7 +56,7 @@ export default function Footer() {
               >
                 matteocicalese.consulting@gmail.com
               </a>
-              <span className="font-inter text-sm leading-relaxed text-slate-600 dark:text-slate-400">+39 3928139527</span>
+              <span className="font-inter text-sm leading-relaxed text-on-surface-variant dark:text-slate-400">+39 3928139527</span>
             </FooterColumn>
 
             <FooterColumn className="md:pl-10 lg:pl-14" title="Social">
@@ -76,7 +76,7 @@ export default function Footer() {
             </FooterColumn>
           </div>
 
-          <div className="mt-6 border-t border-slate-200/70 pt-5 font-inter text-xs uppercase tracking-[0.08em] text-slate-500 dark:border-slate-800/70 dark:text-slate-500 text-center">
+          <div className="mt-6 border-t border-slate-200/70 pt-5 font-inter text-xs uppercase tracking-[0.08em] text-on-surface-variant dark:border-slate-800/70 dark:text-slate-500 text-center">
             © 2026 SouthLabs.
           </div>
         </div>

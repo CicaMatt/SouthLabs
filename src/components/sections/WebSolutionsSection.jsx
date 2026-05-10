@@ -24,7 +24,7 @@ const SOLUTION_CARD_CLASSES = {
     'border border-[#d9e0e6] bg-white shadow-[0_8px_20px_rgba(15,34,52,0.07)]',
     'motion-safe:transform-gpu motion-safe:transition-all motion-safe:duration-[420ms]',
     'motion-safe:ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none',
-    'hover:-translate-y-[3px] hover:border-[#7eaac8] hover:shadow-[0_20px_38px_rgba(10,27,43,0.2),0_0_0_1px_rgba(18,84,132,0.12)]',
+    'hover:-translate-y-[3px] hover:border-[#0057D8] hover:shadow-[0_20px_38px_rgba(10,27,43,0.2),0_0_0_2px_rgba(0,87,216,0.82)]',
     'sm:min-h-[228px] md:min-h-[252px]'
   ].join(' '),
   stackedRow: [
@@ -36,10 +36,10 @@ const SOLUTION_CARD_CLASSES = {
     'web-solution-card-glow pointer-events-none absolute inset-0 z-[1] opacity-0',
     'transition-opacity duration-300 ease-out group-hover:opacity-100 motion-reduce:transition-none'
   ].join(' '),
-  stackedTitle: 'relative z-10 mb-2 font-headline text-[1.08rem] font-bold leading-[1.2] text-[#1f2630] sm:text-[1.19rem] md:text-[1.32rem]',
-  stackedDescription: 'relative z-10 font-body text-[0.86rem] leading-relaxed text-[#505763] sm:text-[0.93rem] md:text-[0.98rem]',
-  desktopTitle: 'relative z-10 mb-2 font-headline text-[1.52rem] font-bold leading-[1.18] text-[#1f2630] xl:text-[1.58rem]',
-  desktopDescription: 'relative z-10 max-w-[34ch] font-body text-[1rem] leading-relaxed text-[#505763] xl:text-[1.04rem]',
+  stackedTitle: 'relative z-10 mb-2 font-headline text-[1.2rem] font-bold leading-[1.18] text-on-background sm:text-[1.28rem] md:text-[1.32rem]',
+  stackedDescription: 'relative z-10 font-body text-[0.86rem] leading-relaxed text-on-surface-variant sm:text-[0.93rem] md:text-[0.98rem]',
+  desktopTitle: 'relative z-10 mb-2 font-headline text-[1.52rem] font-bold leading-[1.18] text-on-background xl:text-[1.58rem]',
+  desktopDescription: 'relative z-10 max-w-[34ch] font-body text-[1rem] leading-relaxed text-on-surface-variant xl:text-[1.04rem]',
   intermediateOverlay: 'hidden min-[961px]:block lg:hidden',
   stackedOverlay: 'block min-[961px]:hidden'
 };
@@ -331,9 +331,9 @@ function StackedCenterOverlayIcon({ title, icon, left = '50%', visibilityClass =
       style={{ left }}
     >
       {isWordpress ? (
-        <WordpressMaskedIcon className="h-28 w-28 bg-[#2f5a75] opacity-[0.09] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:bg-[#1284e0] group-hover:opacity-[0.22] group-hover:drop-shadow-[0_0_22px_rgba(18,132,224,0.38)] sm:h-28 sm:w-28 md:h-32 md:w-32" />
+        <WordpressMaskedIcon className="h-28 w-28 bg-[#2f5a75] opacity-[0.09] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:bg-[#0057D8] group-hover:opacity-[0.3] group-hover:drop-shadow-[0_0_24px_rgba(0,87,216,0.56)] sm:h-28 sm:w-28 md:h-32 md:w-32" />
       ) : (
-        <span className="material-symbols-outlined fill text-[116px] leading-none text-[#2f5a75] opacity-[0.08] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:text-[#1284e0] group-hover:opacity-[0.21] group-hover:drop-shadow-[0_0_22px_rgba(18,132,224,0.38)] sm:text-[120px] md:text-[150px]">
+        <span className="material-symbols-outlined fill text-[116px] leading-none text-[#2f5a75] opacity-[0.08] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:text-[#0057D8] group-hover:opacity-[0.29] group-hover:drop-shadow-[0_0_24px_rgba(0,87,216,0.56)] sm:text-[120px] md:text-[150px]">
           {icon}
         </span>
       )}
@@ -351,9 +351,9 @@ function DesktopCenterOverlayIcon({ title, icon, left = '50%' }) {
       style={{ left }}
     >
       {isWordpress ? (
-        <WordpressMaskedIcon className="h-44 w-44 bg-[#2f5a75] opacity-[0.1] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:bg-[#1284e0] group-hover:opacity-[0.24] group-hover:drop-shadow-[0_0_28px_rgba(18,132,224,0.42)]" />
+        <WordpressMaskedIcon className="h-44 w-44 bg-[#2f5a75] opacity-[0.1] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:bg-[#0057D8] group-hover:opacity-[0.34] group-hover:drop-shadow-[0_0_32px_rgba(0,87,216,0.58)]" />
       ) : (
-        <span className="material-symbols-outlined fill text-[200px] leading-none text-[#2f5a75] opacity-[0.09] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:text-[#1284e0] group-hover:opacity-[0.24] group-hover:drop-shadow-[0_0_28px_rgba(18,132,224,0.42)]">
+        <span className="material-symbols-outlined fill text-[200px] leading-none text-[#2f5a75] opacity-[0.09] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:text-[#0057D8] group-hover:opacity-[0.33] group-hover:drop-shadow-[0_0_32px_rgba(0,87,216,0.58)]">
           {icon}
         </span>
       )}

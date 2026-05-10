@@ -2,6 +2,99 @@
 @import './styles/base.css';
 @import './styles/hero.css';
 
+/* Subtle AI feature-card effects for the software section. */
+.software-ai-feature-card {
+  background:
+    radial-gradient(circle at 18% 22%, rgba(71, 214, 255, 0.18), transparent 27%),
+    linear-gradient(135deg, #222a3e 0%, #28324b 54%, #1a2234 100%);
+}
+
+.software-ai-feature-card::before,
+.software-ai-feature-card::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.software-ai-feature-card::before {
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(71, 214, 255, 0.13) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(218, 226, 253, 0.08) 1px, transparent 1px);
+  background-position: 0 0;
+  background-size: 48px 48px;
+  opacity: 0.2;
+  transition:
+    background-position 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 300ms ease;
+  -webkit-mask-image: radial-gradient(circle at 68% 44%, #000 0%, transparent 68%);
+  mask-image: radial-gradient(circle at 68% 44%, #000 0%, transparent 68%);
+}
+
+.software-ai-feature-card::after {
+  inset: -42% -68%;
+  background: linear-gradient(
+    112deg,
+    transparent 43%,
+    rgba(71, 214, 255, 0.22) 50%,
+    transparent 57%
+  );
+  opacity: 0.42;
+  transform: translateX(-18%);
+  transition:
+    opacity 300ms ease,
+    transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.software-ai-feature-card:hover::before {
+  background-position: 18px -14px;
+  opacity: 0.34;
+}
+
+.software-ai-feature-card:hover::after {
+  opacity: 0.6;
+  transform: translateX(18%);
+}
+
+.software-ai-chip {
+  box-shadow:
+    inset 0 0 0 1px rgba(71, 214, 255, 0.2),
+    0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.software-ai-chip::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from 180deg,
+    transparent 0 30%,
+    rgba(71, 214, 255, 0.72) 42%,
+    transparent 54% 100%
+  );
+  opacity: 0;
+  transition: opacity 240ms ease;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 1px;
+}
+
+.software-ai-feature-card:hover .software-ai-chip::before {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .software-ai-feature-card::before,
+  .software-ai-feature-card::after,
+  .software-ai-chip::before {
+    transition: none;
+  }
+}
+
 /* Web solutions card glow utilities live here because they are the only section-specific globals. */
 /* Base glow layer shared by every responsive card view. */
 .web-solution-card-glow {
@@ -18,9 +111,9 @@
   inset: 0;
   background: radial-gradient(
     var(--web-solution-glow-size) at var(--web-solution-glow-origin),
-    rgba(8, 74, 126, 0.26) 0%,
-    rgba(18, 96, 148, 0.18) 35%,
-    rgba(13, 70, 112, 0) 68%
+    rgba(0, 87, 216, 0.32) 0%,
+    rgba(0, 116, 232, 0.22) 36%,
+    rgba(0, 64, 176, 0) 70%
   );
   transform: scale(0.98);
   transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -35,10 +128,10 @@
   background: linear-gradient(
     112deg,
     transparent 43%,
-    rgba(93, 164, 207, 0.26) 50%,
+    rgba(0, 112, 232, 0.38) 50%,
     transparent 57%
   );
-  opacity: 0.38;
+  opacity: 0.46;
   transform: translateX(-18%);
   transition: transform 680ms cubic-bezier(0.22, 1, 0.36, 1);
   -webkit-mask-image: var(--web-solution-glow-mask);

@@ -9,6 +9,7 @@ const POINTER_BURST_RADIUS_BOOST = 0.12;
 const POINTER_FORCE = 92;
 const MAX_PIXEL_RATIO = 1.25;
 const MOBILE_FIELD_MAX_WIDTH = 700;
+const MOBILE_FACTORY_ACCENT_PARTICLES = 18;
 const PARTICLE_MOTION_SPEED = 1.35;
 const FRAME_INTERVAL_MS = {
   active: 18,
@@ -43,7 +44,7 @@ function createParticles(width, height) {
     [cells[i], cells[j]] = [cells[j], cells[i]];
   }
 
-  return cells.slice(0, count).map((cellIndex) => {
+  const particles = cells.slice(0, count).map((cellIndex) => {
     const column = cellIndex % columns;
     const row = Math.floor(cellIndex / columns);
     const x = ((column + 0.18 + Math.random() * 0.64) / columns) * width;
@@ -64,6 +65,29 @@ function createParticles(width, height) {
       fillStyle: `rgba(${color}, ${alpha})`
     };
   });
+
+  if (width >= MOBILE_FIELD_MAX_WIDTH) return particles;
+
+  const accentParticles = Array.from({ length: MOBILE_FACTORY_ACCENT_PARTICLES }, () => {
+    const x = width * (0.62 + Math.random() * 0.34);
+    const y = height * (0.34 + Math.random() * 0.22);
+    const color = Math.random() > 0.18 ? '214, 250, 255' : '71, 214, 255';
+    const alpha = 0.48 + Math.random() * 0.32;
+
+    return {
+      x,
+      y,
+      radius: 0.85 + Math.random() * 1.1,
+      driftX: (Math.random() - 0.5) * 0.16 * PARTICLE_MOTION_SPEED,
+      driftY: (Math.random() - 0.5) * 0.12 * PARTICLE_MOTION_SPEED,
+      phase: Math.random() * TAU,
+      phaseSpeed: (0.007 + Math.random() * 0.012) * PARTICLE_MOTION_SPEED,
+      wander: 1.2 + Math.random() * 2.4,
+      fillStyle: `rgba(${color}, ${alpha})`
+    };
+  });
+
+  return [...particles, ...accentParticles];
 }
 
 function resizeCanvas(canvas, ctx) {

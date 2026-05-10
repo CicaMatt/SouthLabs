@@ -28,13 +28,14 @@ const SECTION_CLASS = 'py-20 lg:py-24 bg-surface-container-low relative';
 const SECTION_CONTENT_CLASS = 'max-w-7xl mx-auto px-5 sm:px-6 md:px-8 relative z-10';
 const SERVICE_GRID_CLASS = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6';
 const FEATURE_CARD_CLASS = [
+  'software-ai-feature-card isolate',
   'group col-span-1 md:col-span-2 row-span-2 flex h-full flex-col justify-center',
   'bg-primary text-on-primary rounded-xl border-[3px] border-transparent p-8',
-  'shadow-[0_8px_40px_rgba(19,27,46,0.08)] transition-colors duration-150',
+  'shadow-[0_8px_40px_rgba(19,27,46,0.08)] transition-all duration-300',
   'relative overflow-hidden hover:border-tertiary-fixed-dim'
 ].join(' ');
 const FEATURE_BACKGROUND_ICON_CLASS = [
-  'absolute bottom-0 right-0 p-2 opacity-10 transition-opacity duration-150 group-hover:opacity-25',
+  'absolute bottom-0 right-0 z-[2] p-2 opacity-10 transition-all duration-300 group-hover:opacity-25 group-hover:scale-105',
   'md:top-1/2 md:bottom-auto md:-translate-y-1/2 md:p-6',
   'lg:top-auto lg:bottom-0 lg:translate-y-0 lg:p-2'
 ].join(' ');
@@ -69,18 +70,18 @@ export default function SoftwareSection() {
         <div className={SERVICE_GRID_CLASS}>
           <div className={FEATURE_CARD_CLASS}>
             <div className={FEATURE_BACKGROUND_ICON_CLASS}>
-              <span className="material-symbols-outlined text-[76px] leading-none md:text-[108px] lg:text-[120px] transition-colors duration-150 group-hover:text-tertiary-fixed-dim">smart_toy</span>
+              <span className="material-symbols-outlined text-[76px] leading-none text-tertiary-fixed-dim md:text-[108px] lg:text-[120px]">smart_toy</span>
             </div>
-            <div className="absolute top-8 left-8 hidden h-12 w-12 items-center justify-center rounded-lg bg-surface-container/20 backdrop-blur-sm lg:flex">
+            <div className="software-ai-chip absolute top-8 left-8 z-10 hidden h-12 w-12 items-center justify-center rounded-lg bg-surface-container/20 backdrop-blur-sm lg:flex">
               <span className="material-symbols-outlined text-tertiary-fixed-dim">memory</span>
             </div>
-            <h3 className="font-headline text-2xl font-bold mb-4">Sistemi di Intelligenza Artificiale</h3>
-            <p className="font-body text-on-primary-container mb-8 max-w-sm">
+            <h3 className="relative z-10 font-headline text-2xl font-bold mb-4">Sistemi di Intelligenza Artificiale</h3>
+            <p className="relative z-10 font-body text-on-primary-container mb-8 max-w-sm">
               Sviluppo di modelli di intelligenza artificiale per analisi predittiva, automazione del customer service e ottimizzazione dei flussi di lavoro.
             </p>
-            <a className="inline-flex items-center text-tertiary-fixed-dim font-medium hover:text-white transition-colors lg:absolute lg:bottom-[4.25rem] lg:left-8 lg:translate-y-1/2" href="#contatti">
+            <a className="relative z-10 inline-flex w-fit items-center rounded-md text-tertiary-fixed-dim font-medium transition-all duration-200 hover:translate-x-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary-fixed-dim lg:absolute lg:bottom-[4.25rem] lg:left-8 lg:translate-y-1/2 lg:hover:translate-x-1 lg:hover:translate-y-1/2" href="#contatti">
               Esplora AI
-              <span className="material-symbols-outlined ml-1 text-sm">arrow_forward</span>
+              <span className="material-symbols-outlined ml-1 text-sm transition-transform duration-200 group-hover:translate-x-0.5">arrow_forward</span>
             </a>
           </div>
 

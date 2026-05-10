@@ -20,12 +20,12 @@ const NAVBAR_CLASS = [
 const NAV_CONTENT_CLASS = 'relative max-w-7xl mx-auto h-full flex items-center justify-between px-5 lg:px-8';
 const DESKTOP_LINK_CLASS = [
   'font-headline text-center text-[13px] font-semibold leading-tight tracking-tight',
-  'text-slate-500 transition-all duration-300 hover:text-blue-700',
+  'text-on-surface-variant transition-all duration-300 hover:text-blue-700',
   'dark:text-slate-400 dark:hover:text-blue-300 lg:text-[14px]'
 ].join(' ');
 const MOBILE_LINK_CLASS = [
   'group flex min-h-12 items-center justify-between rounded-lg px-4',
-  'font-headline text-[14px] font-semibold text-slate-700',
+  'font-headline text-[14px] font-semibold text-on-background',
   'transition-colors hover:bg-blue-100/70 hover:text-blue-800 active:bg-blue-100',
   'dark:text-slate-100 dark:hover:bg-blue-400/15 dark:hover:text-blue-100 dark:active:bg-blue-400/20'
 ].join(' ');
