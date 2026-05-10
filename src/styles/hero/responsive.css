@@ -20,7 +20,7 @@
 @media (max-width: 820px) {
   .hero-shell { --hero-grid-size: 54px; }
   .hero-atmosphere-grid { opacity: 0.20; }
-  .hero-particle-canvas { opacity: 0.56; }
+  .hero-particle-canvas { opacity: 0.72; }
   .hero-factory-stage {
     --factory-stage-width: min(88vw, 540px);
     right: clamp(-126px, -15vw, -98px);
@@ -79,7 +79,6 @@
   .v-factory-trace,
   .v-plume-shell-highlight,
   .v-plume-core,
-  .v-graph-grid line,
   .v-graph-halo-line,
   .v-graph-halo-bars,
   .v-graph-sheen,

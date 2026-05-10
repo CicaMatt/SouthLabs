@@ -4,26 +4,35 @@ const TAU = Math.PI * 2;
 const TOUCH_NUDGE_MS = 720;
 const POINTER_BURST_MS = 420;
 const PARTICLE_DENSITY = 4400;
-const POINTER_RADIUS = 135;
+const POINTER_RADIUS = 148;
 const POINTER_BURST_RADIUS_BOOST = 0.12;
-const POINTER_FORCE = 92;
+const POINTER_FORCE = 0.49;
+const POINTER_BURST_FORCE = 1.22;
+const TOUCH_NUDGE_FORCE = 0.00205;
 const MAX_PIXEL_RATIO = 1.25;
 const MOBILE_FIELD_MAX_WIDTH = 700;
-const MOBILE_FACTORY_ACCENT_PARTICLES = 18;
+const MOBILE_PARTICLE_DENSITY = 3900;
+const MOBILE_PARTICLE_MIN = 88;
+const MOBILE_PARTICLE_MAX = 132;
 const PARTICLE_MOTION_SPEED = 1.35;
+const FIELD_PADDING = 32;
+const BASE_FRAME_MS = 1000 / 60;
 const FRAME_INTERVAL_MS = {
-  active: 18,
-  idleDesktop: 48,
-  idleMobile: 64
+  active: 16,
+  idleDesktop: 32,
+  idleMobile: 48
 };
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+const smoothStep = (progress) => progress * progress * (3 - 2 * progress);
 
 function getParticleCount(width, height) {
   const coarseViewport = width < MOBILE_FIELD_MAX_WIDTH;
-  const min = coarseViewport ? 64 : 125;
-  const max = coarseViewport ? 112 : 250;
-  return clamp(Math.round((width * height) / PARTICLE_DENSITY), min, max);
+  if (coarseViewport) {
+    return clamp(Math.round((width * height) / MOBILE_PARTICLE_DENSITY), MOBILE_PARTICLE_MIN, MOBILE_PARTICLE_MAX);
+  }
+
+  return clamp(Math.round((width * height) / PARTICLE_DENSITY), 125, 250);
 }
 
 function getFrameInterval(width, isActiveFrame) {
@@ -33,61 +42,108 @@ function getFrameInterval(width, isActiveFrame) {
     : FRAME_INTERVAL_MS.idleDesktop;
 }
 
+function shuffleIndexes(length) {
+  const indexes = Array.from({ length }, (_, index) => index);
+  for (let i = indexes.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [indexes[i], indexes[j]] = [indexes[j], indexes[i]];
+  }
+  return indexes;
+}
+
+function createParticle(x, y, width, options = {}) {
+  const leftCompensation = x < width * 0.36 ? (options.leftCompensation ?? 0.08) : 0;
+  const alpha = clamp(
+    (options.alphaBase ?? 0.34)
+      + leftCompensation
+      + (options.alphaBoost ?? 0)
+      + Math.random() * (options.alphaRange ?? 0.42),
+    0.12,
+    0.88
+  );
+  const color = Math.random() > (options.cyanChance ?? 0.28) ? '214, 250, 255' : '71, 214, 255';
+  const driftAngle = Math.random() * TAU;
+  const driftSpeed = (
+    (options.driftSpeedMin ?? 0.018)
+    + Math.random() * (options.driftSpeedRange ?? 0.038)
+  ) * PARTICLE_MOTION_SPEED;
+
+  return {
+    x,
+    y,
+    anchorX: x,
+    anchorY: y,
+    vx: (Math.random() - 0.5) * (options.initialVelocity ?? 0.16),
+    vy: (Math.random() - 0.5) * (options.initialVelocity ?? 0.16),
+    radius: (options.radiusMin ?? 0.95) + Math.random() * (options.radiusRange ?? 1.35),
+    driftX: Math.cos(driftAngle) * driftSpeed,
+    driftY: Math.sin(driftAngle) * driftSpeed * 0.72,
+    phase: Math.random() * TAU,
+    phaseSpeed: (
+      (options.phaseSpeedMin ?? 0.004)
+      + Math.random() * (options.phaseSpeedRange ?? 0.009)
+    ) * PARTICLE_MOTION_SPEED,
+    flow: (
+      (options.flowMin ?? 0.012)
+      + Math.random() * (options.flowRange ?? 0.022)
+    ) * PARTICLE_MOTION_SPEED,
+    spring: (options.springMin ?? 0.0055) + Math.random() * (options.springRange ?? 0.006),
+    drag: (options.dragMin ?? 0.885) + Math.random() * (options.dragRange ?? 0.055),
+    mass: (options.massMin ?? 0.82) + Math.random() * (options.massRange ?? 0.54),
+    maxSpeed: (options.maxSpeedMin ?? 1.72) + Math.random() * (options.maxSpeedRange ?? 1.34),
+    fillStyle: `rgba(${color}, ${alpha})`
+  };
+}
+
+function createMobileParticles(width, height, count) {
+  const columns = Math.max(4, Math.ceil(Math.sqrt(count * (width / height))));
+  const rows = Math.max(8, Math.ceil(count / columns));
+  const cells = shuffleIndexes(columns * rows);
+  const insetX = width * 0.04;
+  const insetY = height * 0.04;
+  const fieldWidth = width - insetX * 2;
+  const fieldHeight = height - insetY * 2;
+
+  return cells.slice(0, count).map((cellIndex) => {
+    const column = cellIndex % columns;
+    const row = Math.floor(cellIndex / columns);
+    const x = insetX + ((column + 0.18 + Math.random() * 0.64) / columns) * fieldWidth;
+    const y = insetY + ((row + 0.18 + Math.random() * 0.64) / rows) * fieldHeight;
+    return createParticle(x, y, width, {
+      alphaBase: 0.32,
+      alphaRange: 0.36,
+      cyanChance: 0.25,
+      leftCompensation: 0.06,
+      radiusMin: 0.88,
+      radiusRange: 1.16,
+      driftSpeedMin: 0.012,
+      driftSpeedRange: 0.026,
+      flowMin: 0.010,
+      flowRange: 0.018,
+      maxSpeedMin: 1.24,
+      maxSpeedRange: 0.94,
+      initialVelocity: 0.10
+    });
+  });
+}
+
 function createParticles(width, height) {
   const count = getParticleCount(width, height);
+  if (width < MOBILE_FIELD_MAX_WIDTH) return createMobileParticles(width, height, count);
+
   const columns = Math.max(1, Math.ceil(Math.sqrt(count * (width / height))));
   const rows = Math.max(1, Math.ceil(count / columns));
-  const cells = Array.from({ length: columns * rows }, (_, index) => index);
-
-  for (let i = cells.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [cells[i], cells[j]] = [cells[j], cells[i]];
-  }
+  const cells = shuffleIndexes(columns * rows);
 
   const particles = cells.slice(0, count).map((cellIndex) => {
     const column = cellIndex % columns;
     const row = Math.floor(cellIndex / columns);
     const x = ((column + 0.18 + Math.random() * 0.64) / columns) * width;
     const y = ((row + 0.18 + Math.random() * 0.64) / rows) * height;
-    const leftCompensation = x < width * 0.36 ? 0.08 : 0;
-    const alpha = 0.34 + leftCompensation + Math.random() * 0.42;
-    const color = Math.random() > 0.28 ? '214, 250, 255' : '71, 214, 255';
-
-    return {
-      x,
-      y,
-      radius: 0.95 + Math.random() * 1.35,
-      driftX: (Math.random() - 0.5) * 0.18 * PARTICLE_MOTION_SPEED,
-      driftY: (Math.random() - 0.5) * 0.14 * PARTICLE_MOTION_SPEED,
-      phase: Math.random() * TAU,
-      phaseSpeed: (0.008 + Math.random() * 0.014) * PARTICLE_MOTION_SPEED,
-      wander: 1.4 + Math.random() * 2.8,
-      fillStyle: `rgba(${color}, ${alpha})`
-    };
+    return createParticle(x, y, width);
   });
 
-  if (width >= MOBILE_FIELD_MAX_WIDTH) return particles;
-
-  const accentParticles = Array.from({ length: MOBILE_FACTORY_ACCENT_PARTICLES }, () => {
-    const x = width * (0.62 + Math.random() * 0.34);
-    const y = height * (0.34 + Math.random() * 0.22);
-    const color = Math.random() > 0.18 ? '214, 250, 255' : '71, 214, 255';
-    const alpha = 0.48 + Math.random() * 0.32;
-
-    return {
-      x,
-      y,
-      radius: 0.85 + Math.random() * 1.1,
-      driftX: (Math.random() - 0.5) * 0.16 * PARTICLE_MOTION_SPEED,
-      driftY: (Math.random() - 0.5) * 0.12 * PARTICLE_MOTION_SPEED,
-      phase: Math.random() * TAU,
-      phaseSpeed: (0.007 + Math.random() * 0.012) * PARTICLE_MOTION_SPEED,
-      wander: 1.2 + Math.random() * 2.4,
-      fillStyle: `rgba(${color}, ${alpha})`
-    };
-  });
-
-  return [...particles, ...accentParticles];
+  return particles;
 }
 
 function resizeCanvas(canvas, ctx) {
@@ -110,6 +166,73 @@ function drawDot(ctx, x, y, radius, fillStyle) {
   ctx.fill();
 }
 
+function wrapParticle(particle, width, height) {
+  if (particle.anchorX < -FIELD_PADDING) {
+    particle.anchorX = width + FIELD_PADDING;
+    particle.x = particle.anchorX;
+    particle.vx = 0;
+  } else if (particle.anchorX > width + FIELD_PADDING) {
+    particle.anchorX = -FIELD_PADDING;
+    particle.x = particle.anchorX;
+    particle.vx = 0;
+  }
+
+  if (particle.anchorY < -FIELD_PADDING) {
+    particle.anchorY = height + FIELD_PADDING;
+    particle.y = particle.anchorY;
+    particle.vy = 0;
+  } else if (particle.anchorY > height + FIELD_PADDING) {
+    particle.anchorY = -FIELD_PADDING;
+    particle.y = particle.anchorY;
+    particle.vy = 0;
+  }
+}
+
+function advanceParticle(particle, step, size, forceState) {
+  particle.phase += particle.phaseSpeed * step;
+
+  const flowX = Math.cos(particle.phase + particle.anchorY * 0.007) * particle.flow;
+  const flowY = Math.sin(particle.phase * 0.86 + particle.anchorX * 0.005) * particle.flow * 0.78;
+  particle.anchorX += (particle.driftX + flowX) * step;
+  particle.anchorY += (particle.driftY + flowY) * step;
+  wrapParticle(particle, size.width, size.height);
+
+  let ax = (particle.anchorX - particle.x) * particle.spring;
+  let ay = (particle.anchorY - particle.y) * particle.spring;
+
+  if (forceState.touchEase > 0) {
+    ax += forceState.touchOffsetX * TOUCH_NUDGE_FORCE * forceState.touchEase / particle.mass;
+    ay += forceState.touchOffsetY * TOUCH_NUDGE_FORCE * forceState.touchEase / particle.mass;
+  }
+
+  if (forceState.hasPointer) {
+    const dx = particle.x - forceState.repelX;
+    const dy = particle.y - forceState.repelY;
+    const distanceSq = dx * dx + dy * dy;
+
+    if (distanceSq > 0.1 && distanceSq < forceState.repelRadiusSq) {
+      const distance = Math.sqrt(distanceSq);
+      const proximity = 1 - distance / forceState.repelRadius;
+      const force = smoothStep(proximity) * forceState.repelForce / particle.mass;
+      ax += (dx / distance) * force;
+      ay += (dy / distance) * force;
+    }
+  }
+
+  particle.vx = (particle.vx + ax * step) * Math.pow(particle.drag, step);
+  particle.vy = (particle.vy + ay * step) * Math.pow(particle.drag, step);
+
+  const speed = Math.hypot(particle.vx, particle.vy);
+  if (speed > particle.maxSpeed) {
+    const limit = particle.maxSpeed / speed;
+    particle.vx *= limit;
+    particle.vy *= limit;
+  }
+
+  particle.x += particle.vx * step;
+  particle.y += particle.vy * step;
+}
+
 export default function HeroParticleField({ pointerRef }) {
   const canvasRef = useRef(null);
 
@@ -124,11 +247,12 @@ export default function HeroParticleField({ pointerRef }) {
     let reduceMotion = reduceMotionQuery.matches;
     let frameId = null;
     let lastFrameTime = 0;
+    let lastPhysicsTime = 0;
     let isVisible = true;
     let size = resizeCanvas(canvas, ctx);
     let particles = createParticles(size.width, size.height);
 
-    const draw = (now, isStatic = false) => {
+    const draw = (now, isStatic = false, step = 1) => {
       ctx.clearRect(0, 0, size.width, size.height);
 
       const pointer = pointerRef.current;
@@ -151,38 +275,24 @@ export default function HeroParticleField({ pointerRef }) {
       const repelRadius = POINTER_RADIUS
         * (size.width < MOBILE_FIELD_MAX_WIDTH ? 0.76 : 1)
         * (1 + burstEase * POINTER_BURST_RADIUS_BOOST);
-      const repelRadiusSq = repelRadius * repelRadius;
-      const repelForce = POINTER_FORCE * (1 + burstEase * 1.35);
+      const forceState = {
+        hasPointer,
+        repelX,
+        repelY,
+        repelRadius,
+        repelRadiusSq: repelRadius * repelRadius,
+        repelForce: (isRepelling ? POINTER_FORCE : POINTER_FORCE * 0.42) + burstEase * POINTER_BURST_FORCE,
+        touchEase,
+        touchOffsetX,
+        touchOffsetY
+      };
 
       for (const particle of particles) {
         if (!isStatic) {
-          particle.x += particle.driftX;
-          particle.y += particle.driftY;
-          particle.phase += particle.phaseSpeed;
-
-          if (particle.x < -12) particle.x = size.width + 12;
-          if (particle.x > size.width + 12) particle.x = -12;
-          if (particle.y < -12) particle.y = size.height + 12;
-          if (particle.y > size.height + 12) particle.y = -12;
+          advanceParticle(particle, step, size, forceState);
         }
 
-        let x = particle.x + Math.cos(particle.phase) * particle.wander + touchOffsetX;
-        let y = particle.y + Math.sin(particle.phase) * particle.wander + touchOffsetY;
-
-        if (hasPointer) {
-          const dx = x - repelX;
-          const dy = y - repelY;
-          const distanceSq = dx * dx + dy * dy;
-
-          if (distanceSq > 0.1 && distanceSq < repelRadiusSq) {
-            const distance = Math.sqrt(distanceSq);
-            const force = ((1 - distance / repelRadius) ** 2) * repelForce;
-            x += (dx / distance) * force;
-            y += (dy / distance) * force;
-          }
-        }
-
-        drawDot(ctx, x, y, particle.radius, particle.fillStyle);
+        drawDot(ctx, particle.x, particle.y, particle.radius, particle.fillStyle);
       }
     };
 
@@ -196,13 +306,17 @@ export default function HeroParticleField({ pointerRef }) {
       const frameInterval = getFrameInterval(size.width, isRepelling || isTouchNudging || isBursting);
       if (now - lastFrameTime < frameInterval) return;
 
+      const elapsed = lastPhysicsTime > 0 ? now - lastPhysicsTime : frameInterval;
+      const step = clamp(elapsed / BASE_FRAME_MS, 0.4, 2.8);
       lastFrameTime = now;
-      draw(now);
+      lastPhysicsTime = now;
+      draw(now, false, step);
     };
 
     const start = () => {
       if (frameId !== null || reduceMotion || !isVisible) return;
       lastFrameTime = 0;
+      lastPhysicsTime = 0;
       frameId = requestAnimationFrame(render);
     };
 
@@ -215,6 +329,7 @@ export default function HeroParticleField({ pointerRef }) {
     const resetField = () => {
       size = resizeCanvas(canvas, ctx);
       particles = createParticles(size.width, size.height);
+      lastPhysicsTime = 0;
       draw(performance.now(), reduceMotion);
     };
 

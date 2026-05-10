@@ -5,8 +5,14 @@
 }
 
 .v-plume-shell {
-  opacity: 0.96;
-  filter: drop-shadow(0 4px 12px rgba(7, 20, 52, 0.32));
+  opacity: 0.70;
+  filter: drop-shadow(0 4px 10px rgba(7, 20, 52, 0.16));
+}
+
+.v-plume-reflection {
+  opacity: 0.58;
+  mix-blend-mode: screen;
+  filter: url(#vFactorySoftLightBlur);
 }
 
 .v-plume-shell-highlight {
@@ -17,21 +23,8 @@
   transform-box: fill-box;
   transform-origin: center;
   mix-blend-mode: screen;
-  opacity: 0.82;
+  opacity: 0.54;
   animation: vCoreGlowPulse 5.4s ease-in-out infinite;
-}
-
-/* Chart internals */
-.v-graph-grid {
-  opacity: 0.34;
-  mix-blend-mode: screen;
-}
-.v-graph-grid line {
-  stroke: rgba(191, 247, 255, 0.36);
-  stroke-width: 0.9;
-  stroke-linecap: round;
-  stroke-dasharray: 2 12;
-  animation: vGraphGridFlow 18s linear infinite, vGraphGridPulse 7s ease-in-out infinite;
 }
 
 .v-graph-halo-line {

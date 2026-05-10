@@ -1,5 +1,5 @@
-const PLUME_TREND_POINTS = '206,122 248,92 314,108 374,74 452,42';
-const PLUME_TREND_ARROW_POINTS = '440,43 452,42 444,51';
+const PLUME_TREND_POINTS = '206,122 248,92 314,108 374,74 452,30';
+const PLUME_TREND_ARROW_POINTS = '443,42 452,30 437,32';
 
 // Builds the chart-like plume that sits above the factory chimney.
 function PlumeCloud() {
@@ -11,6 +11,12 @@ function PlumeCloud() {
         href="#vPlumeShape"
         className="v-plume-shell"
         fill="url(#vPlumeFill)"
+        transform={plumeHeightTransform}
+      />
+      <use
+        href="#vPlumeShape"
+        className="v-plume-reflection"
+        fill="url(#vPlumeReflection)"
         transform={plumeHeightTransform}
       />
       <use
@@ -34,15 +40,6 @@ function PlumeCloud() {
         <polyline className="v-trend v-plume-trend-out" points={PLUME_TREND_POINTS} />
 
         <g clipPath="url(#vPlumeClip)">
-          <g className="v-graph-grid">
-            <line x1="190" y1="72" x2="430" y2="72" />
-            <line x1="178" y1="102" x2="420" y2="102" />
-            <line x1="172" y1="132" x2="414" y2="132" />
-            <line x1="224" y1="52" x2="224" y2="142" />
-            <line x1="304" y1="50" x2="304" y2="142" />
-            <line x1="384" y1="48" x2="384" y2="142" />
-          </g>
-
           <g className="v-graph-halo-bars">
             <line x1="208" y1="134" x2="208" y2="96" />
             <line x1="246" y1="134" x2="246" y2="84" />
@@ -380,11 +377,17 @@ export default function FactoryIllustration({ svgRef }) {
           <use href="#vPlumeShape" transform="translate(0 8.64) scale(1 0.92)" />
         </clipPath>
         <linearGradient id="vPlumeFill" x1="300" y1="12" x2="300" y2="186" gradientUnits="userSpaceOnUse">
-          <stop offset="0%"   stopColor="#1A4A8E" stopOpacity="0.58" />
-          <stop offset="45%"  stopColor="#11386F" stopOpacity="0.56" />
-          <stop offset="100%" stopColor="#081D45" stopOpacity="0.66" />
+          <stop offset="0%"   stopColor="#173B72" stopOpacity="0.36" />
+          <stop offset="45%"  stopColor="#102C5A" stopOpacity="0.34" />
+          <stop offset="100%" stopColor="#0B1B3D" stopOpacity="0.42" />
         </linearGradient>
-        <linearGradient id="vGraphStroke" x1="190" y1="132" x2="452" y2="42" gradientUnits="userSpaceOnUse">
+        <linearGradient id="vPlumeReflection" x1="214" y1="48" x2="430" y2="134" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#79E8FF" stopOpacity="0" />
+          <stop offset="42%" stopColor="#8EF2FF" stopOpacity="0.14" />
+          <stop offset="62%" stopColor="#F2FFFF" stopOpacity="0.10" />
+          <stop offset="100%" stopColor="#6FE5FF" stopOpacity="0" />
+        </linearGradient>
+        <linearGradient id="vGraphStroke" x1="190" y1="132" x2="452" y2="30" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#47D7FF" stopOpacity="0.72" />
           <stop offset="46%" stopColor="#C8FBFF" stopOpacity="1" />
           <stop offset="72%" stopColor="#54F0D6" stopOpacity="0.94" />
@@ -401,9 +404,9 @@ export default function FactoryIllustration({ svgRef }) {
           gradientTransform="translate(300 108) scale(124 72)"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0%"   stopColor="#2B6FB7" stopOpacity="0.36" />
-          <stop offset="62%"  stopColor="#15437F" stopOpacity="0.22" />
-          <stop offset="100%" stopColor="#0A224C" stopOpacity="0.08" />
+          <stop offset="0%"   stopColor="#2B6FB7" stopOpacity="0.24" />
+          <stop offset="62%"  stopColor="#15437F" stopOpacity="0.14" />
+          <stop offset="100%" stopColor="#0A224C" stopOpacity="0.04" />
         </radialGradient>
 
         {/* Wave stroke */}
