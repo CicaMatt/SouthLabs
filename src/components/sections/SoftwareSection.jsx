@@ -38,10 +38,10 @@ function AutomationCard({ description, icon, title }) {
 // Software and automation section with one highlighted AI offer plus supporting cards.
 export default function SoftwareSection() {
   return (
-    <section className="py-24 bg-surface-container-low relative" id="software-automazione">
-      <div className="max-w-7xl mx-auto px-8 relative z-10">
+    <section className="py-20 lg:py-24 bg-surface-container-low relative" id="software-automazione">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 md:px-8 relative z-10">
         <SectionHeader
-          className="mb-16 max-w-3xl"
+          className="mb-12 max-w-3xl lg:mb-16"
           title="Software e Automazione"
           subtitle="Sistemi progettati per digitalizzare e ottimizzare i processi aziendali."
         />

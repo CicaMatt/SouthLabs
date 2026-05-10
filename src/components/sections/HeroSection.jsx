@@ -355,7 +355,7 @@ export default function HeroSection() {
         <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#081022] to-transparent" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 md:px-8 relative z-10">
         <div className="hero-reveal hero-content max-w-4xl">
           <div className="mb-8 inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-surface-bright backdrop-blur-md">
             <span className="h-2 w-2 rounded-full bg-tertiary-fixed" />

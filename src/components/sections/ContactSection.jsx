@@ -118,9 +118,9 @@ export default function ContactSection() {
   }
 
   return (
-    <section className="py-24 bg-surface-container-low" id="contatti">
-      <div className="max-w-3xl mx-auto px-8">
-        <div className="text-center mb-12">
+    <section className="py-20 lg:py-24 bg-surface-container-low" id="contatti">
+      <div className="max-w-3xl mx-auto px-5 sm:px-6 md:px-8">
+        <div className="text-center mb-10 md:mb-12">
           <h2 className="font-headline text-3xl md:text-4xl tracking-tight text-on-background mb-4">Inizia il tuo progetto</h2>
           <p className="font-body text-on-surface-variant">
             Raccontaci la tua idea.

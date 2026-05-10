@@ -459,9 +459,9 @@ export default function WebSolutionsSection() {
 
   return (
     <section className="relative overflow-hidden bg-surface py-20 lg:py-24" id="siti-web">
-      <div className="relative mx-auto max-w-7xl px-8">
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-6 md:px-8">
         <SectionHeader
-          className="mb-12 max-w-2xl sm:mb-14 lg:mb-16"
+          className="mb-12 max-w-2xl lg:mb-16"
           title="Siti Web"
           subtitle="Progettate per la massima conversione della tua attività."
         />

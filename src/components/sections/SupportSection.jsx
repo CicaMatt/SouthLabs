@@ -8,8 +8,8 @@ const supportItems = [
 // Support section pairing service promises with a call-to-action panel.
 export default function SupportSection() {
   return (
-    <section className="py-24 bg-tertiary text-on-tertiary" id="manutenzione-supporto">
-      <div className="max-w-7xl mx-auto px-8 flex flex-col md:flex-row gap-16 items-center">
+    <section className="py-20 lg:py-24 bg-tertiary text-on-tertiary" id="manutenzione-supporto">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 md:px-8 flex flex-col md:flex-row gap-10 md:gap-16 items-center">
         <div className="flex-1">
           <h2 className="font-headline text-3xl md:text-4xl tracking-tight mb-6">Supporto e Formazione</h2>
           <p className="font-body text-on-tertiary/80 text-lg mb-8 leading-relaxed">

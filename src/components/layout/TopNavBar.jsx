@@ -16,9 +16,10 @@ const DESKTOP_LINK_CLASS = [
   'dark:text-slate-400 dark:hover:text-blue-300 lg:text-[14px]'
 ].join(' ');
 const MOBILE_LINK_CLASS = [
-  'rounded-md px-3 py-2 font-headline text-[14px] font-semibold',
-  'text-slate-700 transition-colors hover:bg-white/55',
-  'dark:text-slate-200 dark:hover:bg-slate-800/70'
+  'group flex min-h-12 items-center justify-between rounded-lg px-4',
+  'font-headline text-[14px] font-semibold text-slate-700',
+  'transition-colors hover:bg-blue-100/70 hover:text-blue-800 active:bg-blue-100',
+  'dark:text-slate-100 dark:hover:bg-blue-400/15 dark:hover:text-blue-100 dark:active:bg-blue-400/20'
 ].join(' ');
 
 // Combines the icon and text mark while exposing one accessible brand link.
@@ -81,10 +82,10 @@ function MenuIcon({ isOpen }) {
 function MobileNavMenu({ onNavigate }) {
   return (
     <div
-      className="md:hidden absolute top-[calc(100%+0.55rem)] left-4 right-4 rounded-xl border border-slate-200/70 dark:border-slate-700/50 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl shadow-[0_14px_34px_rgba(19,27,46,0.14)] p-3"
+      className="md:hidden absolute top-[calc(100%+0.65rem)] left-4 right-4 overflow-hidden rounded-2xl border border-slate-200 bg-[#f8fafc] p-2 shadow-[0_22px_58px_rgba(15,23,42,0.22),0_1px_0_rgba(255,255,255,0.9)_inset] dark:border-slate-800 dark:bg-slate-950 dark:shadow-[0_22px_58px_rgba(0,0,0,0.48)]"
       id="mobile-nav-menu"
     >
-      <div className="flex flex-col gap-1.5">
+      <div className="flex flex-col gap-1">
         {navLinks.map((link) => (
           <a
             key={link.href}
@@ -92,7 +93,10 @@ function MobileNavMenu({ onNavigate }) {
             href={link.href}
             onClick={onNavigate}
           >
-            {link.label}
+            <span>{link.label}</span>
+            <span className="material-symbols-outlined text-[18px] text-slate-400 transition-all group-hover:translate-x-0.5 group-hover:text-blue-700 dark:text-slate-500 dark:group-hover:text-blue-200">
+              arrow_forward
+            </span>
           </a>
         ))}
       </div>

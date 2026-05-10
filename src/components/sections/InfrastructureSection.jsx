@@ -34,10 +34,10 @@ const infrastructureCards = [
 // Hardware infrastructure section with three image-backed service summaries.
 export default function InfrastructureSection() {
   return (
-    <section className="py-24 bg-surface" id="infrastrutture-hardware">
-      <div className="max-w-7xl mx-auto px-8">
+    <section className="py-20 lg:py-24 bg-surface" id="infrastrutture-hardware">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 md:px-8">
         <SectionHeader
-          className="mb-16 max-w-2xl"
+          className="mb-12 max-w-2xl lg:mb-16"
           title="Infrastruttura Hardware"
           subtitle="Le fondamenta fisiche e virtuali per garantire continuità operativa e sicurezza dei dati."
         />
