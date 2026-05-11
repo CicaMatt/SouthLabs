@@ -14,17 +14,13 @@ const SOLUTION_CARD_VIEW_QUERIES = {
   stacked: '(max-width: 960px)',
   desktop: '(min-width: 1024px)'
 };
-const SOLUTION_CARD_REVEAL_CLASS = {
-  visible: 'opacity-100 translate-y-0',
-  hidden: 'opacity-0 translate-y-2'
-};
 const SOLUTION_CARD_CLASSES = {
   shell: [
     'group relative flex min-h-[208px] items-center overflow-hidden rounded-xl',
     'border border-[#d9e0e6] bg-white shadow-[0_8px_20px_rgba(15,34,52,0.07)]',
     'motion-safe:transform-gpu motion-safe:transition-all motion-safe:duration-[420ms]',
     'motion-safe:ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none',
-    'hover:-translate-y-[3px] hover:border-[#0057D8] hover:shadow-[0_20px_38px_rgba(10,27,43,0.2),0_0_0_2px_rgba(0,87,216,0.82)]',
+    'hover:-translate-y-[3px] hover:border-[#0047B3] hover:shadow-[0_20px_38px_rgba(10,27,43,0.2),0_0_0_2px_rgba(0,71,179,0.82)]',
     'sm:min-h-[228px] md:min-h-[252px]'
   ].join(' '),
   stackedRow: [
@@ -106,12 +102,8 @@ const RIGHT_WEB_SOLUTION_CARD = {
   previewImage: ecommerceImage
 };
 
-function getSolutionCardClassName(layoutClassName, isVisible) {
-  return cx(
-    SOLUTION_CARD_CLASSES.shell,
-    layoutClassName,
-    isVisible ? SOLUTION_CARD_REVEAL_CLASS.visible : SOLUTION_CARD_REVEAL_CLASS.hidden
-  );
+function getSolutionCardClassName(layoutClassName) {
+  return cx(SOLUTION_CARD_CLASSES.shell, layoutClassName);
 }
 
 function getHorizontalPreviewPositionClass(isWordpressCard) {
@@ -211,53 +203,6 @@ function useIconTextCenter(mediaQuery) {
 const useStackedIconTextCenter = () => useIconTextCenter(SOLUTION_CARD_VIEW_QUERIES.stacked);
 const useDesktopIconTextCenter = () => useIconTextCenter(SOLUTION_CARD_VIEW_QUERIES.desktop);
 
-// Reveals cards as they enter the viewport, while respecting reduced-motion settings.
-function useCardReveal(revealDelayMs = 0) {
-  const cardRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(() => {
-    if (typeof window === 'undefined') return true;
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  });
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return undefined;
-
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion || typeof IntersectionObserver === 'undefined') {
-      setIsVisible(true);
-      return undefined;
-    }
-
-    const cardElement = cardRef.current;
-    if (!cardElement) return undefined;
-
-    let revealTimerId;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-
-        observer.unobserve(entry.target);
-        revealTimerId = window.setTimeout(() => {
-          setIsVisible(true);
-        }, revealDelayMs);
-      },
-      {
-        threshold: 0.25,
-        rootMargin: '0px 0px -8% 0px'
-      }
-    );
-
-    observer.observe(cardElement);
-
-    return () => {
-      observer.disconnect();
-      if (revealTimerId) window.clearTimeout(revealTimerId);
-    };
-  }, [revealDelayMs]);
-
-  return { cardRef, isVisible };
-}
-
 function useDesktopTitleFit() {
   const titleWrapRef = useRef(null);
   const titleMeasureRef = useRef(null);
@@ -331,9 +276,9 @@ function StackedCenterOverlayIcon({ title, icon, left = '50%', visibilityClass =
       style={{ left }}
     >
       {isWordpress ? (
-        <WordpressMaskedIcon className="h-28 w-28 bg-[#2f5a75] opacity-[0.09] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:bg-[#0057D8] group-hover:opacity-[0.3] group-hover:drop-shadow-[0_0_24px_rgba(0,87,216,0.56)] sm:h-28 sm:w-28 md:h-32 md:w-32" />
+        <WordpressMaskedIcon className="h-28 w-28 bg-[#2f5a75] opacity-[0.09] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:bg-[#0047B3] group-hover:opacity-[0.22] group-hover:drop-shadow-[0_0_24px_rgba(0,71,179,0.56)] sm:h-28 sm:w-28 md:h-32 md:w-32" />
       ) : (
-        <span className="material-symbols-outlined fill text-[116px] leading-none text-[#2f5a75] opacity-[0.08] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:text-[#0057D8] group-hover:opacity-[0.29] group-hover:drop-shadow-[0_0_24px_rgba(0,87,216,0.56)] sm:text-[120px] md:text-[150px]">
+        <span className="material-symbols-outlined fill text-[116px] leading-none text-[#2f5a75] opacity-[0.08] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:text-[#0047B3] group-hover:opacity-[0.21] group-hover:drop-shadow-[0_0_24px_rgba(0,71,179,0.56)] sm:text-[120px] md:text-[150px]">
           {icon}
         </span>
       )}
@@ -351,9 +296,9 @@ function DesktopCenterOverlayIcon({ title, icon, left = '50%' }) {
       style={{ left }}
     >
       {isWordpress ? (
-        <WordpressMaskedIcon className="h-44 w-44 bg-[#2f5a75] opacity-[0.1] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:bg-[#0057D8] group-hover:opacity-[0.34] group-hover:drop-shadow-[0_0_32px_rgba(0,87,216,0.58)]" />
+        <WordpressMaskedIcon className="h-44 w-44 bg-[#2f5a75] opacity-[0.1] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:bg-[#0047B3] group-hover:opacity-[0.26] group-hover:drop-shadow-[0_0_32px_rgba(0,71,179,0.58)]" />
       ) : (
-        <span className="material-symbols-outlined fill text-[200px] leading-none text-[#2f5a75] opacity-[0.09] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:text-[#0057D8] group-hover:opacity-[0.33] group-hover:drop-shadow-[0_0_32px_rgba(0,87,216,0.58)]">
+        <span className="material-symbols-outlined fill text-[200px] leading-none text-[#2f5a75] opacity-[0.09] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:text-[#0047B3] group-hover:opacity-[0.25] group-hover:drop-shadow-[0_0_32px_rgba(0,71,179,0.58)]">
           {icon}
         </span>
       )}
@@ -362,12 +307,11 @@ function DesktopCenterOverlayIcon({ title, icon, left = '50%' }) {
 }
 
 // Horizontal solution card used for custom web apps and WordPress.
-function LeftSolutionCard({ card, revealDelayMs = 0 }) {
+function LeftSolutionCard({ card }) {
   const isWordpressCard = card.title === WORDPRESS_TITLE;
   const hasStackedPreviewImage = Boolean(card.stackedPreviewImage);
   const stackedPreviewMode = hasStackedPreviewImage ? 'square' : 'wide';
   const previewPositionClass = getHorizontalPreviewPositionClass(isWordpressCard);
-  const { cardRef, isVisible } = useCardReveal(revealDelayMs);
   const { textWrapRef, titleRef, descriptionRef, iconLeft } = useStackedIconTextCenter();
   const {
     textWrapRef: desktopTextWrapRef,
@@ -378,8 +322,7 @@ function LeftSolutionCard({ card, revealDelayMs = 0 }) {
 
   return (
     <article
-      ref={cardRef}
-      className={getSolutionCardClassName(HORIZONTAL_CARD_CLASSES.shell, isVisible)}
+      className={getSolutionCardClassName(HORIZONTAL_CARD_CLASSES.shell)}
     >
       <CardHoverGlow mobileImageSide="right" desktopImageSide={isWordpressCard ? 'left' : 'right'} />
       <StackedCenterOverlayIcon title={card.title} icon={card.icon} visibilityClass={SOLUTION_CARD_CLASSES.intermediateOverlay} />
@@ -455,16 +398,14 @@ function LeftSolutionCard({ card, revealDelayMs = 0 }) {
 }
 
 // Tall desktop card for e-commerce, with title shortening when space is tight.
-function RightSolutionCard({ card, revealDelayMs = 0 }) {
+function RightSolutionCard({ card }) {
   const { textWrapRef, titleRef, descriptionRef, iconLeft } = useStackedIconTextCenter();
   const { titleWrapRef, titleMeasureRef, useShortTitle } = useDesktopTitleFit();
-  const { cardRef, isVisible } = useCardReveal(revealDelayMs);
   const desktopTitle = useShortTitle ? 'E-Commerce' : card.title;
 
   return (
     <article
-      ref={cardRef}
-      className={getSolutionCardClassName(TALL_CARD_CLASSES.shell, isVisible)}
+      className={getSolutionCardClassName(TALL_CARD_CLASSES.shell)}
     >
       <CardHoverGlow mobileImageSide="left" desktopImageSide="bottom" />
       <StackedCenterOverlayIcon title={card.title} icon={card.icon} visibilityClass={SOLUTION_CARD_CLASSES.intermediateOverlay} />
@@ -539,9 +480,9 @@ export default function WebSolutionsSection() {
         />
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          <LeftSolutionCard card={topLeftCard} revealDelayMs={0} />
-          <RightSolutionCard card={RIGHT_WEB_SOLUTION_CARD} revealDelayMs={70} />
-          <LeftSolutionCard card={bottomLeftCard} revealDelayMs={140} />
+          <LeftSolutionCard card={topLeftCard} />
+          <RightSolutionCard card={RIGHT_WEB_SOLUTION_CARD} />
+          <LeftSolutionCard card={bottomLeftCard} />
         </div>
       </div>
     </section>

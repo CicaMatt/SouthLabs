@@ -7,10 +7,20 @@ import InfrastructureSection from './components/sections/InfrastructureSection';
 import SupportSection from './components/sections/SupportSection';
 import ContactSection from './components/sections/ContactSection';
 
+function isImageTarget(target) {
+  return target instanceof HTMLElement && target.closest('img');
+}
+
+function preventImageDefault(event) {
+  if (isImageTarget(event.target)) {
+    event.preventDefault();
+  }
+}
+
 // Single-page composition: nav, ordered content sections, and footer.
 export default function App() {
   return (
-    <>
+    <div onContextMenuCapture={preventImageDefault} onDragStartCapture={preventImageDefault}>
       <TopNavBar />
       <main>
         <HeroSection />
@@ -21,6 +31,6 @@ export default function App() {
         <ContactSection />
       </main>
       <Footer />
-    </>
+    </div>
   );
 }

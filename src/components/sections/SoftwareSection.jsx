@@ -40,16 +40,16 @@ const FEATURE_BACKGROUND_ICON_CLASS = [
   'lg:top-auto lg:bottom-0 lg:translate-y-0 lg:p-2'
 ].join(' ');
 const AUTOMATION_CARD_CLASS = [
-  'flex h-full flex-col bg-surface-container-lowest rounded-xl p-6',
-  'shadow-[inset_0_4px_0_0_#222a3e,0_4px_20px_rgba(19,27,46,0.04)]',
-  'transition-shadow duration-300 hover:shadow-[inset_0_0_0_4px_#222a3e,0_4px_20px_rgba(19,27,46,0.04)]'
+  'group flex h-full flex-col bg-surface-container-lowest rounded-xl p-6',
+  'shadow-[inset_0_4px_0_0_#2b3b59,0_4px_20px_rgba(19,27,46,0.04)]',
+  'transition-shadow duration-300 hover:shadow-[inset_0_0_0_4px_#2b3b59,0_4px_20px_rgba(19,27,46,0.04)]'
 ].join(' ');
 
 // Compact card used for each non-feature automation service.
 function AutomationCard({ description, icon, title }) {
   return (
     <div className={AUTOMATION_CARD_CLASS}>
-      <span className="material-symbols-outlined text-secondary mb-4 text-[28px]">{icon}</span>
+      <span className="material-symbols-outlined mb-4 inline-flex h-7 w-7 origin-center items-center justify-center text-[28px] leading-none text-secondary transition-all duration-300 group-hover:scale-110 group-hover:text-[#2b3b59]">{icon}</span>
       <h4 className="mb-2 min-h-[3rem] font-headline font-bold leading-snug text-on-background">{title}</h4>
       <p className="font-body text-sm leading-relaxed text-on-surface-variant">{description}</p>
     </div>

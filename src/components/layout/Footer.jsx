@@ -34,8 +34,8 @@ export default function Footer() {
     <footer className="w-full border-t border-slate-200/60 dark:border-slate-800/70 bg-gradient-to-b from-slate-50 to-slate-100/70 dark:from-slate-950 dark:to-slate-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-8 md:py-10">
         <div className="mx-auto w-full max-w-5xl">
-          <div className="mx-auto flex w-full flex-col items-center gap-8 md:w-fit md:flex-row md:items-start md:justify-center md:gap-0">
-            <FooterColumn className="md:pr-10 lg:pr-14" title="Documenti Legali">
+          <div className="mx-auto flex w-full flex-col items-center gap-8 md:w-fit md:flex-row md:items-start md:justify-center md:gap-20 lg:gap-28">
+            <FooterColumn title="Documenti Legali">
               <div className="flex flex-col items-center gap-1.5 md:items-start">
                 {footerLinks.map((label) => (
                   <a
@@ -49,7 +49,7 @@ export default function Footer() {
               </div>
             </FooterColumn>
 
-            <FooterColumn className="md:border-x md:border-slate-200/70 md:px-10 lg:px-14 md:dark:border-slate-800/70" title="Contatti">
+            <FooterColumn title="Contatti">
               <a
                 className={`max-w-full break-all ${FOOTER_LINK_CLASS}`}
                 href="mailto:matteocicalese.consulting@gmail.com"
@@ -59,7 +59,7 @@ export default function Footer() {
               <span className="font-inter text-sm leading-relaxed text-on-surface-variant dark:text-slate-400">+39 3928139527</span>
             </FooterColumn>
 
-            <FooterColumn className="md:pl-10 lg:pl-14" title="Social">
+            <FooterColumn title="Social">
               <div className="flex flex-col items-center gap-1.5 md:items-start">
                 {socialLinks.map((link) => (
                   <a
@@ -76,8 +76,9 @@ export default function Footer() {
             </FooterColumn>
           </div>
 
-          <div className="mt-6 border-t border-slate-200/70 pt-5 font-inter text-xs uppercase tracking-[0.08em] text-on-surface-variant dark:border-slate-800/70 dark:text-slate-500 text-center">
-            © 2026 SouthLabs.
+          <div className="mt-6 flex flex-col items-center gap-5 border-t border-slate-200/70 pt-5 text-center font-inter text-xs uppercase tracking-[0.08em] text-on-surface-variant dark:border-slate-800/70 dark:text-slate-500 sm:flex-row sm:justify-center sm:gap-40">
+            <span>P.IVA: 06403770651</span>
+            <span>© 2026 SouthLabs.</span>
           </div>
         </div>
       </div>
