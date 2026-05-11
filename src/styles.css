@@ -78,100 +78,196 @@
   }
 }
 
-/* Web solutions card glow utilities live here because they are the only section-specific globals. */
-/* Base glow layer shared by every responsive card view. */
-.web-solution-card-glow {
-  --web-solution-glow-size: 78% 128%;
-  --web-solution-glow-origin: 0% 50%;
-  --web-solution-glow-mask: linear-gradient(90deg, #000 0%, #000 42%, transparent 58%);
-  border-radius: inherit;
-  overflow: hidden;
+/* Shared grid treatment for page sections. Each section sets its own color tokens. */
+.section-grid-bg {
+  --section-bg: #f7f9fb;
+  --section-grid-color: rgba(31, 79, 143, 0.045);
+  --section-grid-size: 72px;
+  --section-grid-snap-padding: 0px;
+  --section-grid-highlight-color: #1f4f8f;
+  --section-grid-highlight-opacity: 0;
+  --section-grid-highlight-x: 50%;
+  --section-grid-highlight-y: 50%;
+  background-color: var(--section-bg);
 }
 
-.web-solution-card-glow::before {
+.site-main-with-section-cursor > section.section-grid-bg:not(#hero) {
+  position: relative;
+  isolation: isolate;
+}
+
+.site-main-with-section-cursor > section.section-grid-bg:not(#hero)::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    var(--web-solution-glow-size) at var(--web-solution-glow-origin),
-    rgba(0, 71, 179, 0.34) 0%,
-    rgba(0, 84, 190, 0.24) 36%,
-    rgba(0, 46, 135, 0) 70%
+  z-index: 0;
+  pointer-events: none;
+  opacity: var(--section-grid-highlight-opacity, 0);
+  background-image:
+    linear-gradient(var(--section-grid-highlight-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--section-grid-highlight-color) 1px, transparent 1px);
+  background-position:
+    calc(-1px + var(--site-grid-offset-x, 0px) - var(--section-grid-origin-x, 0px))
+    calc(-1px + var(--site-grid-offset-y, 0px) - var(--section-grid-origin-y, 0px));
+  background-repeat: repeat;
+  background-size: var(--section-grid-size, 72px) var(--section-grid-size, 72px);
+  -webkit-mask-image: radial-gradient(
+    circle at var(--section-grid-highlight-x) var(--section-grid-highlight-y),
+    #000 0 46px,
+    transparent 154px
   );
-  transform: scale(0.98);
-  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
-  -webkit-mask-image: var(--web-solution-glow-mask);
-  mask-image: var(--web-solution-glow-mask);
+  mask-image: radial-gradient(
+    circle at var(--section-grid-highlight-x) var(--section-grid-highlight-y),
+    #000 0 46px,
+    transparent 154px
+  );
+  transition: opacity 140ms ease-out, background-position 180ms ease-out;
 }
 
-.web-solution-card-glow::after {
+.site-main-with-section-cursor > section.section-grid-bg:not(#hero) > * {
+  position: relative;
+  z-index: 1;
+}
+
+.site-main-with-section-cursor > section::after {
   content: "";
-  position: absolute;
-  inset: -35% -62%;
-  background: linear-gradient(
-    112deg,
-    transparent 43%,
-    rgba(0, 71, 179, 0.4) 50%,
-    transparent 57%
-  );
-  opacity: 0.46;
-  transform: translateX(-18%);
-  transition: transform 680ms cubic-bezier(0.22, 1, 0.36, 1);
-  -webkit-mask-image: var(--web-solution-glow-mask);
-  mask-image: var(--web-solution-glow-mask);
+  display: block;
+  height: var(--section-grid-snap-padding, 0px);
 }
 
-.group:hover .web-solution-card-glow::before {
-  transform: scale(1);
+.section-grid-bg,
+.section-grid-layer {
+  background-image:
+    linear-gradient(var(--section-grid-color, rgba(31, 79, 143, 0.045)) 1px, transparent 1px),
+    linear-gradient(90deg, var(--section-grid-color, rgba(31, 79, 143, 0.045)) 1px, transparent 1px);
+  background-position:
+    calc(-1px + var(--site-grid-offset-x, 0px) - var(--section-grid-origin-x, 0px))
+    calc(-1px + var(--site-grid-offset-y, 0px) - var(--section-grid-origin-y, 0px));
+  background-repeat: repeat;
+  background-size: var(--section-grid-size, 72px) var(--section-grid-size, 72px);
+  transition: background-position 180ms ease-out;
+  will-change: background-position;
 }
 
-.group:hover .web-solution-card-glow::after {
-  transform: translateX(18%);
+.section-grid-bg--hero {
+  --section-bg: #0b1729;
+  --section-grid-color: rgba(190, 198, 224, 0.16);
+  --section-grid-size: 72px;
 }
 
-/* Stacked/mobile image-side modes. */
-.web-solution-card-glow--mobile-image-right {
-  --web-solution-glow-origin: 0% 50%;
-  --web-solution-glow-mask: linear-gradient(90deg, #000 0%, #000 42%, transparent 58%);
+.section-grid-bg--web {
+  --section-bg: #f7f9fb;
+  --section-grid-color: rgba(31, 79, 143, 0.045);
 }
 
-.web-solution-card-glow--mobile-image-left {
-  --web-solution-glow-origin: 100% 50%;
-  --web-solution-glow-mask: linear-gradient(270deg, #000 0%, #000 42%, transparent 58%);
+.section-grid-bg--software {
+  --section-bg: #edf2f7;
+  --section-grid-color: rgba(31, 79, 143, 0.052);
 }
 
-.web-solution-card-glow--mobile-image-bottom {
-  --web-solution-glow-size: 118% 54%;
-  --web-solution-glow-origin: 50% 0%;
-  --web-solution-glow-mask: linear-gradient(180deg, #000 0%, #000 30%, transparent 48%);
+.section-grid-bg--infrastructure {
+  --section-bg: #f7f9fb;
+  --section-grid-color: rgba(43, 59, 89, 0.04);
 }
 
-/* Desktop image-side modes. */
-@media (min-width: 1024px) {
-  .web-solution-card-glow--desktop-image-right {
-    --web-solution-glow-size: 78% 128%;
-    --web-solution-glow-origin: 0% 50%;
-    --web-solution-glow-mask: linear-gradient(90deg, #000 0%, #000 42%, transparent 62%);
-  }
-
-  .web-solution-card-glow--desktop-image-left {
-    --web-solution-glow-size: 78% 128%;
-    --web-solution-glow-origin: 100% 50%;
-    --web-solution-glow-mask: linear-gradient(270deg, #000 0%, #000 42%, transparent 62%);
-  }
-
-  .web-solution-card-glow--desktop-image-bottom {
-    --web-solution-glow-size: 118% 54%;
-    --web-solution-glow-origin: 50% 0%;
-    --web-solution-glow-mask: linear-gradient(180deg, #000 0%, #000 30%, transparent 50%);
-  }
+.section-grid-bg--support {
+  --section-bg: #002e3a;
+  --section-grid-color: rgba(182, 235, 255, 0.085);
 }
 
-/* Keep reduced-motion card hovers static while retaining the glow artwork. */
+.section-grid-bg--contact {
+  --section-bg: #f2f4f6;
+  --section-grid-color: rgba(31, 79, 143, 0.04);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .web-solution-card-glow::before,
-  .web-solution-card-glow::after {
+  .section-grid-bg,
+  .section-grid-layer {
+    background-position: -1px -1px;
     transition: none;
+  }
+}
+
+.section-cursor-dot {
+  --section-cursor-x: -48px;
+  --section-cursor-y: -48px;
+  --section-cursor-opacity: 0;
+  --section-cursor-top-color: #1f4f8f;
+  --section-cursor-bottom-color: #1f4f8f;
+  --section-cursor-split: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 60;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+  border-radius: 999px;
+  opacity: var(--section-cursor-opacity);
+  background: linear-gradient(
+    to bottom,
+    var(--section-cursor-top-color) 0 var(--section-cursor-split),
+    var(--section-cursor-bottom-color) var(--section-cursor-split) 100%
+  );
+  transform:
+    translate3d(
+      calc(var(--section-cursor-x) - 50%),
+      calc(var(--section-cursor-y) - 50%),
+      0
+    );
+}
+
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .section-cursor-dot {
+    display: none;
+  }
+}
+
+@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .site-main-with-section-cursor > section:not(#hero),
+  .site-main-with-section-cursor > section:not(#hero) * {
+    cursor: none;
+  }
+}
+
+.web-solution-hover-text {
+  transform: scale(1);
+  transform-origin: left center;
+  transition:
+    transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 220ms ease,
+    text-shadow 220ms ease;
+  will-change: transform;
+}
+
+.text-right .web-solution-hover-text {
+  transform-origin: right center;
+}
+
+@media (min-width: 1024px) {
+  .lg\:text-right .web-solution-hover-text {
+    transform-origin: right center;
+  }
+}
+
+.group:hover .web-solution-hover-title {
+  color: #0e2c52;
+  text-shadow: 0.012em 0 0 rgba(14, 44, 82, 0.34);
+  transform: scale(1.035);
+}
+
+.group:hover .web-solution-hover-description {
+  color: #173c69;
+  text-shadow: 0.01em 0 0 rgba(23, 60, 105, 0.28);
+  transform: scale(1.02);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .web-solution-hover-text {
+    transition: none;
+  }
+
+  .group:hover .web-solution-hover-text {
     transform: none;
   }
 }

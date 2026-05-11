@@ -388,7 +388,7 @@ export default function HeroSection() {
 
   const heroStyle = useMemo(() => HERO_INITIAL_STYLE, []);
   const heroClassName = [
-    'hero-shell relative isolate overflow-hidden bg-primary pt-32 pb-24 lg:pt-40 lg:pb-36',
+    'hero-shell section-grid-bg--hero relative isolate overflow-hidden pt-36 pb-28 lg:pt-44 lg:pb-40',
     isActive ? 'hero-shell--pointer-active' : ''
   ].filter(Boolean).join(' ');
   const heroActionsStyle = useMemo(() => (
@@ -410,7 +410,7 @@ export default function HeroSection() {
     >
       <div aria-hidden="true" className="hero-atmosphere absolute inset-0 z-0">
         <div className="hero-atmosphere-base absolute inset-0" />
-        <div className="hero-atmosphere-grid absolute inset-0" />
+        <div className="section-grid-layer hero-atmosphere-grid absolute inset-0" />
         <HeroParticleField pointerRef={pointerRef} />
         <div className="hero-atmosphere-glow absolute inset-0" />
         <div className="hero-atmosphere-stream hero-atmosphere-stream-a absolute inset-0" />

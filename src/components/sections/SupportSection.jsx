@@ -5,7 +5,7 @@ const SUPPORT_ITEMS = [
   'Supporto per eventi critici.'
 ];
 
-const SECTION_CLASS = 'py-20 lg:py-24 bg-tertiary text-on-tertiary';
+const SECTION_CLASS = 'section-grid-bg section-grid-bg--support py-[5.5rem] lg:py-[6.75rem] text-on-tertiary';
 const SECTION_CONTENT_CLASS = 'max-w-7xl mx-auto px-5 sm:px-6 md:px-8 flex flex-col md:flex-row gap-10 md:gap-16 items-center';
 const CTA_PANEL_CLASS = [
   'flex-1 w-full bg-surface-container-lowest/5 backdrop-blur-md rounded-xl',

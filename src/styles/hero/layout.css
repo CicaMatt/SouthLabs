@@ -13,7 +13,6 @@
   --hero-shift-x:   0.18;
   --hero-shift-y:  -0.10;
   --hero-active:    0;
-  --hero-grid-size: 64px;
   --hero-atmosphere-bleed: clamp(56px, 6vw, 96px);
   --hero-glow-position-duration: 2400ms;
   --hero-glow-position-ease: cubic-bezier(0.16, 0.82, 0.14, 1);
@@ -44,15 +43,6 @@
 .hero-atmosphere-grid {
   inset: calc(var(--hero-atmosphere-bleed) * -1);
   opacity: 0.26;
-  background-image:
-    linear-gradient(rgba(190, 198, 224, 0.16) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(190, 198, 224, 0.16) 1px, transparent 1px);
-  background-size: var(--hero-grid-size) var(--hero-grid-size);
-  transform: translate3d(
-    calc(var(--hero-shift-x) * -14px),
-    calc(var(--hero-shift-y) * -10px), 0
-  );
-  transition: transform 260ms ease;
 }
 .hero-particle-canvas {
   display: block;

@@ -31,7 +31,7 @@ const INFRASTRUCTURE_CARDS = [
   }
 ];
 
-const SECTION_CLASS = 'py-20 lg:py-24 bg-surface';
+const SECTION_CLASS = 'section-grid-bg section-grid-bg--infrastructure py-[5.5rem] lg:py-[6.75rem]';
 const SECTION_CONTENT_CLASS = 'max-w-7xl mx-auto px-5 sm:px-6 md:px-8';
 const CARD_GRID_CLASS = 'grid grid-cols-1 md:grid-cols-3 gap-8';
 const IMAGE_FRAME_CLASS = 'h-48 rounded-xl bg-surface-container-high mb-6 overflow-hidden';

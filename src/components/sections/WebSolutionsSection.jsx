@@ -8,39 +8,47 @@ import seoOrientedImage from '../../../media/images/seo_oriented.png';
 const cx = (...classes) => classes.filter(Boolean).join(' ');
 
 const WORDPRESS_TITLE = 'Soluzioni WordPress';
+const TITLE_HOVER_EFFECT = 'web-solution-hover-text web-solution-hover-title';
+const DESCRIPTION_HOVER_EFFECT = 'web-solution-hover-text web-solution-hover-description';
 const SOLUTION_CARD_VIEW_QUERIES = {
-  stacked: '(max-width: 960px)',
   desktop: '(min-width: 1024px)'
 };
 const SOLUTION_CARD_CLASSES = {
   shell: [
     'group relative flex min-h-[208px] items-center overflow-hidden rounded-xl',
-    'border border-[#d9e0e6] bg-white shadow-[0_8px_20px_rgba(15,34,52,0.07)]',
+    'border-2 border-[#d9e0e6] bg-[#fbfcfe]/82 shadow-[0_8px_20px_rgba(15,34,52,0.07)] backdrop-blur-[1px]',
     'motion-safe:transform-gpu motion-safe:transition-all motion-safe:duration-[420ms]',
     'motion-safe:ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none',
-    'hover:-translate-y-[3px] hover:border-[#0047B3] hover:shadow-[0_20px_38px_rgba(10,27,43,0.2),0_0_0_2px_rgba(0,71,179,0.82)]',
+    'hover:-translate-y-[3px] hover:border-[#1f4f8f] hover:shadow-[inset_0_0_0_1.5px_rgba(31,79,143,0.92),0_18px_34px_rgba(15,34,52,0.13)]',
     'sm:min-h-[228px] md:min-h-[252px]'
   ].join(' '),
   stackedRow: [
-    'relative z-10 flex w-full items-center gap-3 px-6 py-3',
-    'sm:gap-4 sm:px-7 sm:py-4 md:px-8 md:py-5 lg:hidden'
+    'relative z-10 flex w-full items-center gap-3 px-5 py-4',
+    'sm:gap-4 sm:px-7 sm:py-5 md:px-8 lg:hidden'
   ].join(' '),
   imageShell: 'relative w-full overflow-hidden bg-transparent',
-  hoverGlow: [
-    'web-solution-card-glow pointer-events-none absolute inset-0 z-[1] opacity-0',
-    'transition-opacity duration-300 ease-out group-hover:opacity-100 motion-reduce:transition-none'
-  ].join(' '),
-  stackedTitle: 'relative z-10 mb-2 font-headline text-[1.2rem] font-bold leading-[1.18] text-on-background sm:text-[1.28rem] md:text-[1.32rem]',
-  stackedDescription: 'relative z-10 font-body text-[0.86rem] leading-relaxed text-on-surface-variant sm:text-[0.93rem] md:text-[0.98rem]',
-  desktopTitle: 'relative z-10 mb-2 font-headline text-[1.52rem] font-bold leading-[1.18] text-on-background xl:text-[1.58rem]',
-  desktopDescription: 'relative z-10 max-w-[34ch] font-body text-[1rem] leading-relaxed text-on-surface-variant xl:text-[1.04rem]',
-  intermediateOverlay: 'hidden min-[961px]:block lg:hidden',
-  stackedOverlay: 'block min-[961px]:hidden'
+  badgeTopLeft: 'top-4 left-5 sm:top-5 sm:left-7 md:left-8 lg:top-6 lg:left-7',
+  stackedTitle: cx(
+    'font-headline text-[1.08rem] font-extrabold leading-[1.1] text-[#071d3d] sm:text-[1.18rem] md:text-[1.26rem]',
+    TITLE_HOVER_EFFECT
+  ),
+  stackedDescription: cx(
+    'font-body text-[0.82rem] font-medium leading-[1.62] text-[#2b3b59] sm:text-[0.9rem] md:text-[0.96rem]',
+    DESCRIPTION_HOVER_EFFECT
+  ),
+  desktopTitle: cx(
+    'font-headline text-[1.58rem] font-extrabold leading-[1.08] text-[#071d3d] xl:text-[1.72rem]',
+    TITLE_HOVER_EFFECT
+  ),
+  desktopDescription: cx(
+    'max-w-[34ch] font-body text-[0.98rem] font-medium leading-[1.72] text-[#2b3b59] xl:text-[1.04rem]',
+    DESCRIPTION_HOVER_EFFECT
+  )
 };
 const HORIZONTAL_CARD_CLASSES = {
   shell: 'lg:col-span-2 lg:block lg:h-[284px]',
   stackedTextColumn: 'min-w-0 flex-1 pr-1 text-left sm:pr-2',
-  stackedTextWrap: 'relative mr-auto w-fit max-w-[30ch] sm:max-w-[32ch]',
+  stackedTextWrap: 'relative mr-auto max-w-[31ch] sm:max-w-[34ch]',
   stackedPreviewFrame: {
     square: 'shrink-0 w-[54%] sm:w-[52%] md:w-[40%] -mr-4 sm:-mr-5 md:-mr-5',
     wide: 'shrink-0 w-[52%] sm:w-[50%] md:w-[38%] -mr-2.5 sm:-mr-3.5 md:-mr-3.5'
@@ -54,7 +62,7 @@ const HORIZONTAL_CARD_CLASSES = {
     wide: 'translate-x-1.5 object-cover scale-[1.18] sm:scale-[1.2]'
   },
   desktopView: 'relative z-10 hidden h-full px-7 py-6 lg:block',
-  desktopTextWrap: 'relative flex flex-col lg:max-w-[58%]',
+  desktopTextWrap: 'relative flex flex-col lg:max-w-[57%]',
   desktopTextWrapReversed: 'lg:ml-auto lg:items-end lg:text-right',
   desktopPreviewFrame: 'w-full sm:max-w-none lg:absolute lg:bottom-6 lg:top-6 lg:w-[38%]',
   desktopPreviewLeft: 'lg:left-6',
@@ -65,17 +73,18 @@ const TALL_CARD_CLASSES = {
   shell: 'lg:col-span-1 lg:block lg:row-span-2 lg:min-h-[592px]',
   stackedPreviewFrame: '-ml-2.5 w-[54%] shrink-0 sm:-ml-3.5 sm:w-[52%] md:-ml-3.5 md:w-[40%]',
   stackedTextColumn: 'min-w-0 flex-1 text-right sm:pl-1 md:pl-2',
-  stackedTextWrap: 'relative ml-auto w-fit max-w-[30ch] sm:max-w-[32ch]',
+  stackedTextWrap: 'relative ml-auto max-w-[31ch] sm:max-w-[34ch]',
   desktopView: 'relative z-10 hidden h-full px-7 py-6 lg:flex',
-  desktopTitleMeasure: 'pointer-events-none absolute left-0 top-0 inline-block whitespace-nowrap font-headline text-[1.5rem] font-bold leading-[1.18] opacity-0',
+  desktopTitleMeasure: 'pointer-events-none absolute left-0 top-0 inline-block whitespace-nowrap font-headline text-[1.88rem] font-extrabold leading-[1.08] opacity-0',
   desktopTitle: 'whitespace-nowrap',
-  desktopIconLeft: '50%'
+  desktopTextBlock: 'pb-1'
 };
 
 // Two horizontal cards on desktop; the third solution is handled by RightSolutionCard.
 const LEFT_WEB_SOLUTION_CARDS = [
   {
     icon: 'code_blocks',
+    eyebrow: 'Sviluppo Web',
     title: 'Web App Personalizzate',
     description: 'Soluzioni personalizzate per garantire efficienza, sicurezza e flessibilità nel tempo.',
     mobileDescription: 'Soluzioni ad-hoc che garantiscono sicurezza, efficienza e flessibilità',
@@ -85,6 +94,7 @@ const LEFT_WEB_SOLUTION_CARDS = [
   },
   {
     icon: 'web',
+    eyebrow: 'WordPress',
     title: WORDPRESS_TITLE,
     description: 'Siti vetrina ottimizzati per SEO e visibilità, veloci e gestibili in autonomia.',
     mobileDescription: 'Siti vetrina ottimizzati per SEO e visibilità',
@@ -96,6 +106,7 @@ const LEFT_WEB_SOLUTION_CARDS = [
 
 const RIGHT_WEB_SOLUTION_CARD = {
   icon: 'shopping_cart',
+  eyebrow: 'E-Commerce',
   title: 'Piattaforme E-Commerce',
   description: 'Portali di vendita online sicuri ed efficaci, integrabili con i più noti metodi di pagamento.',
   mobileDescription: 'Portali di vendita online sicuri ed efficaci',
@@ -129,79 +140,6 @@ function WordpressMaskedIcon({ className = '' }) {
     />
   );
 }
-
-// Uses rendered text boxes rather than container width so overlay icons align visually.
-function getRenderedTextCenterX(element) {
-  if (!element) return null;
-
-  const range = document.createRange();
-  range.selectNodeContents(element);
-  const rects = Array.from(range.getClientRects());
-
-  if (!rects.length) return null;
-
-  const left = Math.min(...rects.map((rect) => rect.left));
-  const right = Math.max(...rects.map((rect) => rect.right));
-  return (left + right) / 2;
-}
-
-// Keeps the decorative background icon centered behind wrapped title/description text.
-function useIconTextCenter(mediaQuery) {
-  const textWrapRef = useRef(null);
-  const titleRef = useRef(null);
-  const descriptionRef = useRef(null);
-  const [iconLeft, setIconLeft] = useState('50%');
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return undefined;
-
-    const updateIconCenter = () => {
-      const textWrap = textWrapRef.current;
-      const title = titleRef.current;
-      const description = descriptionRef.current;
-
-      if (!textWrap || !title || !description) return;
-
-      if (!window.matchMedia(mediaQuery).matches) {
-        setIconLeft('50%');
-        return;
-      }
-
-      const wrapRect = textWrap.getBoundingClientRect();
-      const titleCenter = getRenderedTextCenterX(title);
-      const descriptionCenter = getRenderedTextCenterX(description);
-      const centers = [titleCenter, descriptionCenter].filter((center) => center !== null);
-
-      if (!centers.length) {
-        setIconLeft('50%');
-        return;
-      }
-
-      const averageCenter = centers.reduce((sum, center) => sum + center, 0) / centers.length;
-      const clampedLocalX = Math.max(0, Math.min(wrapRect.width, averageCenter - wrapRect.left));
-      const nextLeft = `${clampedLocalX.toFixed(1)}px`;
-      setIconLeft((currentLeft) => (currentLeft === nextLeft ? currentLeft : nextLeft));
-    };
-
-    const resizeObserver = new ResizeObserver(updateIconCenter);
-    if (textWrapRef.current) resizeObserver.observe(textWrapRef.current);
-    if (titleRef.current) resizeObserver.observe(titleRef.current);
-    if (descriptionRef.current) resizeObserver.observe(descriptionRef.current);
-
-    window.addEventListener('resize', updateIconCenter);
-    updateIconCenter();
-
-    return () => {
-      resizeObserver.disconnect();
-      window.removeEventListener('resize', updateIconCenter);
-    };
-  }, [mediaQuery]);
-
-  return { textWrapRef, titleRef, descriptionRef, iconLeft };
-}
-
-const useStackedIconTextCenter = () => useIconTextCenter(SOLUTION_CARD_VIEW_QUERIES.stacked);
-const useDesktopIconTextCenter = () => useIconTextCenter(SOLUTION_CARD_VIEW_QUERIES.desktop);
 
 function useDesktopTitleFit() {
   const titleWrapRef = useRef(null);
@@ -243,20 +181,6 @@ function useDesktopTitleFit() {
   return { titleWrapRef, titleMeasureRef, useShortTitle };
 }
 
-// Direction-aware hover glow; CSS variables change the gradient origin and mask.
-function CardHoverGlow({ mobileImageSide = 'right', desktopImageSide = mobileImageSide }) {
-  return (
-    <span
-      className={cx(
-        SOLUTION_CARD_CLASSES.hoverGlow,
-        `web-solution-card-glow--mobile-image-${mobileImageSide}`,
-        `web-solution-card-glow--desktop-image-${desktopImageSide}`
-      )}
-      aria-hidden
-    />
-  );
-}
-
 function ResponsiveSolutionDescription({ description, mobileDescription }) {
   return (
     <>
@@ -266,43 +190,63 @@ function ResponsiveSolutionDescription({ description, mobileDescription }) {
   );
 }
 
-// Decorative icon used behind text on mobile and intermediate widths.
-function StackedCenterOverlayIcon({ title, icon, left = '50%', visibilityClass = 'lg:hidden' }) {
-  const isWordpress = title === WORDPRESS_TITLE;
+function SolutionBadge({ card, className = '' }) {
+  const isWordpress = card.title === WORDPRESS_TITLE;
 
   return (
     <span
-      className={cx('pointer-events-none absolute top-1/2 z-0 -translate-x-1/2 -translate-y-1/2', visibilityClass)}
-      style={{ left }}
-    >
-      {isWordpress ? (
-        <WordpressMaskedIcon className="h-28 w-28 bg-[#2f5a75] opacity-[0.09] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:bg-[#0047B3] group-hover:opacity-[0.22] group-hover:drop-shadow-[0_0_24px_rgba(0,71,179,0.56)] sm:h-28 sm:w-28 md:h-32 md:w-32" />
-      ) : (
-        <span className="material-symbols-outlined fill text-[116px] leading-none text-[#2f5a75] opacity-[0.08] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:text-[#0047B3] group-hover:opacity-[0.21] group-hover:drop-shadow-[0_0_24px_rgba(0,71,179,0.56)] sm:text-[120px] md:text-[150px]">
-          {icon}
-        </span>
+      className={cx(
+        'pointer-events-none absolute z-20 inline-flex max-w-[calc(100%_-_2.5rem)] items-center overflow-hidden rounded-[1.45rem] bg-[#e2ecfb] text-[#1f4f8f]',
+        'shadow-[inset_0_0_0_0.5px_rgba(31,79,143,0.1)]',
+        'sm:max-w-[calc(100%_-_3.5rem)] md:max-w-[calc(100%_-_4rem)]',
+        className
       )}
+    >
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[1.25rem] bg-[#e2ecfb] sm:h-11 sm:w-11 sm:rounded-[1.35rem]">
+        {isWordpress ? (
+          <WordpressMaskedIcon className="h-5 w-5 bg-[#1f4f8f] sm:h-[22px] sm:w-[22px]" />
+        ) : (
+          <span className="material-symbols-outlined fill text-[22px] leading-none text-[#1f4f8f] sm:text-[24px]">
+            {card.icon}
+          </span>
+        )}
+      </span>
+      <span className="truncate px-3 pr-4 font-label text-[0.68rem] font-extrabold uppercase tracking-[0.08em] sm:text-[0.76rem]">
+        {card.eyebrow}
+      </span>
     </span>
   );
 }
 
-// Larger desktop-only version of the decorative icon.
-function DesktopCenterOverlayIcon({ title, icon, left = '50%' }) {
-  const isWordpress = title === WORDPRESS_TITLE;
-
+function SolutionTextPanel({
+  title,
+  titleRef,
+  titleClassName,
+  description,
+  descriptionRef,
+  descriptionClassName,
+  align = 'left',
+  className = ''
+}) {
   return (
-    <span
-      className="pointer-events-none absolute top-1/2 z-0 hidden -translate-x-1/2 -translate-y-1/2 lg:block"
-      style={{ left }}
-    >
-      {isWordpress ? (
-        <WordpressMaskedIcon className="h-44 w-44 bg-[#2f5a75] opacity-[0.1] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:bg-[#0047B3] group-hover:opacity-[0.26] group-hover:drop-shadow-[0_0_32px_rgba(0,71,179,0.58)]" />
-      ) : (
-        <span className="material-symbols-outlined fill text-[200px] leading-none text-[#2f5a75] opacity-[0.09] transition-all duration-300 motion-safe:group-hover:-translate-y-[2px] group-hover:text-[#0047B3] group-hover:opacity-[0.25] group-hover:drop-shadow-[0_0_32px_rgba(0,71,179,0.58)]">
-          {icon}
-        </span>
+    <div
+      className={cx(
+        'relative z-10 flex min-w-0 flex-col pt-[60px] sm:pt-16',
+        align === 'right' && 'items-end text-right',
+        className
       )}
-    </span>
+    >
+      <h3 ref={titleRef} className={titleClassName}>
+        {title}
+      </h3>
+      <span
+        aria-hidden
+        className={cx('my-3 h-[3px] w-20 rounded-full bg-[#e2ecfb] md:my-4', align === 'right' && 'self-end')}
+      />
+      <p ref={descriptionRef} className={descriptionClassName}>
+        {description}
+      </p>
+    </div>
   );
 }
 
@@ -312,29 +256,29 @@ function LeftSolutionCard({ card }) {
   const hasStackedPreviewImage = Boolean(card.stackedPreviewImage);
   const stackedPreviewMode = hasStackedPreviewImage ? 'square' : 'wide';
   const previewPositionClass = getHorizontalPreviewPositionClass(isWordpressCard);
-  const { textWrapRef, titleRef, descriptionRef, iconLeft } = useStackedIconTextCenter();
-  const {
-    textWrapRef: desktopTextWrapRef,
-    titleRef: desktopTitleRef,
-    descriptionRef: desktopDescriptionRef,
-    iconLeft: desktopIconLeft
-  } = useDesktopIconTextCenter();
+  const desktopTextAlign = isWordpressCard ? 'right' : 'left';
+  const badgeClassName = cx(
+    SOLUTION_CARD_CLASSES.badgeTopLeft,
+    isWordpressCard && 'lg:left-auto lg:right-7'
+  );
 
   return (
     <article
       className={getSolutionCardClassName(HORIZONTAL_CARD_CLASSES.shell)}
     >
-      <CardHoverGlow mobileImageSide="right" desktopImageSide={isWordpressCard ? 'left' : 'right'} />
-      <StackedCenterOverlayIcon title={card.title} icon={card.icon} visibilityClass={SOLUTION_CARD_CLASSES.intermediateOverlay} />
+      <SolutionBadge card={card} className={badgeClassName} />
 
       <div className={SOLUTION_CARD_CLASSES.stackedRow}>
         <div className={HORIZONTAL_CARD_CLASSES.stackedTextColumn}>
-          <div ref={textWrapRef} className={HORIZONTAL_CARD_CLASSES.stackedTextWrap}>
-            <StackedCenterOverlayIcon title={card.title} icon={card.icon} left={iconLeft} visibilityClass={SOLUTION_CARD_CLASSES.stackedOverlay} />
-            <h3 ref={titleRef} className={SOLUTION_CARD_CLASSES.stackedTitle}>{card.title}</h3>
-            <p ref={descriptionRef} className={SOLUTION_CARD_CLASSES.stackedDescription}>
-              <ResponsiveSolutionDescription description={card.description} mobileDescription={card.mobileDescription} />
-            </p>
+          <div className={HORIZONTAL_CARD_CLASSES.stackedTextWrap}>
+            <SolutionTextPanel
+              title={card.title}
+              titleClassName={SOLUTION_CARD_CLASSES.stackedTitle}
+              descriptionClassName={SOLUTION_CARD_CLASSES.stackedDescription}
+              description={(
+                <ResponsiveSolutionDescription description={card.description} mobileDescription={card.mobileDescription} />
+              )}
+            />
           </div>
         </div>
 
@@ -356,25 +300,19 @@ function LeftSolutionCard({ card }) {
       <div className={HORIZONTAL_CARD_CLASSES.desktopView}>
         <div className="flex h-full flex-col justify-center">
           <div
-            ref={desktopTextWrapRef}
             className={cx(
               HORIZONTAL_CARD_CLASSES.desktopTextWrap,
               isWordpressCard && HORIZONTAL_CARD_CLASSES.desktopTextWrapReversed
             )}
           >
-            <DesktopCenterOverlayIcon title={card.title} icon={card.icon} left={desktopIconLeft} />
-            <h3
-              ref={desktopTitleRef}
-              className={SOLUTION_CARD_CLASSES.desktopTitle}
-            >
-              {card.title}
-            </h3>
-            <p
-              ref={desktopDescriptionRef}
-              className={cx(SOLUTION_CARD_CLASSES.desktopDescription, HORIZONTAL_CARD_CLASSES.desktopDescription)}
-            >
-              {card.description}
-            </p>
+            <SolutionTextPanel
+              title={card.title}
+              titleClassName={SOLUTION_CARD_CLASSES.desktopTitle}
+              description={card.description}
+              descriptionClassName={cx(SOLUTION_CARD_CLASSES.desktopDescription, HORIZONTAL_CARD_CLASSES.desktopDescription)}
+              align={desktopTextAlign}
+              className="w-full"
+            />
           </div>
         </div>
 
@@ -399,7 +337,6 @@ function LeftSolutionCard({ card }) {
 
 // Tall desktop card for e-commerce, with title shortening when space is tight.
 function RightSolutionCard({ card }) {
-  const { textWrapRef, titleRef, descriptionRef, iconLeft } = useStackedIconTextCenter();
   const { titleWrapRef, titleMeasureRef, useShortTitle } = useDesktopTitleFit();
   const desktopTitle = useShortTitle ? 'E-Commerce' : card.title;
 
@@ -407,8 +344,10 @@ function RightSolutionCard({ card }) {
     <article
       className={getSolutionCardClassName(TALL_CARD_CLASSES.shell)}
     >
-      <CardHoverGlow mobileImageSide="left" desktopImageSide="bottom" />
-      <StackedCenterOverlayIcon title={card.title} icon={card.icon} visibilityClass={SOLUTION_CARD_CLASSES.intermediateOverlay} />
+      <SolutionBadge
+        card={card}
+        className="top-4 right-5 sm:top-5 sm:right-7 md:right-8 lg:top-6 lg:left-7 lg:right-auto"
+      />
 
       <div className={SOLUTION_CARD_CLASSES.stackedRow}>
         <div className={TALL_CARD_CLASSES.stackedPreviewFrame}>
@@ -422,23 +361,24 @@ function RightSolutionCard({ card }) {
         </div>
 
         <div className={TALL_CARD_CLASSES.stackedTextColumn}>
-          <div ref={textWrapRef} className={TALL_CARD_CLASSES.stackedTextWrap}>
-            <StackedCenterOverlayIcon title={card.title} icon={card.icon} left={iconLeft} visibilityClass={SOLUTION_CARD_CLASSES.stackedOverlay} />
-            <h3 ref={titleRef} className={SOLUTION_CARD_CLASSES.stackedTitle}>
-              Piattaforme <span className="whitespace-nowrap">E-Commerce</span>
-            </h3>
-            <p ref={descriptionRef} className={SOLUTION_CARD_CLASSES.stackedDescription}>
-              <ResponsiveSolutionDescription description={card.description} mobileDescription={card.mobileDescription} />
-            </p>
+          <div className={TALL_CARD_CLASSES.stackedTextWrap}>
+            <SolutionTextPanel
+              title={<>Piattaforme <span className="whitespace-nowrap">E-Commerce</span></>}
+              titleClassName={SOLUTION_CARD_CLASSES.stackedTitle}
+              descriptionClassName={SOLUTION_CARD_CLASSES.stackedDescription}
+              align="right"
+              description={(
+                <ResponsiveSolutionDescription description={card.description} mobileDescription={card.mobileDescription} />
+              )}
+            />
           </div>
         </div>
       </div>
 
       <div className={TALL_CARD_CLASSES.desktopView}>
         <div className="flex h-full w-full flex-col">
-          <div className="flex h-[186px] items-end">
-            <div ref={titleWrapRef} className="relative flex w-full flex-col pb-1">
-              <DesktopCenterOverlayIcon title={card.title} icon={card.icon} left={TALL_CARD_CLASSES.desktopIconLeft} />
+          <div className="flex h-[250px] items-start pt-[13px]">
+            <div ref={titleWrapRef} className={cx('relative flex w-full flex-col', TALL_CARD_CLASSES.desktopTextBlock)}>
               <span
                 ref={titleMeasureRef}
                 aria-hidden
@@ -446,8 +386,12 @@ function RightSolutionCard({ card }) {
               >
                 {card.title}
               </span>
-              <h3 className={cx(SOLUTION_CARD_CLASSES.desktopTitle, TALL_CARD_CLASSES.desktopTitle)}>{desktopTitle}</h3>
-              <p className={SOLUTION_CARD_CLASSES.desktopDescription}>{card.description}</p>
+              <SolutionTextPanel
+                title={desktopTitle}
+                titleClassName={cx(SOLUTION_CARD_CLASSES.desktopTitle, TALL_CARD_CLASSES.desktopTitle)}
+                description={card.description}
+                descriptionClassName={SOLUTION_CARD_CLASSES.desktopDescription}
+              />
             </div>
           </div>
 
@@ -471,7 +415,7 @@ export default function WebSolutionsSection() {
   const [topLeftCard, bottomLeftCard] = LEFT_WEB_SOLUTION_CARDS;
 
   return (
-    <section className="relative overflow-hidden bg-surface py-20 lg:py-24" id="siti-web">
+    <section className="section-grid-bg section-grid-bg--web relative overflow-hidden py-[4.5rem] lg:py-[5.25rem]" id="siti-web">
       <div className="relative mx-auto max-w-7xl px-5 sm:px-6 md:px-8">
         <SectionHeader
           className="mb-12 max-w-2xl lg:mb-16"
