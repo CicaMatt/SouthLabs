@@ -17,13 +17,17 @@ const SITE_GRID_THROUGH_SELECTOR = '.site-grid-through-card';
 
 const SECTION_CURSOR_THEMES = [
   {
+    id: 'hero',
+    color: '#9ce6fb',
+    highlightOpacity: 0
+  },
+  {
     id: 'siti-web',
-    color: '#1f4f8f',
-    highlightOpacity: 0.08
+    color: '#1557d4'
   },
   {
     id: 'software-automazione',
-    color: '#47d6ff'
+    color: '#1f6fa8'
   },
   {
     id: 'infrastrutture-hardware',

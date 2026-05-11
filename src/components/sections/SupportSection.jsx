@@ -8,8 +8,8 @@ const SUPPORT_ITEMS = [
 const SECTION_CLASS = 'section-grid-bg section-grid-bg--support py-[5.5rem] lg:py-[6.75rem] text-on-tertiary';
 const SECTION_CONTENT_CLASS = 'max-w-7xl mx-auto px-5 sm:px-6 md:px-8 flex flex-col md:flex-row gap-10 md:gap-16 items-center';
 const CTA_PANEL_CLASS = [
-  'flex-1 w-full bg-surface-container-lowest/5 backdrop-blur-md rounded-xl',
-  'border border-white/10 p-8 shadow-[0_8px_40px_rgba(0,0,0,0.2)]'
+  'flex-1 w-full bg-surface-container-lowest/[0.06] backdrop-blur-[1px] rounded-xl',
+  'border border-white/[0.09] p-8 shadow-[0_8px_38px_rgba(0,0,0,0.15)]'
 ].join(' ');
 
 // Support section pairing service promises with a call-to-action panel.

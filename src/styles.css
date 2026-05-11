@@ -6,7 +6,7 @@
 .software-ai-feature-card,
 .software-ai-feature-card.software-card-surface {
   background:
-    radial-gradient(circle at 18% 22%, rgba(71, 214, 255, 0.18), transparent 27%),
+    radial-gradient(circle at 18% 22%, rgba(var(--software-interaction-blue-rgb, 31, 111, 168), 0.2), transparent 27%),
     linear-gradient(135deg, #222a3e 0%, #28324b 54%, #1a2234 100%);
 }
 
@@ -44,7 +44,7 @@
   background: linear-gradient(
     112deg,
     transparent 43%,
-    rgba(71, 214, 255, 0.22) 50%,
+    rgba(var(--software-interaction-blue-rgb, 31, 111, 168), 0.32) 50%,
     transparent 57%
   );
   opacity: 0.42;
@@ -56,6 +56,9 @@
 
 .software-ai-feature-card:hover {
   border-color: #47d6ff;
+  box-shadow:
+    inset 0 0 0 2px #47d6ff,
+    0 18px 34px rgba(15, 34, 52, 0.13);
 }
 
 .software-ai-feature-card:hover::before {
@@ -69,14 +72,14 @@
 
 .software-ai-chip {
   box-shadow:
-    inset 0 0 0 1px rgba(71, 214, 255, 0.2),
+    inset 0 0 0 1px rgba(var(--software-interaction-blue-rgb, 31, 111, 168), 0.24),
     0 12px 30px rgba(0, 0, 0, 0.12);
   transition: box-shadow 220ms ease;
 }
 
 .software-ai-feature-card:hover .software-ai-chip {
   box-shadow:
-    inset 0 0 0 2px rgba(71, 214, 255, 0.34),
+    inset 0 0 0 2px rgba(var(--software-interaction-blue-rgb, 31, 111, 168), 0.42),
     0 12px 30px rgba(0, 0, 0, 0.12);
 }
 
@@ -151,8 +154,8 @@
     linear-gradient(var(--section-grid-color, rgba(31, 79, 143, 0.045)) 1px, transparent 1px),
     linear-gradient(90deg, var(--section-grid-color, rgba(31, 79, 143, 0.045)) 1px, transparent 1px);
   background-position:
-    calc(-1px + var(--site-grid-offset-x, 0px) - var(--section-grid-origin-x, 0px))
-    calc(-1px + var(--site-grid-offset-y, 0px) - var(--section-grid-origin-y, 0px));
+    calc(-1px + var(--section-grid-layer-offset-x, 0px) + var(--site-grid-offset-x, 0px) - var(--section-grid-origin-x, 0px))
+    calc(-1px + var(--section-grid-layer-offset-y, 0px) + var(--site-grid-offset-y, 0px) - var(--section-grid-origin-y, 0px));
   background-repeat: repeat;
   background-size: var(--section-grid-size, 72px) var(--section-grid-size, 72px);
   transition: background-position 180ms ease-out;
@@ -173,6 +176,8 @@
 .section-grid-bg--software {
   --section-bg: #edf2f7;
   --section-grid-color: rgba(31, 79, 143, 0.052);
+  --software-interaction-blue: #1f6fa8;
+  --software-interaction-blue-rgb: 31, 111, 168;
 }
 
 .section-grid-bg--infrastructure {
@@ -182,7 +187,7 @@
 
 .section-grid-bg--support {
   --section-bg: #002e3a;
-  --section-grid-color: rgba(182, 235, 255, 0.085);
+  --section-grid-color: rgba(142, 205, 226, 0.045);
 }
 
 .section-grid-bg--contact {
@@ -193,12 +198,15 @@
 @media (prefers-reduced-motion: reduce) {
   .section-grid-bg,
   .section-grid-layer {
-    background-position: -1px -1px;
+    background-position:
+      calc(-1px + var(--section-grid-layer-offset-x, 0px))
+      calc(-1px + var(--section-grid-layer-offset-y, 0px));
     transition: none;
   }
 }
 
 .section-cursor-dot {
+  --section-cursor-size: 20px;
   --section-cursor-x: -48px;
   --section-cursor-y: -48px;
   --section-cursor-opacity: 0;
@@ -209,8 +217,8 @@
   top: 0;
   left: 0;
   z-index: 60;
-  width: 20px;
-  height: 20px;
+  width: var(--section-cursor-size);
+  height: var(--section-cursor-size);
   pointer-events: none;
   border-radius: 999px;
   opacity: var(--section-cursor-opacity);
@@ -225,6 +233,10 @@
       calc(var(--section-cursor-y) - 50%),
       0
     );
+  transition:
+    width 180ms ease,
+    height 180ms ease,
+    opacity 120ms ease;
 }
 
 @media (pointer: coarse), (prefers-reduced-motion: reduce) {
@@ -234,9 +246,35 @@
 }
 
 @media (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .site-main-with-section-cursor > section:not(#hero),
-  .site-main-with-section-cursor > section:not(#hero) * {
+  .site-main-with-section-cursor > section,
+  .site-main-with-section-cursor > section * {
     cursor: none;
+  }
+
+  .site-main-with-section-cursor:has(
+    a:hover,
+    button:hover,
+    h1:hover,
+    h2:hover,
+    h3:hover,
+    h4:hover,
+    h5:hover,
+    h6:hover,
+    input:hover,
+    label:hover,
+    li:hover,
+    p:hover,
+    select:hover,
+    span:hover,
+    textarea:hover,
+    article:hover,
+    .group:hover,
+    .software-card-surface:hover,
+    .site-grid-through-card:hover,
+    [role="button"]:hover,
+    [role="link"]:hover
+  ) .section-cursor-dot {
+    --section-cursor-size: 10px;
   }
 }
 

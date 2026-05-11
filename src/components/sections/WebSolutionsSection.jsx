@@ -27,7 +27,7 @@ const SOLUTION_CARD_CLASSES = {
   imageShell: 'relative w-full overflow-hidden bg-transparent',
   badgeTopLeft: 'top-4 left-5 sm:top-5 sm:left-7 md:left-8 lg:top-6 lg:left-7',
   stackedTitle: cx(
-    'font-headline text-[1.08rem] font-extrabold leading-[1.1] text-[#071d3d] sm:text-[1.18rem] md:text-[1.26rem]',
+    'font-headline text-[1.02rem] font-extrabold leading-[1.1] text-[#071d3d] sm:text-[1.12rem] md:text-[1.18rem]',
     TITLE_HOVER_EFFECT
   ),
   stackedDescription: cx(
@@ -35,7 +35,7 @@ const SOLUTION_CARD_CLASSES = {
     DESCRIPTION_HOVER_EFFECT
   ),
   desktopTitle: cx(
-    'font-headline text-[1.58rem] font-extrabold leading-[1.08] text-[#071d3d] xl:text-[1.72rem]',
+    'font-headline text-[1.48rem] font-extrabold leading-[1.08] text-[#071d3d] xl:text-[1.6rem]',
     TITLE_HOVER_EFFECT
   ),
   desktopDescription: cx(
@@ -73,7 +73,7 @@ const TALL_CARD_CLASSES = {
   stackedTextColumn: 'min-w-0 flex-1 text-right sm:pl-1 md:pl-2',
   stackedTextWrap: 'relative ml-auto max-w-[31ch] sm:max-w-[34ch]',
   desktopView: 'relative z-10 hidden h-full px-7 py-6 lg:flex',
-  desktopTitleMeasure: 'pointer-events-none absolute left-0 top-0 inline-block whitespace-nowrap font-headline text-[1.88rem] font-extrabold leading-[1.08] opacity-0',
+  desktopTitleMeasure: 'pointer-events-none absolute left-0 top-0 inline-block whitespace-nowrap font-headline text-[1.48rem] font-extrabold leading-[1.08] opacity-0 xl:text-[1.6rem]',
   desktopTitle: 'whitespace-nowrap',
   desktopTextBlock: 'pb-1'
 };
@@ -194,22 +194,22 @@ function SolutionBadge({ card, className = '' }) {
   return (
     <span
       className={cx(
-        'pointer-events-none absolute z-20 inline-flex max-w-[calc(100%_-_2.5rem)] items-center overflow-hidden rounded-[1.45rem] bg-[#e2ecfb] text-[#1f4f8f]',
+        'pointer-events-none absolute z-20 inline-flex max-w-[calc(100%_-_2.5rem)] items-center overflow-hidden rounded-[1.2rem] bg-[#e2ecfb] text-[#1f4f8f]',
         'shadow-[inset_0_0_0_0.5px_rgba(31,79,143,0.1)]',
         'sm:max-w-[calc(100%_-_3.5rem)] md:max-w-[calc(100%_-_4rem)]',
         className
       )}
     >
-      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[1.25rem] bg-[#e2ecfb] sm:h-11 sm:w-11 sm:rounded-[1.35rem]">
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[1rem] bg-[#e2ecfb] sm:h-9 sm:w-9 sm:rounded-[1.1rem]">
         {isWordpress ? (
-          <WordpressMaskedIcon className="h-5 w-5 bg-[#1f4f8f] sm:h-[22px] sm:w-[22px]" />
+          <WordpressMaskedIcon className="h-[18px] w-[18px] bg-[#1f4f8f] sm:h-5 sm:w-5" />
         ) : (
-          <span className="material-symbols-outlined fill text-[22px] leading-none text-[#1f4f8f] sm:text-[24px]">
+          <span className="material-symbols-outlined fill text-[20px] leading-none text-[#1f4f8f] sm:text-[22px]">
             {card.icon}
           </span>
         )}
       </span>
-      <span className="truncate px-3 pr-4 font-label text-[0.68rem] font-extrabold uppercase tracking-[0.08em] sm:text-[0.76rem]">
+      <span className="truncate px-2.5 pr-3.5 font-label text-[0.62rem] font-extrabold uppercase tracking-[0.08em] sm:text-[0.68rem]">
         {card.eyebrow}
       </span>
     </span>

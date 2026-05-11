@@ -41,6 +41,8 @@
   background-size: 118% 118%, 116% 116%, 100% 100%;
 }
 .hero-atmosphere-grid {
+  --section-grid-layer-offset-x: var(--hero-atmosphere-bleed);
+  --section-grid-layer-offset-y: var(--hero-atmosphere-bleed);
   inset: calc(var(--hero-atmosphere-bleed) * -1);
   opacity: 0.26;
 }

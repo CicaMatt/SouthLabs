@@ -36,7 +36,7 @@ const FEATURE_CARD_CLASS = [
   SOFTWARE_CARD_SURFACE_CLASS
 ].join(' ');
 const FEATURE_BACKGROUND_ICON_CLASS = [
-  'absolute bottom-0 right-0 z-[2] p-2 opacity-10 transition-all duration-300 group-hover:opacity-25 group-hover:scale-105',
+  'absolute bottom-0 right-0 z-[2] p-2 opacity-10 transition-[opacity,transform] duration-300 group-hover:opacity-25 group-hover:scale-105',
   'md:top-1/2 md:bottom-auto md:-translate-y-1/2 md:p-6',
   'lg:top-auto lg:bottom-0 lg:translate-y-0 lg:p-2'
 ].join(' ');
@@ -49,7 +49,7 @@ const AUTOMATION_CARD_CLASS = [
 function AutomationCard({ description, icon, title }) {
   return (
     <div className={AUTOMATION_CARD_CLASS}>
-      <span className="material-symbols-outlined mb-4 inline-flex h-7 w-7 origin-center items-center justify-center text-[28px] leading-none text-secondary transition-all duration-300 group-hover:scale-110 group-hover:text-[#2b3b59]">{icon}</span>
+      <span className="material-symbols-outlined mb-4 inline-flex h-7 w-7 origin-center items-center justify-center text-[28px] leading-none text-secondary transition-all duration-300 group-hover:scale-110 group-hover:text-[#1f4f8f]">{icon}</span>
       <h4 className="mb-2 min-h-[3rem] font-headline font-bold leading-snug text-on-background">{title}</h4>
       <p className="font-body text-sm leading-relaxed text-on-surface-variant">{description}</p>
     </div>
@@ -72,7 +72,7 @@ export default function SoftwareSection() {
             <div className={FEATURE_BACKGROUND_ICON_CLASS}>
               <span className="material-symbols-outlined text-[76px] leading-none text-tertiary-fixed-dim md:text-[108px] lg:text-[120px]">smart_toy</span>
             </div>
-            <div className="software-ai-chip absolute top-8 left-8 z-10 hidden h-12 w-12 items-center justify-center rounded-lg bg-surface-container/20 backdrop-blur-sm lg:flex">
+            <div className="software-ai-chip absolute top-8 left-8 z-10 hidden h-12 w-12 items-center justify-center rounded-lg bg-surface-container/[0.06] backdrop-blur-sm lg:flex">
               <span className="material-symbols-outlined text-tertiary-fixed-dim">memory</span>
             </div>
             <h3 className="relative z-10 font-headline text-2xl font-bold mb-4">Sistemi di Intelligenza Artificiale</h3>
