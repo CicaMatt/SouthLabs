@@ -25,7 +25,7 @@ const SOLUTION_CARD_CLASSES = {
     'relative z-10 flex w-full items-center gap-3 px-6 py-3',
     'sm:gap-4 sm:px-7 sm:py-4 md:px-8 md:py-5 lg:hidden'
   ].join(' '),
-  imageShell: 'relative w-full overflow-hidden bg-white',
+  imageShell: 'relative w-full overflow-hidden bg-transparent',
   hoverGlow: [
     'web-solution-card-glow pointer-events-none absolute inset-0 z-[1] opacity-0',
     'transition-opacity duration-300 ease-out group-hover:opacity-100 motion-reduce:transition-none'
@@ -80,7 +80,8 @@ const LEFT_WEB_SOLUTION_CARDS = [
     description: 'Soluzioni personalizzate per garantire efficienza, sicurezza e flessibilità nel tempo.',
     mobileDescription: 'Soluzioni ad-hoc che garantiscono sicurezza, efficienza e flessibilità',
     previewImage: customWebAppImage,
-    stackedPreviewImage: customWebAppImage
+    stackedPreviewImage: customWebAppImage,
+    desktopPreviewScaleClass: 'scale-[1.2]'
   },
   {
     icon: 'web',
@@ -88,7 +89,8 @@ const LEFT_WEB_SOLUTION_CARDS = [
     description: 'Siti vetrina ottimizzati per SEO e visibilità, veloci e gestibili in autonomia.',
     mobileDescription: 'Siti vetrina ottimizzati per SEO e visibilità',
     previewImage: seoOrientedImage,
-    stackedPreviewImage: seoOrientedImage
+    stackedPreviewImage: seoOrientedImage,
+    desktopPreviewScaleClass: 'scale-[1.12]'
   }
 ];
 
@@ -386,7 +388,7 @@ function LeftSolutionCard({ card }) {
             <img
               src={card.previewImage}
               alt={card.title}
-              className={cx('absolute inset-0 h-full w-full object-cover scale-[1.04]', previewPositionClass)}
+              className={cx('absolute inset-0 h-full w-full object-contain', card.desktopPreviewScaleClass, previewPositionClass)}
             />
           </div>
         </div>
@@ -449,12 +451,12 @@ function RightSolutionCard({ card }) {
             </div>
           </div>
 
-          <div className="flex min-h-0 flex-1 items-end pb-[18px]">
+          <div className="flex min-h-0 flex-1 items-end">
             <div className={cx(SOLUTION_CARD_CLASSES.imageShell, 'h-[280px]')}>
               <img
                 src={card.previewImage}
                 alt={card.title}
-                className="absolute inset-0 h-full w-full scale-[1.1] object-contain object-top"
+                className="absolute inset-0 h-full w-full scale-[1.1] object-contain object-bottom"
               />
             </div>
           </div>
