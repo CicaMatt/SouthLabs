@@ -13,11 +13,13 @@ const SECTION_GRID_SIZE = 72;
 const SECTION_CURSOR_DOT_SIZE = 20;
 const SECTION_GRID_HIGHLIGHT_DISTANCE = 118;
 const SECTION_GRID_HIGHLIGHT_OPACITY = 0.28;
+const SITE_GRID_THROUGH_SELECTOR = '.site-grid-through-card';
 
 const SECTION_CURSOR_THEMES = [
   {
     id: 'siti-web',
-    color: '#1f4f8f'
+    color: '#1f4f8f',
+    highlightOpacity: 0.08
   },
   {
     id: 'software-automazione',
@@ -38,6 +40,7 @@ const SECTION_CURSOR_THEMES = [
 ];
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+const getSectionHighlightOpacity = (theme) => theme.highlightOpacity ?? SECTION_GRID_HIGHLIGHT_OPACITY;
 
 function syncSectionGridOrigins(mainElement) {
   const windowObject = mainElement.ownerDocument.defaultView;
@@ -63,6 +66,15 @@ function syncSectionGridOrigins(mainElement) {
     section.style.setProperty('--section-grid-origin-x', `${(rect.left + scrollX).toFixed(2)}px`);
     section.style.setProperty('--section-grid-origin-y', `${baseTop.toFixed(2)}px`);
     section.style.setProperty('--section-grid-snap-padding', `${desiredAdjustment.toFixed(2)}px`);
+
+    section.querySelectorAll(SITE_GRID_THROUGH_SELECTOR).forEach((element) => {
+      const elementRect = element.getBoundingClientRect();
+      const originX = elementRect.left + scrollX;
+      const originY = baseTop + elementRect.top - rect.top;
+
+      element.style.setProperty('--section-grid-origin-x', `${originX.toFixed(2)}px`);
+      element.style.setProperty('--section-grid-origin-y', `${originY.toFixed(2)}px`);
+    });
 
     currentAdjustmentBefore += currentAdjustment;
     desiredAdjustmentBefore += desiredAdjustment;
@@ -98,7 +110,7 @@ function getSectionCursorTheme(document, clientY) {
     {
       section: current.element,
       color: current.color,
-      opacity: SECTION_GRID_HIGHLIGHT_OPACITY
+      opacity: getSectionHighlightOpacity(current)
     }
   ];
   const dotTop = clientY - SECTION_CURSOR_DOT_SIZE / 2;
@@ -113,7 +125,7 @@ function getSectionCursorTheme(document, clientY) {
     highlights.push({
       section: sectionEntries[currentIndex - 1].element,
       color: sectionEntries[currentIndex - 1].color,
-      opacity: SECTION_GRID_HIGHLIGHT_OPACITY * boundaryStrength
+      opacity: getSectionHighlightOpacity(sectionEntries[currentIndex - 1]) * boundaryStrength
     });
   }
 
@@ -122,7 +134,7 @@ function getSectionCursorTheme(document, clientY) {
     highlights.push({
       section: sectionEntries[currentIndex + 1].element,
       color: sectionEntries[currentIndex + 1].color,
-      opacity: SECTION_GRID_HIGHLIGHT_OPACITY * boundaryStrength
+      opacity: getSectionHighlightOpacity(sectionEntries[currentIndex + 1]) * boundaryStrength
     });
   }
 

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import SectionHeader from '../SectionHeader';
+import SOLUTION_CARD_SURFACE_CLASS from './solutionCardSurface';
 import wordpressLogo from '../../../media/icons/wordpress.png';
 import customWebAppImage from '../../../media/images/custom_web_app.png';
 import ecommerceImage from '../../../media/images/ecommerce.png';
@@ -15,11 +16,8 @@ const SOLUTION_CARD_VIEW_QUERIES = {
 };
 const SOLUTION_CARD_CLASSES = {
   shell: [
-    'group relative flex min-h-[208px] items-center overflow-hidden rounded-xl',
-    'border-2 border-[#d9e0e6] bg-[#fbfcfe]/82 shadow-[0_8px_20px_rgba(15,34,52,0.07)] backdrop-blur-[1px]',
-    'motion-safe:transform-gpu motion-safe:transition-all motion-safe:duration-[420ms]',
-    'motion-safe:ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none',
-    'hover:-translate-y-[3px] hover:border-[#1f4f8f] hover:shadow-[inset_0_0_0_1.5px_rgba(31,79,143,0.92),0_18px_34px_rgba(15,34,52,0.13)]',
+    'group relative flex min-h-[208px] items-center',
+    SOLUTION_CARD_SURFACE_CLASS,
     'sm:min-h-[228px] md:min-h-[252px]'
   ].join(' '),
   stackedRow: [
@@ -241,7 +239,7 @@ function SolutionTextPanel({
       </h3>
       <span
         aria-hidden
-        className={cx('my-3 h-[3px] w-20 rounded-full bg-[#e2ecfb] md:my-4', align === 'right' && 'self-end')}
+        className={cx('my-3 h-[3px] w-40 rounded-full bg-[#c8d8ef] md:my-4', align === 'right' && 'self-end')}
       />
       <p ref={descriptionRef} className={descriptionClassName}>
         {description}

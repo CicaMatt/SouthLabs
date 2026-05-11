@@ -1,4 +1,5 @@
 import SectionHeader from '../SectionHeader';
+import SOLUTION_CARD_SURFACE_CLASS from './solutionCardSurface';
 
 // Secondary automation offers rendered as compact cards beside the AI feature card.
 const AUTOMATION_CARDS = [
@@ -27,12 +28,12 @@ const AUTOMATION_CARDS = [
 const SECTION_CLASS = 'section-grid-bg section-grid-bg--software py-[5.5rem] lg:py-[6.75rem] relative';
 const SECTION_CONTENT_CLASS = 'max-w-7xl mx-auto px-5 sm:px-6 md:px-8 relative z-10';
 const SERVICE_GRID_CLASS = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6';
+const SOFTWARE_CARD_SURFACE_CLASS = `${SOLUTION_CARD_SURFACE_CLASS} software-card-surface`;
 const FEATURE_CARD_CLASS = [
-  'software-ai-feature-card isolate',
+  'software-ai-feature-card site-grid-through-card isolate',
   'group col-span-1 md:col-span-2 row-span-2 flex h-full flex-col justify-center',
-  'bg-primary text-on-primary rounded-xl border-[3px] border-transparent p-8',
-  'shadow-[0_8px_40px_rgba(19,27,46,0.08)] transition-all duration-300',
-  'relative overflow-hidden hover:border-tertiary-fixed-dim'
+  'relative p-8 text-on-primary',
+  SOFTWARE_CARD_SURFACE_CLASS
 ].join(' ');
 const FEATURE_BACKGROUND_ICON_CLASS = [
   'absolute bottom-0 right-0 z-[2] p-2 opacity-10 transition-all duration-300 group-hover:opacity-25 group-hover:scale-105',
@@ -40,9 +41,8 @@ const FEATURE_BACKGROUND_ICON_CLASS = [
   'lg:top-auto lg:bottom-0 lg:translate-y-0 lg:p-2'
 ].join(' ');
 const AUTOMATION_CARD_CLASS = [
-  'group flex h-full flex-col bg-surface-container-lowest rounded-xl p-6',
-  'shadow-[inset_0_4px_0_0_#2b3b59,0_4px_20px_rgba(19,27,46,0.04)]',
-  'transition-shadow duration-300 hover:shadow-[inset_0_0_0_4px_#2b3b59,0_4px_20px_rgba(19,27,46,0.04)]'
+  'group relative flex h-full flex-col p-6',
+  SOFTWARE_CARD_SURFACE_CLASS
 ].join(' ');
 
 // Compact card used for each non-feature automation service.
