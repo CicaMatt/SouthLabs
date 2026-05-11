@@ -2,10 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import SectionHeader from '../SectionHeader';
 import wordpressLogo from '../../../media/icons/wordpress.png';
 import customWebAppImage from '../../../media/images/custom_web_app.png';
-import customWebAppSquareImage from '../../../media/images/custom_web_app_square.png';
 import ecommerceImage from '../../../media/images/ecommerce.png';
 import seoOrientedImage from '../../../media/images/seo_oriented.png';
-import seoOrientedSquareImage from '../../../media/images/seo_oriented_square.png';
 
 const cx = (...classes) => classes.filter(Boolean).join(' ');
 
@@ -82,7 +80,7 @@ const LEFT_WEB_SOLUTION_CARDS = [
     description: 'Soluzioni personalizzate per garantire efficienza, sicurezza e flessibilità nel tempo.',
     mobileDescription: 'Soluzioni ad-hoc che garantiscono sicurezza, efficienza e flessibilità',
     previewImage: customWebAppImage,
-    stackedPreviewImage: customWebAppSquareImage
+    stackedPreviewImage: customWebAppImage
   },
   {
     icon: 'web',
@@ -90,7 +88,7 @@ const LEFT_WEB_SOLUTION_CARDS = [
     description: 'Siti vetrina ottimizzati per SEO e visibilità, veloci e gestibili in autonomia.',
     mobileDescription: 'Siti vetrina ottimizzati per SEO e visibilità',
     previewImage: seoOrientedImage,
-    stackedPreviewImage: seoOrientedSquareImage
+    stackedPreviewImage: seoOrientedImage
   }
 ];
 
@@ -388,7 +386,7 @@ function LeftSolutionCard({ card }) {
             <img
               src={card.previewImage}
               alt={card.title}
-              className={cx('absolute inset-0 h-full w-full object-cover scale-[1.12]', previewPositionClass)}
+              className={cx('absolute inset-0 h-full w-full object-cover scale-[1.04]', previewPositionClass)}
             />
           </div>
         </div>
