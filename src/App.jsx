@@ -191,18 +191,13 @@ function getGridBurstTargetSections(mainElement, clientX, clientY, burstOuterRad
     ));
 }
 
-function getGridBurstTargetCards(targetSections, clientX, clientY, burstOuterRadius) {
-  const cards = new Set();
+function getGridBurstTargetCards(targetSections, target) {
+  if (!(target instanceof Element)) return [];
 
-  targetSections.forEach((section) => {
-    section.querySelectorAll(SOLUTION_CARD_SURFACE_SELECTOR).forEach((card) => {
-      if (getPointToRectDistance(clientX, clientY, card.getBoundingClientRect()) <= burstOuterRadius) {
-        cards.add(card);
-      }
-    });
-  });
+  const card = target.closest(SOLUTION_CARD_SURFACE_SELECTOR);
+  const section = card?.closest('section.section-grid-bg');
 
-  return Array.from(cards);
+  return card && targetSections.includes(section) ? [card] : [];
 }
 
 function clearGridThroughCardHighlight(card) {
@@ -592,9 +587,7 @@ export default function App() {
     );
     const targetCards = getGridBurstTargetCards(
       targetSections,
-      clientX,
-      clientY,
-      burstOuterRadius
+      target
     );
 
     targetCards.forEach((card) => {
