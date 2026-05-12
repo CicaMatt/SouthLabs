@@ -22,6 +22,7 @@ const SECTION_GRID_BURST_SAME_POINT_DISTANCE = 54;
 const HERO_GRAPHIC_CURSOR_ZONE_SELECTOR = '.hero-graphic-cursor-zone';
 const SOLUTION_CARD_SURFACE_SELECTOR = '.solution-card-surface';
 const SOLUTION_CARD_BURST_ACTIVE_CLASS = 'solution-card-surface--burst-active';
+const SOLUTION_CARD_TOUCH_SELECTED_CLASS = 'solution-card-surface--touch-selected';
 const TOUCH_TAP_MAX_DISTANCE = 10;
 const TOUCH_TAP_MAX_DURATION_MS = 650;
 const TOUCH_SCROLL_SETTLE_MS = 220;
@@ -192,16 +193,14 @@ function getGridBurstTargetSections(mainElement, clientX, clientY, burstOuterRad
 }
 
 function getGridBurstTargetCards(targetSections, target) {
-  if (!(target instanceof Element)) return [];
-
-  const card = target.closest(SOLUTION_CARD_SURFACE_SELECTOR);
+  const card = getSolutionCardFromTarget(target);
   const section = card?.closest('section.section-grid-bg');
 
   return card && targetSections.includes(section) ? [card] : [];
 }
 
-function shouldSuppressTouchGridBurst(target) {
-  return target instanceof Element && Boolean(target.closest(SOLUTION_CARD_SURFACE_SELECTOR));
+function getSolutionCardFromTarget(target) {
+  return target instanceof Element ? target.closest(SOLUTION_CARD_SURFACE_SELECTOR) : null;
 }
 
 function clearGridThroughCardHighlight(card) {
@@ -425,6 +424,7 @@ export default function App() {
   const highlightedGridThroughCardsRef = useRef([]);
   const touchGridGestureRef = useRef(null);
   const touchScrollGuardTimeoutRef = useRef(0);
+  const touchSelectedCardRef = useRef(null);
   const sectionCursorRef = useRef(null);
   const mainRef = useRef(null);
 
@@ -445,6 +445,25 @@ export default function App() {
   const resetGridOffset = useCallback(() => {
     setGridOffset(0, 0);
   }, [setGridOffset]);
+
+  const clearTouchSelectedCard = useCallback(() => {
+    touchSelectedCardRef.current?.classList.remove(SOLUTION_CARD_TOUCH_SELECTED_CLASS);
+    touchSelectedCardRef.current = null;
+  }, []);
+
+  const selectTouchCard = useCallback((card) => {
+    if (!card) {
+      clearTouchSelectedCard();
+      return;
+    }
+
+    if (touchSelectedCardRef.current && touchSelectedCardRef.current !== card) {
+      touchSelectedCardRef.current.classList.remove(SOLUTION_CARD_TOUCH_SELECTED_CLASS);
+    }
+
+    card.classList.add(SOLUTION_CARD_TOUCH_SELECTED_CLASS);
+    touchSelectedCardRef.current = card;
+  }, [clearTouchSelectedCard]);
 
   const hideSectionCursor = useCallback(() => {
     if (sectionCursorFrameRef.current) {
@@ -537,9 +556,10 @@ export default function App() {
     if (!windowObject) return;
 
     lastTouchScrollAtRef.current = getTime(windowObject);
+    clearTouchSelectedCard();
     mainElement.classList.add(TOUCH_SCROLL_GUARD_CLASS, TOUCH_SCROLLING_CLASS);
     scheduleTouchScrollGuardRelease(mainElement);
-  }, [scheduleTouchScrollGuardRelease]);
+  }, [clearTouchSelectedCard, scheduleTouchScrollGuardRelease]);
 
   const handleMainPointerLeave = useCallback((event) => {
     if (event.pointerType === 'touch') {
@@ -743,7 +763,21 @@ export default function App() {
       && !didScrollRecently
     );
 
-    if (isDeliberateTap && !shouldSuppressTouchGridBurst(event.target)) {
+    if (!isDeliberateTap) {
+      scheduleTouchScrollGuardRelease(mainElement);
+      return;
+    }
+
+    const touchedCard = getSolutionCardFromTarget(event.target);
+    const isSelectedCardTap = touchedCard && touchSelectedCardRef.current === touchedCard;
+
+    if (touchedCard) {
+      selectTouchCard(touchedCard);
+    } else {
+      clearTouchSelectedCard();
+    }
+
+    if (!touchedCard || isSelectedCardTap) {
       triggerSectionGridBurstAtPoint({
         clientX: event.clientX,
         clientY: event.clientY,
@@ -754,7 +788,7 @@ export default function App() {
     }
 
     scheduleTouchScrollGuardRelease(mainElement);
-  }, [scheduleTouchScrollGuardRelease, triggerSectionGridBurstAtPoint]);
+  }, [clearTouchSelectedCard, scheduleTouchScrollGuardRelease, selectTouchCard, triggerSectionGridBurstAtPoint]);
 
   const handleMainPointerCancel = useCallback((event) => {
     if (event.pointerType !== 'touch') return;
@@ -844,6 +878,8 @@ export default function App() {
       touchScrollGuardTimeoutRef.current = 0;
     }
     touchGridGestureRef.current = null;
+    touchSelectedCardRef.current?.classList.remove(SOLUTION_CARD_TOUCH_SELECTED_CLASS);
+    touchSelectedCardRef.current = null;
     mainRef.current?.classList.remove(TOUCH_SCROLL_GUARD_CLASS, TOUCH_SCROLLING_CLASS);
     gridBurstTimeoutsRef.current.forEach((timeoutId) => {
       clearTimeout(timeoutId);
