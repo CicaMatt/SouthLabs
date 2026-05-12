@@ -14,7 +14,7 @@ const FORM_MESSAGES = {
 };
 
 const CONTACT_FORM_SURFACE_OPACITY = 0.35;
-const CONTACT_FORM_SURFACE_HOVER_OPACITY = 0.9;
+const CONTACT_FORM_SURFACE_HOVER_OPACITY = 0.8;
 const FIELD_LABEL_CLASS = [
   'block font-label text-sm font-medium',
   'text-on-surface-variant mb-2'
@@ -23,13 +23,13 @@ const FIELD_CONTROL_CLASS = [
   'w-full rounded-md border-0 bg-surface-container-high',
   'px-4 py-3 text-on-background transition-colors',
   'focus:bg-surface-container-lowest focus:ring-0',
-  'focus:shadow-[inset_0_0_0_1px_rgba(71,214,255,1)]'
+  'focus:shadow-[inset_0_0_0_1px_rgba(43,59,89,0.72)]'
 ].join(' ');
 const TEXT_FIELD_CLASS = `${FIELD_CONTROL_CLASS} placeholder:text-outline-variant`;
 const FORM_MESSAGE_CLASS = 'flex items-center justify-center rounded-md px-4 py-3 text-center text-sm font-medium';
 const SECTION_CLASS = 'section-grid-bg section-grid-bg--contact py-[4.5rem] lg:py-[5.25rem]';
 const SECTION_CONTENT_CLASS = 'max-w-3xl mx-auto px-5 sm:px-6 md:px-8';
-const FORM_PANEL_CLASS = 'solution-card-surface rounded-xl border-t-4 border-primary p-8 shadow-[0_4px_20px_rgba(19,27,46,0.04)]';
+const FORM_PANEL_CLASS = 'solution-card-surface rounded-xl border-t-4 border-[#2b3b59] p-8 shadow-[0_4px_20px_rgba(19,27,46,0.04)]';
 const FORM_PANEL_STYLE = getSolutionCardSurfaceStyle(
   CONTACT_FORM_SURFACE_OPACITY,
   CONTACT_FORM_SURFACE_HOVER_OPACITY,

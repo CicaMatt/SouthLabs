@@ -33,7 +33,7 @@ const MOBILE_LINK_CLASS = [
 const CONTACT_CTA_CLASS = [
   'inline-flex items-center justify-center px-3.5 py-2 rounded-md text-xs lg:text-sm font-medium',
   'whitespace-nowrap transition-all duration-200 active:scale-95',
-  'bg-primary text-on-primary bg-gradient-to-br from-primary to-primary-container',
+  'bg-[#0947a5] text-white hover:bg-[#073f93]',
   'shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] hover:opacity-90 lg:px-6 lg:py-2.5'
 ].join(' ');
 const MOBILE_MENU_BUTTON_CLASS = [

@@ -35,7 +35,7 @@ const SECTION_CURSOR_THEMES = [
   },
   {
     id: 'software-automazione',
-    color: '#1f6fa8'
+    color: '#1f4f8f'
   },
   {
     id: 'infrastrutture-hardware',

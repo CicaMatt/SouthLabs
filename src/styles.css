@@ -24,6 +24,13 @@
   --solution-card-bg-active-opacity: var(--solution-card-bg-hover-opacity);
 }
 
+.section-grid-bg--web .solution-card-surface:hover {
+  border-color: #1557d4;
+  box-shadow:
+    inset 0 0 0 1.5px rgba(21, 87, 212, 0.92),
+    0 18px 34px rgba(15, 34, 52, 0.13);
+}
+
 /* Subtle AI feature-card effects for the software section. */
 .software-ai-feature-card,
 .software-ai-feature-card.software-card-surface {
