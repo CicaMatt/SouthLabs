@@ -239,7 +239,7 @@ function SolutionTextPanel({
       </h3>
       <span
         aria-hidden
-        className={cx('my-3 h-[3px] w-40 rounded-full bg-[#c8d8ef] md:my-4', align === 'right' && 'self-end')}
+        className={cx('my-3 h-[3px] w-20 rounded-full bg-[#b9cce6] md:my-4', align === 'right' && 'self-end')}
       />
       <p ref={descriptionRef} className={descriptionClassName}>
         {description}

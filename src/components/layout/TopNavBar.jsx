@@ -3,6 +3,7 @@ import logoImage from '../../../media/logo/logo_image.png';
 import logoText from '../../../media/logo/logo_text.png';
 
 const NAV_DESKTOP_MIN_WIDTH = 768;
+const MOBILE_MENU_FADE_MS = 280;
 
 // Navigation labels and anchors are the source of truth for desktop and mobile menus.
 const NAV_LINKS = [
@@ -97,10 +98,17 @@ function MenuIcon({ isOpen }) {
 }
 
 // Mobile-only dropdown menu. Parent owns open/close state and passes the close handler.
-function MobileNavMenu({ onNavigate }) {
+function MobileNavMenu({ isVisible, onNavigate }) {
   return (
     <div
-      className="md:hidden absolute top-[calc(100%+0.65rem)] left-4 right-4 overflow-hidden rounded-2xl border border-slate-200 bg-[#f8fafc] p-2 shadow-[0_22px_58px_rgba(15,23,42,0.22),0_1px_0_rgba(255,255,255,0.9)_inset] dark:border-slate-800 dark:bg-slate-950 dark:shadow-[0_22px_58px_rgba(0,0,0,0.48)]"
+      aria-hidden={!isVisible}
+      className={[
+        'md:hidden absolute top-[calc(100%+0.65rem)] left-4 right-4 overflow-hidden rounded-2xl border border-slate-200 bg-[#f8fafc] p-2',
+        'shadow-[0_22px_58px_rgba(15,23,42,0.22),0_1px_0_rgba(255,255,255,0.9)_inset]',
+        'origin-top transition-[opacity,transform] duration-[280ms] ease-out motion-reduce:transition-none',
+        'dark:border-slate-800 dark:bg-slate-950 dark:shadow-[0_22px_58px_rgba(0,0,0,0.48)]',
+        isVisible ? 'translate-y-0 scale-100 opacity-100' : 'pointer-events-none -translate-y-1 scale-[0.99] opacity-0'
+      ].join(' ')}
       id="mobile-nav-menu"
     >
       <div className="flex flex-col gap-1">
@@ -125,6 +133,8 @@ function MobileNavMenu({ onNavigate }) {
 // Sticky top navigation with a collapsible mobile menu.
 export default function TopNavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileMenuMounted, setIsMobileMenuMounted] = useState(false);
+  const [isMobileMenuVisible, setIsMobileMenuVisible] = useState(false);
 
   useEffect(() => {
     function handleResize() {
@@ -136,6 +146,27 @@ export default function TopNavBar() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      setIsMobileMenuMounted(true);
+      setIsMobileMenuVisible(false);
+
+      let enterFrame = 0;
+      const mountFrame = requestAnimationFrame(() => {
+        enterFrame = requestAnimationFrame(() => setIsMobileMenuVisible(true));
+      });
+
+      return () => {
+        cancelAnimationFrame(mountFrame);
+        if (enterFrame) cancelAnimationFrame(enterFrame);
+      };
+    }
+
+    setIsMobileMenuVisible(false);
+    const timer = setTimeout(() => setIsMobileMenuMounted(false), MOBILE_MENU_FADE_MS);
+    return () => clearTimeout(timer);
+  }, [isMobileMenuOpen]);
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
@@ -166,8 +197,8 @@ export default function TopNavBar() {
           </button>
         </div>
 
-        {isMobileMenuOpen ? (
-          <MobileNavMenu onNavigate={closeMobileMenu} />
+        {isMobileMenuMounted ? (
+          <MobileNavMenu isVisible={isMobileMenuVisible} onNavigate={closeMobileMenu} />
         ) : null}
       </div>
     </nav>
