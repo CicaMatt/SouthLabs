@@ -200,6 +200,10 @@ function getGridBurstTargetCards(targetSections, target) {
   return card && targetSections.includes(section) ? [card] : [];
 }
 
+function shouldSuppressTouchGridBurst(target) {
+  return target instanceof Element && Boolean(target.closest(SOLUTION_CARD_SURFACE_SELECTOR));
+}
+
 function clearGridThroughCardHighlight(card) {
   card.style.setProperty('--site-grid-through-highlight-opacity', '0');
 }
@@ -739,7 +743,7 @@ export default function App() {
       && !didScrollRecently
     );
 
-    if (isDeliberateTap) {
+    if (isDeliberateTap && !shouldSuppressTouchGridBurst(event.target)) {
       triggerSectionGridBurstAtPoint({
         clientX: event.clientX,
         clientY: event.clientY,
