@@ -10,9 +10,17 @@ body,
 }
 
 #root .footer-selectable-content,
-#root .footer-selectable-content * {
+#root .footer-selectable-content *,
+#root .legal-document-modal,
+#root .legal-document-modal * {
   -webkit-user-select: text;
   user-select: text;
+}
+
+#root .legal-document-modal button,
+#root .legal-document-modal button * {
+  -webkit-user-select: none;
+  user-select: none;
 }
 img {
   -webkit-user-drag: none;

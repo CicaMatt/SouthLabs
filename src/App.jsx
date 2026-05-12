@@ -150,6 +150,37 @@ function getGridBurstTargetCards(targetSections, clientX, clientY, burstOuterRad
   return Array.from(cards);
 }
 
+function clearGridThroughCardHighlight(card) {
+  card.style.setProperty('--site-grid-through-highlight-opacity', '0');
+}
+
+function updateGridThroughCardHighlight(card, clientX, clientY, color, opacity) {
+  const cardRect = card.getBoundingClientRect();
+
+  card.style.setProperty('--site-grid-through-highlight-x', `${(clientX - cardRect.left).toFixed(2)}px`);
+  card.style.setProperty('--site-grid-through-highlight-y', `${(clientY - cardRect.top).toFixed(2)}px`);
+  card.style.setProperty('--site-grid-through-highlight-color', color);
+  card.style.setProperty('--site-grid-through-highlight-opacity', opacity.toFixed(3));
+}
+
+function updateGridThroughCardBurst(card, clientX, clientY, burstPoint) {
+  const cardRect = card.getBoundingClientRect();
+  const section = card.closest('section.section-grid-bg');
+  const color = section ? getSectionThemeColor(section) : '#1f4f8f';
+  const rgb = getRgbFromHex(color) || [31, 79, 143];
+
+  card.style.setProperty('--site-grid-through-burst-x', `${(clientX - cardRect.left).toFixed(2)}px`);
+  card.style.setProperty('--site-grid-through-burst-y', `${(clientY - cardRect.top).toFixed(2)}px`);
+  card.style.setProperty('--section-grid-burst-rgb', rgb.join(', '));
+  card.style.setProperty('--section-grid-burst-peak-opacity', (0.52 * burstPoint.opacityScale).toFixed(3));
+  card.style.setProperty('--section-grid-burst-mid-opacity', (0.34 * burstPoint.opacityScale).toFixed(3));
+  card.style.setProperty('--section-grid-burst-late-opacity', (0.13 * burstPoint.opacityScale).toFixed(3));
+  card.style.setProperty('--section-grid-burst-early-radius', `${burstPoint.earlyRadius.toFixed(2)}px`);
+  card.style.setProperty('--section-grid-burst-mid-radius', `${burstPoint.midRadius.toFixed(2)}px`);
+  card.style.setProperty('--section-grid-burst-late-radius', `${burstPoint.lateRadius.toFixed(2)}px`);
+  card.style.setProperty('--section-grid-burst-max-radius', `${burstPoint.maxRadius.toFixed(2)}px`);
+}
+
 function removeGridBurstElement(burstElement, timeoutMap, windowObject) {
   if (timeoutMap.has(burstElement)) {
     const timeoutId = timeoutMap.get(burstElement);
@@ -234,8 +265,8 @@ function syncSectionGridOrigins(mainElement) {
       const originX = elementRect.left + scrollX;
       const originY = baseTop + elementRect.top - rect.top;
 
-      element.style.setProperty('--section-grid-origin-x', `${originX.toFixed(2)}px`);
-      element.style.setProperty('--section-grid-origin-y', `${originY.toFixed(2)}px`);
+      element.style.setProperty('--site-grid-through-origin-x', `${originX.toFixed(2)}px`);
+      element.style.setProperty('--site-grid-through-origin-y', `${originY.toFixed(2)}px`);
     });
 
     currentAdjustmentBefore += currentAdjustment;
@@ -335,6 +366,7 @@ export default function App() {
   const sectionCursorFrameRef = useRef(0);
   const lastSectionCursorPointRef = useRef(null);
   const highlightedSectionsRef = useRef([]);
+  const highlightedGridThroughCardsRef = useRef([]);
   const sectionCursorRef = useRef(null);
   const mainRef = useRef(null);
 
@@ -366,6 +398,8 @@ export default function App() {
         section.style.setProperty('--section-grid-highlight-opacity', '0');
       });
       highlightedSectionsRef.current = [];
+      highlightedGridThroughCardsRef.current.forEach(clearGridThroughCardHighlight);
+      highlightedGridThroughCardsRef.current = [];
       sectionCursorRef.current?.style.setProperty('--section-cursor-opacity', '0');
     });
   }, []);
@@ -400,6 +434,20 @@ export default function App() {
         section.style.setProperty('--section-grid-highlight-opacity', opacity.toFixed(3));
       });
       highlightedSectionsRef.current = nextHighlightedSections;
+
+      const nextHighlightedGridThroughCards = new Set();
+      theme.highlights.forEach(({ section, color, opacity }) => {
+        section.querySelectorAll(SITE_GRID_THROUGH_SELECTOR).forEach((card) => {
+          updateGridThroughCardHighlight(card, clientX, clientY, color, opacity);
+          nextHighlightedGridThroughCards.add(card);
+        });
+      });
+      highlightedGridThroughCardsRef.current.forEach((card) => {
+        if (!nextHighlightedGridThroughCards.has(card)) {
+          clearGridThroughCardHighlight(card);
+        }
+      });
+      highlightedGridThroughCardsRef.current = Array.from(nextHighlightedGridThroughCards);
 
       cursorElement.style.setProperty('--section-cursor-x', `${clientX}px`);
       cursorElement.style.setProperty('--section-cursor-y', `${clientY}px`);
@@ -462,6 +510,12 @@ export default function App() {
         windowObject.clearTimeout(previousTimeoutId);
       }
 
+      if (card.matches(SITE_GRID_THROUGH_SELECTOR)) {
+        updateGridThroughCardBurst(card, event.clientX, event.clientY, burstPoint);
+      }
+
+      card.classList.remove(SOLUTION_CARD_BURST_ACTIVE_CLASS);
+      card.getBoundingClientRect();
       card.classList.add(SOLUTION_CARD_BURST_ACTIVE_CLASS);
 
       const timeoutId = windowObject.setTimeout(() => {
