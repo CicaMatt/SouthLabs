@@ -2,7 +2,7 @@ import SectionHeader from '../SectionHeader';
 import SOLUTION_CARD_SURFACE_CLASS, { getSolutionCardSurfaceStyle } from './solutionCardSurface';
 
 const SOFTWARE_CARD_SURFACE_OPACITY = 0.1;
-const SOFTWARE_CARD_SURFACE_HOVER_OPACITY = 0.5;
+const SOFTWARE_CARD_SURFACE_HOVER_OPACITY = 0.75;
 const SOFTWARE_FEATURE_CARD_SURFACE_OPACITY = 1;
 const SOFTWARE_FEATURE_CARD_SURFACE_HOVER_OPACITY = 1;
 
