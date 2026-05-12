@@ -240,7 +240,7 @@ export default function HeroParticleField({ pointerRef }) {
     const canvas = canvasRef.current;
     if (!canvas) return undefined;
 
-    const ctx = canvas.getContext('2d', { alpha: true, desynchronized: true });
+    const ctx = canvas.getContext('2d', { alpha: true });
     if (!ctx) return undefined;
 
     const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');

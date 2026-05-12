@@ -50,13 +50,15 @@ export default function Footer() {
             </FooterColumn>
 
             <FooterColumn title="Contatti">
-              <a
-                className={`max-w-full break-all ${FOOTER_LINK_CLASS}`}
-                href="mailto:matteocicalese.consulting@gmail.com"
-              >
-                matteocicalese.consulting@gmail.com
-              </a>
-              <span className="font-inter text-sm leading-relaxed text-on-surface-variant dark:text-slate-400">+39 3928139527</span>
+              <div className="footer-selectable-content flex flex-col items-center gap-1.5 md:items-start">
+                <a
+                  className={`max-w-full break-all ${FOOTER_LINK_CLASS}`}
+                  href="mailto:matteocicalese.consulting@gmail.com"
+                >
+                  matteocicalese.consulting@gmail.com
+                </a>
+                <span className="font-inter text-sm leading-relaxed text-on-surface-variant dark:text-slate-400">+39 3928139527</span>
+              </div>
             </FooterColumn>
 
             <FooterColumn title="Social">

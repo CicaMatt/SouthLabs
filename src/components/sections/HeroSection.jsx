@@ -418,6 +418,11 @@ export default function HeroSection() {
 
         <div className="hero-factory-stage">
           <FactoryIllustration svgRef={factorySvgRef} />
+          <span aria-hidden="true" className="hero-graphic-cursor-zone hero-graphic-cursor-zone--cloud" />
+          <span aria-hidden="true" className="hero-graphic-cursor-zone hero-graphic-cursor-zone--pipe" />
+          <span aria-hidden="true" className="hero-graphic-cursor-zone hero-graphic-cursor-zone--upper" />
+          <span aria-hidden="true" className="hero-graphic-cursor-zone hero-graphic-cursor-zone--roof" />
+          <span aria-hidden="true" className="hero-graphic-cursor-zone hero-graphic-cursor-zone--body" />
         </div>
 
         <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#081022] to-transparent" />

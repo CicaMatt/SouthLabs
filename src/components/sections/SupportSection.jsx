@@ -1,3 +1,5 @@
+import { getSolutionCardSurfaceStyle } from './solutionCardSurface';
+
 // Checklist copy for ongoing support and enablement services.
 const SUPPORT_ITEMS = [
   'Manutenzione preventiva e correttiva programmata.',
@@ -5,12 +7,19 @@ const SUPPORT_ITEMS = [
   'Supporto per eventi critici.'
 ];
 
+const SUPPORT_PANEL_SURFACE_OPACITY = 0.4;
+const SUPPORT_PANEL_SURFACE_HOVER_OPACITY = 0.76;
 const SECTION_CLASS = 'section-grid-bg section-grid-bg--support py-[5.5rem] lg:py-[6.75rem] text-on-tertiary';
 const SECTION_CONTENT_CLASS = 'max-w-7xl mx-auto px-5 sm:px-6 md:px-8 flex flex-col md:flex-row gap-10 md:gap-16 items-center';
 const CTA_PANEL_CLASS = [
-  'flex-1 w-full bg-surface-container-lowest/[0.06] backdrop-blur-[1px] rounded-xl',
+  'solution-card-surface support-cta-panel relative isolate flex-1 w-full overflow-hidden rounded-xl',
   'border border-white/[0.09] p-8 shadow-[0_8px_38px_rgba(0,0,0,0.15)]'
 ].join(' ');
+const CTA_PANEL_STYLE = getSolutionCardSurfaceStyle(
+  SUPPORT_PANEL_SURFACE_OPACITY,
+  SUPPORT_PANEL_SURFACE_HOVER_OPACITY,
+  '0, 46, 58'
+);
 
 // Support section pairing service promises with a call-to-action panel.
 export default function SupportSection() {
@@ -32,7 +41,7 @@ export default function SupportSection() {
           </ul>
         </div>
 
-        <div className={CTA_PANEL_CLASS}>
+        <div className={CTA_PANEL_CLASS} style={CTA_PANEL_STYLE}>
           <div className="text-center">
             <span className="material-symbols-outlined text-[64px] text-tertiary-fixed-dim mb-4">support_agent</span>
             <h3 className="font-headline text-2xl font-bold mb-2">Sempre al tuo fianco</h3>

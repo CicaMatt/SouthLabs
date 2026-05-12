@@ -1,27 +1,40 @@
 import SectionHeader from '../SectionHeader';
-import SOLUTION_CARD_SURFACE_CLASS from './solutionCardSurface';
+import SOLUTION_CARD_SURFACE_CLASS, { getSolutionCardSurfaceStyle } from './solutionCardSurface';
+
+const SOFTWARE_CARD_SURFACE_OPACITY = 0.1;
+const SOFTWARE_CARD_SURFACE_HOVER_OPACITY = 0.5;
+const SOFTWARE_FEATURE_CARD_SURFACE_OPACITY = 1;
+const SOFTWARE_FEATURE_CARD_SURFACE_HOVER_OPACITY = 1;
 
 // Secondary automation offers rendered as compact cards beside the AI feature card.
 const AUTOMATION_CARDS = [
   {
     icon: 'terminal',
     title: 'Software Personalizzati',
-    description: 'Sviluppo di software ad-hoc per soddisfare qualsiasi esigenza operativa.'
+    description: 'Sviluppo di software ad-hoc per soddisfare qualsiasi esigenza operativa.',
+    surfaceOpacity: SOFTWARE_CARD_SURFACE_OPACITY,
+    surfaceHoverOpacity: SOFTWARE_CARD_SURFACE_HOVER_OPACITY
   },
   {
     icon: 'api',
     title: 'Integrazione con Sistemi Legacy',
-    description: 'Aggiornamento e manutenzione di sistemi preesistenti.'
+    description: 'Aggiornamento e manutenzione di sistemi preesistenti.',
+    surfaceOpacity: SOFTWARE_CARD_SURFACE_OPACITY,
+    surfaceHoverOpacity: SOFTWARE_CARD_SURFACE_HOVER_OPACITY
   },
   {
     icon: 'router',
     title: 'Domotica',
-    description: 'Controllo centralizzato dei tuoi dispositivi aziendali.'
+    description: 'Controllo centralizzato dei tuoi dispositivi aziendali.',
+    surfaceOpacity: SOFTWARE_CARD_SURFACE_OPACITY,
+    surfaceHoverOpacity: SOFTWARE_CARD_SURFACE_HOVER_OPACITY
   },
   {
     icon: 'schema',
     title: 'Digitalizzazione Processi',
-    description: 'Transizione verso processi digitali veloci e moderni.'
+    description: 'Transizione verso processi digitali veloci e moderni.',
+    surfaceOpacity: SOFTWARE_CARD_SURFACE_OPACITY,
+    surfaceHoverOpacity: SOFTWARE_CARD_SURFACE_HOVER_OPACITY
   }
 ];
 
@@ -44,11 +57,18 @@ const AUTOMATION_CARD_CLASS = [
   'group relative flex h-full flex-col p-6',
   SOFTWARE_CARD_SURFACE_CLASS
 ].join(' ');
+const SOFTWARE_FEATURE_CARD_SURFACE_STYLE = getSolutionCardSurfaceStyle(
+  SOFTWARE_FEATURE_CARD_SURFACE_OPACITY,
+  SOFTWARE_FEATURE_CARD_SURFACE_HOVER_OPACITY
+);
 
 // Compact card used for each non-feature automation service.
-function AutomationCard({ description, icon, title }) {
+function AutomationCard({ description, icon, surfaceHoverOpacity, surfaceOpacity, title }) {
   return (
-    <div className={AUTOMATION_CARD_CLASS}>
+    <div
+      className={AUTOMATION_CARD_CLASS}
+      style={getSolutionCardSurfaceStyle(surfaceOpacity, surfaceHoverOpacity)}
+    >
       <span className="material-symbols-outlined mb-4 inline-flex h-7 w-7 origin-center items-center justify-center text-[28px] leading-none text-secondary transition-all duration-300 group-hover:scale-110 group-hover:text-[#1f4f8f]">{icon}</span>
       <h4 className="mb-2 min-h-[3rem] font-headline font-bold leading-snug text-on-background">{title}</h4>
       <p className="font-body text-sm leading-relaxed text-on-surface-variant">{description}</p>
@@ -68,7 +88,7 @@ export default function SoftwareSection() {
         />
 
         <div className={SERVICE_GRID_CLASS}>
-          <div className={FEATURE_CARD_CLASS}>
+          <div className={FEATURE_CARD_CLASS} style={SOFTWARE_FEATURE_CARD_SURFACE_STYLE}>
             <div className={FEATURE_BACKGROUND_ICON_CLASS}>
               <span className="material-symbols-outlined text-[76px] leading-none text-tertiary-fixed-dim md:text-[108px] lg:text-[120px]">smart_toy</span>
             </div>

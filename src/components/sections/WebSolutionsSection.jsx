@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import SectionHeader from '../SectionHeader';
-import SOLUTION_CARD_SURFACE_CLASS from './solutionCardSurface';
+import SOLUTION_CARD_SURFACE_CLASS, { getSolutionCardSurfaceStyle } from './solutionCardSurface';
 import wordpressLogo from '../../../media/icons/wordpress.png';
 import customWebAppImage from '../../../media/images/custom_web_app.png';
 import ecommerceImage from '../../../media/images/ecommerce.png';
@@ -9,6 +9,8 @@ import seoOrientedImage from '../../../media/images/seo_oriented.png';
 const cx = (...classes) => classes.filter(Boolean).join(' ');
 
 const WORDPRESS_TITLE = 'Soluzioni WordPress';
+const WEB_CARD_SURFACE_OPACITY = 0.1;
+const WEB_CARD_SURFACE_HOVER_OPACITY = 0.7;
 const TITLE_HOVER_EFFECT = 'web-solution-hover-text web-solution-hover-title';
 const DESCRIPTION_HOVER_EFFECT = 'web-solution-hover-text web-solution-hover-description';
 const SOLUTION_CARD_VIEW_QUERIES = {
@@ -27,19 +29,19 @@ const SOLUTION_CARD_CLASSES = {
   imageShell: 'relative w-full overflow-hidden bg-transparent',
   badgeTopLeft: 'top-4 left-5 sm:top-5 sm:left-7 md:left-8 lg:top-6 lg:left-7',
   stackedTitle: cx(
-    'font-headline text-[1.02rem] font-extrabold leading-[1.1] text-[#071d3d] sm:text-[1.12rem] md:text-[1.18rem]',
+    'font-headline text-[1.12rem] font-extrabold leading-[1.08] text-[#071d3d] sm:text-[1.24rem] md:text-[1.34rem]',
     TITLE_HOVER_EFFECT
   ),
   stackedDescription: cx(
-    'font-body text-[0.82rem] font-medium leading-[1.62] text-[#2b3b59] sm:text-[0.9rem] md:text-[0.96rem]',
+    'font-body text-[0.79rem] font-medium leading-[1.62] text-[#2b3b59] sm:text-[0.86rem] md:text-[0.91rem]',
     DESCRIPTION_HOVER_EFFECT
   ),
   desktopTitle: cx(
-    'font-headline text-[1.48rem] font-extrabold leading-[1.08] text-[#071d3d] xl:text-[1.6rem]',
+    'font-headline text-[1.38rem] font-extrabold leading-[1.08] text-[#071d3d] xl:text-[1.5rem]',
     TITLE_HOVER_EFFECT
   ),
   desktopDescription: cx(
-    'max-w-[34ch] font-body text-[0.98rem] font-medium leading-[1.72] text-[#2b3b59] xl:text-[1.04rem]',
+    'max-w-[34ch] font-body text-[0.93rem] font-medium leading-[1.72] text-[#2b3b59] xl:text-[0.98rem]',
     DESCRIPTION_HOVER_EFFECT
   )
 };
@@ -73,7 +75,7 @@ const TALL_CARD_CLASSES = {
   stackedTextColumn: 'min-w-0 flex-1 text-right sm:pl-1 md:pl-2',
   stackedTextWrap: 'relative ml-auto max-w-[31ch] sm:max-w-[34ch]',
   desktopView: 'relative z-10 hidden h-full px-7 py-6 lg:flex',
-  desktopTitleMeasure: 'pointer-events-none absolute left-0 top-0 inline-block whitespace-nowrap font-headline text-[1.48rem] font-extrabold leading-[1.08] opacity-0 xl:text-[1.6rem]',
+  desktopTitleMeasure: 'pointer-events-none absolute left-0 top-0 inline-block whitespace-nowrap font-headline text-[1.38rem] font-extrabold leading-[1.08] opacity-0 xl:text-[1.5rem]',
   desktopTitle: 'whitespace-nowrap',
   desktopTextBlock: 'pb-1'
 };
@@ -88,7 +90,9 @@ const LEFT_WEB_SOLUTION_CARDS = [
     mobileDescription: 'Soluzioni ad-hoc che garantiscono sicurezza, efficienza e flessibilità',
     previewImage: customWebAppImage,
     stackedPreviewImage: customWebAppImage,
-    desktopPreviewScaleClass: 'scale-[1.2]'
+    desktopPreviewScaleClass: 'scale-[1.2]',
+    surfaceOpacity: WEB_CARD_SURFACE_OPACITY,
+    surfaceHoverOpacity: WEB_CARD_SURFACE_HOVER_OPACITY
   },
   {
     icon: 'web',
@@ -98,7 +102,9 @@ const LEFT_WEB_SOLUTION_CARDS = [
     mobileDescription: 'Siti vetrina ottimizzati per SEO e visibilità',
     previewImage: seoOrientedImage,
     stackedPreviewImage: seoOrientedImage,
-    desktopPreviewScaleClass: 'scale-[1.12]'
+    desktopPreviewScaleClass: 'scale-[1.12]',
+    surfaceOpacity: WEB_CARD_SURFACE_OPACITY,
+    surfaceHoverOpacity: WEB_CARD_SURFACE_HOVER_OPACITY
   }
 ];
 
@@ -108,11 +114,17 @@ const RIGHT_WEB_SOLUTION_CARD = {
   title: 'Piattaforme E-Commerce',
   description: 'Portali di vendita online sicuri ed efficaci, integrabili con i più noti metodi di pagamento.',
   mobileDescription: 'Portali di vendita online sicuri ed efficaci',
-  previewImage: ecommerceImage
+  previewImage: ecommerceImage,
+  surfaceOpacity: WEB_CARD_SURFACE_OPACITY,
+  surfaceHoverOpacity: WEB_CARD_SURFACE_HOVER_OPACITY
 };
 
 function getSolutionCardClassName(layoutClassName) {
   return cx(SOLUTION_CARD_CLASSES.shell, layoutClassName);
+}
+
+function getWebSolutionCardStyle(card) {
+  return getSolutionCardSurfaceStyle(card.surfaceOpacity, card.surfaceHoverOpacity);
 }
 
 function getHorizontalPreviewPositionClass(isWordpressCard) {
@@ -263,6 +275,7 @@ function LeftSolutionCard({ card }) {
   return (
     <article
       className={getSolutionCardClassName(HORIZONTAL_CARD_CLASSES.shell)}
+      style={getWebSolutionCardStyle(card)}
     >
       <SolutionBadge card={card} className={badgeClassName} />
 
@@ -341,6 +354,7 @@ function RightSolutionCard({ card }) {
   return (
     <article
       className={getSolutionCardClassName(TALL_CARD_CLASSES.shell)}
+      style={getWebSolutionCardStyle(card)}
     >
       <SolutionBadge
         card={card}

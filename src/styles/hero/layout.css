@@ -19,8 +19,14 @@
   --hero-glow-opacity-duration: 720ms;
   --hero-factory-motion-duration: 1600ms;
   --hero-factory-motion-ease: cubic-bezier(0.16, 0.82, 0.14, 1);
+  --site-grid-offset-x: 0px;
+  --site-grid-offset-y: 0px;
+  background-color: #0b1729;
+  contain: paint;
+  transform: translateZ(0);
   user-select: none;
   -webkit-user-select: none;
+  backface-visibility: hidden;
 }
 .hero-shell--pointer-active {
   --hero-glow-position-duration: 90ms;
@@ -31,7 +37,12 @@
 }
 
 /* Atmosphere */
-.hero-atmosphere { pointer-events: none; }
+.hero-atmosphere {
+  pointer-events: none;
+  isolation: isolate;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
 
 .hero-atmosphere-base {
   background:
@@ -52,9 +63,11 @@
   height: 100%;
   opacity: 0.72;
   mix-blend-mode: screen;
+  transform: translateZ(0);
   -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.68) 42%, rgba(0, 0, 0, 1));
   mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.68) 42%, rgba(0, 0, 0, 1));
   contain: paint;
+  backface-visibility: hidden;
 }
 .hero-atmosphere-glow {
   overflow: hidden;
@@ -115,6 +128,7 @@
   width:  var(--factory-stage-width);
   min-width: 420px;
   aspect-ratio: 600 / 540;
+  pointer-events: auto;
   /* The semi-transparent factory needs the bg atmosphere to show through */
   mix-blend-mode: normal;
   transform:
@@ -127,9 +141,54 @@
   transition: transform var(--hero-factory-motion-duration) var(--hero-factory-motion-ease);
 }
 
+.hero-graphic-cursor-zone {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  pointer-events: none;
+}
+
+.hero-graphic-cursor-zone--cloud {
+  left: 24%;
+  top: -2%;
+  width: 56%;
+  height: 38%;
+}
+
+.hero-graphic-cursor-zone--pipe {
+  left: 37%;
+  top: 27%;
+  width: 18%;
+  height: 38%;
+}
+
+.hero-graphic-cursor-zone--upper {
+  left: 28%;
+  top: 34%;
+  width: 48%;
+  height: 18%;
+}
+
+.hero-graphic-cursor-zone--roof {
+  left: 18%;
+  top: 47%;
+  width: 70%;
+  height: 22%;
+}
+
+.hero-graphic-cursor-zone--body {
+  left: 10%;
+  top: 62%;
+  width: 84%;
+  height: 36%;
+}
+
 /* Hero Illustration SVG */
 .v-svg {
+  position: relative;
+  z-index: 1;
   width: 100%; height: 100%;
+  pointer-events: none;
   /* Soft shadow that blends with the dark background */
   filter: drop-shadow(0 10px 30px rgba(2, 8, 24, 0.24));
   overflow: visible;

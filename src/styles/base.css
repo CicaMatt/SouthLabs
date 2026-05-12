@@ -1,6 +1,19 @@
 /* Site-wide typography defaults and Material Symbols variation settings. */
 body { font-family: 'Inter', sans-serif; }
 h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
+html,
+body,
+#root,
+#root * {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#root .footer-selectable-content,
+#root .footer-selectable-content * {
+  -webkit-user-select: text;
+  user-select: text;
+}
 img {
   -webkit-user-drag: none;
   -webkit-user-select: none;

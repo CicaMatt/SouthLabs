@@ -14,6 +14,14 @@ const SECTION_CURSOR_DOT_SIZE = 20;
 const SECTION_GRID_HIGHLIGHT_DISTANCE = 118;
 const SECTION_GRID_HIGHLIGHT_OPACITY = 0.28;
 const SITE_GRID_THROUGH_SELECTOR = '.site-grid-through-card';
+const SECTION_GRID_BURST_DURATION_MS = 1260;
+const SECTION_GRID_BURST_MIN_INTERVAL_MS = 90;
+const MAX_ACTIVE_SECTION_GRID_BURSTS = 3;
+const SECTION_GRID_BURST_EDGE_FEATHER = 120;
+const SECTION_GRID_BURST_SAME_POINT_DISTANCE = 54;
+const HERO_GRAPHIC_CURSOR_ZONE_SELECTOR = '.hero-graphic-cursor-zone';
+const SOLUTION_CARD_SURFACE_SELECTOR = '.solution-card-surface';
+const SOLUTION_CARD_BURST_ACTIVE_CLASS = 'solution-card-surface--burst-active';
 
 const SECTION_CURSOR_THEMES = [
   {
@@ -45,6 +53,156 @@ const SECTION_CURSOR_THEMES = [
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const getSectionHighlightOpacity = (theme) => theme.highlightOpacity ?? SECTION_GRID_HIGHLIGHT_OPACITY;
+
+function getGridOffsetXForClientX(mainElement, clientX) {
+  const viewport = mainElement.ownerDocument.defaultView;
+  const width = viewport?.innerWidth || mainElement.clientWidth || 1;
+  const shiftX = (clamp(clientX / width, 0, 1) - 0.5) * 2;
+
+  return shiftX * -GRID_MOTION_X;
+}
+
+function parsePixelValue(value, fallback = 0) {
+  const parsed = Number.parseFloat(value);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+function getRgbFromHex(hexColor) {
+  const normalized = hexColor?.trim().replace('#', '');
+  if (!normalized) return null;
+
+  const expanded = normalized.length === 3
+    ? normalized.split('').map((character) => `${character}${character}`).join('')
+    : normalized;
+
+  if (!/^[\da-f]{6}$/i.test(expanded)) return null;
+
+  const value = Number.parseInt(expanded, 16);
+  if (!Number.isFinite(value)) return null;
+
+  return [
+    (value >> 16) & 255,
+    (value >> 8) & 255,
+    value & 255
+  ];
+}
+
+function getSectionThemeColor(section) {
+  return SECTION_CURSOR_THEMES.find((theme) => theme.id === section.id)?.color || '#1f4f8f';
+}
+
+function getGridBurstPoint(mainElement, section, clientX, clientY, pressure = 0.5) {
+  const sectionRect = section.getBoundingClientRect();
+  const computedStyle = getComputedStyle(section);
+  const gridSize = parsePixelValue(
+    computedStyle.getPropertyValue('--section-grid-size'),
+    SECTION_GRID_SIZE
+  );
+  const localX = clientX - sectionRect.left;
+  const localY = clientY - sectionRect.top;
+  const normalizedPressure = clamp(pressure || 0.5, 0.35, 1);
+  const viewport = mainElement.ownerDocument.defaultView;
+  const viewportWidth = viewport?.innerWidth || mainElement.clientWidth || 1;
+  const viewportScale = clamp(viewportWidth / 1440, 0.82, 1.16);
+  const sectionScale = clamp(sectionRect.width / 960, 0.78, 1.08);
+  const maxRadius = clamp(gridSize * 5.05 * viewportScale * sectionScale, 270, 430);
+
+  return {
+    x: localX,
+    y: localY,
+    opacityScale: 0.88 + normalizedPressure * 0.16,
+    earlyRadius: clamp(gridSize * 1.32 * sectionScale, 84, 116),
+    midRadius: maxRadius * 0.58,
+    lateRadius: maxRadius * 0.84,
+    maxRadius
+  };
+}
+
+function getPointToRectDistance(clientX, clientY, rect) {
+  const dx = clientX < rect.left
+    ? rect.left - clientX
+    : Math.max(clientX - rect.right, 0);
+  const dy = clientY < rect.top
+    ? rect.top - clientY
+    : Math.max(clientY - rect.bottom, 0);
+
+  return Math.hypot(dx, dy);
+}
+
+function getGridBurstTargetSections(mainElement, clientX, clientY, burstOuterRadius) {
+  return Array.from(mainElement.querySelectorAll(':scope > section.section-grid-bg:not(#hero)'))
+    .filter((section) => (
+      getPointToRectDistance(clientX, clientY, section.getBoundingClientRect()) <= burstOuterRadius
+    ));
+}
+
+function getGridBurstTargetCards(targetSections, clientX, clientY, burstOuterRadius) {
+  const cards = new Set();
+
+  targetSections.forEach((section) => {
+    section.querySelectorAll(SOLUTION_CARD_SURFACE_SELECTOR).forEach((card) => {
+      if (getPointToRectDistance(clientX, clientY, card.getBoundingClientRect()) <= burstOuterRadius) {
+        cards.add(card);
+      }
+    });
+  });
+
+  return Array.from(cards);
+}
+
+function removeGridBurstElement(burstElement, timeoutMap, windowObject) {
+  if (timeoutMap.has(burstElement)) {
+    const timeoutId = timeoutMap.get(burstElement);
+    windowObject.clearTimeout(timeoutId);
+    timeoutMap.delete(burstElement);
+  }
+
+  burstElement.remove();
+}
+
+function removeNearbyGridBursts(existingBursts, clientX, clientY, timeoutMap, windowObject) {
+  for (let index = existingBursts.length - 1; index >= 0; index -= 1) {
+    const burstElement = existingBursts[index];
+    const burstX = parsePixelValue(
+      burstElement.style.getPropertyValue('--section-grid-burst-x'),
+      Number.NaN
+    );
+    const burstY = parsePixelValue(
+      burstElement.style.getPropertyValue('--section-grid-burst-y'),
+      Number.NaN
+    );
+
+    if (
+      Number.isFinite(burstX)
+      && Number.isFinite(burstY)
+      && Math.hypot(clientX - burstX, clientY - burstY) <= SECTION_GRID_BURST_SAME_POINT_DISTANCE
+    ) {
+      existingBursts.splice(index, 1);
+      removeGridBurstElement(burstElement, timeoutMap, windowObject);
+    }
+  }
+}
+
+function isPointInsideRect(clientX, clientY, rect) {
+  return (
+    clientX >= rect.left
+    && clientX <= rect.right
+    && clientY >= rect.top
+    && clientY <= rect.bottom
+  );
+}
+
+function isPointInsideHeroGraphicCursorZone(mainElement, clientX, clientY) {
+  return Array.from(mainElement.querySelectorAll(HERO_GRAPHIC_CURSOR_ZONE_SELECTOR))
+    .some((zone) => isPointInsideRect(clientX, clientY, zone.getBoundingClientRect()));
+}
+
+function updateGraphicCursorState(mainElement, clientX, clientY) {
+  mainElement.classList.toggle(
+    'site-main--graphic-cursor-active',
+    isPointInsideHeroGraphicCursorZone(mainElement, clientX, clientY)
+  );
+}
 
 function syncSectionGridOrigins(mainElement) {
   const windowObject = mainElement.ownerDocument.defaultView;
@@ -171,6 +329,9 @@ function getSectionCursorTheme(document, clientY) {
 // Single-page composition: nav, ordered content sections, and footer.
 export default function App() {
   const gridFrameRef = useRef(0);
+  const gridBurstTimeoutsRef = useRef(new Map());
+  const lastGridBurstAtRef = useRef(Number.NEGATIVE_INFINITY);
+  const solutionCardBurstTimeoutsRef = useRef(new Map());
   const sectionCursorFrameRef = useRef(0);
   const lastSectionCursorPointRef = useRef(null);
   const highlightedSectionsRef = useRef([]);
@@ -250,19 +411,118 @@ export default function App() {
   }, [hideSectionCursor]);
 
   const handleMainPointerLeave = useCallback(() => {
+    mainRef.current?.classList.remove('site-main--graphic-cursor-active');
     lastSectionCursorPointRef.current = null;
     resetGridOffset();
     hideSectionCursor();
   }, [hideSectionCursor, resetGridOffset]);
 
+  const triggerSectionGridBurst = useCallback((event) => {
+    if (!event.isPrimary || (event.pointerType === 'mouse' && event.button !== 0)) return;
+
+    const mainElement = event.currentTarget;
+    const section = event.target instanceof Element
+      ? event.target.closest('section.section-grid-bg')
+      : null;
+
+    if (!section || section.id === 'hero' || !mainElement.contains(section)) return;
+
+    const ownerDocument = mainElement.ownerDocument;
+    const windowObject = ownerDocument.defaultView;
+    if (!windowObject) return;
+
+    const now = windowObject.performance?.now?.() ?? Date.now();
+    if (now - lastGridBurstAtRef.current < SECTION_GRID_BURST_MIN_INTERVAL_MS) return;
+    lastGridBurstAtRef.current = now;
+
+    const burstPoint = getGridBurstPoint(
+      mainElement,
+      section,
+      event.clientX,
+      event.clientY,
+      event.pressure
+    );
+    const burstOuterRadius = burstPoint.maxRadius + SECTION_GRID_BURST_EDGE_FEATHER;
+    const targetSections = getGridBurstTargetSections(
+      mainElement,
+      event.clientX,
+      event.clientY,
+      burstOuterRadius
+    );
+    const targetCards = getGridBurstTargetCards(
+      targetSections,
+      event.clientX,
+      event.clientY,
+      burstOuterRadius
+    );
+
+    targetCards.forEach((card) => {
+      const previousTimeoutId = solutionCardBurstTimeoutsRef.current.get(card);
+      if (previousTimeoutId) {
+        windowObject.clearTimeout(previousTimeoutId);
+      }
+
+      card.classList.add(SOLUTION_CARD_BURST_ACTIVE_CLASS);
+
+      const timeoutId = windowObject.setTimeout(() => {
+        card.classList.remove(SOLUTION_CARD_BURST_ACTIVE_CLASS);
+        solutionCardBurstTimeoutsRef.current.delete(card);
+      }, SECTION_GRID_BURST_DURATION_MS);
+
+      solutionCardBurstTimeoutsRef.current.set(card, timeoutId);
+    });
+
+    targetSections.forEach((targetSection) => {
+      const targetRect = targetSection.getBoundingClientRect();
+      const color = getSectionThemeColor(targetSection);
+      const rgb = getRgbFromHex(color) || [31, 79, 143];
+      const existingBursts = Array.from(targetSection.querySelectorAll(':scope > .section-grid-burst'));
+      const burstX = event.clientX - targetRect.left;
+      const burstY = event.clientY - targetRect.top;
+
+      removeNearbyGridBursts(
+        existingBursts,
+        burstX,
+        burstY,
+        gridBurstTimeoutsRef.current,
+        windowObject
+      );
+
+      while (existingBursts.length >= MAX_ACTIVE_SECTION_GRID_BURSTS) {
+        const oldestBurst = existingBursts.shift();
+        removeGridBurstElement(oldestBurst, gridBurstTimeoutsRef.current, windowObject);
+      }
+
+      const burstElement = ownerDocument.createElement('span');
+      burstElement.setAttribute('aria-hidden', 'true');
+      burstElement.className = 'section-grid-burst';
+      burstElement.style.setProperty('--section-grid-burst-x', `${burstX.toFixed(2)}px`);
+      burstElement.style.setProperty('--section-grid-burst-y', `${burstY.toFixed(2)}px`);
+      burstElement.style.setProperty('--section-grid-burst-rgb', rgb.join(', '));
+      burstElement.style.setProperty('--section-grid-burst-peak-opacity', (0.52 * burstPoint.opacityScale).toFixed(3));
+      burstElement.style.setProperty('--section-grid-burst-mid-opacity', (0.34 * burstPoint.opacityScale).toFixed(3));
+      burstElement.style.setProperty('--section-grid-burst-late-opacity', (0.13 * burstPoint.opacityScale).toFixed(3));
+      burstElement.style.setProperty('--section-grid-burst-early-radius', `${burstPoint.earlyRadius.toFixed(2)}px`);
+      burstElement.style.setProperty('--section-grid-burst-mid-radius', `${burstPoint.midRadius.toFixed(2)}px`);
+      burstElement.style.setProperty('--section-grid-burst-late-radius', `${burstPoint.lateRadius.toFixed(2)}px`);
+      burstElement.style.setProperty('--section-grid-burst-max-radius', `${burstPoint.maxRadius.toFixed(2)}px`);
+
+      targetSection.appendChild(burstElement);
+
+      const timeoutId = windowObject.setTimeout(() => {
+        burstElement.remove();
+        gridBurstTimeoutsRef.current.delete(burstElement);
+      }, SECTION_GRID_BURST_DURATION_MS);
+
+      gridBurstTimeoutsRef.current.set(burstElement, timeoutId);
+    });
+  }, []);
+
   const handleMainPointerMove = useCallback((event) => {
     if (event.pointerType === 'touch') return;
 
-    const viewport = event.currentTarget.ownerDocument.defaultView;
-    const width = viewport?.innerWidth || event.currentTarget.clientWidth || 1;
-    const shiftX = (clamp(event.clientX / width, 0, 1) - 0.5) * 2;
-
-    setGridOffset(shiftX * -GRID_MOTION_X, 0);
+    setGridOffset(getGridOffsetXForClientX(event.currentTarget, event.clientX), 0);
+    updateGraphicCursorState(event.currentTarget, event.clientX, event.clientY);
     lastSectionCursorPointRef.current = {
       clientX: event.clientX,
       clientY: event.clientY,
@@ -321,6 +581,7 @@ export default function App() {
         const lastPoint = lastSectionCursorPointRef.current;
         if (!lastPoint) return;
 
+        updateGraphicCursorState(mainElement, lastPoint.clientX, lastPoint.clientY);
         updateSectionCursorAtPoint(lastPoint.ownerDocument, lastPoint.clientX, lastPoint.clientY);
       });
     };
@@ -342,6 +603,20 @@ export default function App() {
     if (sectionCursorFrameRef.current) {
       cancelAnimationFrame(sectionCursorFrameRef.current);
     }
+    gridBurstTimeoutsRef.current.forEach((timeoutId) => {
+      clearTimeout(timeoutId);
+    });
+    gridBurstTimeoutsRef.current.clear();
+    mainRef.current?.querySelectorAll('.section-grid-burst').forEach((burstElement) => {
+      burstElement.remove();
+    });
+    solutionCardBurstTimeoutsRef.current.forEach((timeoutId) => {
+      clearTimeout(timeoutId);
+    });
+    solutionCardBurstTimeoutsRef.current.clear();
+    mainRef.current?.querySelectorAll(`.${SOLUTION_CARD_BURST_ACTIVE_CLASS}`).forEach((card) => {
+      card.classList.remove(SOLUTION_CARD_BURST_ACTIVE_CLASS);
+    });
   }, []);
 
   return (
@@ -351,6 +626,7 @@ export default function App() {
         ref={mainRef}
         className="site-main-with-section-cursor"
         onPointerLeave={handleMainPointerLeave}
+        onPointerDown={triggerSectionGridBurst}
         onPointerMove={handleMainPointerMove}
       >
         <HeroSection />
