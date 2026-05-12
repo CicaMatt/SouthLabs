@@ -24,7 +24,8 @@
   --solution-card-bg-active-opacity: var(--solution-card-bg-hover-opacity);
 }
 
-.section-grid-bg--web .solution-card-surface:hover {
+.section-grid-bg--web .solution-card-surface:hover,
+.section-grid-bg--web .solution-card-surface.solution-card-surface--burst-active {
   border-color: #1557d4;
   box-shadow:
     inset 0 0 0 1.5px rgba(21, 87, 212, 0.92),
@@ -36,8 +37,6 @@
 .software-ai-feature-card.software-card-surface {
   --solution-card-bg-opacity: 0.92;
   --solution-card-bg-hover-opacity: 1;
-  --site-grid-through-layer-offset-x: 2px;
-  --software-ai-grid-hover-y-compensation: 0px;
   --software-ai-grid-opacity: 0.66;
   --software-ai-sheen-opacity: 0.34;
   --software-ai-sheen-translate-x: -18%;
@@ -117,8 +116,8 @@
     linear-gradient(rgba(31, 79, 143, 0.24) 1px, transparent 1px),
     linear-gradient(90deg, rgba(31, 79, 143, 0.24) 1px, transparent 1px);
   background-position:
-    calc(-1px + var(--site-grid-through-layer-offset-x, 0px) + var(--site-grid-offset-x, 0px) - var(--site-grid-through-origin-x, var(--section-grid-origin-x, 0px)))
-    calc(-1px + var(--site-grid-offset-y, 0px) - var(--site-grid-through-origin-y, var(--section-grid-origin-y, 0px)) + var(--software-ai-grid-hover-y-compensation));
+    calc(-1px + var(--site-grid-offset-x, 0px) - var(--site-grid-through-origin-x, var(--section-grid-origin-x, 0px)))
+    calc(-1px + var(--site-grid-offset-y, 0px) - var(--site-grid-through-origin-y, var(--section-grid-origin-y, 0px)));
   background-repeat: repeat;
   background-size: var(--section-grid-size, 72px) var(--section-grid-size, 72px);
   opacity: var(--software-ai-grid-opacity);
@@ -135,8 +134,8 @@
   z-index: 1;
   pointer-events: none;
   background-position:
-    calc(-1px + var(--site-grid-through-layer-offset-x, 0px) + var(--site-grid-offset-x, 0px) - var(--site-grid-through-origin-x, var(--section-grid-origin-x, 0px)))
-    calc(-1px + var(--site-grid-offset-y, 0px) - var(--site-grid-through-origin-y, var(--section-grid-origin-y, 0px)) + var(--software-ai-grid-hover-y-compensation));
+    calc(-1px + var(--site-grid-offset-x, 0px) - var(--site-grid-through-origin-x, var(--section-grid-origin-x, 0px)))
+    calc(-1px + var(--site-grid-offset-y, 0px) - var(--site-grid-through-origin-y, var(--section-grid-origin-y, 0px)));
   background-repeat: repeat;
   background-size: var(--section-grid-size, 72px) var(--section-grid-size, 72px);
   transition:
@@ -236,8 +235,9 @@
     0 18px 34px rgba(15, 34, 52, 0.13);
 }
 
-.software-ai-feature-card:hover {
-  --software-ai-grid-hover-y-compensation: 3px;
+.solution-card-surface.software-ai-feature-card:hover {
+  --tw-translate-y: 0px;
+  transform: translateZ(0);
 }
 
 .software-ai-chip {
@@ -252,6 +252,70 @@
   box-shadow:
     inset 0 0 0 2px rgba(var(--software-interaction-blue-rgb, 31, 111, 168), 0.42),
     0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+@media (hover: none), (pointer: coarse) {
+  .solution-card-surface:hover:not(.solution-card-surface--burst-active) {
+    --solution-card-bg-active-opacity: var(--solution-card-bg-opacity);
+  }
+
+  .section-grid-bg--web .solution-card-surface:hover:not(.solution-card-surface--burst-active),
+  .section-grid-bg--software .software-card-surface:hover:not(.solution-card-surface--burst-active) {
+    border-color: #d9e0e6 !important;
+    box-shadow: 0 8px 20px rgba(15, 34, 52, 0.07) !important;
+    transform: none !important;
+  }
+
+  .software-ai-feature-card:hover:not(.solution-card-surface--burst-active) {
+    --software-ai-grid-opacity: 0.66;
+    --software-ai-sheen-opacity: 0.34;
+    --software-ai-sheen-translate-x: -18%;
+  }
+
+  .software-ai-feature-card:hover:not(.solution-card-surface--burst-active) .software-ai-chip {
+    box-shadow:
+      inset 0 0 0 1px rgba(var(--software-interaction-blue-rgb, 31, 111, 168), 0.24),
+      0 12px 30px rgba(0, 0, 0, 0.12);
+  }
+
+  .group:hover .web-solution-hover-title,
+  .group:hover .web-solution-hover-description {
+    text-shadow: none !important;
+    transform: scale(1) !important;
+  }
+
+  .group:hover .web-solution-hover-title {
+    color: #071d3d !important;
+  }
+
+  .group:hover .web-solution-hover-description {
+    color: #2b3b59 !important;
+  }
+
+  .section-grid-bg--software .group:hover > .material-symbols-outlined {
+    --tw-scale-x: 1 !important;
+    --tw-scale-y: 1 !important;
+    color: #515f74 !important;
+  }
+
+  .section-grid-bg--software .group:hover .software-ai-link,
+  .section-grid-bg--software .group:hover .software-ai-link .material-symbols-outlined {
+    --tw-translate-x: 0px !important;
+  }
+
+  .section-grid-bg--software .group:hover .software-ai-link {
+    color: var(--software-ai-accent, #47d6ff) !important;
+  }
+
+  .software-ai-feature-card.group:hover .software-ai-background-icon {
+    --tw-scale-x: 1 !important;
+    --tw-scale-y: 1 !important;
+    opacity: 0.1 !important;
+  }
+
+  .section-grid-bg--infrastructure .group:hover img {
+    transform: scale(1) !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -49,7 +49,7 @@ const FEATURE_CARD_CLASS = [
   SOFTWARE_CARD_SURFACE_CLASS
 ].join(' ');
 const FEATURE_BACKGROUND_ICON_CLASS = [
-  'absolute bottom-0 right-0 z-[2] p-2 opacity-10 transition-[opacity,transform] duration-300 group-hover:opacity-25 group-hover:scale-105',
+  'software-ai-background-icon absolute bottom-0 right-0 z-[2] p-2 opacity-10 transition-[opacity,transform] duration-300 group-hover:opacity-25 group-hover:scale-105',
   'md:top-1/2 md:bottom-auto md:-translate-y-1/2 md:p-6',
   'lg:top-auto lg:bottom-0 lg:translate-y-0 lg:p-2'
 ].join(' ');

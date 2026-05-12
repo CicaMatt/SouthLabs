@@ -22,6 +22,11 @@ const SECTION_GRID_BURST_SAME_POINT_DISTANCE = 54;
 const HERO_GRAPHIC_CURSOR_ZONE_SELECTOR = '.hero-graphic-cursor-zone';
 const SOLUTION_CARD_SURFACE_SELECTOR = '.solution-card-surface';
 const SOLUTION_CARD_BURST_ACTIVE_CLASS = 'solution-card-surface--burst-active';
+const TOUCH_TAP_MAX_DISTANCE = 10;
+const TOUCH_TAP_MAX_DURATION_MS = 650;
+const TOUCH_SCROLL_SETTLE_MS = 220;
+const TOUCH_SCROLL_GUARD_CLASS = 'site-main--touch-scroll-guard';
+const TOUCH_SCROLLING_CLASS = 'site-main--touch-scrolling';
 
 const SECTION_CURSOR_THEMES = [
   {
@@ -54,6 +59,10 @@ const SECTION_CURSOR_THEMES = [
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const getSectionHighlightOpacity = (theme) => theme.highlightOpacity ?? SECTION_GRID_HIGHLIGHT_OPACITY;
 
+function getTime(windowObject) {
+  return windowObject?.performance?.now?.() ?? Date.now();
+}
+
 function getGridOffsetXForClientX(mainElement, clientX) {
   const viewport = mainElement.ownerDocument.defaultView;
   const width = viewport?.innerWidth || mainElement.clientWidth || 1;
@@ -65,6 +74,52 @@ function getGridOffsetXForClientX(mainElement, clientX) {
 function parsePixelValue(value, fallback = 0) {
   const parsed = Number.parseFloat(value);
   return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+function parseCssTranslate(translateValue) {
+  if (!translateValue || translateValue === 'none') {
+    return { x: 0, y: 0 };
+  }
+
+  const [x = '0', y = '0'] = translateValue.trim().split(/\s+/);
+
+  return {
+    x: parsePixelValue(x),
+    y: parsePixelValue(y)
+  };
+}
+
+function getElementTranslate(element) {
+  const windowObject = element.ownerDocument.defaultView;
+  const computedStyle = windowObject?.getComputedStyle(element);
+  const transform = computedStyle?.transform;
+  const cssTranslate = parseCssTranslate(computedStyle?.translate);
+
+  if (!transform || transform === 'none') {
+    return cssTranslate;
+  }
+
+  const matrix3d = transform.match(/^matrix3d\((.+)\)$/);
+  if (matrix3d) {
+    const values = matrix3d[1].split(',').map((value) => Number.parseFloat(value.trim()));
+
+    return {
+      x: (Number.isFinite(values[12]) ? values[12] : 0) + cssTranslate.x,
+      y: (Number.isFinite(values[13]) ? values[13] : 0) + cssTranslate.y
+    };
+  }
+
+  const matrix2d = transform.match(/^matrix\((.+)\)$/);
+  if (matrix2d) {
+    const values = matrix2d[1].split(',').map((value) => Number.parseFloat(value.trim()));
+
+    return {
+      x: (Number.isFinite(values[4]) ? values[4] : 0) + cssTranslate.x,
+      y: (Number.isFinite(values[5]) ? values[5] : 0) + cssTranslate.y
+    };
+  }
+
+  return cssTranslate;
 }
 
 function getRgbFromHex(hexColor) {
@@ -262,8 +317,9 @@ function syncSectionGridOrigins(mainElement) {
 
     section.querySelectorAll(SITE_GRID_THROUGH_SELECTOR).forEach((element) => {
       const elementRect = element.getBoundingClientRect();
-      const originX = elementRect.left + scrollX;
-      const originY = baseTop + elementRect.top - rect.top;
+      const elementTranslate = getElementTranslate(element);
+      const originX = elementRect.left + scrollX - elementTranslate.x;
+      const originY = baseTop + elementRect.top - rect.top - elementTranslate.y;
 
       element.style.setProperty('--site-grid-through-origin-x', `${originX.toFixed(2)}px`);
       element.style.setProperty('--site-grid-through-origin-y', `${originY.toFixed(2)}px`);
@@ -365,8 +421,11 @@ export default function App() {
   const solutionCardBurstTimeoutsRef = useRef(new Map());
   const sectionCursorFrameRef = useRef(0);
   const lastSectionCursorPointRef = useRef(null);
+  const lastTouchScrollAtRef = useRef(Number.NEGATIVE_INFINITY);
   const highlightedSectionsRef = useRef([]);
   const highlightedGridThroughCardsRef = useRef([]);
+  const touchGridGestureRef = useRef(null);
+  const touchScrollGuardTimeoutRef = useRef(0);
   const sectionCursorRef = useRef(null);
   const mainRef = useRef(null);
 
@@ -458,19 +517,53 @@ export default function App() {
     });
   }, [hideSectionCursor]);
 
-  const handleMainPointerLeave = useCallback(() => {
+  const scheduleTouchScrollGuardRelease = useCallback((mainElement, delay = TOUCH_SCROLL_SETTLE_MS) => {
+    const windowObject = mainElement.ownerDocument.defaultView;
+    if (!windowObject) return;
+
+    if (touchScrollGuardTimeoutRef.current) {
+      windowObject.clearTimeout(touchScrollGuardTimeoutRef.current);
+    }
+
+    touchScrollGuardTimeoutRef.current = windowObject.setTimeout(() => {
+      touchScrollGuardTimeoutRef.current = 0;
+      if (touchGridGestureRef.current) return;
+
+      mainElement.classList.remove(TOUCH_SCROLL_GUARD_CLASS, TOUCH_SCROLLING_CLASS);
+    }, delay);
+  }, []);
+
+  const markTouchScrolling = useCallback((mainElement) => {
+    const windowObject = mainElement.ownerDocument.defaultView;
+    if (!windowObject) return;
+
+    lastTouchScrollAtRef.current = getTime(windowObject);
+    mainElement.classList.add(TOUCH_SCROLL_GUARD_CLASS, TOUCH_SCROLLING_CLASS);
+    scheduleTouchScrollGuardRelease(mainElement);
+  }, [scheduleTouchScrollGuardRelease]);
+
+  const handleMainPointerLeave = useCallback((event) => {
+    if (event.pointerType === 'touch') {
+      touchGridGestureRef.current = null;
+      scheduleTouchScrollGuardRelease(event.currentTarget);
+      return;
+    }
+
     mainRef.current?.classList.remove('site-main--graphic-cursor-active');
     lastSectionCursorPointRef.current = null;
     resetGridOffset();
     hideSectionCursor();
-  }, [hideSectionCursor, resetGridOffset]);
+  }, [hideSectionCursor, resetGridOffset, scheduleTouchScrollGuardRelease]);
 
-  const triggerSectionGridBurst = useCallback((event) => {
-    if (!event.isPrimary || (event.pointerType === 'mouse' && event.button !== 0)) return;
-
-    const mainElement = event.currentTarget;
-    const section = event.target instanceof Element
-      ? event.target.closest('section.section-grid-bg')
+  const triggerSectionGridBurstAtPoint = useCallback(({
+    clientX,
+    clientY,
+    mainElement,
+    pressure = 0.5,
+    target
+  }) => {
+    const section = target instanceof Element
+      ? target.closest('section.section-grid-bg')
       : null;
 
     if (!section || section.id === 'hero' || !mainElement.contains(section)) return;
@@ -479,28 +572,28 @@ export default function App() {
     const windowObject = ownerDocument.defaultView;
     if (!windowObject) return;
 
-    const now = windowObject.performance?.now?.() ?? Date.now();
+    const now = getTime(windowObject);
     if (now - lastGridBurstAtRef.current < SECTION_GRID_BURST_MIN_INTERVAL_MS) return;
     lastGridBurstAtRef.current = now;
 
     const burstPoint = getGridBurstPoint(
       mainElement,
       section,
-      event.clientX,
-      event.clientY,
-      event.pressure
+      clientX,
+      clientY,
+      pressure
     );
     const burstOuterRadius = burstPoint.maxRadius + SECTION_GRID_BURST_EDGE_FEATHER;
     const targetSections = getGridBurstTargetSections(
       mainElement,
-      event.clientX,
-      event.clientY,
+      clientX,
+      clientY,
       burstOuterRadius
     );
     const targetCards = getGridBurstTargetCards(
       targetSections,
-      event.clientX,
-      event.clientY,
+      clientX,
+      clientY,
       burstOuterRadius
     );
 
@@ -511,7 +604,7 @@ export default function App() {
       }
 
       if (card.matches(SITE_GRID_THROUGH_SELECTOR)) {
-        updateGridThroughCardBurst(card, event.clientX, event.clientY, burstPoint);
+        updateGridThroughCardBurst(card, clientX, clientY, burstPoint);
       }
 
       card.classList.remove(SOLUTION_CARD_BURST_ACTIVE_CLASS);
@@ -531,8 +624,8 @@ export default function App() {
       const color = getSectionThemeColor(targetSection);
       const rgb = getRgbFromHex(color) || [31, 79, 143];
       const existingBursts = Array.from(targetSection.querySelectorAll(':scope > .section-grid-burst'));
-      const burstX = event.clientX - targetRect.left;
-      const burstY = event.clientY - targetRect.top;
+      const burstX = clientX - targetRect.left;
+      const burstY = clientY - targetRect.top;
 
       removeNearbyGridBursts(
         existingBursts,
@@ -572,8 +665,53 @@ export default function App() {
     });
   }, []);
 
+  const handleMainPointerDown = useCallback((event) => {
+    if (!event.isPrimary || (event.pointerType === 'mouse' && event.button !== 0)) return;
+
+    const mainElement = event.currentTarget;
+    if (event.pointerType === 'touch') {
+      const windowObject = mainElement.ownerDocument.defaultView;
+      if (!windowObject) return;
+
+      if (touchScrollGuardTimeoutRef.current) {
+        windowObject.clearTimeout(touchScrollGuardTimeoutRef.current);
+        touchScrollGuardTimeoutRef.current = 0;
+      }
+
+      mainElement.classList.add(TOUCH_SCROLL_GUARD_CLASS);
+      mainElement.classList.remove(TOUCH_SCROLLING_CLASS);
+      touchGridGestureRef.current = {
+        pointerId: event.pointerId,
+        pressure: event.pressure,
+        startX: event.clientX,
+        startY: event.clientY,
+        startedAt: getTime(windowObject),
+        wasScrollGesture: false
+      };
+      return;
+    }
+
+    triggerSectionGridBurstAtPoint({
+      clientX: event.clientX,
+      clientY: event.clientY,
+      mainElement,
+      pressure: event.pressure,
+      target: event.target
+    });
+  }, [triggerSectionGridBurstAtPoint]);
+
   const handleMainPointerMove = useCallback((event) => {
-    if (event.pointerType === 'touch') return;
+    if (event.pointerType === 'touch') {
+      const gesture = touchGridGestureRef.current;
+      if (!gesture || gesture.pointerId !== event.pointerId) return;
+
+      const distance = Math.hypot(event.clientX - gesture.startX, event.clientY - gesture.startY);
+      if (distance > TOUCH_TAP_MAX_DISTANCE) {
+        gesture.wasScrollGesture = true;
+        markTouchScrolling(event.currentTarget);
+      }
+      return;
+    }
 
     setGridOffset(getGridOffsetXForClientX(event.currentTarget, event.clientX), 0);
     updateGraphicCursorState(event.currentTarget, event.clientX, event.clientY);
@@ -583,7 +721,50 @@ export default function App() {
       ownerDocument: event.currentTarget.ownerDocument
     };
     updateSectionCursorAtPoint(event.currentTarget.ownerDocument, event.clientX, event.clientY);
-  }, [setGridOffset, updateSectionCursorAtPoint]);
+  }, [markTouchScrolling, setGridOffset, updateSectionCursorAtPoint]);
+
+  const handleMainPointerUp = useCallback((event) => {
+    if (event.pointerType !== 'touch') return;
+
+    const mainElement = event.currentTarget;
+    const windowObject = mainElement.ownerDocument.defaultView;
+    const gesture = touchGridGestureRef.current;
+    if (!windowObject || !gesture || gesture.pointerId !== event.pointerId) {
+      scheduleTouchScrollGuardRelease(mainElement);
+      return;
+    }
+
+    touchGridGestureRef.current = null;
+
+    const now = getTime(windowObject);
+    const distance = Math.hypot(event.clientX - gesture.startX, event.clientY - gesture.startY);
+    const didScrollRecently = now - lastTouchScrollAtRef.current < TOUCH_SCROLL_SETTLE_MS;
+    const isDeliberateTap = (
+      !gesture.wasScrollGesture
+      && distance <= TOUCH_TAP_MAX_DISTANCE
+      && now - gesture.startedAt <= TOUCH_TAP_MAX_DURATION_MS
+      && !didScrollRecently
+    );
+
+    if (isDeliberateTap) {
+      triggerSectionGridBurstAtPoint({
+        clientX: event.clientX,
+        clientY: event.clientY,
+        mainElement,
+        pressure: event.pressure || gesture.pressure || 0.5,
+        target: event.target
+      });
+    }
+
+    scheduleTouchScrollGuardRelease(mainElement);
+  }, [scheduleTouchScrollGuardRelease, triggerSectionGridBurstAtPoint]);
+
+  const handleMainPointerCancel = useCallback((event) => {
+    if (event.pointerType !== 'touch') return;
+
+    touchGridGestureRef.current = null;
+    markTouchScrolling(event.currentTarget);
+  }, [markTouchScrolling]);
 
   useLayoutEffect(() => {
     const mainElement = mainRef.current;
@@ -627,6 +808,10 @@ export default function App() {
 
     let scrollFrame = 0;
     const refreshCursorOnScroll = () => {
+      if (mainElement.classList.contains(TOUCH_SCROLL_GUARD_CLASS)) {
+        markTouchScrolling(mainElement);
+      }
+
       if (scrollFrame) {
         cancelAnimationFrame(scrollFrame);
       }
@@ -648,7 +833,7 @@ export default function App() {
       }
       windowObject.removeEventListener('scroll', refreshCursorOnScroll);
     };
-  }, [updateSectionCursorAtPoint]);
+  }, [markTouchScrolling, updateSectionCursorAtPoint]);
 
   useEffect(() => () => {
     if (gridFrameRef.current) {
@@ -657,6 +842,12 @@ export default function App() {
     if (sectionCursorFrameRef.current) {
       cancelAnimationFrame(sectionCursorFrameRef.current);
     }
+    if (touchScrollGuardTimeoutRef.current) {
+      clearTimeout(touchScrollGuardTimeoutRef.current);
+      touchScrollGuardTimeoutRef.current = 0;
+    }
+    touchGridGestureRef.current = null;
+    mainRef.current?.classList.remove(TOUCH_SCROLL_GUARD_CLASS, TOUCH_SCROLLING_CLASS);
     gridBurstTimeoutsRef.current.forEach((timeoutId) => {
       clearTimeout(timeoutId);
     });
@@ -680,8 +871,10 @@ export default function App() {
         ref={mainRef}
         className="site-main-with-section-cursor"
         onPointerLeave={handleMainPointerLeave}
-        onPointerDown={triggerSectionGridBurst}
+        onPointerCancel={handleMainPointerCancel}
+        onPointerDown={handleMainPointerDown}
         onPointerMove={handleMainPointerMove}
+        onPointerUp={handleMainPointerUp}
       >
         <HeroSection />
         <WebSolutionsSection />
