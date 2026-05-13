@@ -27,11 +27,12 @@ const TOUCH_TAP_MAX_DURATION_MS = 650;
 const TOUCH_SCROLL_SETTLE_MS = 220;
 const TOUCH_SCROLL_GUARD_CLASS = 'site-main--touch-scroll-guard';
 const TOUCH_SCROLLING_CLASS = 'site-main--touch-scrolling';
+const HERO_CTA_DEFAULT_BACKGROUND_COLOR = '#b6ebff';
 
 const SECTION_CURSOR_THEMES = [
   {
     id: 'hero',
-    color: '#9ce6fb',
+    color: HERO_CTA_DEFAULT_BACKGROUND_COLOR,
     highlightOpacity: 0
   },
   {
@@ -409,7 +410,7 @@ export default function App() {
   const touchSelectedCardRef = useRef(null);
   const sectionCursorRef = useRef(null);
   const mainRef = useRef(null);
-  const heroCursorSuppressedRef = useRef(false);
+  const heroGridOffsetResetRef = useRef(false);
 
   const setGridOffset = useCallback((x, y) => {
     if (gridFrameRef.current) {
@@ -544,15 +545,6 @@ export default function App() {
     scheduleTouchScrollGuardRelease(mainElement);
   }, [clearTouchSelectedCard, scheduleTouchScrollGuardRelease]);
 
-  const suppressHeroCursorEffects = useCallback((mainElement) => {
-    if (heroCursorSuppressedRef.current) return;
-
-    heroCursorSuppressedRef.current = true;
-    lastSectionCursorPointRef.current = null;
-    resetGridOffset();
-    hideSectionCursor();
-  }, [hideSectionCursor, resetGridOffset]);
-
   const handleMainPointerLeave = useCallback((event) => {
     if (event.pointerType === 'touch') {
       touchGridGestureRef.current = null;
@@ -560,7 +552,7 @@ export default function App() {
       return;
     }
 
-    heroCursorSuppressedRef.current = false;
+    heroGridOffsetResetRef.current = false;
     lastSectionCursorPointRef.current = null;
     resetGridOffset();
     hideSectionCursor();
@@ -723,19 +715,22 @@ export default function App() {
     }
 
     if (isHeroTarget(event.target)) {
-      suppressHeroCursorEffects(event.currentTarget);
-      return;
+      if (!heroGridOffsetResetRef.current) {
+        heroGridOffsetResetRef.current = true;
+        resetGridOffset();
+      }
+    } else {
+      heroGridOffsetResetRef.current = false;
+      setGridOffset(getGridOffsetXForClientX(event.currentTarget, event.clientX), 0);
     }
 
-    heroCursorSuppressedRef.current = false;
-    setGridOffset(getGridOffsetXForClientX(event.currentTarget, event.clientX), 0);
     lastSectionCursorPointRef.current = {
       clientX: event.clientX,
       clientY: event.clientY,
       ownerDocument: event.currentTarget.ownerDocument
     };
     updateSectionCursorAtPoint(event.currentTarget.ownerDocument, event.clientX, event.clientY);
-  }, [markTouchScrolling, setGridOffset, suppressHeroCursorEffects, updateSectionCursorAtPoint]);
+  }, [markTouchScrolling, resetGridOffset, setGridOffset, updateSectionCursorAtPoint]);
 
   const handleMainPointerUp = useCallback((event) => {
     if (event.pointerType !== 'touch') return;

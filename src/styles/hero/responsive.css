@@ -60,6 +60,29 @@
   filter: none !important;
 }
 
+/* Restore only the static wall/pipe shading filters; keep animated glows and drop-shadows disabled. */
+.hero-factory-stage .v-svg .v-factory-roof-upper-shade,
+.hero-factory-stage .v-svg .v-factory-left-inner-shadow,
+.hero-factory-stage .v-svg .v-factory-right-inner-shadow {
+  filter: url(#vFactorySoftShadeBlur) !important;
+}
+
+.hero-factory-stage .v-svg .v-factory-roof-upper-light,
+.hero-factory-stage .v-svg .v-factory-roof-light-plane,
+.hero-factory-stage .v-svg .v-factory-left-reflected-light,
+.hero-factory-stage .v-svg .v-factory-right-light-wash {
+  filter: url(#vFactorySoftLightBlur) !important;
+}
+
+.hero-factory-stage .v-svg .v-pipe-left-occlusion {
+  filter: url(#vPipeSoftShadeBlur) !important;
+}
+
+.hero-factory-stage .v-svg .v-pipe-right-light,
+.hero-factory-stage .v-svg .v-pipe-top-light {
+  filter: url(#vPipeSoftLightBlur) !important;
+}
+
 .hero-factory-stage .v-float-group {
   will-change: transform;
 }
