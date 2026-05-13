@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import logoImage from '../../../media/logo/logo_image.png';
 import logoText from '../../../media/logo/logo_text.png';
 
@@ -38,7 +38,7 @@ const CONTACT_CTA_CLASS = [
 ].join(' ');
 const MOBILE_MENU_BUTTON_CLASS = [
   'md:hidden inline-flex items-center justify-center h-10 w-10',
-  'rounded-lg text-primary hover:bg-primary/10 transition-colors'
+  'rounded-lg text-[#053f82] hover:bg-[#053f82]/10 transition-colors'
 ].join(' ');
 
 // Combines the icon and text mark while exposing one accessible brand link.
@@ -98,9 +98,10 @@ function MenuIcon({ isOpen }) {
 }
 
 // Mobile-only dropdown menu. Parent owns open/close state and passes the close handler.
-function MobileNavMenu({ isVisible, onNavigate }) {
+function MobileNavMenu({ isVisible, menuRef, onNavigate }) {
   return (
     <div
+      ref={menuRef}
       aria-hidden={!isVisible}
       className={[
         'md:hidden absolute top-[calc(100%+0.65rem)] left-4 right-4 overflow-hidden rounded-2xl border border-slate-200 bg-[#f8fafc] p-2',
@@ -135,6 +136,8 @@ export default function TopNavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileMenuMounted, setIsMobileMenuMounted] = useState(false);
   const [isMobileMenuVisible, setIsMobileMenuVisible] = useState(false);
+  const mobileMenuRef = useRef(null);
+  const mobileMenuButtonRef = useRef(null);
 
   useEffect(() => {
     function handleResize() {
@@ -168,6 +171,34 @@ export default function TopNavBar() {
     return () => clearTimeout(timer);
   }, [isMobileMenuOpen]);
 
+  useEffect(() => {
+    if (!isMobileMenuOpen) return undefined;
+
+    const isInsideMenuControls = (target) => (
+      target instanceof Node
+      && (
+        mobileMenuRef.current?.contains(target)
+        || mobileMenuButtonRef.current?.contains(target)
+      )
+    );
+    const closeOnOutsidePointer = (event) => {
+      if (!isInsideMenuControls(event.target)) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    const closeOnScroll = () => setIsMobileMenuOpen(false);
+
+    document.addEventListener('pointerdown', closeOnOutsidePointer, { capture: true });
+    document.addEventListener('click', closeOnOutsidePointer, { capture: true });
+    window.addEventListener('scroll', closeOnScroll, { passive: true });
+
+    return () => {
+      document.removeEventListener('pointerdown', closeOnOutsidePointer, { capture: true });
+      document.removeEventListener('click', closeOnOutsidePointer, { capture: true });
+      window.removeEventListener('scroll', closeOnScroll);
+    };
+  }, [isMobileMenuOpen]);
+
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   return (
@@ -186,6 +217,7 @@ export default function TopNavBar() {
           </a>
 
           <button
+            ref={mobileMenuButtonRef}
             aria-controls="mobile-nav-menu"
             aria-expanded={isMobileMenuOpen}
             aria-label={isMobileMenuOpen ? 'Chiudi menu mobile' : 'Apri menu mobile'}
@@ -198,7 +230,11 @@ export default function TopNavBar() {
         </div>
 
         {isMobileMenuMounted ? (
-          <MobileNavMenu isVisible={isMobileMenuVisible} onNavigate={closeMobileMenu} />
+          <MobileNavMenu
+            isVisible={isMobileMenuVisible}
+            menuRef={mobileMenuRef}
+            onNavigate={closeMobileMenu}
+          />
         ) : null}
       </div>
     </nav>

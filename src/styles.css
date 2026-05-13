@@ -88,10 +88,12 @@
 .section-grid-bg--web .solution-card-surface:hover,
 .section-grid-bg--web .solution-card-surface.solution-card-surface--touch-selected,
 .section-grid-bg--web .solution-card-surface.solution-card-surface--burst-active {
+  --tw-translate-y: 0px;
   border-color: #1557d4;
   box-shadow:
     inset 0 0 0 1.5px rgba(21, 87, 212, 0.92),
     0 18px 34px rgba(15, 34, 52, 0.13);
+  transform: translateZ(0);
 }
 
 /* Subtle AI feature-card effects for the software section. */
