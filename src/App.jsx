@@ -19,7 +19,6 @@ const SECTION_GRID_BURST_MIN_INTERVAL_MS = 90;
 const MAX_ACTIVE_SECTION_GRID_BURSTS = 3;
 const SECTION_GRID_BURST_EDGE_FEATHER = 120;
 const SECTION_GRID_BURST_SAME_POINT_DISTANCE = 54;
-const HERO_GRAPHIC_CURSOR_ZONE_SELECTOR = '.hero-graphic-cursor-zone';
 const SOLUTION_CARD_SURFACE_SELECTOR = '.solution-card-surface';
 const SOLUTION_CARD_BURST_ACTIVE_CLASS = 'solution-card-surface--burst-active';
 const SOLUTION_CARD_TOUCH_SELECTED_CLASS = 'solution-card-surface--touch-selected';
@@ -267,27 +266,6 @@ function removeNearbyGridBursts(existingBursts, clientX, clientY, timeoutMap, wi
   }
 }
 
-function isPointInsideRect(clientX, clientY, rect) {
-  return (
-    clientX >= rect.left
-    && clientX <= rect.right
-    && clientY >= rect.top
-    && clientY <= rect.bottom
-  );
-}
-
-function isPointInsideHeroGraphicCursorZone(mainElement, clientX, clientY) {
-  return Array.from(mainElement.querySelectorAll(HERO_GRAPHIC_CURSOR_ZONE_SELECTOR))
-    .some((zone) => isPointInsideRect(clientX, clientY, zone.getBoundingClientRect()));
-}
-
-function updateGraphicCursorState(mainElement, clientX, clientY) {
-  mainElement.classList.toggle(
-    'site-main--graphic-cursor-active',
-    isPointInsideHeroGraphicCursorZone(mainElement, clientX, clientY)
-  );
-}
-
 function syncSectionGridOrigins(mainElement) {
   const windowObject = mainElement.ownerDocument.defaultView;
   const scrollX = windowObject?.scrollX || 0;
@@ -336,6 +314,10 @@ function preventImageDefault(event) {
   if (isImageTarget(event.target)) {
     event.preventDefault();
   }
+}
+
+function isHeroTarget(target) {
+  return target instanceof Element && Boolean(target.closest('#hero'));
 }
 
 function getSectionCursorTheme(document, clientY) {
@@ -427,6 +409,7 @@ export default function App() {
   const touchSelectedCardRef = useRef(null);
   const sectionCursorRef = useRef(null);
   const mainRef = useRef(null);
+  const heroCursorSuppressedRef = useRef(false);
 
   const setGridOffset = useCallback((x, y) => {
     if (gridFrameRef.current) {
@@ -561,6 +544,15 @@ export default function App() {
     scheduleTouchScrollGuardRelease(mainElement);
   }, [clearTouchSelectedCard, scheduleTouchScrollGuardRelease]);
 
+  const suppressHeroCursorEffects = useCallback((mainElement) => {
+    if (heroCursorSuppressedRef.current) return;
+
+    heroCursorSuppressedRef.current = true;
+    lastSectionCursorPointRef.current = null;
+    resetGridOffset();
+    hideSectionCursor();
+  }, [hideSectionCursor, resetGridOffset]);
+
   const handleMainPointerLeave = useCallback((event) => {
     if (event.pointerType === 'touch') {
       touchGridGestureRef.current = null;
@@ -568,7 +560,7 @@ export default function App() {
       return;
     }
 
-    mainRef.current?.classList.remove('site-main--graphic-cursor-active');
+    heroCursorSuppressedRef.current = false;
     lastSectionCursorPointRef.current = null;
     resetGridOffset();
     hideSectionCursor();
@@ -730,15 +722,20 @@ export default function App() {
       return;
     }
 
+    if (isHeroTarget(event.target)) {
+      suppressHeroCursorEffects(event.currentTarget);
+      return;
+    }
+
+    heroCursorSuppressedRef.current = false;
     setGridOffset(getGridOffsetXForClientX(event.currentTarget, event.clientX), 0);
-    updateGraphicCursorState(event.currentTarget, event.clientX, event.clientY);
     lastSectionCursorPointRef.current = {
       clientX: event.clientX,
       clientY: event.clientY,
       ownerDocument: event.currentTarget.ownerDocument
     };
     updateSectionCursorAtPoint(event.currentTarget.ownerDocument, event.clientX, event.clientY);
-  }, [markTouchScrolling, setGridOffset, updateSectionCursorAtPoint]);
+  }, [markTouchScrolling, setGridOffset, suppressHeroCursorEffects, updateSectionCursorAtPoint]);
 
   const handleMainPointerUp = useCallback((event) => {
     if (event.pointerType !== 'touch') return;
@@ -851,7 +848,6 @@ export default function App() {
         const lastPoint = lastSectionCursorPointRef.current;
         if (!lastPoint) return;
 
-        updateGraphicCursorState(mainElement, lastPoint.clientX, lastPoint.clientY);
         updateSectionCursorAtPoint(lastPoint.ownerDocument, lastPoint.clientX, lastPoint.clientY);
       });
     };

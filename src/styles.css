@@ -654,12 +654,11 @@
 }
 
 @media (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .site-main-with-section-cursor > section,
-  .site-main-with-section-cursor > section * {
+  .site-main-with-section-cursor > section:not(#hero),
+  .site-main-with-section-cursor > section:not(#hero) * {
     cursor: none;
   }
 
-  .site-main-with-section-cursor.site-main--graphic-cursor-active .section-cursor-dot,
   .site-main-with-section-cursor:has(
     a:hover,
     button:hover,

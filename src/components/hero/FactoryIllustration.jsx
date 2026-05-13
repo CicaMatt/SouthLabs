@@ -81,10 +81,9 @@ function PlumeCloud() {
 }
 
 // Decorative SVG hero illustration. Class names are animated by the hero CSS modules.
-export default function FactoryIllustration({ svgRef }) {
+export default function FactoryIllustration() {
   return (
     <svg
-      ref={svgRef}
       viewBox="0 0 600 540"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

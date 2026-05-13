@@ -1,100 +1,52 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import FactoryIllustration from '../hero/FactoryIllustration';
-import HeroParticleField, { POINTER_BURST_MS } from '../hero/HeroParticleField';
+import HeroParticleField from '../hero/HeroParticleField';
 
 const DEFAULT_POINTER = { pctX: 72, pctY: 42, shiftX: 0.18, shiftY: -0.1 };
-const BOOST_PLAYBACK_RATE = 2.8;
-const BOOST_RAMP_UP_MS = 260;
-const BOOST_HOLD_MS = 140;
-const BOOST_RAMP_DOWN_MS = 620;
-const BOOST_TOTAL_MS = BOOST_RAMP_UP_MS + BOOST_HOLD_MS + BOOST_RAMP_DOWN_MS;
+const POINTER_BURST_MS = 460;
 const TOUCH_PARTICLE_NUDGE_MS = 720;
-const POINTER_RETURN_GLOW_MS = 2400;
-const POINTER_RETURN_OPACITY_MS = 720;
-const POINTER_RETURN_FACTORY_MS = 1600;
+const FACTORY_ACCELERATION_RATE = 2.25;
+const FACTORY_ACCELERATION_RAMP_UP_MS = 220;
+const FACTORY_ACCELERATION_HOLD_MS = 150;
+const FACTORY_ACCELERATION_RAMP_DOWN_MS = 760;
+const FACTORY_ACCELERATION_TOTAL_MS = (
+  FACTORY_ACCELERATION_RAMP_UP_MS
+  + FACTORY_ACCELERATION_HOLD_MS
+  + FACTORY_ACCELERATION_RAMP_DOWN_MS
+);
 const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
 const lerp = (start, end, progress) => start + (end - start) * progress;
 const smoothStep = (progress) => progress * progress * (3 - 2 * progress);
-
-const HERO_TRANSITION_TIMING = {
-  active: {
-    '--hero-glow-position-duration': '90ms',
-    '--hero-glow-position-ease': 'linear',
-    '--hero-glow-opacity-duration': '160ms',
-    '--hero-factory-motion-duration': '180ms',
-    '--hero-factory-motion-ease': 'ease-out'
-  },
-  return: {
-    '--hero-glow-position-duration': `${POINTER_RETURN_GLOW_MS}ms`,
-    '--hero-glow-position-ease': 'cubic-bezier(0.16, 0.82, 0.14, 1)',
-    '--hero-glow-opacity-duration': `${POINTER_RETURN_OPACITY_MS}ms`,
-    '--hero-factory-motion-duration': `${POINTER_RETURN_FACTORY_MS}ms`,
-    '--hero-factory-motion-ease': 'cubic-bezier(0.16, 0.82, 0.14, 1)'
-  }
-};
-
-const HERO_INITIAL_STYLE = {
-  '--hero-pointer-x': `${DEFAULT_POINTER.pctX}%`,
-  '--hero-pointer-y': `${DEFAULT_POINTER.pctY}%`,
-  '--hero-shift-x': `${DEFAULT_POINTER.shiftX}`,
-  '--hero-shift-y': `${DEFAULT_POINTER.shiftY}`,
-  '--hero-active': '0'
-};
 
 const createPointerState = (overrides = {}) => ({
   ...DEFAULT_POINTER,
   x: -1,
   y: -1,
   active: false,
-  touchNudgeStart: 0,
-  touchNudgeUntil: 0,
-  touchNudgeX: 0,
-  touchNudgeY: 0,
+  repelActive: false,
   burstStart: 0,
   burstUntil: 0,
   burstX: -1,
   burstY: -1,
-  repelActive: false,
+  touchNudgeStart: 0,
+  touchNudgeUntil: 0,
+  touchNudgeX: 0,
+  touchNudgeY: 0,
   ...overrides
 });
 
-function applyStyleProperties(element, properties) {
-  Object.entries(properties).forEach(([property, value]) => {
-    element.style.setProperty(property, value);
-  });
-}
-
-function getPointerStyleProperties(pointer) {
-  return {
-    '--hero-pointer-x': `${pointer.pctX}%`,
-    '--hero-pointer-y': `${pointer.pctY}%`,
-    '--hero-shift-x': `${pointer.shiftX}`,
-    '--hero-shift-y': `${pointer.shiftY}`,
-    '--hero-active': pointer.active ? '1' : '0'
-  };
-}
-
-// Converts pointer position into CSS variables for the hero parallax/glow effects.
 function getPointerState(e) {
   const b = e.currentTarget.getBoundingClientRect();
   const rx = clamp((e.clientX - b.left) / b.width, 0, 1);
   const ry = clamp((e.clientY - b.top) / b.height, 0, 1);
+
   return {
-    x:      Number((e.clientX - b.left).toFixed(2)),
-    y:      Number((e.clientY - b.top).toFixed(2)),
-    pctX:   Number((rx * 100).toFixed(2)),
-    pctY:   Number((ry * 100).toFixed(2)),
+    x: Number((e.clientX - b.left).toFixed(2)),
+    y: Number((e.clientY - b.top).toFixed(2)),
+    pctX: Number((rx * 100).toFixed(2)),
+    pctY: Number((ry * 100).toFixed(2)),
     shiftX: Number(((rx - 0.5) * 2).toFixed(4)),
     shiftY: Number(((ry - 0.5) * 2).toFixed(4))
-  };
-}
-
-function getDefaultPointerState(heroElement) {
-  const b = heroElement?.getBoundingClientRect();
-  return {
-    ...DEFAULT_POINTER,
-    x: b ? Number((b.width * DEFAULT_POINTER.pctX / 100).toFixed(2)) : -1,
-    y: b ? Number((b.height * DEFAULT_POINTER.pctY / 100).toFixed(2)) : -1
   };
 }
 
@@ -106,95 +58,116 @@ function setAnimationPlaybackRate(animation, playbackRate) {
   try {
     animation.playbackRate = playbackRate;
   } catch {
-    // The animation may have been removed while the boost was easing out.
+    // The animation may have been removed while the acceleration is easing out.
   }
 }
 
-// Temporarily speeds up SVG animations when the hero is pressed/clicked.
-function useFactoryAnimationBoost(factorySvgRef) {
-  const boostFrameRef = useRef(null);
-  const boostedAnimationsRef = useRef([]);
+function isFactoryCssAnimation(animation) {
+  return (
+    animation.playState !== 'idle'
+    && (typeof CSSAnimation === 'undefined' || animation instanceof CSSAnimation)
+  );
+}
 
-  const cancelBoostFrame = useCallback(() => {
-    if (boostFrameRef.current !== null) {
-      cancelAnimationFrame(boostFrameRef.current);
-      boostFrameRef.current = null;
+function useFactoryAnimationAcceleration(factoryStageRef) {
+  const accelerationFrameRef = useRef(0);
+  const acceleratedAnimationsRef = useRef([]);
+
+  const cancelAccelerationFrame = useCallback(() => {
+    if (accelerationFrameRef.current) {
+      cancelAnimationFrame(accelerationFrameRef.current);
+      accelerationFrameRef.current = 0;
     }
   }, []);
 
-  const resetFactoryBoost = useCallback(() => {
-    cancelBoostFrame();
-    boostedAnimationsRef.current.forEach(({ animation, playbackRate }) => {
-      setAnimationPlaybackRate(animation, playbackRate);
+  const resetFactoryAcceleration = useCallback(() => {
+    cancelAccelerationFrame();
+    acceleratedAnimationsRef.current.forEach(({ animation, baseRate }) => {
+      setAnimationPlaybackRate(animation, baseRate);
     });
-    boostedAnimationsRef.current = [];
-  }, [cancelBoostFrame]);
+    acceleratedAnimationsRef.current = [];
+  }, [cancelAccelerationFrame]);
 
-  const boostFactoryAnimations = useCallback(() => {
-    const factorySvg = factorySvgRef.current;
-    if (!factorySvg || typeof factorySvg.getAnimations !== 'function') return;
+  const accelerateFactoryAnimations = useCallback(() => {
+    const factoryStage = factoryStageRef.current;
+    if (!factoryStage || typeof factoryStage.getAnimations !== 'function') return;
 
-    const previousPlaybackRates = new Map(
-      boostedAnimationsRef.current.map(({ animation, playbackRate }) => [animation, playbackRate])
-    );
-    cancelBoostFrame();
-
-    const runningAnimations = factorySvg
-      .getAnimations({ subtree: true })
-      .filter((animation) => typeof CSSAnimation === 'undefined' || animation instanceof CSSAnimation);
-
-    if (!runningAnimations.length) {
-      resetFactoryBoost();
+    const windowObject = factoryStage.ownerDocument.defaultView;
+    if (windowObject?.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      resetFactoryAcceleration();
       return;
     }
 
-    boostedAnimationsRef.current = runningAnimations.map((animation) => ({
-      animation,
-      playbackRate: previousPlaybackRates.get(animation) ?? getAnimationPlaybackRate(animation),
-      boostStartPlaybackRate: getAnimationPlaybackRate(
+    const previousBaseRates = new Map(
+      acceleratedAnimationsRef.current.map(({ animation, baseRate }) => [animation, baseRate])
+    );
+    cancelAccelerationFrame();
+
+    const runningAnimations = factoryStage
+      .getAnimations({ subtree: true })
+      .filter(isFactoryCssAnimation);
+
+    if (!runningAnimations.length) {
+      resetFactoryAcceleration();
+      return;
+    }
+
+    acceleratedAnimationsRef.current = runningAnimations.map((animation) => {
+      const baseRate = previousBaseRates.get(animation) ?? getAnimationPlaybackRate(animation);
+
+      return {
         animation,
-        previousPlaybackRates.get(animation) ?? 1
-      )
-    }));
+        baseRate,
+        startRate: getAnimationPlaybackRate(animation, baseRate)
+      };
+    });
 
-    const boostStart = performance.now();
-    const updateBoost = (timestamp) => {
-      const elapsed = Math.max(0, timestamp - boostStart);
+    const accelerationStart = performance.now();
+    const updateAcceleration = (timestamp) => {
+      const elapsed = Math.max(0, timestamp - accelerationStart);
 
-      boostedAnimationsRef.current.forEach(({ animation, playbackRate, boostStartPlaybackRate }) => {
-        const maxPlaybackRate = playbackRate * BOOST_PLAYBACK_RATE;
-        let nextPlaybackRate = playbackRate;
+      acceleratedAnimationsRef.current.forEach(({ animation, baseRate, startRate }) => {
+        const peakRate = baseRate * FACTORY_ACCELERATION_RATE;
+        let nextRate = baseRate;
 
-        if (elapsed < BOOST_RAMP_UP_MS) {
-          const progress = smoothStep(clamp(elapsed / BOOST_RAMP_UP_MS, 0, 1));
-          nextPlaybackRate = lerp(boostStartPlaybackRate, maxPlaybackRate, progress);
-        } else if (elapsed < BOOST_RAMP_UP_MS + BOOST_HOLD_MS) {
-          nextPlaybackRate = maxPlaybackRate;
-        } else if (elapsed < BOOST_TOTAL_MS) {
-          const progress = smoothStep(
-            clamp((elapsed - BOOST_RAMP_UP_MS - BOOST_HOLD_MS) / BOOST_RAMP_DOWN_MS, 0, 1)
+        if (elapsed < FACTORY_ACCELERATION_RAMP_UP_MS) {
+          nextRate = lerp(
+            startRate,
+            peakRate,
+            smoothStep(clamp(elapsed / FACTORY_ACCELERATION_RAMP_UP_MS, 0, 1))
           );
-          nextPlaybackRate = lerp(maxPlaybackRate, playbackRate, progress);
+        } else if (elapsed < FACTORY_ACCELERATION_RAMP_UP_MS + FACTORY_ACCELERATION_HOLD_MS) {
+          nextRate = peakRate;
+        } else if (elapsed < FACTORY_ACCELERATION_TOTAL_MS) {
+          nextRate = lerp(
+            peakRate,
+            baseRate,
+            smoothStep(clamp(
+              (elapsed - FACTORY_ACCELERATION_RAMP_UP_MS - FACTORY_ACCELERATION_HOLD_MS)
+              / FACTORY_ACCELERATION_RAMP_DOWN_MS,
+              0,
+              1
+            ))
+          );
         }
 
-        setAnimationPlaybackRate(animation, nextPlaybackRate);
+        setAnimationPlaybackRate(animation, nextRate);
       });
 
-      if (elapsed < BOOST_TOTAL_MS) {
-        boostFrameRef.current = requestAnimationFrame(updateBoost);
+      if (elapsed < FACTORY_ACCELERATION_TOTAL_MS) {
+        accelerationFrameRef.current = requestAnimationFrame(updateAcceleration);
         return;
       }
 
-      boostedAnimationsRef.current = [];
-      boostFrameRef.current = null;
+      resetFactoryAcceleration();
     };
 
-    boostFrameRef.current = requestAnimationFrame(updateBoost);
-  }, [cancelBoostFrame, factorySvgRef, resetFactoryBoost]);
+    accelerationFrameRef.current = requestAnimationFrame(updateAcceleration);
+  }, [cancelAccelerationFrame, factoryStageRef, resetFactoryAcceleration]);
 
-  useEffect(() => () => resetFactoryBoost(), [resetFactoryBoost]);
+  useEffect(() => () => resetFactoryAcceleration(), [resetFactoryAcceleration]);
 
-  return boostFactoryAnimations;
+  return accelerateFactoryAnimations;
 }
 
 // Measures the rendered subheadline line width so mobile CTA sizing follows the text.
@@ -248,66 +221,93 @@ function useSubheadlineLineWidth(subheadlineRef) {
   return lineWidth;
 }
 
-// Interactive hero section: text, CTAs, pointer-driven atmosphere, and animated SVG.
+// Hero section: text, CTAs, ambient atmosphere, and a compositor-driven SVG illustration.
 export default function HeroSection() {
-  const [isActive, setIsActive] = useState(false);
-  const heroRef = useRef(null);
   const subheadlineRef = useRef(null);
-  const factorySvgRef = useRef(null);
   const pointerRef = useRef(createPointerState());
-  const pointerActiveRef = useRef(false);
-  const styleFrameRef = useRef(null);
-  const transitionTimingModeRef = useRef('idle');
-  const boostFactoryAnimations = useFactoryAnimationBoost(factorySvgRef);
+  const factoryStageRef = useRef(null);
+  const factoryParallaxRef = useRef(null);
+  const factoryMotionRef = useRef({
+    frameId: 0,
+    x: 0,
+    y: 0,
+    rotate: 0,
+    targetX: 0,
+    targetY: 0,
+    targetRotate: 0
+  });
+  const accelerateFactoryAnimations = useFactoryAnimationAcceleration(factoryStageRef);
   const subheadlineLineWidth = useSubheadlineLineWidth(subheadlineRef);
+  const heroClassName = 'hero-shell section-grid-bg--hero relative isolate overflow-hidden pt-36 pb-28 lg:pt-44 lg:pb-40';
+  const heroActionsStyle = useMemo(() => (
+    subheadlineLineWidth ? { '--hero-subheadline-inline-width': `${subheadlineLineWidth}px` } : undefined
+  ), [subheadlineLineWidth]);
 
-  const setHeroTransitionMode = useCallback((mode) => {
-    if (transitionTimingModeRef.current === mode) return;
-
-    const heroElement = heroRef.current;
-    if (!heroElement) return;
-
-    applyStyleProperties(heroElement, HERO_TRANSITION_TIMING[mode]);
-    transitionTimingModeRef.current = mode;
-  }, []);
-
-  const applyPointerStyle = useCallback(() => {
-    const heroElement = heroRef.current;
-    if (!heroElement) return;
-
-    const pointer = pointerRef.current;
-    applyStyleProperties(heroElement, getPointerStyleProperties(pointer));
-  }, []);
-
-  const schedulePointerStyle = useCallback(() => {
-    if (styleFrameRef.current !== null) return;
-
-    styleFrameRef.current = requestAnimationFrame(() => {
-      styleFrameRef.current = null;
-      applyPointerStyle();
-    });
-  }, [applyPointerStyle]);
-
-  const setPointerActive = useCallback((nextActive) => {
-    pointerRef.current.active = nextActive;
-    if (pointerActiveRef.current !== nextActive) {
-      pointerActiveRef.current = nextActive;
-      setIsActive(nextActive);
+  useEffect(() => () => {
+    if (factoryMotionRef.current.frameId) {
+      cancelAnimationFrame(factoryMotionRef.current.frameId);
+      factoryMotionRef.current.frameId = 0;
     }
   }, []);
 
-  const updatePointer = useCallback((nextPointer, nextActive) => {
+  const runFactoryMotion = () => {
+    const motion = factoryMotionRef.current;
+    const parallaxLayer = factoryParallaxRef.current;
+
+    if (!parallaxLayer) {
+      motion.frameId = 0;
+      return;
+    }
+
+    motion.x += (motion.targetX - motion.x) * 0.14;
+    motion.y += (motion.targetY - motion.y) * 0.14;
+    motion.rotate += (motion.targetRotate - motion.rotate) * 0.14;
+
+    const remainingMotion = Math.max(
+      Math.abs(motion.targetX - motion.x),
+      Math.abs(motion.targetY - motion.y),
+      Math.abs(motion.targetRotate - motion.rotate)
+    );
+
+    if (remainingMotion < 0.01) {
+      motion.x = motion.targetX;
+      motion.y = motion.targetY;
+      motion.rotate = motion.targetRotate;
+      motion.frameId = 0;
+    } else {
+      motion.frameId = requestAnimationFrame(runFactoryMotion);
+    }
+
+    parallaxLayer.style.transform = (
+      `translate3d(${motion.x.toFixed(2)}px, ${motion.y.toFixed(2)}px, 0) rotate(${motion.rotate.toFixed(3)}deg)`
+    );
+  };
+
+  const scheduleFactoryMotion = (pointer, isActive) => {
+    const motion = factoryMotionRef.current;
+    const movement = isActive ? 1 : 0;
+
+    motion.targetX = pointer.shiftX * 12 * movement;
+    motion.targetY = pointer.shiftY * -9 * movement;
+    motion.targetRotate = pointer.shiftX * 0.42 * movement;
+
+    if (!motion.frameId) {
+      motion.frameId = requestAnimationFrame(runFactoryMotion);
+    }
+  };
+
+  const updatePointer = (nextPointer, nextActive) => {
     pointerRef.current = {
       ...pointerRef.current,
       ...nextPointer,
       active: nextActive,
       repelActive: nextActive
     };
-    setPointerActive(nextActive);
-    schedulePointerStyle();
-  }, [schedulePointerStyle, setPointerActive]);
 
-  const updateTouchPointer = useCallback((nextPointer, nextRepelActive) => {
+    scheduleFactoryMotion(nextPointer, nextActive);
+  };
+
+  const updateTouchPointer = (nextPointer, nextRepelActive) => {
     pointerRef.current = {
       ...pointerRef.current,
       x: nextPointer.x,
@@ -319,94 +319,85 @@ export default function HeroSection() {
       active: false,
       repelActive: nextRepelActive
     };
-    setPointerActive(false);
-    schedulePointerStyle();
-  }, [schedulePointerStyle, setPointerActive]);
+  };
 
-  const endTouchPointer = useCallback(() => {
+  const endPointer = () => {
+    pointerRef.current.active = false;
     pointerRef.current.repelActive = false;
-    setPointerActive(false);
-    schedulePointerStyle();
-  }, [schedulePointerStyle, setPointerActive]);
+    scheduleFactoryMotion(DEFAULT_POINTER, false);
+  };
 
-  const triggerTouchParticleNudge = useCallback((pointer) => {
-    const now = performance.now();
-    const nudgeX = Math.abs(pointer.shiftX) > 0.08 ? pointer.shiftX * -28 : 12;
-    const nudgeY = Math.abs(pointer.shiftY) > 0.08 ? pointer.shiftY * -22 : -8;
-    pointerRef.current.touchNudgeStart = now;
-    pointerRef.current.touchNudgeUntil = now + TOUCH_PARTICLE_NUDGE_MS;
-    pointerRef.current.touchNudgeX = nudgeX;
-    pointerRef.current.touchNudgeY = nudgeY;
-  }, []);
-
-  const triggerPointerBurst = useCallback((pointer) => {
+  const triggerPointerBurst = (pointer) => {
     const now = performance.now();
     pointerRef.current.burstStart = now;
     pointerRef.current.burstUntil = now + POINTER_BURST_MS;
     pointerRef.current.burstX = pointer.x;
     pointerRef.current.burstY = pointer.y;
-  }, []);
+  };
 
-  useEffect(() => () => {
-    if (styleFrameRef.current !== null) cancelAnimationFrame(styleFrameRef.current);
-  }, []);
+  const triggerTouchParticleNudge = (pointer) => {
+    const now = performance.now();
+    const nudgeX = Math.abs(pointer.shiftX) > 0.08 ? pointer.shiftX * -28 : 12;
+    const nudgeY = Math.abs(pointer.shiftY) > 0.08 ? pointer.shiftY * -22 : -8;
 
-  const handlePointerMove  = (e) => {
+    pointerRef.current.touchNudgeStart = now;
+    pointerRef.current.touchNudgeUntil = now + TOUCH_PARTICLE_NUDGE_MS;
+    pointerRef.current.touchNudgeX = nudgeX;
+    pointerRef.current.touchNudgeY = nudgeY;
+  };
+
+  const handlePointerMove = (e) => {
     if (e.pointerType === 'touch') {
       if (pointerRef.current.repelActive) updateTouchPointer(getPointerState(e), true);
       return;
     }
-    setHeroTransitionMode('active');
+
     updatePointer(getPointerState(e), true);
   };
-  const handlePointerLeave = (e)  => {
+
+  const handlePointerLeave = (e) => {
     if (e.pointerType === 'touch') {
-      endTouchPointer();
+      endPointer();
       return;
     }
-    setHeroTransitionMode('return');
-    updatePointer(getDefaultPointerState(heroRef.current), false);
+
+    endPointer();
   };
-  const handlePointerDown  = (e) => {
-    setHeroTransitionMode('active');
+
+  const handlePointerDown = (e) => {
+    const p = getPointerState(e);
+
     if (e.pointerType === 'touch') {
-      const p = getPointerState(e);
       updateTouchPointer(p, true);
       triggerPointerBurst(p);
       triggerTouchParticleNudge(p);
-      boostFactoryAnimations();
+      accelerateFactoryAnimations();
       return;
     }
-    const p = getPointerState(e);
+
     updatePointer(p, true);
     triggerPointerBurst(p);
-    boostFactoryAnimations();
-  };
-  const handlePointerUp = (e) => {
-    if (e.pointerType === 'touch') endTouchPointer();
+    accelerateFactoryAnimations();
   };
 
-  const heroStyle = useMemo(() => HERO_INITIAL_STYLE, []);
-  const heroClassName = [
-    'hero-shell section-grid-bg--hero relative isolate overflow-hidden pt-36 pb-28 lg:pt-44 lg:pb-40',
-    isActive ? 'hero-shell--pointer-active' : ''
-  ].filter(Boolean).join(' ');
-  const heroActionsStyle = useMemo(() => (
-    subheadlineLineWidth ? { '--hero-subheadline-inline-width': `${subheadlineLineWidth}px` } : undefined
-  ), [subheadlineLineWidth]);
+  const handlePointerUp = (e) => {
+    if (e.pointerType === 'touch') endPointer();
+  };
+
+  const handlePointerCancel = () => {
+    endPointer();
+  };
 
   return (
     <section
       id="hero"
-      ref={heroRef}
       className={heroClassName}
       onPointerDown={handlePointerDown}
       onPointerEnter={handlePointerMove}
       onPointerLeave={handlePointerLeave}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
-      onPointerCancel={handlePointerUp}
-      style={heroStyle}
+      onPointerCancel={handlePointerCancel}
     >
       <div aria-hidden="true" className="hero-atmosphere absolute inset-0 z-0">
         <div className="hero-atmosphere-base absolute inset-0" />
@@ -416,13 +407,12 @@ export default function HeroSection() {
         <div className="hero-atmosphere-stream hero-atmosphere-stream-a absolute inset-0" />
         <div className="hero-atmosphere-stream hero-atmosphere-stream-b absolute inset-0" />
 
-        <div className="hero-factory-stage">
-          <FactoryIllustration svgRef={factorySvgRef} />
-          <span aria-hidden="true" className="hero-graphic-cursor-zone hero-graphic-cursor-zone--cloud" />
-          <span aria-hidden="true" className="hero-graphic-cursor-zone hero-graphic-cursor-zone--pipe" />
-          <span aria-hidden="true" className="hero-graphic-cursor-zone hero-graphic-cursor-zone--upper" />
-          <span aria-hidden="true" className="hero-graphic-cursor-zone hero-graphic-cursor-zone--roof" />
-          <span aria-hidden="true" className="hero-graphic-cursor-zone hero-graphic-cursor-zone--body" />
+        <div ref={factoryStageRef} className="hero-factory-stage">
+          <div ref={factoryParallaxRef} className="hero-factory-parallax">
+            <div className="hero-factory-visual">
+              <FactoryIllustration />
+            </div>
+          </div>
         </div>
 
         <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#081022] to-transparent" />

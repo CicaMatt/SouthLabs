@@ -2,12 +2,12 @@ import { useEffect, useRef } from 'react';
 
 const TAU = Math.PI * 2;
 const TOUCH_NUDGE_MS = 720;
-const POINTER_BURST_MS = 420;
+const POINTER_BURST_MS = 460;
 const PARTICLE_DENSITY = 4400;
 const POINTER_RADIUS = 148;
-const POINTER_BURST_RADIUS_BOOST = 0.12;
+const POINTER_BURST_RADIUS_BOOST = 0.16;
 const POINTER_FORCE = 0.49;
-const POINTER_BURST_FORCE = 1.22;
+const POINTER_BURST_FORCE = 1.18;
 const TOUCH_NUDGE_FORCE = 0.00205;
 const MAX_PIXEL_RATIO = 1.25;
 const MOBILE_FIELD_MAX_WIDTH = 700;
@@ -21,6 +21,20 @@ const FRAME_INTERVAL_MS = {
   active: 16,
   idleDesktop: 32,
   idleMobile: 48
+};
+const IDLE_POINTER_STATE = {
+  active: false,
+  repelActive: false,
+  x: -1,
+  y: -1,
+  burstStart: 0,
+  burstUntil: 0,
+  burstX: -1,
+  burstY: -1,
+  touchNudgeStart: 0,
+  touchNudgeUntil: 0,
+  touchNudgeX: 0,
+  touchNudgeY: 0
 };
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
@@ -159,6 +173,37 @@ function resizeCanvas(canvas, ctx) {
   return { width, height };
 }
 
+function resizeParticles(particles, previousSize, nextSize) {
+  if (!previousSize || previousSize.width <= 0 || previousSize.height <= 0) {
+    return createParticles(nextSize.width, nextSize.height);
+  }
+
+  const scaleX = nextSize.width / previousSize.width;
+  const scaleY = nextSize.height / previousSize.height;
+  const nextParticles = particles.map((particle) => ({
+    ...particle,
+    x: particle.x * scaleX,
+    y: particle.y * scaleY,
+    anchorX: particle.anchorX * scaleX,
+    anchorY: particle.anchorY * scaleY
+  }));
+  const targetCount = getParticleCount(nextSize.width, nextSize.height);
+
+  if (nextParticles.length > targetCount) {
+    nextParticles.length = targetCount;
+  }
+
+  while (nextParticles.length < targetCount) {
+    nextParticles.push(createParticle(
+      Math.random() * nextSize.width,
+      Math.random() * nextSize.height,
+      nextSize.width
+    ));
+  }
+
+  return nextParticles;
+}
+
 function drawDot(ctx, x, y, radius, fillStyle) {
   ctx.fillStyle = fillStyle;
   ctx.beginPath();
@@ -233,8 +278,10 @@ function advanceParticle(particle, step, size, forceState) {
   particle.y += particle.vy * step;
 }
 
-export default function HeroParticleField({ pointerRef }) {
+export default function HeroParticleField({ pointerRef } = {}) {
   const canvasRef = useRef(null);
+  const idlePointerRef = useRef(IDLE_POINTER_STATE);
+  const effectivePointerRef = pointerRef || idlePointerRef;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -255,7 +302,7 @@ export default function HeroParticleField({ pointerRef }) {
     const draw = (now, isStatic = false, step = 1) => {
       ctx.clearRect(0, 0, size.width, size.height);
 
-      const pointer = pointerRef.current;
+      const pointer = effectivePointerRef.current;
       const isRepelling = Boolean(pointer.active || pointer.repelActive);
       const burstDuration = Math.max(1, (pointer.burstUntil || 0) - (pointer.burstStart || 0));
       const burstProgress = !isStatic && now < (pointer.burstUntil || 0)
@@ -299,7 +346,7 @@ export default function HeroParticleField({ pointerRef }) {
     const render = (now) => {
       frameId = requestAnimationFrame(render);
 
-      const pointer = pointerRef.current;
+      const pointer = effectivePointerRef.current;
       const isRepelling = Boolean(pointer.active || pointer.repelActive);
       const isTouchNudging = now < (pointer.touchNudgeUntil || 0);
       const isBursting = now < (pointer.burstUntil || 0);
@@ -326,9 +373,12 @@ export default function HeroParticleField({ pointerRef }) {
       frameId = null;
     };
 
-    const resetField = () => {
-      size = resizeCanvas(canvas, ctx);
-      particles = createParticles(size.width, size.height);
+    const resizeField = () => {
+      const nextSize = resizeCanvas(canvas, ctx);
+      if (nextSize.width !== size.width || nextSize.height !== size.height) {
+        particles = resizeParticles(particles, size, nextSize);
+      }
+      size = nextSize;
       lastPhysicsTime = 0;
       draw(performance.now(), reduceMotion);
     };
@@ -343,7 +393,7 @@ export default function HeroParticleField({ pointerRef }) {
       }
     };
 
-    const resizeObserver = new ResizeObserver(resetField);
+    const resizeObserver = new ResizeObserver(resizeField);
     resizeObserver.observe(canvas);
 
     const visibilityObserver = new IntersectionObserver(([entry]) => {
@@ -363,9 +413,7 @@ export default function HeroParticleField({ pointerRef }) {
       visibilityObserver.disconnect();
       reduceMotionQuery.removeEventListener('change', handleMotionChange);
     };
-  }, [pointerRef]);
+  }, [effectivePointerRef]);
 
   return <canvas aria-hidden="true" className="hero-particle-canvas absolute inset-0" ref={canvasRef} />;
 }
-
-export { POINTER_BURST_MS };

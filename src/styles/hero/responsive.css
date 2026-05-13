@@ -23,6 +23,9 @@
   .hero-factory-stage {
     --factory-stage-width: min(88vw, 540px);
     right: clamp(-126px, -15vw, -98px);
+  }
+
+  .hero-factory-stage {
     opacity: 0.88;
   }
 }
@@ -50,9 +53,21 @@
   }
 }
 
+/* Stable hero illustration: restore motion, but keep expensive SVG filters out of the zoom path. */
+.hero-factory-stage .v-svg,
+.hero-factory-stage .v-svg [class^="v-"],
+.hero-factory-stage .v-svg [class*=" v-"] {
+  filter: none !important;
+}
+
+.hero-factory-stage .v-float-group {
+  will-change: transform;
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .hero-reveal,
+  .hero-factory-visual,
   .hero-atmosphere-stream-a,
   .hero-atmosphere-stream-b,
   .v-float-group,
@@ -91,5 +106,9 @@
   .v-node-orange,
   .v-wave {
     animation: none !important;
+  }
+
+  .hero-factory-parallax {
+    transform: none !important;
   }
 }
