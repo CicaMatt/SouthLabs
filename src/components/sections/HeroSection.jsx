@@ -14,6 +14,9 @@ const FACTORY_ACCELERATION_TOTAL_MS = (
   + FACTORY_ACCELERATION_HOLD_MS
   + FACTORY_ACCELERATION_RAMP_DOWN_MS
 );
+const HOVER_LIGHT_ACTIVE_OPACITY = 0.8;
+const HOVER_LIGHT_CORE_OPACITY = 0.82;
+const HOVER_LIGHT_PULSE_MS = 1040;
 const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
 const lerp = (start, end, progress) => start + (end - start) * progress;
 const smoothStep = (progress) => progress * progress * (3 - 2 * progress);
@@ -227,6 +230,9 @@ export default function HeroSection() {
   const pointerRef = useRef(createPointerState());
   const factoryStageRef = useRef(null);
   const factoryParallaxRef = useRef(null);
+  const hoverLightRef = useRef(null);
+  const hoverLightCoreRef = useRef(null);
+  const hoverLightPulseAnimationRef = useRef(null);
   const factoryMotionRef = useRef({
     frameId: 0,
     x: 0,
@@ -235,6 +241,18 @@ export default function HeroSection() {
     targetX: 0,
     targetY: 0,
     targetRotate: 0
+  });
+  const hoverLightMotionRef = useRef({
+    frameId: 0,
+    initialized: false,
+    x: 0,
+    y: 0,
+    opacity: 0,
+    scale: 0.92,
+    targetX: 0,
+    targetY: 0,
+    targetOpacity: 0,
+    targetScale: 0.92
   });
   const accelerateFactoryAnimations = useFactoryAnimationAcceleration(factoryStageRef);
   const subheadlineLineWidth = useSubheadlineLineWidth(subheadlineRef);
@@ -248,6 +266,14 @@ export default function HeroSection() {
       cancelAnimationFrame(factoryMotionRef.current.frameId);
       factoryMotionRef.current.frameId = 0;
     }
+
+    if (hoverLightMotionRef.current.frameId) {
+      cancelAnimationFrame(hoverLightMotionRef.current.frameId);
+      hoverLightMotionRef.current.frameId = 0;
+    }
+
+    hoverLightPulseAnimationRef.current?.cancel();
+    hoverLightPulseAnimationRef.current = null;
   }, []);
 
   const runFactoryMotion = () => {
@@ -296,6 +322,103 @@ export default function HeroSection() {
     }
   };
 
+  const runHoverLightMotion = () => {
+    const motion = hoverLightMotionRef.current;
+    const hoverLight = hoverLightRef.current;
+
+    if (!hoverLight) {
+      motion.frameId = 0;
+      return;
+    }
+
+    motion.x += (motion.targetX - motion.x) * 0.24;
+    motion.y += (motion.targetY - motion.y) * 0.24;
+    motion.opacity += (motion.targetOpacity - motion.opacity) * 0.22;
+    motion.scale += (motion.targetScale - motion.scale) * 0.18;
+
+    const remainingMotion = Math.max(
+      Math.abs(motion.targetX - motion.x),
+      Math.abs(motion.targetY - motion.y),
+      Math.abs(motion.targetOpacity - motion.opacity) * 100,
+      Math.abs(motion.targetScale - motion.scale) * 100
+    );
+
+    if (remainingMotion < 0.02) {
+      motion.x = motion.targetX;
+      motion.y = motion.targetY;
+      motion.opacity = motion.targetOpacity;
+      motion.scale = motion.targetScale;
+      motion.frameId = 0;
+    } else {
+      motion.frameId = requestAnimationFrame(runHoverLightMotion);
+    }
+
+    hoverLight.style.opacity = motion.opacity.toFixed(3);
+    hoverLight.style.transform = (
+      `translate3d(${motion.x.toFixed(2)}px, ${motion.y.toFixed(2)}px, 0) `
+      + `translate(-50%, -50%) scale(${motion.scale.toFixed(3)})`
+    );
+  };
+
+  const scheduleHoverLightMotion = (pointer, isVisible) => {
+    const motion = hoverLightMotionRef.current;
+    const hasPointerPosition = pointer.x >= 0 && pointer.y >= 0;
+
+    if (isVisible && !hasPointerPosition) return;
+
+    const shouldAnchorImmediately = isVisible && (
+      !motion.initialized
+      || motion.targetOpacity === 0
+      || motion.opacity < 0.04
+    );
+    if (shouldAnchorImmediately) {
+      motion.x = pointer.x;
+      motion.y = pointer.y;
+      motion.initialized = true;
+    }
+
+    if (hasPointerPosition) {
+      motion.targetX = pointer.x;
+      motion.targetY = pointer.y;
+    }
+    motion.targetOpacity = isVisible ? HOVER_LIGHT_ACTIVE_OPACITY : 0;
+    motion.targetScale = isVisible ? 1 : 0.92;
+
+    if (!motion.frameId) {
+      motion.frameId = requestAnimationFrame(runHoverLightMotion);
+    }
+  };
+
+  const triggerHoverLightPulse = () => {
+    const hoverLightCore = hoverLightCoreRef.current;
+    const windowObject = hoverLightCore?.ownerDocument.defaultView;
+    if (!hoverLightCore || !windowObject || typeof hoverLightCore.animate !== 'function') return;
+
+    const canHover = windowObject.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const shouldReduceMotion = windowObject.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!canHover || shouldReduceMotion) return;
+
+    hoverLightPulseAnimationRef.current?.cancel();
+    hoverLightPulseAnimationRef.current = hoverLightCore.animate(
+      [
+        { transform: 'scale(1)', opacity: HOVER_LIGHT_CORE_OPACITY },
+        { transform: 'scale(1.18)', opacity: 1, offset: 0.6 },
+        { transform: 'scale(1)', opacity: HOVER_LIGHT_CORE_OPACITY }
+      ],
+      {
+        duration: HOVER_LIGHT_PULSE_MS,
+        easing: 'cubic-bezier(0.22, 0.74, 0.2, 1)'
+      }
+    );
+
+    hoverLightPulseAnimationRef.current.onfinish = () => {
+      hoverLightPulseAnimationRef.current = null;
+    };
+    hoverLightPulseAnimationRef.current.oncancel = () => {
+      hoverLightPulseAnimationRef.current = null;
+    };
+  };
+
   const updatePointer = (nextPointer, nextActive) => {
     pointerRef.current = {
       ...pointerRef.current,
@@ -305,6 +428,7 @@ export default function HeroSection() {
     };
 
     scheduleFactoryMotion(nextPointer, nextActive);
+    scheduleHoverLightMotion(nextPointer, nextActive);
   };
 
   const updateTouchPointer = (nextPointer, nextRepelActive) => {
@@ -325,6 +449,7 @@ export default function HeroSection() {
     pointerRef.current.active = false;
     pointerRef.current.repelActive = false;
     scheduleFactoryMotion(DEFAULT_POINTER, false);
+    scheduleHoverLightMotion(pointerRef.current, false);
   };
 
   const triggerPointerBurst = (pointer) => {
@@ -377,6 +502,7 @@ export default function HeroSection() {
 
     updatePointer(p, true);
     triggerPointerBurst(p);
+    triggerHoverLightPulse();
     accelerateFactoryAnimations();
   };
 
@@ -404,6 +530,9 @@ export default function HeroSection() {
         <div className="section-grid-layer hero-atmosphere-grid absolute inset-0" />
         <HeroParticleField pointerRef={pointerRef} />
         <div className="hero-atmosphere-glow absolute inset-0" />
+        <div ref={hoverLightRef} className="hero-hover-light">
+          <span ref={hoverLightCoreRef} className="hero-hover-light-core" />
+        </div>
         <div className="hero-atmosphere-stream hero-atmosphere-stream-a absolute inset-0" />
         <div className="hero-atmosphere-stream hero-atmosphere-stream-b absolute inset-0" />
 

@@ -111,4 +111,8 @@
   .hero-factory-parallax {
     transform: none !important;
   }
+
+  .hero-hover-light {
+    display: none;
+  }
 }
