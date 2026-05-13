@@ -33,8 +33,8 @@ const MOBILE_LINK_CLASS = [
 const CONTACT_CTA_CLASS = [
   'inline-flex items-center justify-center px-3.5 py-2 rounded-md text-xs lg:text-sm font-medium',
   'whitespace-nowrap transition-all duration-200 active:scale-95',
-  'bg-[#0947a5] text-white hover:bg-[#073f93]',
-  'shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] hover:opacity-90 lg:px-6 lg:py-2.5'
+  'nav-contact-cta text-white',
+  'shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] lg:px-6 lg:py-2.5'
 ].join(' ');
 const MOBILE_MENU_BUTTON_CLASS = [
   'md:hidden inline-flex items-center justify-center h-10 w-10',
@@ -182,7 +182,7 @@ export default function TopNavBar() {
             href="#contatti"
             onClick={closeMobileMenu}
           >
-            Contattaci
+            <span className="relative z-10">Contattaci</span>
           </a>
 
           <button
