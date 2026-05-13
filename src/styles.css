@@ -318,6 +318,10 @@
     0 12px 30px rgba(0, 0, 0, 0.12);
 }
 
+.section-grid-bg--infrastructure .infrastructure-image-card.solution-card-surface--touch-selected img {
+  transform: scale(1.05);
+}
+
 @media (hover: none), (pointer: coarse) {
   .solution-card-surface:hover:not(.solution-card-surface--touch-selected):not(.solution-card-surface--burst-active) {
     --solution-card-bg-active-opacity: var(--solution-card-bg-opacity);
@@ -379,6 +383,10 @@
 
   .section-grid-bg--infrastructure .group:hover img {
     transform: scale(1) !important;
+  }
+
+  .section-grid-bg--infrastructure .infrastructure-image-card.solution-card-surface--touch-selected img {
+    transform: scale(1.05) !important;
   }
 }
 

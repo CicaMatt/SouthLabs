@@ -20,6 +20,7 @@ const MAX_ACTIVE_SECTION_GRID_BURSTS = 3;
 const SECTION_GRID_BURST_EDGE_FEATHER = 120;
 const SECTION_GRID_BURST_SAME_POINT_DISTANCE = 54;
 const SOLUTION_CARD_SURFACE_SELECTOR = '.solution-card-surface';
+const TOUCH_SELECTABLE_CARD_SELECTOR = `${SOLUTION_CARD_SURFACE_SELECTOR}, .infrastructure-image-card`;
 const SOLUTION_CARD_BURST_ACTIVE_CLASS = 'solution-card-surface--burst-active';
 const SOLUTION_CARD_TOUCH_SELECTED_CLASS = 'solution-card-surface--touch-selected';
 const TOUCH_TAP_MAX_DISTANCE = 10;
@@ -202,6 +203,10 @@ function getGridBurstTargetCards(targetSections, target) {
 
 function getSolutionCardFromTarget(target) {
   return target instanceof Element ? target.closest(SOLUTION_CARD_SURFACE_SELECTOR) : null;
+}
+
+function getTouchSelectableCardFromTarget(target) {
+  return target instanceof Element ? target.closest(TOUCH_SELECTABLE_CARD_SELECTOR) : null;
 }
 
 function clearGridThroughCardHighlight(card) {
@@ -822,7 +827,7 @@ export default function App() {
       return;
     }
 
-    const touchedCard = getSolutionCardFromTarget(event.target);
+    const touchedCard = getTouchSelectableCardFromTarget(event.target);
     const isSelectedCardTap = touchedCard && touchSelectedCardRef.current === touchedCard;
 
     if (touchedCard) {

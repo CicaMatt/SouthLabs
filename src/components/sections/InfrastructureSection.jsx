@@ -50,7 +50,7 @@ export default function InfrastructureSection() {
 
         <div className={CARD_GRID_CLASS}>
           {INFRASTRUCTURE_CARDS.map((card) => (
-            <div key={card.title} className="group">
+            <div key={card.title} className="infrastructure-image-card group">
               <div className={IMAGE_FRAME_CLASS}>
                 <img
                   alt={card.alt}
