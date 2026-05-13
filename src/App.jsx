@@ -498,7 +498,20 @@ export default function App() {
   }, [setGridOffset]);
 
   const clearTouchSelectedCard = useCallback(() => {
-    touchSelectedCardRef.current?.classList.remove(SOLUTION_CARD_TOUCH_SELECTED_CLASS);
+    const selectedCard = touchSelectedCardRef.current;
+    if (selectedCard) {
+      const burstTimeoutId = solutionCardBurstTimeoutsRef.current.get(selectedCard);
+      if (burstTimeoutId) {
+        selectedCard.ownerDocument.defaultView?.clearTimeout(burstTimeoutId);
+        solutionCardBurstTimeoutsRef.current.delete(selectedCard);
+      }
+
+      selectedCard.classList.remove(
+        SOLUTION_CARD_TOUCH_SELECTED_CLASS,
+        SOLUTION_CARD_BURST_ACTIVE_CLASS
+      );
+    }
+
     touchSelectedCardRef.current = null;
   }, []);
 
