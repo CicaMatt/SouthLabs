@@ -28,6 +28,7 @@ const TOUCH_SCROLL_SETTLE_MS = 220;
 const TOUCH_SCROLL_GUARD_CLASS = 'site-main--touch-scroll-guard';
 const TOUCH_SCROLLING_CLASS = 'site-main--touch-scrolling';
 const HERO_CTA_DEFAULT_BACKGROUND_COLOR = '#b6ebff';
+const MOUSE_WHEEL_ZOOM_MIN_DELTA = 80;
 
 const SECTION_CURSOR_THEMES = [
   {
@@ -317,6 +318,47 @@ function preventImageDefault(event) {
   }
 }
 
+function isDesktopChromium(windowObject) {
+  const navigatorObject = windowObject.navigator;
+  const userAgent = navigatorObject.userAgent || '';
+  const brands = navigatorObject.userAgentData?.brands?.map(({ brand }) => brand).join(' ') || '';
+  const hasFinePointer = windowObject.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const isMobile = (
+    navigatorObject.userAgentData?.mobile
+    || /Android|iPhone|iPad|iPod|Mobile/i.test(userAgent)
+  );
+  const isChromium = (
+    /\b(Chromium|Google Chrome|Chrome)\b/i.test(brands)
+    || /\b(Chrome|Chromium)\//i.test(userAgent)
+  );
+  const isExcludedChromiumShell = /\b(Edg|OPR|Opera|SamsungBrowser|CriOS)\//i.test(userAgent);
+
+  return hasFinePointer && !isMobile && isChromium && !isExcludedChromiumShell;
+}
+
+function isLikelyDesktopTrackpadPinch(event, windowObject) {
+  if (!event.ctrlKey || event.metaKey || event.altKey || event.shiftKey) return false;
+
+  const wheelEvent = windowObject.WheelEvent;
+  if (wheelEvent && event.deltaMode !== wheelEvent.DOM_DELTA_PIXEL) return false;
+
+  const delta = Math.max(
+    Math.abs(event.deltaX || 0),
+    Math.abs(event.deltaY || 0),
+    Math.abs(event.deltaZ || 0)
+  );
+  if (!delta) return false;
+
+  const wheelDeltaY = Math.abs(event.wheelDeltaY || 0);
+  const looksLikeSteppedMouseWheel = (
+    wheelDeltaY >= 120
+    && wheelDeltaY % 120 === 0
+    && delta >= MOUSE_WHEEL_ZOOM_MIN_DELTA
+  );
+
+  return !looksLikeSteppedMouseWheel;
+}
+
 function isHeroTarget(target) {
   return target instanceof Element && Boolean(target.closest('#hero'));
 }
@@ -411,6 +453,26 @@ export default function App() {
   const sectionCursorRef = useRef(null);
   const mainRef = useRef(null);
   const heroGridOffsetResetRef = useRef(false);
+
+  useEffect(() => {
+    const windowObject = mainRef.current?.ownerDocument.defaultView;
+    if (!windowObject || !isDesktopChromium(windowObject)) return undefined;
+
+    const preventDesktopTrackpadPinch = (event) => {
+      if (isLikelyDesktopTrackpadPinch(event, windowObject)) {
+        if (event.cancelable) event.preventDefault();
+      }
+    };
+
+    windowObject.addEventListener('wheel', preventDesktopTrackpadPinch, {
+      capture: true,
+      passive: false
+    });
+
+    return () => {
+      windowObject.removeEventListener('wheel', preventDesktopTrackpadPinch, { capture: true });
+    };
+  }, []);
 
   const setGridOffset = useCallback((x, y) => {
     if (gridFrameRef.current) {
