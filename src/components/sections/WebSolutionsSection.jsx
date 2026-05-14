@@ -13,9 +13,7 @@ const WEB_CARD_SURFACE_OPACITY = 0.1;
 const WEB_CARD_SURFACE_HOVER_OPACITY = 0.7;
 const TITLE_HOVER_EFFECT = 'web-solution-hover-text web-solution-hover-title';
 const DESCRIPTION_HOVER_EFFECT = 'web-solution-hover-text web-solution-hover-description';
-const SOLUTION_CARD_VIEW_QUERIES = {
-  desktop: '(min-width: 1024px)'
-};
+const SOLUTION_CARD_DESKTOP_QUERY = '(min-width: 1024px)';
 const SOLUTION_CARD_CLASSES = {
   shell: [
     'group relative flex min-h-[208px] items-center',
@@ -165,7 +163,7 @@ function useDesktopTitleFit() {
 
       if (!wrap || !measure) return;
 
-      const isDesktop = window.matchMedia(SOLUTION_CARD_VIEW_QUERIES.desktop).matches;
+      const isDesktop = window.matchMedia(SOLUTION_CARD_DESKTOP_QUERY).matches;
       if (!isDesktop) {
         setUseShortTitle(false);
         return;
@@ -176,14 +174,16 @@ function useDesktopTitleFit() {
       setUseShortTitle(fullTitleWidth > availableWidth);
     };
 
-    const resizeObserver = new ResizeObserver(evaluateTitleFit);
-    if (titleWrapRef.current) resizeObserver.observe(titleWrapRef.current);
+    const resizeObserver = typeof ResizeObserver === 'undefined'
+      ? null
+      : new ResizeObserver(evaluateTitleFit);
+    if (titleWrapRef.current) resizeObserver?.observe(titleWrapRef.current);
 
     window.addEventListener('resize', evaluateTitleFit);
     evaluateTitleFit();
 
     return () => {
-      resizeObserver.disconnect();
+      resizeObserver?.disconnect();
       window.removeEventListener('resize', evaluateTitleFit);
     };
   }, []);

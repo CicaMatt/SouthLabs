@@ -76,6 +76,29 @@ function AutomationCard({ description, icon, surfaceHoverOpacity, surfaceOpacity
   );
 }
 
+function SoftwareAiFeatureCard() {
+  return (
+    <div className={FEATURE_CARD_CLASS} style={SOFTWARE_FEATURE_CARD_SURFACE_STYLE}>
+      <span aria-hidden="true" className="software-ai-grid-highlight" />
+      <span aria-hidden="true" className="software-ai-grid-burst" />
+      <div className={FEATURE_BACKGROUND_ICON_CLASS}>
+        <span className="material-symbols-outlined text-[76px] leading-none text-tertiary-fixed-dim md:text-[108px] lg:text-[120px]">smart_toy</span>
+      </div>
+      <div className="software-ai-chip absolute top-8 left-8 z-10 hidden h-12 w-12 items-center justify-center rounded-lg bg-surface-container/[0.06] backdrop-blur-sm lg:flex">
+        <span className="material-symbols-outlined text-tertiary-fixed-dim">memory</span>
+      </div>
+      <h3 className="relative z-10 font-headline text-2xl font-bold mb-4">Sistemi di Intelligenza Artificiale</h3>
+      <p className="relative z-10 font-body text-on-primary-container mb-8 max-w-sm">
+        Sviluppo di modelli di intelligenza artificiale per analisi predittiva, automazione del customer service e ottimizzazione dei flussi di lavoro.
+      </p>
+      <a className="software-ai-link relative z-10 inline-flex w-fit items-center rounded-md font-medium transition-all duration-200 hover:translate-x-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 lg:absolute lg:bottom-[4.25rem] lg:left-8 lg:translate-y-1/2 lg:hover:translate-x-1 lg:hover:translate-y-1/2" href="#contatti">
+        Esplora AI
+        <span className="material-symbols-outlined ml-1 text-sm transition-transform duration-200 group-hover:translate-x-0.5">arrow_forward</span>
+      </a>
+    </div>
+  );
+}
+
 // Software and automation section with one highlighted AI offer plus supporting cards.
 export default function SoftwareSection() {
   return (
@@ -88,24 +111,7 @@ export default function SoftwareSection() {
         />
 
         <div className={SERVICE_GRID_CLASS}>
-          <div className={FEATURE_CARD_CLASS} style={SOFTWARE_FEATURE_CARD_SURFACE_STYLE}>
-            <span aria-hidden="true" className="software-ai-grid-highlight" />
-            <span aria-hidden="true" className="software-ai-grid-burst" />
-            <div className={FEATURE_BACKGROUND_ICON_CLASS}>
-              <span className="material-symbols-outlined text-[76px] leading-none text-tertiary-fixed-dim md:text-[108px] lg:text-[120px]">smart_toy</span>
-            </div>
-            <div className="software-ai-chip absolute top-8 left-8 z-10 hidden h-12 w-12 items-center justify-center rounded-lg bg-surface-container/[0.06] backdrop-blur-sm lg:flex">
-              <span className="material-symbols-outlined text-tertiary-fixed-dim">memory</span>
-            </div>
-            <h3 className="relative z-10 font-headline text-2xl font-bold mb-4">Sistemi di Intelligenza Artificiale</h3>
-            <p className="relative z-10 font-body text-on-primary-container mb-8 max-w-sm">
-              Sviluppo di modelli di intelligenza artificiale per analisi predittiva, automazione del customer service e ottimizzazione dei flussi di lavoro.
-            </p>
-            <a className="software-ai-link relative z-10 inline-flex w-fit items-center rounded-md font-medium transition-all duration-200 hover:translate-x-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 lg:absolute lg:bottom-[4.25rem] lg:left-8 lg:translate-y-1/2 lg:hover:translate-x-1 lg:hover:translate-y-1/2" href="#contatti">
-              Esplora AI
-              <span className="material-symbols-outlined ml-1 text-sm transition-transform duration-200 group-hover:translate-x-0.5">arrow_forward</span>
-            </a>
-          </div>
+          <SoftwareAiFeatureCard />
 
           {AUTOMATION_CARDS.map((card) => (
             <AutomationCard key={card.title} {...card} />

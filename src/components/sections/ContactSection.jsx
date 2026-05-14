@@ -105,10 +105,40 @@ function TextField({ autoComplete, id, label, placeholder, required = false, typ
   );
 }
 
+function FormStatusMessage({ message, status }) {
+  if (!message) return null;
+
+  const toneClass = status === FORM_STATUS.succeeded
+    ? 'bg-primary-fixed text-on-primary-fixed'
+    : 'bg-error/10 text-error';
+
+  return (
+    <p
+      aria-live="polite"
+      className={`${FORM_MESSAGE_CLASS} ${toneClass}`}
+    >
+      {message}
+    </p>
+  );
+}
+
+function SubmitButton({ isSubmitting }) {
+  return (
+    <button
+      className={SUBMIT_BUTTON_CLASS}
+      disabled={isSubmitting}
+      type="submit"
+    >
+      {isSubmitting ? 'Invio in corso...' : 'Invia Richiesta'}
+    </button>
+  );
+}
+
 // Contact form section. Submissions are sent to Formspree without adding a runtime dependency.
 export default function ContactSection() {
   const [formState, setFormState] = useState({ status: FORM_STATUS.idle, message: '' });
   const [nameField, companyField, emailField] = CONTACT_FIELDS;
+  const isSubmitting = formState.status === FORM_STATUS.submitting;
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -195,27 +225,8 @@ export default function ContactSection() {
               />
             </Field>
 
-            {formState.message ? (
-              <p
-                aria-live="polite"
-                className={[
-                  FORM_MESSAGE_CLASS,
-                  formState.status === FORM_STATUS.succeeded
-                    ? 'bg-primary-fixed text-on-primary-fixed'
-                    : 'bg-error/10 text-error'
-                ].join(' ')}
-              >
-                {formState.message}
-              </p>
-            ) : null}
-
-            <button
-              className={SUBMIT_BUTTON_CLASS}
-              disabled={formState.status === FORM_STATUS.submitting}
-              type="submit"
-            >
-              {formState.status === FORM_STATUS.submitting ? 'Invio in corso...' : 'Invia Richiesta'}
-            </button>
+            <FormStatusMessage message={formState.message} status={formState.status} />
+            <SubmitButton isSubmitting={isSubmitting} />
           </form>
         </div>
       </div>

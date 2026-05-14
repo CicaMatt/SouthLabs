@@ -58,9 +58,9 @@ async function copyTextToClipboard(value) {
 }
 
 // Reusable footer column shell for legal, contact, and social link groups.
-function FooterColumn({ children, className = '', title }) {
+function FooterColumn({ children, title }) {
   return (
-    <div className={`${FOOTER_COLUMN_CLASS} ${className}`.trim()}>
+    <div className={FOOTER_COLUMN_CLASS}>
       <span className={FOOTER_HEADING_CLASS}>{title}</span>
       {children}
     </div>

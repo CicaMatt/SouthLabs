@@ -22,21 +22,6 @@ const FRAME_INTERVAL_MS = {
   idleDesktop: 32,
   idleMobile: 48
 };
-const IDLE_POINTER_STATE = {
-  active: false,
-  repelActive: false,
-  x: -1,
-  y: -1,
-  burstStart: 0,
-  burstUntil: 0,
-  burstX: -1,
-  burstY: -1,
-  touchNudgeStart: 0,
-  touchNudgeUntil: 0,
-  touchNudgeX: 0,
-  touchNudgeY: 0
-};
-
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const smoothStep = (progress) => progress * progress * (3 - 2 * progress);
 
@@ -278,10 +263,8 @@ function advanceParticle(particle, step, size, forceState) {
   particle.y += particle.vy * step;
 }
 
-export default function HeroParticleField({ pointerRef } = {}) {
+export default function HeroParticleField({ pointerRef }) {
   const canvasRef = useRef(null);
-  const idlePointerRef = useRef(IDLE_POINTER_STATE);
-  const effectivePointerRef = pointerRef || idlePointerRef;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -302,7 +285,7 @@ export default function HeroParticleField({ pointerRef } = {}) {
     const draw = (now, isStatic = false, step = 1) => {
       ctx.clearRect(0, 0, size.width, size.height);
 
-      const pointer = effectivePointerRef.current;
+      const pointer = pointerRef.current;
       const isRepelling = Boolean(pointer.active || pointer.repelActive);
       const burstDuration = Math.max(1, (pointer.burstUntil || 0) - (pointer.burstStart || 0));
       const burstProgress = !isStatic && now < (pointer.burstUntil || 0)
@@ -346,7 +329,7 @@ export default function HeroParticleField({ pointerRef } = {}) {
     const render = (now) => {
       frameId = requestAnimationFrame(render);
 
-      const pointer = effectivePointerRef.current;
+      const pointer = pointerRef.current;
       const isRepelling = Boolean(pointer.active || pointer.repelActive);
       const isTouchNudging = now < (pointer.touchNudgeUntil || 0);
       const isBursting = now < (pointer.burstUntil || 0);
@@ -413,7 +396,7 @@ export default function HeroParticleField({ pointerRef } = {}) {
       visibilityObserver.disconnect();
       reduceMotionQuery.removeEventListener('change', handleMotionChange);
     };
-  }, [effectivePointerRef]);
+  }, [pointerRef]);
 
   return <canvas aria-hidden="true" className="hero-particle-canvas absolute inset-0" ref={canvasRef} />;
 }
