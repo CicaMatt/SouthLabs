@@ -40,7 +40,7 @@ const SECTION_CURSOR_THEMES = [
   },
   {
     id: 'siti-web',
-    color: '#1557d4'
+    color: '#0a46c4'
   },
   {
     id: 'software-automazione',
