@@ -34,6 +34,8 @@ function clearTimeoutMap(timeoutMap) {
   timeoutMap.clear();
 }
 
+const TOUCH_TAP_MAX_DISTANCE_SQUARED = TOUCH_TAP_MAX_DISTANCE * TOUCH_TAP_MAX_DISTANCE;
+
 // Coordinates section-grid highlighting, bursts, touch selection, and cursor state.
 export function useSectionGridInteractions() {
   const gridBurstTimeoutsRef = useRef(new Map());
@@ -247,16 +249,27 @@ export function useSectionGridInteractions() {
       const gesture = touchGridGestureRef.current;
       if (!gesture || gesture.pointerId !== event.pointerId) return;
 
-      const distance = Math.hypot(event.clientX - gesture.startX, event.clientY - gesture.startY);
-      if (distance > TOUCH_TAP_MAX_DISTANCE) {
-        gesture.wasScrollGesture = true;
-        markTouchScrolling(event.currentTarget);
+      const deltaX = event.clientX - gesture.startX;
+      const deltaY = event.clientY - gesture.startY;
+      const distanceSquared = deltaX * deltaX + deltaY * deltaY;
+      if (distanceSquared > TOUCH_TAP_MAX_DISTANCE_SQUARED) {
+        if (!gesture.wasScrollGesture) {
+          gesture.wasScrollGesture = true;
+          markTouchScrolling(event.currentTarget);
+          return;
+        }
+
+        const windowObject = event.currentTarget.ownerDocument.defaultView;
+        if (!windowObject) return;
+
+        lastTouchScrollAtRef.current = getTime(windowObject);
+        scheduleTouchScrollGuardRelease(event.currentTarget);
       }
       return;
     }
 
     trackSectionCursorPoint(event.currentTarget, event.clientX, event.clientY);
-  }, [markTouchScrolling, trackSectionCursorPoint]);
+  }, [markTouchScrolling, scheduleTouchScrollGuardRelease, trackSectionCursorPoint]);
 
   const handleMainPointerUp = useCallback((event) => {
     if (event.pointerType !== 'touch') return;
@@ -272,11 +285,13 @@ export function useSectionGridInteractions() {
     touchGridGestureRef.current = null;
 
     const now = getTime(windowObject);
-    const distance = Math.hypot(event.clientX - gesture.startX, event.clientY - gesture.startY);
+    const deltaX = event.clientX - gesture.startX;
+    const deltaY = event.clientY - gesture.startY;
+    const distanceSquared = deltaX * deltaX + deltaY * deltaY;
     const didScrollRecently = now - lastTouchScrollAtRef.current < TOUCH_SCROLL_SETTLE_MS;
     const isDeliberateTap = (
       !gesture.wasScrollGesture
-      && distance <= TOUCH_TAP_MAX_DISTANCE
+      && distanceSquared <= TOUCH_TAP_MAX_DISTANCE_SQUARED
       && now - gesture.startedAt <= TOUCH_TAP_MAX_DURATION_MS
       && !didScrollRecently
     );
@@ -326,6 +341,7 @@ export function useSectionGridInteractions() {
       }
 
       syncFrame = requestAnimationFrame(() => {
+        syncFrame = 0;
         syncSectionGridOrigins(mainElement);
       });
     };
@@ -355,27 +371,17 @@ export function useSectionGridInteractions() {
     const windowObject = mainElement?.ownerDocument.defaultView;
     if (!mainElement || !windowObject) return undefined;
 
-    let scrollFrame = 0;
     const refreshCursorOnScroll = () => {
       if (mainElement.classList.contains(TOUCH_SCROLL_GUARD_CLASS)) {
         markTouchScrolling(mainElement);
       }
 
-      if (scrollFrame) {
-        cancelAnimationFrame(scrollFrame);
-      }
-
-      scrollFrame = requestAnimationFrame(() => {
-        refreshSectionCursor(mainElement);
-      });
+      refreshSectionCursor(mainElement);
     };
 
     windowObject.addEventListener('scroll', refreshCursorOnScroll, { passive: true });
 
     return () => {
-      if (scrollFrame) {
-        cancelAnimationFrame(scrollFrame);
-      }
       windowObject.removeEventListener('scroll', refreshCursorOnScroll);
     };
   }, [markTouchScrolling, refreshSectionCursor]);

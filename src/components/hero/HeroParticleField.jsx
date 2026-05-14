@@ -25,10 +25,24 @@ const FRAME_INTERVAL_MS = {
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const smoothStep = (progress) => progress * progress * (3 - 2 * progress);
 
+function addMediaQueryChangeListener(mediaQuery, listener) {
+  if (typeof mediaQuery.addEventListener === 'function') {
+    mediaQuery.addEventListener('change', listener);
+    return () => mediaQuery.removeEventListener('change', listener);
+  }
+
+  mediaQuery.addListener?.(listener);
+  return () => mediaQuery.removeListener?.(listener);
+}
+
 function getParticleCount(width, height) {
   const coarseViewport = width < MOBILE_FIELD_MAX_WIDTH;
   if (coarseViewport) {
-    return clamp(Math.round((width * height) / MOBILE_PARTICLE_DENSITY), MOBILE_PARTICLE_MIN, MOBILE_PARTICLE_MAX);
+    return clamp(
+      Math.round((width * height) / MOBILE_PARTICLE_DENSITY),
+      MOBILE_PARTICLE_MIN,
+      MOBILE_PARTICLE_MAX
+    );
   }
 
   return clamp(Math.round((width * height) / PARTICLE_DENSITY), 125, 250);
@@ -149,11 +163,16 @@ function resizeCanvas(canvas, ctx) {
   const rect = canvas.getBoundingClientRect();
   const width = Math.max(1, Math.round(rect.width));
   const height = Math.max(1, Math.round(rect.height));
-  const pixelRatio = Math.min(window.devicePixelRatio || 1, MAX_PIXEL_RATIO);
+  const windowObject = canvas.ownerDocument.defaultView;
+  const pixelRatio = Math.min(windowObject?.devicePixelRatio || 1, MAX_PIXEL_RATIO);
+  const canvasWidth = Math.round(width * pixelRatio);
+  const canvasHeight = Math.round(height * pixelRatio);
 
-  canvas.width = Math.round(width * pixelRatio);
-  canvas.height = Math.round(height * pixelRatio);
-  ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+  if (canvas.width !== canvasWidth || canvas.height !== canvasHeight) {
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+    ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+  }
 
   return { width, height };
 }
@@ -249,10 +268,11 @@ function advanceParticle(particle, step, size, forceState) {
     }
   }
 
-  particle.vx = (particle.vx + ax * step) * Math.pow(particle.drag, step);
-  particle.vy = (particle.vy + ay * step) * Math.pow(particle.drag, step);
+  const dragFactor = Math.pow(particle.drag, step);
+  particle.vx = (particle.vx + ax * step) * dragFactor;
+  particle.vy = (particle.vy + ay * step) * dragFactor;
 
-  const speed = Math.hypot(particle.vx, particle.vy);
+  const speed = Math.sqrt(particle.vx * particle.vx + particle.vy * particle.vy);
   if (speed > particle.maxSpeed) {
     const limit = particle.maxSpeed / speed;
     particle.vx *= limit;
@@ -273,7 +293,10 @@ export default function HeroParticleField({ pointerRef }) {
     const ctx = canvas.getContext('2d', { alpha: true });
     if (!ctx) return undefined;
 
-    const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const windowObject = canvas.ownerDocument.defaultView;
+    if (!windowObject) return undefined;
+
+    const reduceMotionQuery = windowObject.matchMedia('(prefers-reduced-motion: reduce)');
     let reduceMotion = reduceMotionQuery.matches;
     let frameId = null;
     let lastFrameTime = 0;
@@ -363,38 +386,51 @@ export default function HeroParticleField({ pointerRef }) {
       }
       size = nextSize;
       lastPhysicsTime = 0;
-      draw(performance.now(), reduceMotion);
+      draw(windowObject.performance.now(), reduceMotion);
     };
 
     const handleMotionChange = () => {
       reduceMotion = reduceMotionQuery.matches;
       if (reduceMotion) {
         stop();
-        draw(performance.now(), true);
+        draw(windowObject.performance.now(), true);
       } else {
         start();
       }
     };
 
-    const resizeObserver = new ResizeObserver(resizeField);
-    resizeObserver.observe(canvas);
+    const ResizeObserverConstructor = windowObject.ResizeObserver;
+    const resizeObserver = typeof ResizeObserverConstructor === 'undefined'
+      ? null
+      : new ResizeObserverConstructor(resizeField);
+    if (resizeObserver) {
+      resizeObserver.observe(canvas);
+    } else {
+      windowObject.addEventListener('resize', resizeField, { passive: true });
+    }
 
-    const visibilityObserver = new IntersectionObserver(([entry]) => {
-      isVisible = entry.isIntersecting;
-      if (isVisible) start();
-      else stop();
-    });
-    visibilityObserver.observe(canvas);
+    const IntersectionObserverConstructor = windowObject.IntersectionObserver;
+    const visibilityObserver = typeof IntersectionObserverConstructor === 'undefined'
+      ? null
+      : new IntersectionObserverConstructor(([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) start();
+        else stop();
+      });
+    visibilityObserver?.observe(canvas);
 
-    reduceMotionQuery.addEventListener('change', handleMotionChange);
-    draw(performance.now(), reduceMotion);
+    const removeMotionChangeListener = addMediaQueryChangeListener(reduceMotionQuery, handleMotionChange);
+    draw(windowObject.performance.now(), reduceMotion);
     start();
 
     return () => {
       stop();
-      resizeObserver.disconnect();
-      visibilityObserver.disconnect();
-      reduceMotionQuery.removeEventListener('change', handleMotionChange);
+      resizeObserver?.disconnect();
+      if (!resizeObserver) {
+        windowObject.removeEventListener('resize', resizeField);
+      }
+      visibilityObserver?.disconnect();
+      removeMotionChangeListener();
     };
   }, [pointerRef]);
 

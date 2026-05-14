@@ -20,6 +20,12 @@ import {
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const getSectionHighlightOpacity = (theme) => theme.highlightOpacity ?? SECTION_GRID_HIGHLIGHT_OPACITY;
 
+function setStylePropertyIfChanged(element, propertyName, value) {
+  if (element.style.getPropertyValue(propertyName) !== value) {
+    element.style.setProperty(propertyName, value);
+  }
+}
+
 export function getTime(windowObject) {
   return windowObject?.performance?.now?.() ?? Date.now();
 }
@@ -126,9 +132,24 @@ function isPointInHeroGraphic(svgElement, clientX, clientY) {
 
 export function updateHeroGraphicCursorState(mainElement, clientX, clientY) {
   const heroGraphic = mainElement.querySelector(HERO_GRAPHIC_SELECTOR);
-  const shouldUseSmallCursor = heroGraphic
-    ? isPointInHeroGraphic(heroGraphic, clientX, clientY)
-    : false;
+  if (!heroGraphic) {
+    mainElement.classList.remove(HERO_GRAPHIC_CURSOR_SMALL_CLASS);
+    return;
+  }
+
+  const heroGraphicRect = heroGraphic.getBoundingClientRect();
+  if (!isPointInRect(
+    { x: clientX, y: clientY },
+    heroGraphicRect.left,
+    heroGraphicRect.top,
+    heroGraphicRect.right,
+    heroGraphicRect.bottom
+  )) {
+    mainElement.classList.remove(HERO_GRAPHIC_CURSOR_SMALL_CLASS);
+    return;
+  }
+
+  const shouldUseSmallCursor = isPointInHeroGraphic(heroGraphic, clientX, clientY);
 
   mainElement.classList.toggle(HERO_GRAPHIC_CURSOR_SMALL_CLASS, shouldUseSmallCursor);
 }
@@ -243,10 +264,15 @@ function getPointToRectDistance(clientX, clientY, rect) {
 }
 
 export function getGridBurstTargetSections(mainElement, clientX, clientY, burstOuterRadius) {
-  return Array.from(mainElement.querySelectorAll(':scope > section.section-grid-bg:not(#hero)'))
-    .filter((section) => (
-      getPointToRectDistance(clientX, clientY, section.getBoundingClientRect()) <= burstOuterRadius
-    ));
+  const targetSections = [];
+
+  mainElement.querySelectorAll(':scope > section.section-grid-bg:not(#hero)').forEach((section) => {
+    if (getPointToRectDistance(clientX, clientY, section.getBoundingClientRect()) <= burstOuterRadius) {
+      targetSections.push(section);
+    }
+  });
+
+  return targetSections;
 }
 
 export function getGridBurstTargetCards(targetSections, target) {
@@ -265,7 +291,7 @@ export function getTouchSelectableCardFromTarget(target) {
 }
 
 export function clearGridThroughCardHighlight(card) {
-  card.style.setProperty('--site-grid-through-highlight-opacity', '0');
+  setStylePropertyIfChanged(card, '--site-grid-through-highlight-opacity', '0');
 }
 
 export function updateGridThroughCardHighlight(card, clientX, clientY, color, opacity) {
@@ -273,7 +299,7 @@ export function updateGridThroughCardHighlight(card, clientX, clientY, color, op
 
   card.style.setProperty('--site-grid-through-highlight-x', `${(clientX - cardRect.left).toFixed(2)}px`);
   card.style.setProperty('--site-grid-through-highlight-y', `${(clientY - cardRect.top).toFixed(2)}px`);
-  card.style.setProperty('--site-grid-through-highlight-color', color);
+  setStylePropertyIfChanged(card, '--site-grid-through-highlight-color', color);
   card.style.setProperty('--site-grid-through-highlight-opacity', opacity.toFixed(3));
 }
 
@@ -345,8 +371,9 @@ export function restartSolutionCardBurst(card, clientX, clientY, burstPoint, tim
     updateGridThroughCardBurst(card, clientX, clientY, burstPoint);
   }
 
+  const wasActive = card.classList.contains(SOLUTION_CARD_BURST_ACTIVE_CLASS);
   card.classList.remove(SOLUTION_CARD_BURST_ACTIVE_CLASS);
-  card.getBoundingClientRect();
+  if (wasActive) card.getBoundingClientRect();
   card.classList.add(SOLUTION_CARD_BURST_ACTIVE_CLASS);
 
   const timeoutId = windowObject.setTimeout(() => {
@@ -414,9 +441,9 @@ export function syncSectionGridOrigins(mainElement) {
       ? 0
       : SECTION_GRID_SIZE - bottomRemainder;
 
-    section.style.setProperty('--section-grid-origin-x', `${(rect.left + scrollX).toFixed(2)}px`);
-    section.style.setProperty('--section-grid-origin-y', `${baseTop.toFixed(2)}px`);
-    section.style.setProperty('--section-grid-snap-padding', `${desiredAdjustment.toFixed(2)}px`);
+    setStylePropertyIfChanged(section, '--section-grid-origin-x', `${(rect.left + scrollX).toFixed(2)}px`);
+    setStylePropertyIfChanged(section, '--section-grid-origin-y', `${baseTop.toFixed(2)}px`);
+    setStylePropertyIfChanged(section, '--section-grid-snap-padding', `${desiredAdjustment.toFixed(2)}px`);
 
     section.querySelectorAll(SITE_GRID_THROUGH_SELECTOR).forEach((element) => {
       const elementRect = element.getBoundingClientRect();
@@ -424,8 +451,8 @@ export function syncSectionGridOrigins(mainElement) {
       const originX = elementRect.left + scrollX - elementTranslate.x;
       const originY = baseTop + elementRect.top - rect.top - elementTranslate.y;
 
-      element.style.setProperty('--site-grid-through-origin-x', `${originX.toFixed(2)}px`);
-      element.style.setProperty('--site-grid-through-origin-y', `${originY.toFixed(2)}px`);
+      setStylePropertyIfChanged(element, '--site-grid-through-origin-x', `${originX.toFixed(2)}px`);
+      setStylePropertyIfChanged(element, '--site-grid-through-origin-y', `${originY.toFixed(2)}px`);
     });
 
     currentAdjustmentBefore += currentAdjustment;
@@ -485,12 +512,19 @@ export function isLikelyDesktopTrackpadPinch(event, windowObject) {
 }
 
 export function getSectionCursorTheme(document, clientY) {
-  const sectionEntries = SECTION_CURSOR_THEMES
-    .map((theme) => {
-      const element = document.getElementById(theme.id);
-      return element ? { ...theme, element, rect: element.getBoundingClientRect() } : null;
-    })
-    .filter(Boolean);
+  const sectionEntries = [];
+
+  SECTION_CURSOR_THEMES.forEach((theme) => {
+    const element = document.getElementById(theme.id);
+    if (!element) return;
+
+    sectionEntries.push({
+      color: theme.color,
+      element,
+      highlightOpacity: theme.highlightOpacity,
+      rect: element.getBoundingClientRect()
+    });
+  });
 
   const currentIndex = sectionEntries.findIndex(({ rect }) => (
     clientY >= rect.top && clientY <= rect.bottom

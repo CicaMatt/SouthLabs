@@ -33,12 +33,12 @@ function getPointerState(e) {
   const ry = clamp((e.clientY - b.top) / b.height, 0, 1);
 
   return {
-    x: Number((e.clientX - b.left).toFixed(2)),
-    y: Number((e.clientY - b.top).toFixed(2)),
-    pctX: Number((rx * 100).toFixed(2)),
-    pctY: Number((ry * 100).toFixed(2)),
-    shiftX: Number(((rx - 0.5) * 2).toFixed(4)),
-    shiftY: Number(((ry - 0.5) * 2).toFixed(4))
+    x: e.clientX - b.left,
+    y: e.clientY - b.top,
+    pctX: rx * 100,
+    pctY: ry * 100,
+    shiftX: (rx - 0.5) * 2,
+    shiftY: (ry - 0.5) * 2
   };
 }
 
@@ -223,20 +223,17 @@ export default function HeroSection() {
   };
 
   const updatePointer = (nextPointer, nextActive) => {
-    pointerRef.current = {
-      ...pointerRef.current,
-      ...nextPointer,
+    Object.assign(pointerRef.current, nextPointer, {
       active: nextActive,
       repelActive: nextActive
-    };
+    });
 
     scheduleFactoryMotion(nextPointer, nextActive);
     scheduleHoverLightMotion(nextPointer, nextActive);
   };
 
   const updateTouchPointer = (nextPointer, nextRepelActive) => {
-    pointerRef.current = {
-      ...pointerRef.current,
+    Object.assign(pointerRef.current, {
       x: nextPointer.x,
       y: nextPointer.y,
       pctX: nextPointer.pctX,
@@ -245,7 +242,7 @@ export default function HeroSection() {
       shiftY: DEFAULT_POINTER.shiftY,
       active: false,
       repelActive: nextRepelActive
-    };
+    });
   };
 
   const endPointer = () => {
