@@ -33,6 +33,12 @@
   .hero-factory-stage {
     --factory-stage-width: min(62vw, 360px);
     right: -8%;
+    opacity: 1;
+  }
+
+  .hero-factory-stage .v-svg .v-factory-mobile-bottom-light {
+    display: block;
+    opacity: 1;
   }
 
   .hero-actions {
@@ -70,7 +76,9 @@
 .hero-factory-stage .v-svg .v-factory-roof-upper-light,
 .hero-factory-stage .v-svg .v-factory-roof-light-plane,
 .hero-factory-stage .v-svg .v-factory-left-reflected-light,
-.hero-factory-stage .v-svg .v-factory-right-light-wash {
+.hero-factory-stage .v-svg .v-factory-right-light-wash,
+.hero-factory-stage .v-svg .v-factory-lower-light,
+.hero-factory-stage .v-svg .v-factory-mobile-bottom-light {
   filter: url(#vFactorySoftLightBlur) !important;
 }
 

@@ -20,6 +20,10 @@ const socialLinks = [
   { href: 'https://www.facebook.com', label: 'Facebook' },
   { href: 'https://www.instagram.com', label: 'Instagram' }
 ];
+const contacts = [
+  { id: 'email', label: 'Email', value: 'matteocicalese.consulting@gmail.com', href: 'mailto:matteocicalese.consulting@gmail.com' },
+  { id: 'phone', label: 'Telefono', value: '+39 3928139527' }
+];
 
 // Shared footer utility classes keep the three columns aligned and styled together.
 const FOOTER_COLUMN_CLASS = [
@@ -38,6 +42,20 @@ const FOOTER_LEGAL_BUTTON_CLASS = [
   FOOTER_LINK_CLASS,
   'bg-transparent p-0 text-center md:text-left'
 ].join(' ');
+const FOOTER_CONTACT_ROW_CLASS = 'flex max-w-full items-center justify-center gap-1.5 md:justify-start';
+const FOOTER_COPY_BUTTON_CLASS = 'relative inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-sm text-slate-500 transition-colors hover:bg-slate-200/70 hover:text-blue-800 focus:outline-none focus-visible:bg-slate-200 focus-visible:text-blue-900 dark:text-slate-500 dark:hover:bg-slate-800 dark:hover:text-blue-200 dark:focus-visible:bg-slate-800 dark:focus-visible:text-blue-100';
+const FOOTER_COPY_ICON_CLASS = 'material-symbols-outlined absolute inset-0 flex origin-center items-center justify-center text-[13px] leading-none transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform';
+
+async function copyTextToClipboard(value) {
+  if (navigator.clipboard?.writeText) return navigator.clipboard.writeText(value);
+  const textarea = Object.assign(document.createElement('textarea'), { value });
+  textarea.setAttribute('readonly', '');
+  textarea.style.cssText = 'position:fixed;top:-9999px;opacity:0';
+  document.body.appendChild(textarea);
+  textarea.select();
+  document.execCommand('copy');
+  textarea.remove();
+}
 
 // Reusable footer column shell for legal, contact, and social link groups.
 function FooterColumn({ children, className = '', title }) {
@@ -46,6 +64,21 @@ function FooterColumn({ children, className = '', title }) {
       <span className={FOOTER_HEADING_CLASS}>{title}</span>
       {children}
     </div>
+  );
+}
+
+function ContactCopyButton({ copied, label, onCopy }) {
+  return (
+    <button
+      aria-label={copied ? `${label} copiato` : `Copia ${label}`}
+      className={FOOTER_COPY_BUTTON_CLASS}
+      onClick={onCopy}
+      title={copied ? `${label} copiato` : `Copia ${label}`}
+      type="button"
+    >
+      <span className={`${FOOTER_COPY_ICON_CLASS} ${copied ? '-rotate-6 scale-95 opacity-0' : 'rotate-0 scale-100 opacity-100'}`} aria-hidden="true">content_copy</span>
+      <span className={`${FOOTER_COPY_ICON_CLASS} ${copied ? 'rotate-0 scale-100 opacity-100' : 'rotate-6 scale-95 opacity-0'}`} aria-hidden="true">check</span>
+    </button>
   );
 }
 
@@ -123,6 +156,25 @@ function LegalDocumentDialog({ document, onClose }) {
 // Site footer with legal links, direct contact info, social links, and copyright.
 export default function Footer() {
   const [activeLegalDocument, setActiveLegalDocument] = useState(null);
+  const [copiedContact, setCopiedContact] = useState(null);
+  const copyFeedbackTimeoutRef = useRef(null);
+
+  useEffect(() => () => {
+    window.clearTimeout(copyFeedbackTimeoutRef.current);
+  }, []);
+
+  async function handleContactCopy(contactId, value) {
+    try {
+      await copyTextToClipboard(value);
+      setCopiedContact(contactId);
+      window.clearTimeout(copyFeedbackTimeoutRef.current);
+      copyFeedbackTimeoutRef.current = window.setTimeout(() => {
+        setCopiedContact(null);
+      }, 1600);
+    } catch {
+      setCopiedContact(null);
+    }
+  }
 
   return (
     <footer className="w-full border-t border-slate-200/60 dark:border-slate-800/70 bg-gradient-to-b from-slate-50 to-slate-100/70 dark:from-slate-950 dark:to-slate-950">
@@ -145,14 +197,17 @@ export default function Footer() {
             </FooterColumn>
 
             <FooterColumn title="Contatti">
-              <div className="footer-selectable-content flex flex-col items-center gap-1.5 md:items-start">
-                <a
-                  className={`max-w-full break-all ${FOOTER_LINK_CLASS}`}
-                  href="mailto:matteocicalese.consulting@gmail.com"
-                >
-                  matteocicalese.consulting@gmail.com
-                </a>
-                <span className="font-inter text-sm leading-relaxed text-on-surface-variant dark:text-slate-400">+39 3928139527</span>
+              <div className="flex flex-col items-center gap-1.5 md:items-start">
+                {contacts.map(({ id, label, value, href }) => (
+                  <div className={FOOTER_CONTACT_ROW_CLASS} key={id}>
+                    {href ? (
+                      <a className={`min-w-0 break-all ${FOOTER_LINK_CLASS}`} href={href}>{value}</a>
+                    ) : (
+                      <span className="font-inter text-sm leading-relaxed text-on-surface-variant dark:text-slate-400">{value}</span>
+                    )}
+                    <ContactCopyButton copied={copiedContact === id} label={label} onCopy={() => handleContactCopy(id, value)} />
+                  </div>
+                ))}
               </div>
             </FooterColumn>
 

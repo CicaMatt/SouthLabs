@@ -87,7 +87,7 @@ export default function FactoryIllustration() {
       viewBox="0 0 600 540"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="v-svg"
+      className="v-svg hero-graphic-hover-target"
     >
       {/* Reusable gradients, filters, and clip paths for the factory and plume layers. */}
       <defs>
@@ -177,12 +177,23 @@ export default function FactoryIllustration() {
         <filter id="vFactorySoftLightBlur" x="-18%" y="-18%" width="136%" height="136%" colorInterpolationFilters="sRGB">
           <feGaussianBlur stdDeviation="6" />
         </filter>
+        <radialGradient
+          id="vFactoryLowerLightFill"
+          cx="0" cy="0" r="1"
+          gradientTransform="translate(326 506) scale(242 92)"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset="0%" stopColor="#B8FBFF" stopOpacity="0.22" />
+          <stop offset="42%" stopColor="#62E7FF" stopOpacity="0.14" />
+          <stop offset="72%" stopColor="#32BFEA" stopOpacity="0.06" />
+          <stop offset="100%" stopColor="#32BFEA" stopOpacity="0" />
+        </radialGradient>
         <linearGradient id="vFactoryBaseDepthFill" x1="300" y1="292" x2="300" y2="532" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#020918" stopOpacity="0" />
           <stop offset="38%" stopColor="#041934" stopOpacity="0.04" />
-          <stop offset="58%" stopColor="#06264A" stopOpacity="0.09" />
-          <stop offset="76%" stopColor="#03162F" stopOpacity="0.19" />
-          <stop offset="100%" stopColor="#010614" stopOpacity="0.34" />
+          <stop offset="58%" stopColor="#06264A" stopOpacity="0.07" />
+          <stop offset="76%" stopColor="#03162F" stopOpacity="0.14" />
+          <stop offset="100%" stopColor="#010614" stopOpacity="0.24" />
         </linearGradient>
         <linearGradient id="vFactoryRoofPlaneFill" x1="126" y1="401" x2="494" y2="337" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#020A1A" stopOpacity="0.10" />
@@ -250,6 +261,13 @@ export default function FactoryIllustration() {
           <stop offset="50%" stopColor="#0E4A92" stopOpacity="0.46" />
           <stop offset="100%" stopColor="#0A2D62" stopOpacity="0.58" />
         </linearGradient>
+        <linearGradient id="vMobileFactoryBottomLightFill" x1="76" y1="490" x2="544" y2="520" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#42DFFF" stopOpacity="0" />
+          <stop offset="18%" stopColor="#65ECFF" stopOpacity="0.28" />
+          <stop offset="50%" stopColor="#F0FFFF" stopOpacity="0.78" />
+          <stop offset="82%" stopColor="#65ECFF" stopOpacity="0.28" />
+          <stop offset="100%" stopColor="#42DFFF" stopOpacity="0" />
+        </linearGradient>
         <linearGradient id="vDoorPanelFill" x1="132" y1="402" x2="188" y2="500" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#1A6C9F" />
           <stop offset="44%" stopColor="#0B3E74" />
@@ -279,6 +297,11 @@ export default function FactoryIllustration() {
           <stop offset="100%" stopColor="#2E719B" />
         </linearGradient>
         <linearGradient id="vLeftDoorPanelStroke" x1="132" y1="402" x2="188" y2="500" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#F3FFFF" />
+          <stop offset="48%" stopColor="#A9F4FA" />
+          <stop offset="100%" stopColor="#6DB9CF" />
+        </linearGradient>
+        <linearGradient id="vRightDoorPanelStroke" x1="410" y1="412" x2="466" y2="500" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#F3FFFF" />
           <stop offset="48%" stopColor="#A9F4FA" />
           <stop offset="100%" stopColor="#6DB9CF" />
@@ -443,10 +466,16 @@ export default function FactoryIllustration() {
           <path className="v-factory-side-plane" d="M 380 282 L 494 355 V 532 H 380 Z" />
           <path className="v-factory-right-inner-shadow" d="M 368 274 L 434 316 V 532 H 368 Z" />
           <path className="v-factory-right-light-wash" d="M 420 308 L 494 355 V 532 H 448 Z" />
+          <path className="v-factory-lower-light" d="M 126 442 L 380 318 L 494 391 V 532 H 126 Z" />
           <path className="v-factory-roof-highlight" d="M 126 391 L 380 264 L 494 337" />
           <path className="v-factory-left-depth" d="M 126 406 L 380 282" />
           <path className="v-factory-right-depth" d="M 380 282 L 494 355" />
         </g>
+
+        <path
+          className="v-factory-mobile-bottom-light"
+          d="M 118 486 H 502 V 504 H 118 Z M 76 498 H 544 V 522 H 76 Z"
+        />
 
         <line className="v-factory-crease" x1="380" y1="264" x2="380" y2="500" />
 
@@ -468,12 +497,12 @@ export default function FactoryIllustration() {
           <path className="v-factory-window v-door-panel" d="M 132 430 L 188 402 L 188 500 H 132 Z" />
           <path className="v-door-perimeter-signal" d="M 132 430 L 188 402 L 188 500 H 132 Z" />
           <path className="v-panel-edge-light v-door-edge-light" d="M 132 430 L 188 402" />
-          <path className="v-panel-edge-depth v-door-edge-depth" d="M 188 402 V 500 M 132 500 H 188" />
+          <path className="v-panel-edge-depth v-door-edge-depth" d="M 132 500 H 188" />
         </g>
         <path className="v-factory-window v-factory-window-b v-door-panel" d="M 410 412 L 466 448 V 500 H 410 Z" />
         <path className="v-door-perimeter-signal v-door-perimeter-signal-b" d="M 410 412 L 466 448 V 500 H 410 Z" />
         <path className="v-panel-edge-light v-door-edge-light v-door-edge-light-b" d="M 410 412 L 466 448" />
-        <path className="v-panel-edge-depth v-door-edge-depth v-door-edge-depth-b" d="M 466 448 V 500 M 410 500 H 466" />
+        <path className="v-panel-edge-depth v-door-edge-depth v-door-edge-depth-b" d="M 410 500 H 466" />
 
         <g className="v-factory-left-window-group" transform="translate(0 0)">
           <path className="v-factory-cutout v-window-panel" d="M 264 366 L 350 323 V 359 L 264 402 Z" />

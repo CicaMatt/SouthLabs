@@ -180,15 +180,12 @@
     linear-gradient(rgba(31, 79, 143, 0.24) 1px, transparent 1px),
     linear-gradient(90deg, rgba(31, 79, 143, 0.24) 1px, transparent 1px);
   background-position:
-    calc(-1px + var(--site-grid-offset-x, 0px) - var(--site-grid-through-origin-x, var(--section-grid-origin-x, 0px)))
-    calc(-1px + var(--site-grid-offset-y, 0px) - var(--site-grid-through-origin-y, var(--section-grid-origin-y, 0px)));
+    calc(-1px - var(--site-grid-through-origin-x, var(--section-grid-origin-x, 0px)))
+    calc(-1px - var(--site-grid-through-origin-y, var(--section-grid-origin-y, 0px)));
   background-repeat: repeat;
   background-size: var(--section-grid-size, 72px) var(--section-grid-size, 72px);
   opacity: var(--software-ai-grid-opacity);
-  transition:
-    background-position 180ms ease-out,
-    opacity 300ms ease;
-  will-change: background-position;
+  transition: opacity 300ms ease;
 }
 
 .software-ai-grid-highlight,
@@ -198,14 +195,12 @@
   z-index: 1;
   pointer-events: none;
   background-position:
-    calc(-1px + var(--site-grid-offset-x, 0px) - var(--site-grid-through-origin-x, var(--section-grid-origin-x, 0px)))
-    calc(-1px + var(--site-grid-offset-y, 0px) - var(--site-grid-through-origin-y, var(--section-grid-origin-y, 0px)));
+    calc(-1px - var(--site-grid-through-origin-x, var(--section-grid-origin-x, 0px)))
+    calc(-1px - var(--site-grid-through-origin-y, var(--section-grid-origin-y, 0px)));
   background-repeat: repeat;
   background-size: var(--section-grid-size, 72px) var(--section-grid-size, 72px);
-  transition:
-    background-position 180ms ease-out,
-    opacity 140ms ease-out;
-  will-change: background-position, opacity;
+  transition: opacity 140ms ease-out;
+  will-change: opacity;
 }
 
 .software-ai-grid-highlight {
@@ -466,8 +461,8 @@
     linear-gradient(var(--section-grid-highlight-color) 1px, transparent 1px),
     linear-gradient(90deg, var(--section-grid-highlight-color) 1px, transparent 1px);
   background-position:
-    calc(-1px + var(--site-grid-offset-x, 0px) - var(--section-grid-origin-x, 0px))
-    calc(-1px + var(--site-grid-offset-y, 0px) - var(--section-grid-origin-y, 0px));
+    calc(-1px - var(--section-grid-origin-x, 0px))
+    calc(-1px - var(--section-grid-origin-y, 0px));
   background-repeat: repeat;
   background-size: var(--section-grid-size, 72px) var(--section-grid-size, 72px);
   -webkit-mask-image: radial-gradient(
@@ -480,7 +475,7 @@
     #000 0 46px,
     transparent 154px
   );
-  transition: opacity 140ms ease-out, background-position 180ms ease-out;
+  transition: opacity 140ms ease-out;
 }
 
 .site-main-with-section-cursor > section.section-grid-bg:not(#hero) > * {
@@ -534,13 +529,12 @@
     linear-gradient(rgba(var(--section-grid-burst-rgb), 0.92) 2px, transparent 2px),
     linear-gradient(90deg, rgba(var(--section-grid-burst-rgb), 0.92) 2px, transparent 2px);
   background-position:
-    calc(-1px + var(--site-grid-offset-x, 0px) - var(--section-grid-origin-x, 0px))
-    calc(-1px + var(--site-grid-offset-y, 0px) - var(--section-grid-origin-y, 0px));
+    calc(-1px - var(--section-grid-origin-x, 0px))
+    calc(-1px - var(--section-grid-origin-y, 0px));
   background-repeat: repeat;
   background-size: var(--section-grid-size, 72px) var(--section-grid-size, 72px);
-  transition: background-position 180ms ease-out;
   animation: sectionGridBurstBoldLayer 1260ms cubic-bezier(0.2, 0.72, 0.18, 1) both;
-  will-change: background-position, opacity;
+  will-change: opacity;
 }
 
 .site-main-with-section-cursor > section.section-grid-bg:not(#hero) > .section-grid-burst::after {
@@ -642,12 +636,10 @@
     linear-gradient(var(--section-grid-color, rgba(31, 79, 143, 0.045)) 1px, transparent 1px),
     linear-gradient(90deg, var(--section-grid-color, rgba(31, 79, 143, 0.045)) 1px, transparent 1px);
   background-position:
-    calc(-1px + var(--section-grid-layer-offset-x, 0px) + var(--site-grid-offset-x, 0px) - var(--section-grid-origin-x, 0px))
-    calc(-1px + var(--section-grid-layer-offset-y, 0px) + var(--site-grid-offset-y, 0px) - var(--section-grid-origin-y, 0px));
+    calc(-1px + var(--section-grid-layer-offset-x, 0px) - var(--section-grid-origin-x, 0px))
+    calc(-1px + var(--section-grid-layer-offset-y, 0px) - var(--section-grid-origin-y, 0px));
   background-repeat: repeat;
   background-size: var(--section-grid-size, 72px) var(--section-grid-size, 72px);
-  transition: background-position 180ms ease-out;
-  will-change: background-position;
 }
 
 .section-grid-bg--hero {
@@ -662,7 +654,7 @@
 }
 
 .section-grid-bg--software {
-  --section-bg: #edf2f7;
+  --section-bg: #dfe9f3;
   --section-grid-color: rgba(31, 79, 143, 0.052);
   --software-ai-accent: #47d6ff;
   --software-interaction-blue: #1f6fa8;
@@ -768,6 +760,10 @@
     [role="button"]:hover,
     [role="link"]:hover
   ) .section-cursor-dot {
+    --section-cursor-size: 10px;
+  }
+
+  .site-main-with-section-cursor.site-main--hero-graphic-cursor-small .section-cursor-dot {
     --section-cursor-size: 10px;
   }
 }

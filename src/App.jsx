@@ -8,7 +8,6 @@ import InfrastructureSection from './components/sections/InfrastructureSection';
 import SupportSection from './components/sections/SupportSection';
 import ContactSection from './components/sections/ContactSection';
 
-const GRID_MOTION_X = 10;
 const SECTION_GRID_SIZE = 72;
 const SECTION_CURSOR_DOT_SIZE = 20;
 const SECTION_GRID_HIGHLIGHT_DISTANCE = 118;
@@ -28,6 +27,8 @@ const TOUCH_TAP_MAX_DURATION_MS = 650;
 const TOUCH_SCROLL_SETTLE_MS = 220;
 const TOUCH_SCROLL_GUARD_CLASS = 'site-main--touch-scroll-guard';
 const TOUCH_SCROLLING_CLASS = 'site-main--touch-scrolling';
+const HERO_GRAPHIC_CURSOR_SMALL_CLASS = 'site-main--hero-graphic-cursor-small';
+const HERO_GRAPHIC_SELECTOR = '.hero-graphic-hover-target';
 const HERO_CTA_DEFAULT_BACKGROUND_COLOR = '#b6ebff';
 const MOUSE_WHEEL_ZOOM_MIN_DELTA = 80;
 
@@ -66,12 +67,113 @@ function getTime(windowObject) {
   return windowObject?.performance?.now?.() ?? Date.now();
 }
 
-function getGridOffsetXForClientX(mainElement, clientX) {
-  const viewport = mainElement.ownerDocument.defaultView;
-  const width = viewport?.innerWidth || mainElement.clientWidth || 1;
-  const shiftX = (clamp(clientX / width, 0, 1) - 0.5) * 2;
+function getSvgPointForClientPoint(svgElement, clientX, clientY) {
+  const screenMatrix = svgElement.getScreenCTM?.();
+  if (!screenMatrix) return null;
 
-  return shiftX * -GRID_MOTION_X;
+  try {
+    if (typeof svgElement.createSVGPoint === 'function') {
+      const point = svgElement.createSVGPoint();
+      point.x = clientX;
+      point.y = clientY;
+      return point.matrixTransform(screenMatrix.inverse());
+    }
+
+    const DOMPoint = svgElement.ownerDocument.defaultView?.DOMPoint;
+    return DOMPoint
+      ? new DOMPoint(clientX, clientY).matrixTransform(screenMatrix.inverse())
+      : null;
+  } catch {
+    return null;
+  }
+}
+
+function isPointInRect(point, left, top, right, bottom) {
+  return point.x >= left && point.x <= right && point.y >= top && point.y <= bottom;
+}
+
+function isPointInEllipse(point, centerX, centerY, radiusX, radiusY) {
+  const normalizedX = (point.x - centerX) / radiusX;
+  const normalizedY = (point.y - centerY) / radiusY;
+  return normalizedX * normalizedX + normalizedY * normalizedY <= 1;
+}
+
+function isPointInPolygon(point, polygon) {
+  let isInside = false;
+
+  for (let currentIndex = 0, previousIndex = polygon.length - 1;
+    currentIndex < polygon.length;
+    previousIndex = currentIndex, currentIndex += 1
+  ) {
+    const current = polygon[currentIndex];
+    const previous = polygon[previousIndex];
+    const crossesY = (current.y > point.y) !== (previous.y > point.y);
+    if (!crossesY) continue;
+
+    const intersectX = ((previous.x - current.x) * (point.y - current.y))
+      / (previous.y - current.y)
+      + current.x;
+    if (point.x < intersectX) {
+      isInside = !isInside;
+    }
+  }
+
+  return isInside;
+}
+
+function getPointToSegmentDistance(point, start, end) {
+  const segmentX = end.x - start.x;
+  const segmentY = end.y - start.y;
+  const segmentLengthSquared = segmentX * segmentX + segmentY * segmentY;
+  if (!segmentLengthSquared) return Math.hypot(point.x - start.x, point.y - start.y);
+
+  const progress = clamp(
+    ((point.x - start.x) * segmentX + (point.y - start.y) * segmentY) / segmentLengthSquared,
+    0,
+    1
+  );
+  const closestX = start.x + segmentX * progress;
+  const closestY = start.y + segmentY * progress;
+
+  return Math.hypot(point.x - closestX, point.y - closestY);
+}
+
+function isPointInHeroGraphic(svgElement, clientX, clientY) {
+  const point = getSvgPointForClientPoint(svgElement, clientX, clientY);
+  if (!point) return false;
+
+  const factoryBody = [
+    { x: 126, y: 500 },
+    { x: 126, y: 391 },
+    { x: 380, y: 264 },
+    { x: 494, y: 337 },
+    { x: 494, y: 500 }
+  ];
+  const pipeBody = [
+    { x: 236, y: 336 },
+    { x: 252, y: 210 },
+    { x: 290, y: 210 },
+    { x: 306, y: 301 }
+  ];
+  const pipeToCloudDistance = getPointToSegmentDistance(point, { x: 271, y: 166 }, { x: 271, y: 210 });
+
+  return (
+    isPointInPolygon(point, factoryBody)
+    || isPointInRect(point, 76, 500, 544, 520)
+    || isPointInPolygon(point, pipeBody)
+    || pipeToCloudDistance <= 12
+    || isPointInEllipse(point, 300, 102, 148, 88)
+    || isPointInRect(point, 190, 92, 410, 170)
+  );
+}
+
+function updateHeroGraphicCursorState(mainElement, clientX, clientY) {
+  const heroGraphic = mainElement.querySelector(HERO_GRAPHIC_SELECTOR);
+  const shouldUseSmallCursor = heroGraphic
+    ? isPointInHeroGraphic(heroGraphic, clientX, clientY)
+    : false;
+
+  mainElement.classList.toggle(HERO_GRAPHIC_CURSOR_SMALL_CLASS, shouldUseSmallCursor);
 }
 
 function parsePixelValue(value, fallback = 0) {
@@ -364,10 +466,6 @@ function isLikelyDesktopTrackpadPinch(event, windowObject) {
   return !looksLikeSteppedMouseWheel;
 }
 
-function isHeroTarget(target) {
-  return target instanceof Element && Boolean(target.closest('#hero'));
-}
-
 function getSectionCursorTheme(document, clientY) {
   const sectionEntries = SECTION_CURSOR_THEMES
     .map((theme) => {
@@ -443,7 +541,6 @@ function getSectionCursorTheme(document, clientY) {
 
 // Single-page composition: nav, ordered content sections, and footer.
 export default function App() {
-  const gridFrameRef = useRef(0);
   const gridBurstTimeoutsRef = useRef(new Map());
   const lastGridBurstAtRef = useRef(Number.NEGATIVE_INFINITY);
   const solutionCardBurstTimeoutsRef = useRef(new Map());
@@ -457,7 +554,6 @@ export default function App() {
   const touchSelectedCardRef = useRef(null);
   const sectionCursorRef = useRef(null);
   const mainRef = useRef(null);
-  const heroGridOffsetResetRef = useRef(false);
 
   useEffect(() => {
     const windowObject = mainRef.current?.ownerDocument.defaultView;
@@ -478,24 +574,6 @@ export default function App() {
       windowObject.removeEventListener('wheel', preventDesktopTrackpadPinch, { capture: true });
     };
   }, []);
-
-  const setGridOffset = useCallback((x, y) => {
-    if (gridFrameRef.current) {
-      cancelAnimationFrame(gridFrameRef.current);
-    }
-
-    gridFrameRef.current = requestAnimationFrame(() => {
-      const mainElement = mainRef.current;
-      if (!mainElement) return;
-
-      mainElement.style.setProperty('--site-grid-offset-x', `${x.toFixed(2)}px`);
-      mainElement.style.setProperty('--site-grid-offset-y', `${y.toFixed(2)}px`);
-    });
-  }, []);
-
-  const resetGridOffset = useCallback(() => {
-    setGridOffset(0, 0);
-  }, [setGridOffset]);
 
   const clearTouchSelectedCard = useCallback(() => {
     const selectedCard = touchSelectedCardRef.current;
@@ -632,11 +710,10 @@ export default function App() {
       return;
     }
 
-    heroGridOffsetResetRef.current = false;
+    event.currentTarget.classList.remove(HERO_GRAPHIC_CURSOR_SMALL_CLASS);
     lastSectionCursorPointRef.current = null;
-    resetGridOffset();
     hideSectionCursor();
-  }, [hideSectionCursor, resetGridOffset, scheduleTouchScrollGuardRelease]);
+  }, [hideSectionCursor, scheduleTouchScrollGuardRelease]);
 
   const triggerSectionGridBurstAtPoint = useCallback(({
     clientX,
@@ -794,15 +871,7 @@ export default function App() {
       return;
     }
 
-    if (isHeroTarget(event.target)) {
-      if (!heroGridOffsetResetRef.current) {
-        heroGridOffsetResetRef.current = true;
-        resetGridOffset();
-      }
-    } else {
-      heroGridOffsetResetRef.current = false;
-      setGridOffset(getGridOffsetXForClientX(event.currentTarget, event.clientX), 0);
-    }
+    updateHeroGraphicCursorState(event.currentTarget, event.clientX, event.clientY);
 
     lastSectionCursorPointRef.current = {
       clientX: event.clientX,
@@ -810,7 +879,7 @@ export default function App() {
       ownerDocument: event.currentTarget.ownerDocument
     };
     updateSectionCursorAtPoint(event.currentTarget.ownerDocument, event.clientX, event.clientY);
-  }, [markTouchScrolling, resetGridOffset, setGridOffset, updateSectionCursorAtPoint]);
+  }, [markTouchScrolling, updateSectionCursorAtPoint]);
 
   const handleMainPointerUp = useCallback((event) => {
     if (event.pointerType !== 'touch') return;
@@ -923,6 +992,7 @@ export default function App() {
         const lastPoint = lastSectionCursorPointRef.current;
         if (!lastPoint) return;
 
+        updateHeroGraphicCursorState(mainElement, lastPoint.clientX, lastPoint.clientY);
         updateSectionCursorAtPoint(lastPoint.ownerDocument, lastPoint.clientX, lastPoint.clientY);
       });
     };
@@ -938,9 +1008,6 @@ export default function App() {
   }, [markTouchScrolling, updateSectionCursorAtPoint]);
 
   useEffect(() => () => {
-    if (gridFrameRef.current) {
-      cancelAnimationFrame(gridFrameRef.current);
-    }
     if (sectionCursorFrameRef.current) {
       cancelAnimationFrame(sectionCursorFrameRef.current);
     }
@@ -951,7 +1018,11 @@ export default function App() {
     touchGridGestureRef.current = null;
     touchSelectedCardRef.current?.classList.remove(SOLUTION_CARD_TOUCH_SELECTED_CLASS);
     touchSelectedCardRef.current = null;
-    mainRef.current?.classList.remove(TOUCH_SCROLL_GUARD_CLASS, TOUCH_SCROLLING_CLASS);
+    mainRef.current?.classList.remove(
+      TOUCH_SCROLL_GUARD_CLASS,
+      TOUCH_SCROLLING_CLASS,
+      HERO_GRAPHIC_CURSOR_SMALL_CLASS
+    );
     gridBurstTimeoutsRef.current.forEach((timeoutId) => {
       clearTimeout(timeoutId);
     });

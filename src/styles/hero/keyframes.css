@@ -85,11 +85,11 @@
 @keyframes vDoorPanelSignal {
   0%, 100% {
     filter: brightness(0.86) saturate(0.94);
-    stroke-opacity: 0.58;
+    stroke-opacity: 0.44;
   }
   48% {
     filter: brightness(1.02) saturate(1.02);
-    stroke-opacity: 0.78;
+    stroke-opacity: 0.62;
   }
 }
 @keyframes vDoorSignalTravel {
@@ -98,10 +98,10 @@
     stroke-dashoffset: 188;
   }
   12% {
-    opacity: 0.94;
+    opacity: 0.68;
   }
   62% {
-    opacity: 0.94;
+    opacity: 0.68;
   }
   100% {
     opacity: 0;
@@ -111,16 +111,16 @@
 @keyframes vDoorEdgeLightPulse {
   0%, 100% {
     filter: drop-shadow(0 0 0 rgba(150, 240, 255, 0));
-    stroke-opacity: 0.36;
+    stroke-opacity: 0.28;
   }
   48% {
     filter: drop-shadow(0 0 6px rgba(150, 240, 255, 0.5));
-    stroke-opacity: 1;
+    stroke-opacity: 0.68;
   }
 }
 @keyframes vDoorEdgeDepthPulse {
-  0%, 100% { stroke-opacity: 0.3; }
-  48%       { stroke-opacity: 0.78; }
+  0%, 100% { stroke-opacity: 0.22; }
+  48%       { stroke-opacity: 0.5; }
 }
 @keyframes vWindowPanelShimmer {
   0%, 100% {

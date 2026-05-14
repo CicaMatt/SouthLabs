@@ -236,11 +236,7 @@ export default function HeroSection() {
   const factoryMotionRef = useRef({
     frameId: 0,
     x: 0,
-    y: 0,
-    rotate: 0,
-    targetX: 0,
-    targetY: 0,
-    targetRotate: 0
+    targetX: 0
   });
   const hoverLightMotionRef = useRef({
     frameId: 0,
@@ -286,26 +282,17 @@ export default function HeroSection() {
     }
 
     motion.x += (motion.targetX - motion.x) * 0.14;
-    motion.y += (motion.targetY - motion.y) * 0.14;
-    motion.rotate += (motion.targetRotate - motion.rotate) * 0.14;
-
-    const remainingMotion = Math.max(
-      Math.abs(motion.targetX - motion.x),
-      Math.abs(motion.targetY - motion.y),
-      Math.abs(motion.targetRotate - motion.rotate)
-    );
+    const remainingMotion = Math.abs(motion.targetX - motion.x);
 
     if (remainingMotion < 0.01) {
       motion.x = motion.targetX;
-      motion.y = motion.targetY;
-      motion.rotate = motion.targetRotate;
       motion.frameId = 0;
     } else {
       motion.frameId = requestAnimationFrame(runFactoryMotion);
     }
 
     parallaxLayer.style.transform = (
-      `translate3d(${motion.x.toFixed(2)}px, ${motion.y.toFixed(2)}px, 0) rotate(${motion.rotate.toFixed(3)}deg)`
+      `translate3d(${motion.x.toFixed(2)}px, 0, 0)`
     );
   };
 
@@ -314,8 +301,6 @@ export default function HeroSection() {
     const movement = isActive ? 1 : 0;
 
     motion.targetX = pointer.shiftX * 12 * movement;
-    motion.targetY = pointer.shiftY * -9 * movement;
-    motion.targetRotate = pointer.shiftX * 0.42 * movement;
 
     if (!motion.frameId) {
       motion.frameId = requestAnimationFrame(runFactoryMotion);

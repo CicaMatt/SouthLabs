@@ -9,8 +9,6 @@ body,
   user-select: none;
 }
 
-#root .footer-selectable-content,
-#root .footer-selectable-content *,
 #root .legal-document-modal,
 #root .legal-document-modal * {
   -webkit-user-select: text;
