@@ -1,10 +1,15 @@
 import SectionHeader from '../SectionHeader';
 import SOLUTION_CARD_SURFACE_CLASS, { getSolutionCardSurfaceStyle } from './solutionCardSurface';
+import {
+  SOFTWARE_SECTION_THEME_COLOR,
+  SOFTWARE_SECTION_THEME_RGB_CSS
+} from '../../hooks/sectionGrid/constants';
 
 const SOFTWARE_CARD_SURFACE_OPACITY = 0.25;
 const SOFTWARE_CARD_SURFACE_HOVER_OPACITY = 0.7;
 const SOFTWARE_FEATURE_CARD_SURFACE_OPACITY = 1;
 const SOFTWARE_FEATURE_CARD_SURFACE_HOVER_OPACITY = 1;
+const SOFTWARE_SECTION_GRID_OPACITY = 0.075;
 
 // Secondary automation offers rendered as compact cards beside the AI feature card.
 const AUTOMATION_CARDS = [
@@ -61,6 +66,14 @@ const SOFTWARE_FEATURE_CARD_SURFACE_STYLE = getSolutionCardSurfaceStyle(
   SOFTWARE_FEATURE_CARD_SURFACE_OPACITY,
   SOFTWARE_FEATURE_CARD_SURFACE_HOVER_OPACITY
 );
+const SOFTWARE_SECTION_STYLE = {
+  '--section-grid-color': `rgba(${SOFTWARE_SECTION_THEME_RGB_CSS}, ${SOFTWARE_SECTION_GRID_OPACITY})`,
+  '--section-grid-highlight-color': SOFTWARE_SECTION_THEME_COLOR,
+  '--section-grid-burst-rgb': SOFTWARE_SECTION_THEME_RGB_CSS,
+  '--software-ai-accent': SOFTWARE_SECTION_THEME_COLOR,
+  '--software-interaction-blue': SOFTWARE_SECTION_THEME_COLOR,
+  '--software-interaction-blue-rgb': SOFTWARE_SECTION_THEME_RGB_CSS
+};
 
 // Compact card used for each non-feature automation service.
 function AutomationCard({ description, icon, surfaceHoverOpacity, surfaceOpacity, title }) {
@@ -87,9 +100,9 @@ function SoftwareAiFeatureCard() {
       <div className="software-ai-chip absolute top-8 left-8 z-10 hidden h-12 w-12 items-center justify-center rounded-lg bg-surface-container/[0.06] backdrop-blur-sm lg:flex">
         <span className="material-symbols-outlined text-[var(--software-ai-accent)]">memory</span>
       </div>
-      <h3 className="relative z-10 font-headline text-2xl font-bold mb-4">Sistemi di Intelligenza Artificiale</h3>
+      <h3 className="relative z-10 font-headline text-2xl font-bold mb-4">Intelligenza Artificiale</h3>
       <p className="relative z-10 font-body text-on-primary-container mb-8 max-w-sm">
-        Sviluppo di modelli di intelligenza artificiale per analisi predittiva, automazione del customer service e ottimizzazione dei flussi di lavoro.
+        Sviluppo di modelli di intelligenza artificiale per analisi predittiva, automazione del customer service, ottimizzazione dei flussi di lavoro, e tanto altro.
       </p>
       <a className="software-ai-link relative z-10 inline-flex w-fit items-center rounded-md font-medium transition-all duration-200 hover:translate-x-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 lg:absolute lg:bottom-[4.25rem] lg:left-8 lg:translate-y-1/2 lg:hover:translate-x-1 lg:hover:translate-y-1/2" href="#contatti">
         Esplora AI
@@ -102,7 +115,7 @@ function SoftwareAiFeatureCard() {
 // Software and automation section with one highlighted AI offer plus supporting cards.
 export default function SoftwareSection() {
   return (
-    <section className={SECTION_CLASS} id="software-automazione">
+    <section className={SECTION_CLASS} id="software-automazione" style={SOFTWARE_SECTION_STYLE}>
       <div className={SECTION_CONTENT_CLASS}>
         <SectionHeader
           className="mb-12 max-w-3xl lg:mb-16"

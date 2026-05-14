@@ -104,13 +104,13 @@
   --software-ai-grid-opacity: 0.66;
   --software-ai-sheen-opacity: 0.34;
   --software-ai-sheen-translate-x: -18%;
-  --site-grid-through-highlight-color: var(--section-grid-highlight-color, #1aa8d6);
+  --site-grid-through-highlight-color: var(--section-grid-highlight-color);
   --site-grid-through-highlight-opacity: 0;
   --site-grid-through-highlight-x: 50%;
   --site-grid-through-highlight-y: 50%;
   --site-grid-through-burst-x: 50%;
   --site-grid-through-burst-y: 50%;
-  --section-grid-burst-rgb: var(--software-interaction-blue-rgb, 26, 168, 214);
+  --section-grid-burst-rgb: var(--software-interaction-blue-rgb);
   --section-grid-burst-peak-opacity: 0.52;
   --section-grid-burst-mid-opacity: 0.34;
   --section-grid-burst-late-opacity: 0.13;
@@ -119,7 +119,7 @@
   --section-grid-burst-late-radius: 350px;
   --section-grid-burst-max-radius: 420px;
   background:
-    radial-gradient(circle at 18% 22%, rgba(var(--software-interaction-blue-rgb, 26, 168, 214), 0.2), transparent 27%),
+    radial-gradient(circle at 18% 22%, rgba(var(--software-interaction-blue-rgb), 0.2), transparent 27%),
     linear-gradient(
       135deg,
       rgba(34, 42, 62, var(--solution-card-bg-active-opacity, 1)) 0%,
@@ -136,9 +136,9 @@
 .section-grid-bg--software .software-card-surface:hover,
 .section-grid-bg--software .software-card-surface.solution-card-surface--touch-selected,
 .section-grid-bg--software .software-card-surface.solution-card-surface--burst-active {
-  border-color: var(--software-ai-accent, #1aa8d6);
+  border-color: var(--software-ai-accent);
   box-shadow:
-    inset 0 0 0 1.5px rgba(var(--software-interaction-blue-rgb, 26, 168, 214), 0.92),
+    inset 0 0 0 1.5px rgba(var(--software-interaction-blue-rgb), 0.92),
     0 18px 34px rgba(15, 34, 52, 0.13);
 }
 
@@ -181,8 +181,8 @@
 }
 
 .software-ai-link {
-  color: var(--software-ai-accent, #1aa8d6);
-  outline-color: var(--software-ai-accent, #1aa8d6);
+  color: var(--software-ai-accent);
+  outline-color: var(--software-ai-accent);
 }
 
 .software-ai-feature-card::before,
@@ -196,8 +196,8 @@
 .software-ai-feature-card::before {
   inset: -2px;
   background-image:
-    linear-gradient(rgba(26, 168, 214, 0.24) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(26, 168, 214, 0.24) 1px, transparent 1px);
+    linear-gradient(rgba(var(--software-interaction-blue-rgb), 0.24) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--software-interaction-blue-rgb), 0.24) 1px, transparent 1px);
   background-position:
     calc(-1px - var(--site-grid-through-origin-x, var(--section-grid-origin-x, 0px)))
     calc(-1px - var(--site-grid-through-origin-y, var(--section-grid-origin-y, 0px)));
@@ -292,7 +292,7 @@
   background: linear-gradient(
     112deg,
     transparent 43%,
-    rgba(var(--software-interaction-blue-rgb, 26, 168, 214), 0.32) 50%,
+    rgba(var(--software-interaction-blue-rgb), 0.32) 50%,
     transparent 57%
   );
   opacity: var(--software-ai-sheen-opacity);
@@ -307,15 +307,15 @@
   --software-ai-grid-opacity: 1;
   --software-ai-sheen-opacity: 0.6;
   --software-ai-sheen-translate-x: 18%;
-  border-color: var(--software-ai-accent, #1aa8d6);
+  border-color: var(--software-ai-accent);
   box-shadow:
-    inset 0 0 0 2px var(--software-ai-accent, #1aa8d6),
+    inset 0 0 0 2px var(--software-ai-accent),
     0 18px 34px rgba(15, 34, 52, 0.13);
 }
 
 .software-ai-chip {
   box-shadow:
-    inset 0 0 0 1px rgba(var(--software-interaction-blue-rgb, 26, 168, 214), 0.24),
+    inset 0 0 0 1px rgba(var(--software-interaction-blue-rgb), 0.24),
     0 12px 30px rgba(0, 0, 0, 0.12);
   transition: box-shadow 220ms ease;
 }
@@ -323,7 +323,7 @@
 .software-ai-feature-card.solution-card-surface--touch-selected .software-ai-chip,
 .software-ai-feature-card.solution-card-surface--burst-active .software-ai-chip {
   box-shadow:
-    inset 0 0 0 2px rgba(var(--software-interaction-blue-rgb, 26, 168, 214), 0.42),
+    inset 0 0 0 2px rgba(var(--software-interaction-blue-rgb), 0.42),
     0 12px 30px rgba(0, 0, 0, 0.12);
 }
 
@@ -336,9 +336,9 @@
     --software-ai-grid-opacity: 1;
     --software-ai-sheen-opacity: 0.6;
     --software-ai-sheen-translate-x: 18%;
-    border-color: var(--software-ai-accent, #1aa8d6);
+    border-color: var(--software-ai-accent);
     box-shadow:
-      inset 0 0 0 2px var(--software-ai-accent, #1aa8d6),
+      inset 0 0 0 2px var(--software-ai-accent),
       0 18px 34px rgba(15, 34, 52, 0.13);
   }
 
@@ -349,7 +349,7 @@
 
   .software-ai-feature-card:hover .software-ai-chip {
     box-shadow:
-      inset 0 0 0 2px rgba(var(--software-interaction-blue-rgb, 26, 168, 214), 0.42),
+      inset 0 0 0 2px rgba(var(--software-interaction-blue-rgb), 0.42),
       0 12px 30px rgba(0, 0, 0, 0.12);
   }
 }
@@ -374,7 +374,7 @@
 
   .software-ai-feature-card:hover:not(.solution-card-surface--touch-selected):not(.solution-card-surface--burst-active) .software-ai-chip {
     box-shadow:
-      inset 0 0 0 1px rgba(var(--software-interaction-blue-rgb, 26, 168, 214), 0.24),
+      inset 0 0 0 1px rgba(var(--software-interaction-blue-rgb), 0.24),
       0 12px 30px rgba(0, 0, 0, 0.12);
   }
 
@@ -404,7 +404,7 @@
   }
 
   .section-grid-bg--software .group:hover .software-ai-link {
-    color: var(--software-ai-accent, #1aa8d6) !important;
+    color: var(--software-ai-accent) !important;
   }
 
   .software-ai-feature-card.group:hover .software-ai-background-icon {
@@ -674,12 +674,6 @@
 
 .section-grid-bg--software {
   --section-bg: #dfe9f3;
-  --section-grid-color: rgba(26, 168, 214, 0.075);
-  --software-ai-accent: #1aa8d6;
-  --software-interaction-blue: #1aa8d6;
-  --software-interaction-blue-rgb: 26, 168, 214;
-  --section-grid-highlight-color: var(--software-ai-accent);
-  --section-grid-burst-rgb: var(--software-interaction-blue-rgb);
 }
 
 .section-grid-bg--infrastructure {

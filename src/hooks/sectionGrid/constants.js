@@ -21,6 +21,19 @@ export const TOUCH_SCROLLING_CLASS = 'site-main--touch-scrolling';
 export const HERO_GRAPHIC_CURSOR_SMALL_CLASS = 'site-main--hero-graphic-cursor-small';
 export const HERO_GRAPHIC_SELECTOR = '.hero-graphic-hover-target';
 export const MOUSE_WHEEL_ZOOM_MIN_DELTA = 80;
+export const SOFTWARE_SECTION_THEME_COLOR = '#128fbc';
+export const SOFTWARE_SECTION_THEME_RGB = getRgbFromHex(SOFTWARE_SECTION_THEME_COLOR);
+export const SOFTWARE_SECTION_THEME_RGB_CSS = SOFTWARE_SECTION_THEME_RGB.join(', ');
+
+function getRgbFromHex(hex) {
+  const value = Number.parseInt(hex.replace('#', ''), 16);
+
+  return [
+    (value >> 16) & 255,
+    (value >> 8) & 255,
+    value & 255
+  ];
+}
 
 export const SECTION_CURSOR_THEMES = [
   {
@@ -34,11 +47,11 @@ export const SECTION_CURSOR_THEMES = [
   },
   {
     id: 'software-automazione',
-    color: '#1aa8d6'
+    color: SOFTWARE_SECTION_THEME_COLOR
   },
   {
     id: 'infrastrutture-hardware',
-    color: '#2b3b59'
+    color: '#212d61'
   },
   {
     id: 'manutenzione-supporto',
@@ -46,6 +59,6 @@ export const SECTION_CURSOR_THEMES = [
   },
   {
     id: 'contatti',
-    color: '#222a3e'
+    color: '#153b7e'
   }
 ];

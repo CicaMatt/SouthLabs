@@ -16,13 +16,13 @@ const DESCRIPTION_HOVER_EFFECT = 'web-solution-hover-text web-solution-hover-des
 const SOLUTION_CARD_DESKTOP_QUERY = '(min-width: 1024px)';
 const SOLUTION_CARD_CLASSES = {
   shell: [
-    'group relative flex min-h-[208px] items-center',
+    'group relative flex min-h-[198px] items-center',
     SOLUTION_CARD_SURFACE_CLASS,
-    'sm:min-h-[228px] md:min-h-[252px]'
+    'sm:min-h-[214px] md:min-h-[238px]'
   ].join(' '),
   stackedRow: [
-    'relative z-10 flex w-full items-center gap-3 px-5 py-4',
-    'sm:gap-4 sm:px-7 sm:py-5 md:px-8 lg:hidden'
+    'relative z-10 flex w-full items-center gap-3 px-5 py-3.5',
+    'sm:gap-4 sm:px-7 sm:py-4 md:px-8 lg:hidden'
   ].join(' '),
   imageShell: 'relative w-full overflow-hidden bg-transparent',
   badgeTopLeft: 'top-4 left-5 sm:top-5 sm:left-7 md:left-8 lg:top-6 lg:left-7',
@@ -241,7 +241,7 @@ function SolutionTextPanel({
   return (
     <div
       className={cx(
-        'relative z-10 flex min-w-0 flex-col pt-[60px] sm:pt-16',
+        'relative z-10 flex min-w-0 flex-col pt-14 sm:pt-[60px] lg:pt-16',
         align === 'right' && 'items-end text-right',
         className
       )}
@@ -251,7 +251,7 @@ function SolutionTextPanel({
       </h3>
       <span
         aria-hidden
-        className={cx('my-3 h-[3px] w-20 rounded-full bg-[#b9cce6] md:my-4', align === 'right' && 'self-end')}
+        className={cx('my-2.5 h-[3px] w-20 rounded-full bg-[#b9cce6] md:my-3 lg:my-4', align === 'right' && 'self-end')}
       />
       <p ref={descriptionRef} className={descriptionClassName}>
         {description}
