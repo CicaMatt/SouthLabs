@@ -1,11 +1,8 @@
 import { useCallback, useRef } from 'react';
 import { SITE_GRID_THROUGH_SELECTOR } from './constants';
-import {
-  clearGridThroughCardHighlight,
-  getSectionCursorTheme,
-  updateGridThroughCardHighlight,
-  updateHeroGraphicCursorState
-} from './interactionUtils';
+import { getSectionCursorTheme } from './cursorTheme';
+import { clearGridThroughCardHighlight, updateGridThroughCardHighlight } from './gridSurface';
+import { updateHeroGraphicCursorState } from './heroGraphicHitTest';
 
 export function useSectionCursor() {
   const sectionCursorFrameRef = useRef(0);

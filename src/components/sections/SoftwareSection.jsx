@@ -11,7 +11,6 @@ const SOFTWARE_FEATURE_CARD_SURFACE_OPACITY = 1;
 const SOFTWARE_FEATURE_CARD_SURFACE_HOVER_OPACITY = 1;
 const SOFTWARE_SECTION_GRID_OPACITY = 0.075;
 
-// Secondary automation offers rendered as compact cards beside the AI feature card.
 const AUTOMATION_CARDS = [
   {
     icon: 'terminal',
@@ -75,7 +74,6 @@ const SOFTWARE_SECTION_STYLE = {
   '--software-interaction-blue-rgb': SOFTWARE_SECTION_THEME_RGB_CSS
 };
 
-// Compact card used for each non-feature automation service.
 function AutomationCard({ description, icon, surfaceHoverOpacity, surfaceOpacity, title }) {
   return (
     <div
@@ -112,7 +110,6 @@ function SoftwareAiFeatureCard() {
   );
 }
 
-// Software and automation section with one highlighted AI offer plus supporting cards.
 export default function SoftwareSection() {
   return (
     <section className={SECTION_CLASS} id="software-automazione" style={SOFTWARE_SECTION_STYLE}>

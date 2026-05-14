@@ -1,6 +1,5 @@
 import { getSolutionCardSurfaceStyle } from './solutionCardSurface';
 
-// Checklist copy for ongoing support and enablement services.
 const SUPPORT_ITEMS = [
   'Manutenzione preventiva e correttiva programmata.',
   "Sessioni di training per la formazione del personale.",
@@ -21,7 +20,6 @@ const CTA_PANEL_STYLE = getSolutionCardSurfaceStyle(
   '0, 46, 58'
 );
 
-// Support section pairing service promises with a call-to-action panel.
 export default function SupportSection() {
   return (
     <section className={SECTION_CLASS} id="manutenzione-supporto">

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 const FACTORY_ACCELERATION_RATE = 2.25;
 const FACTORY_ACCELERATION_RAMP_UP_MS = 220;
@@ -132,55 +132,4 @@ export function useFactoryAnimationAcceleration(factoryStageRef) {
   useEffect(() => () => resetFactoryAcceleration(), [resetFactoryAcceleration]);
 
   return accelerateFactoryAnimations;
-}
-
-// Measures the rendered subheadline line width so mobile CTA sizing follows the text.
-export function useSubheadlineLineWidth(subheadlineRef) {
-  const [lineWidth, setLineWidth] = useState(null);
-
-  useEffect(() => {
-    const subheadline = subheadlineRef.current;
-    if (!subheadline) return undefined;
-
-    let frameId = null;
-    let isMounted = true;
-
-    const measureSubheadline = () => {
-      if (frameId !== null) cancelAnimationFrame(frameId);
-
-      frameId = requestAnimationFrame(() => {
-        if (!isMounted) return;
-
-        const range = document.createRange();
-        range.selectNodeContents(subheadline);
-        const lineWidths = Array.from(range.getClientRects())
-          .filter((rect) => rect.width > 1 && rect.height > 1)
-          .map((rect) => rect.width);
-        range.detach();
-
-        const fallbackWidth = subheadline.getBoundingClientRect().width;
-        const nextWidth = Math.ceil(lineWidths.length ? Math.max(...lineWidths) : fallbackWidth);
-        setLineWidth((currentWidth) => (currentWidth === nextWidth ? currentWidth : nextWidth));
-      });
-    };
-
-    measureSubheadline();
-
-    const resizeObserver = typeof ResizeObserver === 'undefined'
-      ? null
-      : new ResizeObserver(measureSubheadline);
-    resizeObserver?.observe(subheadline);
-
-    window.addEventListener('resize', measureSubheadline);
-    document.fonts?.ready?.then(measureSubheadline);
-
-    return () => {
-      isMounted = false;
-      if (frameId !== null) cancelAnimationFrame(frameId);
-      resizeObserver?.disconnect();
-      window.removeEventListener('resize', measureSubheadline);
-    };
-  }, [subheadlineRef]);
-
-  return lineWidth;
 }

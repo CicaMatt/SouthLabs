@@ -5,7 +5,6 @@ import logoText from '../../../media/logo/logo_text.png';
 const NAV_DESKTOP_MIN_WIDTH = 768;
 const MOBILE_MENU_FADE_MS = 280;
 
-// Navigation labels and anchors are the source of truth for desktop and mobile menus.
 const NAV_LINKS = [
   { href: '#siti-web', label: 'Siti Web', tabletLines: ['Siti', 'Web'] },
   { href: '#software-automazione', label: 'Software e Automazione', tabletLines: ['Software e', 'Automazione'] },
@@ -41,7 +40,6 @@ const MOBILE_MENU_BUTTON_CLASS = [
   'rounded-lg text-[#053f82] hover:bg-[#053f82]/10 transition-colors'
 ].join(' ');
 
-// Combines the icon and text mark while exposing one accessible brand link.
 function BrandLogo({ onNavigate }) {
   return (
     <a
@@ -97,7 +95,7 @@ function MenuIcon({ isOpen }) {
   );
 }
 
-// Mobile-only dropdown menu. Parent owns open/close state and passes the close handler.
+// Parent owns open/close state; close handler is passed down.
 function MobileNavMenu({ isVisible, menuRef, onNavigate }) {
   return (
     <div
@@ -131,7 +129,6 @@ function MobileNavMenu({ isVisible, menuRef, onNavigate }) {
   );
 }
 
-// Sticky top navigation with a collapsible mobile menu.
 export default function TopNavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileMenuMounted, setIsMobileMenuMounted] = useState(false);

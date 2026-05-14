@@ -42,12 +42,12 @@
   }
 
   .hero-actions {
-    width: min(100%, calc(var(--hero-subheadline-inline-width, 100%) + 2rem));
+    max-width: 18rem;
   }
 }
 @media (max-width: 639px) {
   .hero-actions {
-    width: min(100%, calc(var(--hero-subheadline-inline-width, 100%) - 1.5rem));
+    max-width: 15rem;
   }
 
   .hero-actions a {

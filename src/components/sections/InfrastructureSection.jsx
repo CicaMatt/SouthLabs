@@ -1,6 +1,5 @@
 import SectionHeader from '../SectionHeader';
 
-// Hardware service cards.
 const INFRASTRUCTURE_CARDS = [
   {
     alt: 'Workstation',
@@ -50,7 +49,6 @@ function InfrastructureCard({ alt, description, src, title }) {
   );
 }
 
-// Hardware infrastructure section with three image-backed service summaries.
 export default function InfrastructureSection() {
   return (
     <section className={SECTION_CLASS} id="infrastrutture-hardware">

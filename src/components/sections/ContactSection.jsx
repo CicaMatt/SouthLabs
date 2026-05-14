@@ -42,7 +42,7 @@ const SUBMIT_BUTTON_CLASS = [
   'active:scale-95 disabled:cursor-wait disabled:opacity-70'
 ].join(' ');
 
-// Contact form configuration. Field ids match label htmlFor values.
+// Field ids are used for input name, input id, and label htmlFor.
 const CONTACT_FIELDS = [
   {
     autoComplete: 'name',
@@ -76,7 +76,6 @@ const INTEREST_OPTIONS = [
   'Assistenza Tecnica'
 ];
 
-// Shared field wrapper keeps label/control spacing consistent across input types.
 function Field({ children, id, label }) {
   return (
     <div>
@@ -88,7 +87,6 @@ function Field({ children, id, label }) {
   );
 }
 
-// Standard text-like input used for name, company, and email fields.
 function TextField({ autoComplete, id, label, placeholder, required = false, type = 'text' }) {
   return (
     <Field id={id} label={label}>

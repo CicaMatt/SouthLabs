@@ -78,7 +78,6 @@ const TALL_CARD_CLASSES = {
   desktopTextBlock: 'pb-1'
 };
 
-// Two horizontal cards on desktop; the third solution is handled by RightSolutionCard.
 const LEFT_WEB_SOLUTION_CARDS = [
   {
     icon: 'code_blocks',
@@ -117,17 +116,6 @@ const RIGHT_WEB_SOLUTION_CARD = {
   surfaceHoverOpacity: WEB_CARD_SURFACE_HOVER_OPACITY
 };
 
-function getSolutionCardClassName(layoutClassName) {
-  return cx(SOLUTION_CARD_CLASSES.shell, layoutClassName);
-}
-
-function getWebSolutionCardStyle(card) {
-  return getSolutionCardSurfaceStyle(card.surfaceOpacity, card.surfaceHoverOpacity);
-}
-
-function getHorizontalPreviewPositionClass(isWordpressCard) {
-  return isWordpressCard ? 'object-[48%_50%]' : 'object-[52%_50%]';
-}
 
 // Renders the WordPress PNG as a mask so it can be tinted like Material Symbols.
 function WordpressMaskedIcon({ className = '' }) {
@@ -260,12 +248,11 @@ function SolutionTextPanel({
   );
 }
 
-// Horizontal solution card used for custom web apps and WordPress.
 function LeftSolutionCard({ card }) {
   const isWordpressCard = card.title === WORDPRESS_TITLE;
   const hasStackedPreviewImage = Boolean(card.stackedPreviewImage);
   const stackedPreviewMode = hasStackedPreviewImage ? 'square' : 'wide';
-  const previewPositionClass = getHorizontalPreviewPositionClass(isWordpressCard);
+  const previewPositionClass = isWordpressCard ? 'object-[48%_50%]' : 'object-[52%_50%]';
   const desktopTextAlign = isWordpressCard ? 'right' : 'left';
   const badgeClassName = cx(
     SOLUTION_CARD_CLASSES.badgeTopLeft,
@@ -274,8 +261,8 @@ function LeftSolutionCard({ card }) {
 
   return (
     <article
-      className={getSolutionCardClassName(HORIZONTAL_CARD_CLASSES.shell)}
-      style={getWebSolutionCardStyle(card)}
+      className={cx(SOLUTION_CARD_CLASSES.shell, HORIZONTAL_CARD_CLASSES.shell)}
+      style={getSolutionCardSurfaceStyle(card.surfaceOpacity, card.surfaceHoverOpacity)}
     >
       <SolutionBadge card={card} className={badgeClassName} />
 
@@ -346,15 +333,14 @@ function LeftSolutionCard({ card }) {
   );
 }
 
-// Tall desktop card for e-commerce, with title shortening when space is tight.
 function RightSolutionCard({ card }) {
   const { titleWrapRef, titleMeasureRef, useShortTitle } = useDesktopTitleFit();
   const desktopTitle = useShortTitle ? 'E-Commerce' : card.title;
 
   return (
     <article
-      className={getSolutionCardClassName(TALL_CARD_CLASSES.shell)}
-      style={getWebSolutionCardStyle(card)}
+      className={cx(SOLUTION_CARD_CLASSES.shell, TALL_CARD_CLASSES.shell)}
+      style={getSolutionCardSurfaceStyle(card.surfaceOpacity, card.surfaceHoverOpacity)}
     >
       <SolutionBadge
         card={card}
@@ -422,7 +408,6 @@ function RightSolutionCard({ card }) {
   );
 }
 
-// Siti Web section with three responsive cards and image previews.
 export default function WebSolutionsSection() {
   const [topLeftCard, bottomLeftCard] = LEFT_WEB_SOLUTION_CARDS;
 

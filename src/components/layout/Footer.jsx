@@ -25,7 +25,6 @@ const contacts = [
   { id: 'phone', label: 'Telefono', value: '+39 3928139527' }
 ];
 
-// Shared footer utility classes keep the three columns aligned and styled together.
 const FOOTER_COLUMN_CLASS = [
   'flex flex-col items-center gap-2.5 text-center',
   'md:items-start md:text-left'
@@ -57,7 +56,6 @@ async function copyTextToClipboard(value) {
   textarea.remove();
 }
 
-// Reusable footer column shell for legal, contact, and social link groups.
 function FooterColumn({ children, title }) {
   return (
     <div className={FOOTER_COLUMN_CLASS}>
@@ -88,8 +86,8 @@ function LegalDocumentDialog({ document, onClose }) {
   useEffect(() => {
     if (!document) return undefined;
 
-    const previousOverflow = window.document.body.style.overflow;
-    window.document.body.style.overflow = 'hidden';
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
     closeButtonRef.current?.focus();
 
     function handleKeyDown(event) {
@@ -101,7 +99,7 @@ function LegalDocumentDialog({ document, onClose }) {
     window.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      window.document.body.style.overflow = previousOverflow;
+      document.body.style.overflow = previousOverflow;
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [document, onClose]);
@@ -153,7 +151,6 @@ function LegalDocumentDialog({ document, onClose }) {
   );
 }
 
-// Site footer with legal links, direct contact info, social links, and copyright.
 export default function Footer() {
   const [activeLegalDocument, setActiveLegalDocument] = useState(null);
   const [copiedContact, setCopiedContact] = useState(null);

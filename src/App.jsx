@@ -8,7 +8,6 @@ import SupportSection from './components/sections/SupportSection';
 import ContactSection from './components/sections/ContactSection';
 import { preventImageDefault, useSectionGridInteractions } from './hooks/useSectionGridInteractions';
 
-// Single-page composition: nav, ordered content sections, interactive main area, and footer.
 export default function App() {
   const { mainRef, sectionCursorRef, mainEventHandlers } = useSectionGridInteractions();
 

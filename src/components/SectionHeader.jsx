@@ -1,4 +1,3 @@
-// Shared title/subtitle block used to keep section headings visually consistent.
 export default function SectionHeader({ title, subtitle, className = '' }) {
   return (
     <div className={className}>

@@ -8,6 +8,7 @@ import {
   TOUCH_SCROLL_GUARD_CLASS,
   TOUCH_SCROLLING_CLASS,
   TOUCH_SCROLL_SETTLE_MS,
+  TOUCH_SELECTABLE_CARD_SELECTOR,
   TOUCH_TAP_MAX_DISTANCE,
   TOUCH_TAP_MAX_DURATION_MS
 } from './sectionGrid/constants';
@@ -16,27 +17,25 @@ import {
   getGridBurstPoint,
   getGridBurstTargetCards,
   getGridBurstTargetSections,
-  getTime,
-  getTouchSelectableCardFromTarget,
-  isDesktopChromium,
-  isLikelyDesktopTrackpadPinch,
-  restartSolutionCardBurst,
-  syncSectionGridOrigins
-} from './sectionGrid/interactionUtils';
+  restartSolutionCardBurst
+} from './sectionGrid/gridBurst';
+import { syncSectionGridOrigins } from './sectionGrid/gridSurface';
+import { getTime, isDesktopChromium, isLikelyDesktopTrackpadPinch } from './sectionGrid/inputDetection';
 import { useSectionCursor } from './sectionGrid/useSectionCursor';
 
-export { preventImageDefault } from './sectionGrid/interactionUtils';
-
-function clearTimeoutMap(timeoutMap) {
-  timeoutMap.forEach((timeoutId) => {
-    clearTimeout(timeoutId);
-  });
-  timeoutMap.clear();
-}
+export { preventImageDefault } from './sectionGrid/inputDetection';
 
 const TOUCH_TAP_MAX_DISTANCE_SQUARED = TOUCH_TAP_MAX_DISTANCE * TOUCH_TAP_MAX_DISTANCE;
 
-// Coordinates section-grid highlighting, bursts, touch selection, and cursor state.
+function clearTimeoutMap(timeoutMap) {
+  timeoutMap.forEach((timeoutId) => clearTimeout(timeoutId));
+  timeoutMap.clear();
+}
+
+function getTouchSelectableCardFromTarget(target) {
+  return target instanceof Element ? target.closest(TOUCH_SELECTABLE_CARD_SELECTOR) : null;
+}
+
 export function useSectionGridInteractions() {
   const gridBurstTimeoutsRef = useRef(new Map());
   const lastGridBurstAtRef = useRef(Number.NEGATIVE_INFINITY);
