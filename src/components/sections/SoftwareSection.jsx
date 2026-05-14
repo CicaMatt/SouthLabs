@@ -40,7 +40,7 @@ const AUTOMATION_CARDS = [
 
 const SECTION_CLASS = 'section-grid-bg section-grid-bg--software py-[5.5rem] lg:py-[6.75rem] relative';
 const SECTION_CONTENT_CLASS = 'max-w-7xl mx-auto px-5 sm:px-6 md:px-8 relative z-10';
-const SERVICE_GRID_CLASS = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6';
+const SERVICE_GRID_CLASS = 'software-service-grid grid grid-cols-1 md:grid-cols-2 gap-6';
 const SOFTWARE_CARD_SURFACE_CLASS = `${SOLUTION_CARD_SURFACE_CLASS} software-card-surface`;
 const FEATURE_CARD_CLASS = [
   'software-ai-feature-card site-grid-through-card isolate',
@@ -70,7 +70,7 @@ function AutomationCard({ description, icon, surfaceHoverOpacity, surfaceOpacity
       style={getSolutionCardSurfaceStyle(surfaceOpacity, surfaceHoverOpacity)}
     >
       <span className="material-symbols-outlined mb-4 inline-flex h-7 w-7 origin-center items-center justify-center text-[28px] leading-none text-secondary transition-all duration-300 group-hover:scale-110 group-hover:text-[#1f4f8f]">{icon}</span>
-      <h4 className="mb-2 min-h-[3rem] font-headline font-bold leading-snug text-on-background">{title}</h4>
+      <h4 className="mb-2 min-h-[3rem] font-headline text-lg font-bold leading-snug text-on-background">{title}</h4>
       <p className="font-body text-sm leading-relaxed text-on-surface-variant">{description}</p>
     </div>
   );

@@ -133,6 +133,16 @@
   --solution-card-bg-hover-opacity: 0.1;
 }
 
+@media (min-width: 1024px) {
+  .software-service-grid {
+    grid-template-columns:
+      minmax(0, 0.72fr)
+      minmax(0, 0.72fr)
+      minmax(0, 1fr)
+      minmax(0, 1fr);
+  }
+}
+
 .support-cta-panel {
   transition-property:
     --solution-card-bg-active-opacity,
