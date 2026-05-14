@@ -1,7 +1,7 @@
 import SectionHeader from '../SectionHeader';
 import SOLUTION_CARD_SURFACE_CLASS, { getSolutionCardSurfaceStyle } from './solutionCardSurface';
 
-const SOFTWARE_CARD_SURFACE_OPACITY = 0.3;
+const SOFTWARE_CARD_SURFACE_OPACITY = 0.25;
 const SOFTWARE_CARD_SURFACE_HOVER_OPACITY = 0.7;
 const SOFTWARE_FEATURE_CARD_SURFACE_OPACITY = 1;
 const SOFTWARE_FEATURE_CARD_SURFACE_HOVER_OPACITY = 1;
@@ -69,7 +69,7 @@ function AutomationCard({ description, icon, surfaceHoverOpacity, surfaceOpacity
       className={AUTOMATION_CARD_CLASS}
       style={getSolutionCardSurfaceStyle(surfaceOpacity, surfaceHoverOpacity)}
     >
-      <span className="material-symbols-outlined mb-4 inline-flex h-7 w-7 origin-center items-center justify-center text-[28px] leading-none text-secondary transition-all duration-300 group-hover:scale-110 group-hover:text-[#1f4f8f]">{icon}</span>
+      <span className="material-symbols-outlined mb-4 inline-flex h-7 w-7 origin-center items-center justify-center text-[28px] leading-none text-secondary transition-all duration-300 group-hover:scale-110 group-hover:text-[var(--software-ai-accent)]">{icon}</span>
       <h4 className="mb-2 min-h-[3rem] font-headline text-lg font-bold leading-snug text-on-background">{title}</h4>
       <p className="font-body text-sm leading-relaxed text-on-surface-variant">{description}</p>
     </div>
@@ -82,10 +82,10 @@ function SoftwareAiFeatureCard() {
       <span aria-hidden="true" className="software-ai-grid-highlight" />
       <span aria-hidden="true" className="software-ai-grid-burst" />
       <div className={FEATURE_BACKGROUND_ICON_CLASS}>
-        <span className="material-symbols-outlined text-[76px] leading-none text-tertiary-fixed-dim md:text-[108px] lg:text-[120px]">smart_toy</span>
+        <span className="material-symbols-outlined text-[76px] leading-none text-[var(--software-ai-accent)] md:text-[108px] lg:text-[120px]">smart_toy</span>
       </div>
       <div className="software-ai-chip absolute top-8 left-8 z-10 hidden h-12 w-12 items-center justify-center rounded-lg bg-surface-container/[0.06] backdrop-blur-sm lg:flex">
-        <span className="material-symbols-outlined text-tertiary-fixed-dim">memory</span>
+        <span className="material-symbols-outlined text-[var(--software-ai-accent)]">memory</span>
       </div>
       <h3 className="relative z-10 font-headline text-2xl font-bold mb-4">Sistemi di Intelligenza Artificiale</h3>
       <p className="relative z-10 font-body text-on-primary-container mb-8 max-w-sm">
