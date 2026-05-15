@@ -2,7 +2,7 @@ import FactoryIllustration from '../hero/FactoryIllustration';
 import HeroParticleField from '../hero/HeroParticleField';
 import { useHeroInteractions } from '../hero/useHeroInteractions';
 
-const HERO_SHELL_CLASS = 'hero-shell section-grid-bg--hero relative isolate overflow-hidden pt-36 pb-28 lg:pt-44 lg:pb-40';
+const HERO_SHELL_CLASS = 'hero-shell section-grid-bg--hero relative isolate overflow-hidden pt-16 pb-28 lg:pt-24 lg:pb-40';
 
 export default function HeroSection() {
   const {

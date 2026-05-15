@@ -13,9 +13,10 @@ const NAV_LINKS = [
 ];
 
 const NAVBAR_CLASS = [
-  'fixed top-0 w-full h-16 lg:h-20 z-50',
-  'bg-white/80 dark:bg-slate-950/80 backdrop-blur-2xl',
-  'shadow-[0_4px_20px_rgba(19,27,46,0.04)] dark:shadow-none bg-white dark:bg-slate-900'
+  'sticky top-0 w-full h-16 lg:h-20 z-50',
+  'bg-white dark:bg-slate-950',
+  'border-b border-slate-100 dark:border-slate-800/60',
+  'shadow-[0_1px_3px_0_rgba(0,0,0,0.05),0_1px_2px_0_rgba(0,0,0,0.06)] dark:shadow-none'
 ].join(' ');
 const NAV_CONTENT_CLASS = 'relative max-w-7xl mx-auto h-full flex items-center justify-between px-5 lg:px-8';
 const DESKTOP_LINK_CLASS = [
