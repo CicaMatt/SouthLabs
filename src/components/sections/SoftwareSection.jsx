@@ -53,9 +53,8 @@ const FEATURE_CARD_CLASS = [
   SOFTWARE_CARD_SURFACE_CLASS
 ].join(' ');
 const FEATURE_BACKGROUND_ICON_CLASS = [
-  'software-ai-background-icon absolute bottom-0 right-0 z-[2] p-2 opacity-10 transition-[opacity,transform] duration-300 group-hover:opacity-25 group-hover:scale-105',
-  'md:top-1/2 md:bottom-auto md:-translate-y-1/2 md:p-6',
-  'lg:top-auto lg:bottom-0 lg:translate-y-0 lg:p-2'
+  'software-ai-background-icon absolute bottom-0 right-0 z-[2] p-2 opacity-[0.18] transition-[opacity,transform] duration-300 group-hover:opacity-[0.45] group-hover:scale-105',
+  'lg:p-2'
 ].join(' ');
 const AUTOMATION_CARD_CLASS = [
   'group relative flex h-full flex-col p-6',
@@ -93,18 +92,20 @@ function SoftwareAiFeatureCard() {
       <span aria-hidden="true" className="software-ai-grid-highlight" />
       <span aria-hidden="true" className="software-ai-grid-burst" />
       <div className={FEATURE_BACKGROUND_ICON_CLASS}>
-        <span className="material-symbols-outlined text-[76px] leading-none text-[var(--software-ai-accent)] md:text-[108px] lg:text-[120px]">smart_toy</span>
+        <span className="material-symbols-outlined text-[76px] leading-none text-[var(--software-ai-accent)] lg:text-[120px]">smart_toy</span>
       </div>
-      <div className="software-ai-chip absolute top-8 left-8 z-10 hidden h-12 w-12 items-center justify-center rounded-lg bg-surface-container/[0.06] backdrop-blur-sm lg:flex">
-        <span className="material-symbols-outlined text-[var(--software-ai-accent)]">memory</span>
+      <div className="absolute top-8 right-8 lg:right-auto lg:left-8 z-10">
+        <span className="material-symbols-outlined text-[28px] text-[var(--software-ai-accent)] transition-all duration-300 group-hover:scale-110">
+          memory
+        </span>
       </div>
       <h3 className="relative z-10 font-headline text-2xl font-bold mb-4">Intelligenza Artificiale</h3>
       <p className="relative z-10 font-body text-on-primary-container mb-8 max-w-sm">
         Sviluppo di modelli di intelligenza artificiale per analisi predittiva, automazione del customer service, ottimizzazione dei flussi di lavoro, e tanto altro.
       </p>
-      <a className="software-ai-link relative z-10 inline-flex w-fit items-center rounded-md font-medium transition-all duration-200 hover:translate-x-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 lg:absolute lg:bottom-[4.25rem] lg:left-8 lg:translate-y-1/2 lg:hover:translate-x-1 lg:hover:translate-y-1/2" href="#contatti">
+      <a className="software-ai-link text-[var(--software-ai-accent)] relative z-10 inline-flex w-fit items-center rounded-md font-medium transition-all duration-200 hover:translate-x-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 lg:absolute lg:bottom-[4.25rem] lg:left-8 lg:translate-y-1/2 lg:hover:translate-x-1 lg:hover:translate-y-1/2" href="#contatti">
         Esplora AI
-        <span className="material-symbols-outlined ml-1 text-sm transition-transform duration-200 group-hover:translate-x-0.5">arrow_forward</span>
+        <span className="material-symbols-outlined ml-1 text-sm text-[var(--software-ai-accent)] transition-transform duration-200 group-hover:translate-x-0.5">arrow_forward</span>
       </a>
     </div>
   );
