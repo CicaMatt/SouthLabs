@@ -272,6 +272,13 @@
     color: #515f74 !important;
   }
 
+  .section-grid-bg--software .software-card-surface:not(.software-ai-feature-card).solution-card-surface--touch-selected > .material-symbols-outlined {
+    --tw-scale-x: 1.1 !important;
+    --tw-scale-y: 1.1 !important;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)) !important;
+    color: var(--software-ai-accent) !important;
+  }
+
   .section-grid-bg--software .group:hover .software-ai-link,
   .section-grid-bg--software .group:hover .software-ai-link .material-symbols-outlined {
     --tw-translate-x: 0px !important;
