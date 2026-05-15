@@ -238,11 +238,11 @@
 
 .section-grid-bg--infrastructure {
   --section-bg: #f7f9fb;
-  --section-grid-color: rgba(43, 59, 89, 0.04);
+  --section-grid-color: rgba(40, 50, 75, 0.04);
 }
 
 .section-grid-bg--support {
-  --section-bg: #002e3a;
+  --section-bg: #28324b;
   --section-grid-color: rgba(142, 205, 226, 0.045);
 }
 

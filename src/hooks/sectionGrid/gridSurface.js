@@ -32,13 +32,16 @@ export function syncSectionGridOrigins(mainElement) {
     const currentAdjustment = Number.parseFloat(
       section.style.getPropertyValue('--section-grid-snap-padding')
     ) || 0;
+    const gridSize = Number.parseFloat(
+      getComputedStyle(section).getPropertyValue('--section-grid-size')
+    ) || SECTION_GRID_SIZE;
     const baseTop = rect.top + scrollY - currentAdjustmentBefore + desiredAdjustmentBefore;
     const baseHeight = rect.height - currentAdjustment;
     const unsnappedBottom = baseTop + baseHeight;
-    const bottomRemainder = ((unsnappedBottom % SECTION_GRID_SIZE) + SECTION_GRID_SIZE) % SECTION_GRID_SIZE;
+    const bottomRemainder = ((unsnappedBottom % gridSize) + gridSize) % gridSize;
     const desiredAdjustment = bottomRemainder < 0.5
       ? 0
-      : SECTION_GRID_SIZE - bottomRemainder;
+      : gridSize - bottomRemainder;
 
     setStylePropertyIfChanged(section, '--section-grid-origin-x', `${(rect.left + scrollX).toFixed(2)}px`);
     setStylePropertyIfChanged(section, '--section-grid-origin-y', `${baseTop.toFixed(2)}px`);

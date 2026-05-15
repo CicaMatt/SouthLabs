@@ -17,7 +17,7 @@ const CTA_PANEL_CLASS = [
 const CTA_PANEL_STYLE = getSolutionCardSurfaceStyle(
   SUPPORT_PANEL_SURFACE_OPACITY,
   SUPPORT_PANEL_SURFACE_HOVER_OPACITY,
-  '0, 46, 58'
+  '40, 50, 75'
 );
 
 export default function SupportSection() {
@@ -31,9 +31,9 @@ export default function SupportSection() {
           </p>
           <ul className="space-y-4">
             {SUPPORT_ITEMS.map((item) => (
-              <li key={item} className="flex items-start">
-                <span className="material-symbols-outlined text-tertiary-fixed-dim mr-3 mt-1">check_circle</span>
-                <span className="font-body">{item}</span>
+              <li key={item} className="flex items-start gap-3">
+                <span className="material-symbols-outlined shrink-0 text-[22px] leading-7 text-tertiary-fixed">check_circle</span>
+                <span className="font-body leading-7">{item}</span>
               </li>
             ))}
           </ul>
@@ -41,7 +41,7 @@ export default function SupportSection() {
 
         <div className={CTA_PANEL_CLASS} style={CTA_PANEL_STYLE}>
           <div className="text-center">
-            <span className="material-symbols-outlined text-[64px] text-tertiary-fixed-dim mb-4">support_agent</span>
+            <span className="material-symbols-outlined text-[64px] text-tertiary-fixed mb-4">support_agent</span>
             <h3 className="font-headline text-2xl font-bold mb-2">Sempre al tuo fianco</h3>
             <p className="text-on-tertiary/70 mb-6">Piani flessibili progettati sulle reali necessità della tua infrastruttura.</p>
             <a

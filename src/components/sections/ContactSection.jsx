@@ -23,22 +23,22 @@ const FIELD_CONTROL_CLASS = [
   'w-full rounded-md border-0 bg-surface-container-high',
   'px-4 py-3 text-on-background transition-colors',
   'focus:bg-surface-container-lowest focus:ring-0',
-  'focus:shadow-[inset_0_0_0_1px_rgba(43,59,89,0.72)]'
+  'focus:shadow-[inset_0_0_0_1px_rgba(40,50,75,0.72)]'
 ].join(' ');
 const TEXT_FIELD_CLASS = `${FIELD_CONTROL_CLASS} placeholder:text-outline-variant`;
 const FORM_MESSAGE_CLASS = 'flex items-center justify-center rounded-md px-4 py-3 text-center text-sm font-medium';
 const SECTION_CLASS = 'section-grid-bg section-grid-bg--contact py-[4.5rem] lg:py-[5.25rem]';
 const SECTION_CONTENT_CLASS = 'max-w-3xl mx-auto px-5 sm:px-6 md:px-8';
-const FORM_PANEL_CLASS = 'solution-card-surface rounded-xl border-t-4 border-[#2b3b59] p-8 shadow-[0_4px_20px_rgba(19,27,46,0.04)]';
+const FORM_PANEL_CLASS = 'solution-card-surface rounded-xl border-t-4 border-[#28324b] p-8 shadow-[0_4px_20px_rgba(19,27,46,0.04)]';
 const FORM_PANEL_STYLE = getSolutionCardSurfaceStyle(
   CONTACT_FORM_SURFACE_OPACITY,
   CONTACT_FORM_SURFACE_HOVER_OPACITY,
   '255, 255, 255'
 );
 const SUBMIT_BUTTON_CLASS = [
-  'w-full inline-flex items-center justify-center px-6 py-4 rounded-md text-base font-medium',
-  'transition-all duration-200 bg-primary text-on-primary bg-gradient-to-br from-primary to-primary-container',
-  'shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] hover:shadow-[0_8px_40px_rgba(34,42,62,0.15)]',
+  'contact-submit-cta w-full inline-flex items-center justify-center px-6 py-4 rounded-md text-base font-medium',
+  'transition-shadow duration-200 text-white',
+  'shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] hover:shadow-[0_8px_40px_rgba(40,50,75,0.25)]',
   'active:scale-95 disabled:cursor-wait disabled:opacity-70'
 ].join(' ');
 

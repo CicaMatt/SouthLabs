@@ -25,10 +25,7 @@ const contacts = [
   { id: 'phone', label: 'Telefono', value: '+39 3928139527' }
 ];
 
-const FOOTER_COLUMN_CLASS = [
-  'flex flex-col items-center gap-2.5 text-center',
-  'md:items-start md:text-left'
-].join(' ');
+const FOOTER_COLUMN_CLASS = 'flex flex-col items-center gap-2.5 text-center';
 const FOOTER_HEADING_CLASS = [
   'font-inter text-[11px] font-semibold uppercase tracking-[0.12em]',
   'text-blue-900 dark:text-blue-300'
@@ -39,9 +36,9 @@ const FOOTER_LINK_CLASS = [
 ].join(' ');
 const FOOTER_LEGAL_BUTTON_CLASS = [
   FOOTER_LINK_CLASS,
-  'bg-transparent p-0 text-center md:text-left'
+  'bg-transparent p-0 text-center'
 ].join(' ');
-const FOOTER_CONTACT_ROW_CLASS = 'flex max-w-full items-center justify-center gap-1.5 md:justify-start';
+const FOOTER_CONTACT_ROW_CLASS = 'flex max-w-full items-center justify-center gap-1.5';
 const FOOTER_COPY_BUTTON_CLASS = 'relative inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-sm text-slate-500 transition-colors hover:bg-slate-200/70 hover:text-blue-800 focus:outline-none focus-visible:bg-slate-200 focus-visible:text-blue-900 dark:text-slate-500 dark:hover:bg-slate-800 dark:hover:text-blue-200 dark:focus-visible:bg-slate-800 dark:focus-visible:text-blue-100';
 const FOOTER_COPY_ICON_CLASS = 'material-symbols-outlined absolute inset-0 flex origin-center items-center justify-center text-[13px] leading-none transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform';
 
@@ -179,7 +176,7 @@ export default function Footer() {
         <div className="mx-auto w-full max-w-5xl">
           <div className="mx-auto flex w-full flex-col items-center gap-8 md:w-fit md:flex-row md:items-start md:justify-center md:gap-20 lg:gap-28">
             <FooterColumn title="Documenti Legali">
-              <div className="flex flex-col items-center gap-1.5 md:items-start">
+              <div className="flex flex-col items-center gap-1.5">
                 {legalDocuments.map((legalDocument) => (
                   <button
                     key={legalDocument.id}
@@ -194,7 +191,7 @@ export default function Footer() {
             </FooterColumn>
 
             <FooterColumn title="Contatti">
-              <div className="flex flex-col items-center gap-1.5 md:items-start">
+              <div className="flex flex-col items-center gap-1.5">
                 {contacts.map(({ id, label, value, href }) => (
                   <div className={FOOTER_CONTACT_ROW_CLASS} key={id}>
                     {href ? (
@@ -209,7 +206,7 @@ export default function Footer() {
             </FooterColumn>
 
             <FooterColumn title="Social">
-              <div className="flex flex-col items-center gap-1.5 md:items-start">
+              <div className="flex flex-col items-center gap-1.5">
                 {socialLinks.map((link) => (
                   <a
                     key={link.label}
