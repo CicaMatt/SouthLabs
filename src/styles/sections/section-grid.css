@@ -251,6 +251,13 @@
   --section-grid-color: rgba(31, 79, 143, 0.04);
 }
 
+@media (max-width: 767px) {
+  .section-grid-bg,
+  .section-grid-bg--hero {
+    --section-grid-size: 60px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .section-grid-bg,
   .section-grid-layer {
