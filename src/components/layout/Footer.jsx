@@ -77,11 +77,11 @@ function ContactCopyButton({ copied, label, onCopy }) {
   );
 }
 
-function LegalDocumentDialog({ document, onClose }) {
+function LegalDocumentDialog({ legalDoc, onClose }) {
   const closeButtonRef = useRef(null);
 
   useEffect(() => {
-    if (!document) return undefined;
+    if (!legalDoc) return undefined;
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -99,13 +99,13 @@ function LegalDocumentDialog({ document, onClose }) {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [document, onClose]);
+  }, [legalDoc, onClose]);
 
-  if (!document) return null;
+  if (!legalDoc) return null;
 
   return (
     <div
-      aria-labelledby={`${document.id}-title`}
+      aria-labelledby={`${legalDoc.id}-title`}
       aria-modal="true"
       className="fixed inset-0 z-[80] flex items-center justify-center bg-slate-950/44 px-4 py-6 backdrop-blur-sm sm:px-6"
       onPointerDown={(event) => {
@@ -119,14 +119,14 @@ function LegalDocumentDialog({ document, onClose }) {
         <div className="flex items-center justify-between gap-4 border-b border-slate-200 px-5 py-4 dark:border-slate-800 sm:px-6">
           <h2
             className="font-headline text-xl font-semibold leading-tight text-on-background dark:text-slate-50 sm:text-2xl"
-            id={`${document.id}-title`}
+            id={`${legalDoc.id}-title`}
           >
-            {document.title}
+            {legalDoc.title}
           </h2>
 
           <button
             ref={closeButtonRef}
-            aria-label={`Chiudi ${document.title}`}
+            aria-label={`Chiudi ${legalDoc.title}`}
             className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md border-0 text-[#053f82] transition-colors hover:bg-[#053f82]/10 focus:outline-none focus-visible:bg-[#053f82]/10 dark:text-[#053f82] dark:hover:bg-[#053f82]/10 dark:focus-visible:bg-[#053f82]/10"
             onClick={onClose}
             type="button"
@@ -140,7 +140,7 @@ function LegalDocumentDialog({ document, onClose }) {
         <div className="overflow-y-auto px-5 py-5 sm:px-6 sm:py-6">
           <article
             className="legal-document-content"
-            dangerouslySetInnerHTML={{ __html: document.html }}
+            dangerouslySetInnerHTML={{ __html: legalDoc.html }}
           />
         </div>
       </div>
@@ -230,7 +230,7 @@ export default function Footer() {
       </div>
 
       <LegalDocumentDialog
-        document={activeLegalDocument}
+        legalDoc={activeLegalDocument}
         onClose={() => setActiveLegalDocument(null)}
       />
     </footer>
