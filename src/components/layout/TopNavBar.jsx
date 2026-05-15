@@ -20,24 +20,24 @@ const NAVBAR_CLASS = [
 const NAV_CONTENT_CLASS = 'relative max-w-7xl mx-auto h-full flex items-center justify-between px-5 lg:px-8';
 const DESKTOP_LINK_CLASS = [
   'font-headline text-center text-[13px] font-semibold leading-tight tracking-tight',
-  'text-on-surface-variant transition-all duration-300 hover:text-blue-700',
-  'dark:text-slate-400 dark:hover:text-blue-300 lg:text-[14px]'
+  'text-[#28324b] transition-all duration-300 hover:text-blue-900',
+  'dark:text-slate-400 dark:hover:text-blue-500 lg:text-[14px]'
 ].join(' ');
 const MOBILE_LINK_CLASS = [
   'group flex min-h-12 items-center justify-between rounded-lg px-4',
-  'font-headline text-[14px] font-semibold text-on-background',
-  'transition-colors hover:bg-blue-100/70 hover:text-blue-800 active:bg-blue-100',
-  'dark:text-slate-100 dark:hover:bg-blue-400/15 dark:hover:text-blue-100 dark:active:bg-blue-400/20'
+  'font-headline text-[14px] font-semibold text-[#28324b]',
+  'transition-colors hover:bg-blue-100/70 hover:text-blue-950 active:bg-blue-100',
+  'dark:text-slate-100 dark:hover:bg-blue-400/15 dark:hover:text-blue-300 dark:active:bg-blue-400/20'
 ].join(' ');
 const CONTACT_CTA_CLASS = [
-  'inline-flex items-center justify-center px-3.5 py-2 rounded-md text-xs lg:text-sm font-medium',
+  'inline-flex items-center justify-center px-3.5 py-2 rounded-md text-xs lg:text-sm font-bold',
   'whitespace-nowrap transition-all duration-200 active:scale-95',
-  'nav-contact-cta text-white',
-  'shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] lg:px-6 lg:py-2.5'
+  'nav-contact-cta',
+  'lg:px-6 lg:py-2.5'
 ].join(' ');
 const MOBILE_MENU_BUTTON_CLASS = [
   'md:hidden inline-flex items-center justify-center h-10 w-10',
-  'rounded-lg text-[#053f82] hover:bg-[#053f82]/10 transition-colors'
+  'rounded-lg text-[#28324b] hover:bg-[#28324b]/10 transition-colors'
 ].join(' ');
 
 function BrandLogo({ onNavigate }) {
@@ -119,7 +119,7 @@ function MobileNavMenu({ isVisible, menuRef, onNavigate }) {
             onClick={onNavigate}
           >
             <span>{link.label}</span>
-            <span className="material-symbols-outlined text-[18px] text-slate-400 transition-all group-hover:translate-x-0.5 group-hover:text-blue-700 dark:text-slate-500 dark:group-hover:text-blue-200">
+            <span className="material-symbols-outlined text-[18px] text-[#28324b] transition-all group-hover:translate-x-0.5 group-hover:text-blue-900 dark:text-slate-500 dark:group-hover:text-blue-400">
               arrow_forward
             </span>
           </a>
