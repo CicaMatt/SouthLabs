@@ -47,7 +47,7 @@ const SECTION_CONTENT_CLASS = 'max-w-7xl mx-auto px-5 sm:px-6 md:px-8 relative z
 const SERVICE_GRID_CLASS = 'software-service-grid grid grid-cols-1 md:grid-cols-2 gap-6';
 const SOFTWARE_CARD_SURFACE_CLASS = `${SOLUTION_CARD_SURFACE_CLASS} software-card-surface`;
 const FEATURE_CARD_CLASS = [
-  'software-ai-feature-card site-grid-through-card isolate',
+  'software-ai-feature-card card-grid-anchor isolate',
   'group col-span-1 md:col-span-2 row-span-2 flex h-full flex-col justify-center',
   'relative p-8 text-on-primary',
   SOFTWARE_CARD_SURFACE_CLASS

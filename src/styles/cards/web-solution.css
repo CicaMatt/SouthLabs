@@ -1,0 +1,61 @@
+/* Hover/touch text emphasis on web-section solution cards. */
+
+.web-solution-hover-text {
+  transform: scale(1);
+  transform-origin: left center;
+  transition:
+    transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 220ms ease,
+    text-shadow 220ms ease;
+  will-change: transform;
+}
+
+.text-right .web-solution-hover-text {
+  transform-origin: right center;
+}
+
+@media (min-width: 1024px) {
+  .lg\:text-right .web-solution-hover-text {
+    transform-origin: right center;
+  }
+}
+
+.group:hover .web-solution-hover-title,
+.solution-card-surface--touch-selected .web-solution-hover-title {
+  color: #0e2c52;
+  text-shadow: 0.012em 0 0 rgba(14, 44, 82, 0.34);
+  transform: scale(1.035);
+}
+
+.group:hover .web-solution-hover-description,
+.solution-card-surface--touch-selected .web-solution-hover-description {
+  color: #173c69;
+  text-shadow: 0.01em 0 0 rgba(23, 60, 105, 0.28);
+  transform: scale(1.02);
+}
+
+@media (hover: none), (pointer: coarse) {
+  .group:hover:not(.solution-card-surface--touch-selected) .web-solution-hover-title,
+  .group:hover:not(.solution-card-surface--touch-selected) .web-solution-hover-description {
+    text-shadow: none !important;
+    transform: scale(1) !important;
+  }
+
+  .group:hover:not(.solution-card-surface--touch-selected) .web-solution-hover-title {
+    color: #071d3d !important;
+  }
+
+  .group:hover:not(.solution-card-surface--touch-selected) .web-solution-hover-description {
+    color: #2b3b59 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .web-solution-hover-text {
+    transition: none;
+  }
+
+  .group:hover .web-solution-hover-text {
+    transform: none;
+  }
+}

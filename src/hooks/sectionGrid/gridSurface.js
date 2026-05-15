@@ -1,4 +1,4 @@
-import { SECTION_GRID_SIZE, SITE_GRID_THROUGH_SELECTOR } from './constants';
+import { SECTION_GRID_SIZE, CARD_GRID_ANCHOR_SELECTOR } from './constants';
 
 function setStylePropertyIfChanged(element, propertyName, value) {
   if (element.style.getPropertyValue(propertyName) !== value) {
@@ -6,17 +6,17 @@ function setStylePropertyIfChanged(element, propertyName, value) {
   }
 }
 
-export function clearGridThroughCardHighlight(card) {
-  setStylePropertyIfChanged(card, '--site-grid-through-highlight-opacity', '0');
+export function clearCardGridHighlight(card) {
+  setStylePropertyIfChanged(card, '--card-grid-highlight-opacity', '0');
 }
 
-export function updateGridThroughCardHighlight(card, clientX, clientY, color, opacity) {
+export function updateCardGridHighlight(card, clientX, clientY, color, opacity) {
   const cardRect = card.getBoundingClientRect();
 
-  card.style.setProperty('--site-grid-through-highlight-x', `${(clientX - cardRect.left).toFixed(2)}px`);
-  card.style.setProperty('--site-grid-through-highlight-y', `${(clientY - cardRect.top).toFixed(2)}px`);
-  setStylePropertyIfChanged(card, '--site-grid-through-highlight-color', color);
-  card.style.setProperty('--site-grid-through-highlight-opacity', opacity.toFixed(3));
+  card.style.setProperty('--card-grid-highlight-x', `${(clientX - cardRect.left).toFixed(2)}px`);
+  card.style.setProperty('--card-grid-highlight-y', `${(clientY - cardRect.top).toFixed(2)}px`);
+  setStylePropertyIfChanged(card, '--card-grid-highlight-color', color);
+  card.style.setProperty('--card-grid-highlight-opacity', opacity.toFixed(3));
 }
 
 export function syncSectionGridOrigins(mainElement) {
@@ -44,10 +44,10 @@ export function syncSectionGridOrigins(mainElement) {
     setStylePropertyIfChanged(section, '--section-grid-origin-y', `${baseTop.toFixed(2)}px`);
     setStylePropertyIfChanged(section, '--section-grid-snap-padding', `${desiredAdjustment.toFixed(2)}px`);
 
-    section.querySelectorAll(SITE_GRID_THROUGH_SELECTOR).forEach((element) => {
+    section.querySelectorAll(CARD_GRID_ANCHOR_SELECTOR).forEach((element) => {
       const elementRect = element.getBoundingClientRect();
-      setStylePropertyIfChanged(element, '--site-grid-through-origin-x', `${(elementRect.left + scrollX).toFixed(2)}px`);
-      setStylePropertyIfChanged(element, '--site-grid-through-origin-y', `${(baseTop + elementRect.top - rect.top).toFixed(2)}px`);
+      setStylePropertyIfChanged(element, '--card-grid-origin-x', `${(elementRect.left + scrollX).toFixed(2)}px`);
+      setStylePropertyIfChanged(element, '--card-grid-origin-y', `${(baseTop + elementRect.top - rect.top).toFixed(2)}px`);
     });
 
     currentAdjustmentBefore += currentAdjustment;

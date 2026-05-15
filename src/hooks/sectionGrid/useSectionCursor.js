@@ -1,7 +1,7 @@
 import { useCallback, useRef } from 'react';
-import { SITE_GRID_THROUGH_SELECTOR } from './constants';
+import { CARD_GRID_ANCHOR_SELECTOR } from './constants';
 import { getSectionCursorTheme } from './cursorTheme';
-import { clearGridThroughCardHighlight, updateGridThroughCardHighlight } from './gridSurface';
+import { clearCardGridHighlight, updateCardGridHighlight } from './gridSurface';
 import { updateHeroGraphicCursorState } from './heroGraphicHitTest';
 
 export function useSectionCursor() {
@@ -9,7 +9,7 @@ export function useSectionCursor() {
   const sectionCursorFrameKindRef = useRef(null);
   const lastSectionCursorPointRef = useRef(null);
   const highlightedSectionsRef = useRef([]);
-  const highlightedGridThroughCardsRef = useRef([]);
+  const highlightedCardGridAnchorsRef = useRef([]);
   const sectionCursorRef = useRef(null);
 
   const clearSectionHighlights = useCallback(() => {
@@ -17,8 +17,8 @@ export function useSectionCursor() {
       section.style.setProperty('--section-grid-highlight-opacity', '0');
     });
     highlightedSectionsRef.current = [];
-    highlightedGridThroughCardsRef.current.forEach(clearGridThroughCardHighlight);
-    highlightedGridThroughCardsRef.current = [];
+    highlightedCardGridAnchorsRef.current.forEach(clearCardGridHighlight);
+    highlightedCardGridAnchorsRef.current = [];
     sectionCursorRef.current?.style.setProperty('--section-cursor-opacity', '0');
   }, []);
 
@@ -76,19 +76,19 @@ export function useSectionCursor() {
     });
     highlightedSectionsRef.current = nextHighlightedSections;
 
-    const nextHighlightedGridThroughCards = new Set();
+    const nextHighlightedCardGridAnchors = new Set();
     theme.highlights.forEach(({ section, color, opacity }) => {
-      section.querySelectorAll(SITE_GRID_THROUGH_SELECTOR).forEach((card) => {
-        updateGridThroughCardHighlight(card, clientX, clientY, color, opacity);
-        nextHighlightedGridThroughCards.add(card);
+      section.querySelectorAll(CARD_GRID_ANCHOR_SELECTOR).forEach((card) => {
+        updateCardGridHighlight(card, clientX, clientY, color, opacity);
+        nextHighlightedCardGridAnchors.add(card);
       });
     });
-    highlightedGridThroughCardsRef.current.forEach((card) => {
-      if (!nextHighlightedGridThroughCards.has(card)) {
-        clearGridThroughCardHighlight(card);
+    highlightedCardGridAnchorsRef.current.forEach((card) => {
+      if (!nextHighlightedCardGridAnchors.has(card)) {
+        clearCardGridHighlight(card);
       }
     });
-    highlightedGridThroughCardsRef.current = Array.from(nextHighlightedGridThroughCards);
+    highlightedCardGridAnchorsRef.current = Array.from(nextHighlightedCardGridAnchors);
 
     cursorElement.style.setProperty('--section-cursor-x', `${clientX}px`);
     cursorElement.style.setProperty('--section-cursor-y', `${clientY}px`);

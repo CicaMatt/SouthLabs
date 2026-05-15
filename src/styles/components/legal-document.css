@@ -1,0 +1,175 @@
+/* Markdown-rendered legal document styling (used inside the legal modal). */
+
+.legal-document-content {
+  color: #23324f;
+  font-family: Inter, sans-serif;
+  font-size: 0.94rem;
+  line-height: 1.72;
+}
+
+.legal-document-content > h1:first-child {
+  display: none;
+}
+
+.legal-document-content > h1:first-child + p {
+  margin-top: 0;
+  color: #64748b;
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.legal-document-content h2,
+.legal-document-content h3,
+.legal-document-content h4 {
+  color: #142846;
+  font-family: Manrope, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.legal-document-content h2 {
+  margin: 2rem 0 0.7rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.36);
+  padding-top: 1.25rem;
+  font-size: 1.22rem;
+  line-height: 1.28;
+}
+
+.legal-document-content h3 {
+  margin: 1.35rem 0 0.5rem;
+  font-size: 1.02rem;
+  line-height: 1.35;
+}
+
+.legal-document-content h4 {
+  margin: 1.1rem 0 0.45rem;
+  font-size: 0.94rem;
+  line-height: 1.38;
+}
+
+.legal-document-content p {
+  margin: 0.72rem 0;
+}
+
+.legal-document-content ul {
+  margin: 0.8rem 0 1.05rem;
+  padding-left: 1.2rem;
+}
+
+.legal-document-content li {
+  margin: 0.4rem 0;
+  padding-left: 0.2rem;
+}
+
+.legal-document-content li::marker {
+  color: #1557d4;
+}
+
+.legal-document-content li > p {
+  margin: 0.25rem 0;
+}
+
+.legal-document-content a {
+  color: #1557d4;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+.legal-document-content table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin: 1rem 0 1.4rem;
+  overflow-x: auto;
+  border-collapse: collapse;
+  border: 1px solid rgba(148, 163, 184, 0.38);
+  border-radius: 0.5rem;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.legal-document-content thead {
+  background: #eef4fb;
+  color: #142846;
+}
+
+.legal-document-content th,
+.legal-document-content td {
+  min-width: 13rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.28);
+  padding: 0.75rem 0.8rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.legal-document-content th {
+  font-weight: 700;
+}
+
+.legal-document-content tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.dark .legal-document-content {
+  color: #cbd5e1;
+}
+
+.dark .legal-document-content > h1:first-child + p {
+  color: #94a3b8;
+}
+
+.dark .legal-document-content h2,
+.dark .legal-document-content h3,
+.dark .legal-document-content h4 {
+  color: #f8fafc;
+}
+
+.dark .legal-document-content h2 {
+  border-top-color: rgba(51, 65, 85, 0.82);
+}
+
+.dark .legal-document-content li::marker,
+.dark .legal-document-content a {
+  color: #93c5fd;
+}
+
+.dark .legal-document-content table {
+  border-color: rgba(51, 65, 85, 0.9);
+}
+
+.dark .legal-document-content thead {
+  background: #0f172a;
+  color: #f8fafc;
+}
+
+.dark .legal-document-content th,
+.dark .legal-document-content td {
+  border-bottom-color: rgba(51, 65, 85, 0.8);
+}
+
+@media (max-width: 640px) {
+  .legal-document-content {
+    font-size: 0.9rem;
+    line-height: 1.66;
+  }
+
+  .legal-document-content h2 {
+    margin-top: 1.65rem;
+    font-size: 1.08rem;
+  }
+
+  .legal-document-content h3 {
+    font-size: 0.98rem;
+  }
+
+  .legal-document-content th,
+  .legal-document-content td {
+    min-width: 11.5rem;
+    padding: 0.65rem 0.7rem;
+  }
+}

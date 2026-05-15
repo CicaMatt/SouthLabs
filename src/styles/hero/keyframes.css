@@ -10,6 +10,11 @@
   50%  { transform: translate3d(calc(var(--hero-shift-x)*-26px - 18px), calc(var(--hero-shift-y)*18px + 8px), 0) scale(1.06); }
   100% { transform: translate3d(calc(var(--hero-shift-x)*-22px), calc(var(--hero-shift-y)*14px), 0) scale(1);    }
 }
+@keyframes heroFactoryVisualFloat {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  35%      { transform: translate3d(3px, 0, 0); }
+  70%      { transform: translate3d(-2px, 0, 0); }
+}
 /* Keyframes - illustration */
 @keyframes vFloat {
   0%, 100% { transform: translateX(0); }

@@ -1,0 +1,344 @@
+/* Section-wide grid background, burst animation, and the floating section cursor dot. */
+
+@property --section-grid-burst-radius {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --section-grid-burst-feather {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 32px;
+}
+
+.section-grid-bg {
+  --section-bg: #f7f9fb;
+  --section-grid-color: rgba(31, 79, 143, 0.045);
+  --section-grid-size: 72px;
+  --section-grid-snap-padding: 0px;
+  --section-grid-highlight-color: #1f4f8f;
+  --section-grid-highlight-opacity: 0;
+  --section-grid-highlight-x: 50%;
+  --section-grid-highlight-y: 50%;
+  background-color: var(--section-bg);
+}
+
+.site-main-with-section-cursor > section.section-grid-bg:not(#hero) {
+  position: relative;
+  isolation: isolate;
+}
+
+.site-main-with-section-cursor > section.section-grid-bg:not(#hero)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: var(--section-grid-highlight-opacity, 0);
+  background-image:
+    linear-gradient(var(--section-grid-highlight-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--section-grid-highlight-color) 1px, transparent 1px);
+  background-position:
+    calc(-1px - var(--section-grid-origin-x, 0px))
+    calc(-1px - var(--section-grid-origin-y, 0px));
+  background-repeat: repeat;
+  background-size: var(--section-grid-size, 72px) var(--section-grid-size, 72px);
+  -webkit-mask-image: radial-gradient(
+    circle at var(--section-grid-highlight-x) var(--section-grid-highlight-y),
+    #000 0 46px,
+    transparent 154px
+  );
+  mask-image: radial-gradient(
+    circle at var(--section-grid-highlight-x) var(--section-grid-highlight-y),
+    #000 0 46px,
+    transparent 154px
+  );
+  transition: opacity 140ms ease-out;
+}
+
+.site-main-with-section-cursor > section.section-grid-bg:not(#hero) > * {
+  position: relative;
+  z-index: 1;
+}
+
+.site-main-with-section-cursor > section.section-grid-bg:not(#hero) > .section-grid-burst {
+  --section-grid-burst-x: 50%;
+  --section-grid-burst-y: 50%;
+  --section-grid-burst-rgb: 31, 79, 143;
+  --section-grid-burst-peak-opacity: 0.52;
+  --section-grid-burst-mid-opacity: 0.34;
+  --section-grid-burst-late-opacity: 0.13;
+  --section-grid-burst-early-radius: 92px;
+  --section-grid-burst-mid-radius: 235px;
+  --section-grid-burst-late-radius: 350px;
+  --section-grid-burst-max-radius: 420px;
+  --section-grid-burst-radius: 42px;
+  --section-grid-burst-feather: 72px;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  contain: paint;
+  opacity: 0;
+  -webkit-mask-image: radial-gradient(
+    circle at var(--section-grid-burst-x) var(--section-grid-burst-y),
+    #000 0 calc(var(--section-grid-burst-radius) - 42px),
+    rgba(0, 0, 0, 0.82) var(--section-grid-burst-radius),
+    rgba(0, 0, 0, 0.38) calc(var(--section-grid-burst-radius) + 86px),
+    transparent calc(var(--section-grid-burst-radius) + var(--section-grid-burst-feather))
+  );
+  mask-image: radial-gradient(
+    circle at var(--section-grid-burst-x) var(--section-grid-burst-y),
+    #000 0 calc(var(--section-grid-burst-radius) - 42px),
+    rgba(0, 0, 0, 0.82) var(--section-grid-burst-radius),
+    rgba(0, 0, 0, 0.38) calc(var(--section-grid-burst-radius) + 86px),
+    transparent calc(var(--section-grid-burst-radius) + var(--section-grid-burst-feather))
+  );
+  animation: sectionGridBurstField 1260ms cubic-bezier(0.2, 0.72, 0.18, 1) both;
+  will-change: opacity, mask-image, -webkit-mask-image;
+}
+
+.site-main-with-section-cursor > section.section-grid-bg:not(#hero) > .section-grid-burst::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background-image:
+    linear-gradient(rgba(var(--section-grid-burst-rgb), 0.92) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(var(--section-grid-burst-rgb), 0.92) 2px, transparent 2px);
+  background-position:
+    calc(-1px - var(--section-grid-origin-x, 0px))
+    calc(-1px - var(--section-grid-origin-y, 0px));
+  background-repeat: repeat;
+  background-size: var(--section-grid-size, 72px) var(--section-grid-size, 72px);
+  animation: sectionGridBurstBoldLayer 1260ms cubic-bezier(0.2, 0.72, 0.18, 1) both;
+  will-change: opacity;
+}
+
+.site-main-with-section-cursor > section.section-grid-bg:not(#hero) > .section-grid-burst::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--section-grid-burst-x) var(--section-grid-burst-y),
+    rgba(var(--section-grid-burst-rgb), 0.18) 0,
+    rgba(var(--section-grid-burst-rgb), 0.1) 92px,
+    rgba(var(--section-grid-burst-rgb), 0.04) 220px,
+    transparent 360px
+  );
+  opacity: 0;
+  transform-origin: var(--section-grid-burst-x) var(--section-grid-burst-y);
+  animation: sectionGridPressGlow 900ms cubic-bezier(0.2, 0.72, 0.18, 1) both;
+}
+
+@keyframes sectionGridBurstField {
+  0% {
+    --section-grid-burst-radius: 58px;
+    --section-grid-burst-feather: 96px;
+    opacity: 0;
+  }
+
+  14% {
+    --section-grid-burst-radius: var(--section-grid-burst-early-radius);
+    --section-grid-burst-feather: 112px;
+    opacity: var(--section-grid-burst-peak-opacity);
+  }
+
+  38% {
+    --section-grid-burst-radius: var(--section-grid-burst-mid-radius);
+    --section-grid-burst-feather: 136px;
+    opacity: var(--section-grid-burst-mid-opacity);
+  }
+
+  72% {
+    --section-grid-burst-radius: var(--section-grid-burst-late-radius);
+    --section-grid-burst-feather: 172px;
+    opacity: var(--section-grid-burst-late-opacity);
+  }
+
+  100% {
+    --section-grid-burst-radius: var(--section-grid-burst-max-radius);
+    --section-grid-burst-feather: 220px;
+    opacity: 0;
+  }
+}
+
+@keyframes sectionGridBurstBoldLayer {
+  0% {
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 0.84;
+  }
+
+  30% {
+    opacity: 0.56;
+  }
+
+  58% {
+    opacity: 0.24;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes sectionGridPressGlow {
+  0% {
+    opacity: 0;
+    transform: scale(0.86);
+  }
+
+  16% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.14);
+  }
+}
+
+.site-main-with-section-cursor > section::after {
+  content: "";
+  display: block;
+  height: var(--section-grid-snap-padding, 0px);
+}
+
+.section-grid-bg,
+.section-grid-layer {
+  background-image:
+    linear-gradient(var(--section-grid-color, rgba(31, 79, 143, 0.045)) 1px, transparent 1px),
+    linear-gradient(90deg, var(--section-grid-color, rgba(31, 79, 143, 0.045)) 1px, transparent 1px);
+  background-position:
+    calc(-1px + var(--section-grid-layer-offset-x, 0px) - var(--section-grid-origin-x, 0px))
+    calc(-1px + var(--section-grid-layer-offset-y, 0px) - var(--section-grid-origin-y, 0px));
+  background-repeat: repeat;
+  background-size: var(--section-grid-size, 72px) var(--section-grid-size, 72px);
+}
+
+.section-grid-bg--hero {
+  --section-bg: #0b1729;
+  --section-grid-color: rgba(190, 198, 224, 0.16);
+  --section-grid-size: 72px;
+}
+
+.section-grid-bg--web {
+  --section-bg: #f7f9fb;
+  --section-grid-color: rgba(31, 79, 143, 0.045);
+}
+
+.section-grid-bg--software {
+  --section-bg: #dfe9f3;
+}
+
+.section-grid-bg--infrastructure {
+  --section-bg: #f7f9fb;
+  --section-grid-color: rgba(43, 59, 89, 0.04);
+}
+
+.section-grid-bg--support {
+  --section-bg: #002e3a;
+  --section-grid-color: rgba(142, 205, 226, 0.045);
+}
+
+.section-grid-bg--contact {
+  --section-bg: #f2f4f6;
+  --section-grid-color: rgba(31, 79, 143, 0.04);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-grid-bg,
+  .section-grid-layer {
+    background-position:
+      calc(-1px + var(--section-grid-layer-offset-x, 0px))
+      calc(-1px + var(--section-grid-layer-offset-y, 0px));
+    transition: none;
+  }
+
+  .section-grid-burst {
+    display: none;
+    animation: none;
+  }
+}
+
+.section-cursor-dot {
+  --section-cursor-size: 20px;
+  --section-cursor-x: -48px;
+  --section-cursor-y: -48px;
+  --section-cursor-opacity: 0;
+  --section-cursor-top-color: #1f4f8f;
+  --section-cursor-bottom-color: #1f4f8f;
+  --section-cursor-split: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 60;
+  width: var(--section-cursor-size);
+  height: var(--section-cursor-size);
+  pointer-events: none;
+  border-radius: 999px;
+  opacity: var(--section-cursor-opacity);
+  background: linear-gradient(
+    to bottom,
+    var(--section-cursor-top-color) 0 var(--section-cursor-split),
+    var(--section-cursor-bottom-color) var(--section-cursor-split) 100%
+  );
+  transform:
+    translate3d(
+      calc(var(--section-cursor-x) - 50%),
+      calc(var(--section-cursor-y) - 50%),
+      0
+    );
+  transition:
+    width 180ms ease,
+    height 180ms ease,
+    opacity 120ms ease;
+}
+
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .section-cursor-dot {
+    display: none;
+  }
+}
+
+@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .site-main-with-section-cursor > section,
+  .site-main-with-section-cursor > section * {
+    cursor: none;
+  }
+
+  .site-main-with-section-cursor:has(
+    a:hover,
+    button:hover,
+    h1:hover,
+    h2:hover,
+    h3:hover,
+    h4:hover,
+    h5:hover,
+    h6:hover,
+    input:hover,
+    label:hover,
+    li:hover,
+    p:hover,
+    select:hover,
+    span:hover,
+    textarea:hover,
+    article:hover,
+    .group:hover,
+    .software-card-surface:hover,
+    .card-grid-anchor:hover,
+    [role="button"]:hover,
+    [role="link"]:hover
+  ) .section-cursor-dot {
+    --section-cursor-size: 10px;
+  }
+
+  .site-main-with-section-cursor.site-main--hero-graphic-cursor-small .section-cursor-dot {
+    --section-cursor-size: 10px;
+  }
+}

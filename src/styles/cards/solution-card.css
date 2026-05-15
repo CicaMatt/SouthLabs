@@ -1,0 +1,335 @@
+/* Solution-card surface system and per-section card variants (web, software, infrastructure). */
+
+@property --solution-card-bg-current-opacity {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0.24;
+}
+
+.solution-card-surface {
+  --solution-card-bg-rgb: 251, 252, 254;
+  --solution-card-bg-opacity: 0.24;
+  --solution-card-bg-hover-opacity: var(--solution-card-bg-opacity);
+  --solution-card-bg-current-opacity: var(--solution-card-bg-opacity);
+  background-color: rgba(var(--solution-card-bg-rgb), var(--solution-card-bg-current-opacity));
+  transition-property: --solution-card-bg-current-opacity, background-color, border-color, box-shadow, transform;
+  transition-duration: 420ms;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.solution-card-surface:hover,
+.solution-card-surface.solution-card-surface--touch-selected,
+.solution-card-surface.solution-card-surface--burst-active {
+  --solution-card-bg-current-opacity: var(--solution-card-bg-hover-opacity);
+}
+
+.section-grid-bg--web .solution-card-surface:hover,
+.section-grid-bg--web .solution-card-surface.solution-card-surface--touch-selected,
+.section-grid-bg--web .solution-card-surface.solution-card-surface--burst-active {
+  --tw-translate-y: 0px;
+  border-color: #0a46c4;
+  box-shadow:
+    inset 0 0 0 1.5px rgba(10, 70, 196, 0.92),
+    0 18px 34px rgba(15, 34, 52, 0.13);
+  transform: translateZ(0);
+}
+
+/* Subtle AI feature-card effects for the software section. */
+.software-ai-feature-card,
+.software-ai-feature-card.software-card-surface {
+  --solution-card-bg-opacity: 0.92;
+  --solution-card-bg-hover-opacity: 1;
+  --software-ai-grid-opacity: 0.66;
+  --software-ai-sheen-opacity: 0.34;
+  --software-ai-sheen-translate-x: -18%;
+  --card-grid-highlight-color: var(--section-grid-highlight-color);
+  --card-grid-highlight-opacity: 0;
+  --card-grid-highlight-x: 50%;
+  --card-grid-highlight-y: 50%;
+  --card-grid-burst-x: 50%;
+  --card-grid-burst-y: 50%;
+  --section-grid-burst-rgb: var(--software-interaction-blue-rgb);
+  --section-grid-burst-peak-opacity: 0.52;
+  --section-grid-burst-mid-opacity: 0.34;
+  --section-grid-burst-late-opacity: 0.13;
+  --section-grid-burst-early-radius: 92px;
+  --section-grid-burst-mid-radius: 235px;
+  --section-grid-burst-late-radius: 350px;
+  --section-grid-burst-max-radius: 420px;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(var(--software-interaction-blue-rgb), 0.2), transparent 27%),
+    linear-gradient(
+      135deg,
+      rgba(34, 42, 62, var(--solution-card-bg-current-opacity, 1)) 0%,
+      rgba(40, 50, 75, var(--solution-card-bg-current-opacity, 1)) 54%,
+      rgba(26, 34, 52, var(--solution-card-bg-current-opacity, 1)) 100%
+    );
+}
+
+.software-card-surface {
+  --solution-card-bg-opacity: 0.1;
+  --solution-card-bg-hover-opacity: 0.1;
+}
+
+.section-grid-bg--software .software-card-surface:hover,
+.section-grid-bg--software .software-card-surface.solution-card-surface--touch-selected,
+.section-grid-bg--software .software-card-surface.solution-card-surface--burst-active {
+  border-color: var(--software-ai-accent);
+  box-shadow:
+    inset 0 0 0 1.5px rgba(var(--software-interaction-blue-rgb), 0.92),
+    0 18px 34px rgba(15, 34, 52, 0.13);
+}
+
+@media (min-width: 1024px) {
+  .software-service-grid {
+    grid-template-columns:
+      minmax(0, 0.72fr)
+      minmax(0, 0.72fr)
+      minmax(0, 1fr)
+      minmax(0, 1fr);
+  }
+}
+
+.software-ai-link {
+  color: var(--software-ai-accent);
+  outline-color: var(--software-ai-accent);
+}
+
+.software-ai-feature-card::before,
+.software-ai-feature-card::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.software-ai-feature-card::before {
+  inset: -2px;
+  background-image:
+    linear-gradient(rgba(var(--software-interaction-blue-rgb), 0.24) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--software-interaction-blue-rgb), 0.24) 1px, transparent 1px);
+  background-position:
+    calc(-1px - var(--card-grid-origin-x, var(--section-grid-origin-x, 0px)))
+    calc(-1px - var(--card-grid-origin-y, var(--section-grid-origin-y, 0px)));
+  background-repeat: repeat;
+  background-size: var(--section-grid-size, 72px) var(--section-grid-size, 72px);
+  opacity: var(--software-ai-grid-opacity);
+  transition: opacity 300ms ease;
+}
+
+.software-ai-grid-highlight,
+.software-ai-grid-burst {
+  position: absolute;
+  inset: -2px;
+  z-index: 1;
+  pointer-events: none;
+  background-position:
+    calc(-1px - var(--card-grid-origin-x, var(--section-grid-origin-x, 0px)))
+    calc(-1px - var(--card-grid-origin-y, var(--section-grid-origin-y, 0px)));
+  background-repeat: repeat;
+  background-size: var(--section-grid-size, 72px) var(--section-grid-size, 72px);
+  transition: opacity 140ms ease-out;
+  will-change: opacity;
+}
+
+.software-ai-grid-highlight {
+  opacity: var(--card-grid-highlight-opacity, 0);
+  background-image:
+    linear-gradient(var(--card-grid-highlight-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--card-grid-highlight-color) 1px, transparent 1px);
+  -webkit-mask-image: radial-gradient(
+    circle at var(--card-grid-highlight-x) var(--card-grid-highlight-y),
+    #000 0 46px,
+    transparent 154px
+  );
+  mask-image: radial-gradient(
+    circle at var(--card-grid-highlight-x) var(--card-grid-highlight-y),
+    #000 0 46px,
+    transparent 154px
+  );
+}
+
+.software-ai-grid-burst {
+  --section-grid-burst-x: var(--card-grid-burst-x);
+  --section-grid-burst-y: var(--card-grid-burst-y);
+  --section-grid-burst-radius: 42px;
+  --section-grid-burst-feather: 72px;
+  opacity: 0;
+  background-image:
+    linear-gradient(rgba(var(--section-grid-burst-rgb), 0.92) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(var(--section-grid-burst-rgb), 0.92) 2px, transparent 2px);
+  -webkit-mask-image: radial-gradient(
+    circle at var(--section-grid-burst-x) var(--section-grid-burst-y),
+    #000 0 calc(var(--section-grid-burst-radius) - 42px),
+    rgba(0, 0, 0, 0.82) var(--section-grid-burst-radius),
+    rgba(0, 0, 0, 0.38) calc(var(--section-grid-burst-radius) + 86px),
+    transparent calc(var(--section-grid-burst-radius) + var(--section-grid-burst-feather))
+  );
+  mask-image: radial-gradient(
+    circle at var(--section-grid-burst-x) var(--section-grid-burst-y),
+    #000 0 calc(var(--section-grid-burst-radius) - 42px),
+    rgba(0, 0, 0, 0.82) var(--section-grid-burst-radius),
+    rgba(0, 0, 0, 0.38) calc(var(--section-grid-burst-radius) + 86px),
+    transparent calc(var(--section-grid-burst-radius) + var(--section-grid-burst-feather))
+  );
+}
+
+.software-ai-grid-burst::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--section-grid-burst-x) var(--section-grid-burst-y),
+    rgba(var(--section-grid-burst-rgb), 0.22) 0,
+    rgba(var(--section-grid-burst-rgb), 0.13) 92px,
+    rgba(var(--section-grid-burst-rgb), 0.06) 220px,
+    transparent 360px
+  );
+  opacity: 0;
+  transform-origin: var(--section-grid-burst-x) var(--section-grid-burst-y);
+}
+
+.software-ai-feature-card.solution-card-surface--burst-active .software-ai-grid-burst {
+  animation: sectionGridBurstField 1260ms cubic-bezier(0.2, 0.72, 0.18, 1) both;
+}
+
+.software-ai-feature-card.solution-card-surface--burst-active .software-ai-grid-burst::after {
+  animation: sectionGridPressGlow 900ms cubic-bezier(0.2, 0.72, 0.18, 1) both;
+}
+
+.software-ai-feature-card::after {
+  inset: -42% -68%;
+  background: linear-gradient(
+    112deg,
+    transparent 43%,
+    rgba(var(--software-interaction-blue-rgb), 0.32) 50%,
+    transparent 57%
+  );
+  opacity: var(--software-ai-sheen-opacity);
+  transform: translateX(var(--software-ai-sheen-translate-x));
+  transition:
+    opacity 300ms ease,
+    transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.section-grid-bg--software .software-ai-feature-card.solution-card-surface--touch-selected,
+.section-grid-bg--software .software-ai-feature-card.solution-card-surface--burst-active {
+  --software-ai-grid-opacity: 1;
+  --software-ai-sheen-opacity: 0.6;
+  --software-ai-sheen-translate-x: 18%;
+  border-color: var(--software-ai-accent);
+  box-shadow:
+    inset 0 0 0 2px var(--software-ai-accent),
+    0 18px 34px rgba(15, 34, 52, 0.13);
+}
+
+.software-ai-chip {
+  box-shadow:
+    inset 0 0 0 1px rgba(var(--software-interaction-blue-rgb), 0.24),
+    0 12px 30px rgba(0, 0, 0, 0.12);
+  transition: box-shadow 220ms ease;
+}
+
+.software-ai-feature-card.solution-card-surface--touch-selected .software-ai-chip,
+.software-ai-feature-card.solution-card-surface--burst-active .software-ai-chip {
+  box-shadow:
+    inset 0 0 0 2px rgba(var(--software-interaction-blue-rgb), 0.42),
+    0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.section-grid-bg--infrastructure .infrastructure-image-card.solution-card-surface--touch-selected img {
+  transform: scale(1.05);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .section-grid-bg--software .software-ai-feature-card:hover {
+    --software-ai-grid-opacity: 1;
+    --software-ai-sheen-opacity: 0.6;
+    --software-ai-sheen-translate-x: 18%;
+    border-color: var(--software-ai-accent);
+    box-shadow:
+      inset 0 0 0 2px var(--software-ai-accent),
+      0 18px 34px rgba(15, 34, 52, 0.13);
+  }
+
+  .solution-card-surface.software-ai-feature-card:hover {
+    --tw-translate-y: 0px;
+    transform: translateZ(0);
+  }
+
+  .software-ai-feature-card:hover .software-ai-chip {
+    box-shadow:
+      inset 0 0 0 2px rgba(var(--software-interaction-blue-rgb), 0.42),
+      0 12px 30px rgba(0, 0, 0, 0.12);
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .solution-card-surface:hover:not(.solution-card-surface--touch-selected):not(.solution-card-surface--burst-active) {
+    --solution-card-bg-current-opacity: var(--solution-card-bg-opacity);
+  }
+
+  .section-grid-bg--web .solution-card-surface:hover:not(.solution-card-surface--touch-selected):not(.solution-card-surface--burst-active),
+  .section-grid-bg--software .software-card-surface:hover:not(.solution-card-surface--touch-selected):not(.solution-card-surface--burst-active) {
+    border-color: #d9e0e6 !important;
+    box-shadow: 0 8px 20px rgba(15, 34, 52, 0.07) !important;
+    transform: none !important;
+  }
+
+  .software-ai-feature-card:hover:not(.solution-card-surface--touch-selected):not(.solution-card-surface--burst-active) {
+    --software-ai-grid-opacity: 0.66;
+    --software-ai-sheen-opacity: 0.34;
+    --software-ai-sheen-translate-x: -18%;
+  }
+
+  .software-ai-feature-card:hover:not(.solution-card-surface--touch-selected):not(.solution-card-surface--burst-active) .software-ai-chip {
+    box-shadow:
+      inset 0 0 0 1px rgba(var(--software-interaction-blue-rgb), 0.24),
+      0 12px 30px rgba(0, 0, 0, 0.12);
+  }
+
+  .section-grid-bg--software .group:hover > .material-symbols-outlined {
+    --tw-scale-x: 1 !important;
+    --tw-scale-y: 1 !important;
+    color: #515f74 !important;
+  }
+
+  .section-grid-bg--software .group:hover .software-ai-link,
+  .section-grid-bg--software .group:hover .software-ai-link .material-symbols-outlined {
+    --tw-translate-x: 0px !important;
+  }
+
+  .section-grid-bg--software .group:hover .software-ai-link {
+    color: var(--software-ai-accent) !important;
+  }
+
+  .software-ai-feature-card.group:hover .software-ai-background-icon {
+    --tw-scale-x: 1 !important;
+    --tw-scale-y: 1 !important;
+    opacity: 0.1 !important;
+  }
+
+  .section-grid-bg--infrastructure .group:hover img {
+    transform: scale(1) !important;
+  }
+
+  .section-grid-bg--infrastructure .infrastructure-image-card.solution-card-surface--touch-selected img {
+    transform: scale(1.05) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solution-card-surface,
+  .software-ai-feature-card::before,
+  .software-ai-feature-card::after,
+  .software-ai-grid-highlight,
+  .software-ai-grid-burst,
+  .software-ai-chip {
+    transition: none;
+  }
+
+  .software-ai-feature-card.solution-card-surface--burst-active .software-ai-grid-burst,
+  .software-ai-feature-card.solution-card-surface--burst-active .software-ai-grid-burst::after {
+    animation: none;
+  }
+}

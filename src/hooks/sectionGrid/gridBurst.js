@@ -5,7 +5,7 @@ import {
   SECTION_GRID_BURST_DURATION_MS,
   SECTION_GRID_BURST_SAME_POINT_DISTANCE,
   SECTION_GRID_SIZE,
-  SITE_GRID_THROUGH_SELECTOR,
+  CARD_GRID_ANCHOR_SELECTOR,
   SOLUTION_CARD_BURST_ACTIVE_CLASS,
   SOLUTION_CARD_SURFACE_SELECTOR
 } from './constants';
@@ -68,13 +68,13 @@ function getPointToRectDistance(clientX, clientY, rect) {
   return Math.hypot(dx, dy);
 }
 
-function updateGridThroughCardBurst(card, clientX, clientY, burstPoint) {
+function updateCardGridBurst(card, clientX, clientY, burstPoint) {
   const cardRect = card.getBoundingClientRect();
   const section = card.closest('section.section-grid-bg');
   const rgb = section ? getSectionBurstRgb(section) : DEFAULT_SECTION_GRID_BURST_RGB;
 
-  card.style.setProperty('--site-grid-through-burst-x', `${(clientX - cardRect.left).toFixed(2)}px`);
-  card.style.setProperty('--site-grid-through-burst-y', `${(clientY - cardRect.top).toFixed(2)}px`);
+  card.style.setProperty('--card-grid-burst-x', `${(clientX - cardRect.left).toFixed(2)}px`);
+  card.style.setProperty('--card-grid-burst-y', `${(clientY - cardRect.top).toFixed(2)}px`);
   setGridBurstShapeProperties(card, burstPoint, rgb);
 }
 
@@ -151,8 +151,8 @@ export function restartSolutionCardBurst(card, clientX, clientY, burstPoint, tim
     windowObject.clearTimeout(previousTimeoutId);
   }
 
-  if (card.matches(SITE_GRID_THROUGH_SELECTOR)) {
-    updateGridThroughCardBurst(card, clientX, clientY, burstPoint);
+  if (card.matches(CARD_GRID_ANCHOR_SELECTOR)) {
+    updateCardGridBurst(card, clientX, clientY, burstPoint);
   }
 
   const wasActive = card.classList.contains(SOLUTION_CARD_BURST_ACTIVE_CLASS);
