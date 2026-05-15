@@ -106,8 +106,8 @@
 .software-ai-feature-card::before {
   inset: -2px;
   background-image:
-    linear-gradient(rgba(var(--software-interaction-blue-rgb), 0.24) var(--section-grid-stroke, 1px), transparent var(--section-grid-stroke, 1px)),
-    linear-gradient(90deg, rgba(var(--software-interaction-blue-rgb), 0.24) var(--section-grid-stroke, 1px), transparent var(--section-grid-stroke, 1px));
+    linear-gradient(rgba(var(--software-interaction-blue-rgb), 0.24) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--software-interaction-blue-rgb), 0.24) 1px, transparent 1px);
   background-position:
     calc(-1px - var(--card-grid-origin-x, var(--section-grid-origin-x, 0px)))
     calc(-1px - var(--card-grid-origin-y, var(--section-grid-origin-y, 0px)));
@@ -135,8 +135,8 @@
 .software-ai-grid-highlight {
   opacity: var(--card-grid-highlight-opacity, 0);
   background-image:
-    linear-gradient(var(--card-grid-highlight-color) var(--section-grid-stroke, 1px), transparent var(--section-grid-stroke, 1px)),
-    linear-gradient(90deg, var(--card-grid-highlight-color) var(--section-grid-stroke, 1px), transparent var(--section-grid-stroke, 1px));
+    linear-gradient(var(--card-grid-highlight-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--card-grid-highlight-color) 1px, transparent 1px);
   -webkit-mask-image: radial-gradient(
     circle at var(--card-grid-highlight-x) var(--card-grid-highlight-y),
     #000 0 46px,
@@ -156,8 +156,8 @@
   --section-grid-burst-feather: 72px;
   opacity: 0;
   background-image:
-    linear-gradient(rgba(var(--section-grid-burst-rgb), 0.92) var(--section-grid-burst-stroke, 2px), transparent var(--section-grid-burst-stroke, 2px)),
-    linear-gradient(90deg, rgba(var(--section-grid-burst-rgb), 0.92) var(--section-grid-burst-stroke, 2px), transparent var(--section-grid-burst-stroke, 2px));
+    linear-gradient(rgba(var(--section-grid-burst-rgb), 0.92) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(var(--section-grid-burst-rgb), 0.92) 2px, transparent 2px);
   -webkit-mask-image: radial-gradient(
     circle at var(--section-grid-burst-x) var(--section-grid-burst-y),
     #000 0 calc(var(--section-grid-burst-radius) - 42px),

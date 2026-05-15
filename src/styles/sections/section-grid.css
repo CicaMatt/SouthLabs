@@ -16,21 +16,12 @@
   --section-bg: #f7f9fb;
   --section-grid-color: rgba(31, 79, 143, 0.045);
   --section-grid-size: 72px;
-  --section-grid-stroke: 1px;
-  --section-grid-burst-stroke: 2px;
   --section-grid-snap-padding: 0px;
   --section-grid-highlight-color: #1f4f8f;
   --section-grid-highlight-opacity: 0;
   --section-grid-highlight-x: 50%;
   --section-grid-highlight-y: 50%;
   background-color: var(--section-bg);
-}
-
-@media (max-width: 768px) {
-  .section-grid-bg {
-    --section-grid-stroke: 0.75px;
-    --section-grid-burst-stroke: 1.4px;
-  }
 }
 
 .site-main-with-section-cursor > section.section-grid-bg:not(#hero) {
@@ -46,8 +37,8 @@
   pointer-events: none;
   opacity: var(--section-grid-highlight-opacity, 0);
   background-image:
-    linear-gradient(var(--section-grid-highlight-color) var(--section-grid-stroke), transparent var(--section-grid-stroke)),
-    linear-gradient(90deg, var(--section-grid-highlight-color) var(--section-grid-stroke), transparent var(--section-grid-stroke));
+    linear-gradient(var(--section-grid-highlight-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--section-grid-highlight-color) 1px, transparent 1px);
   background-position:
     calc(-1px - var(--section-grid-origin-x, 0px))
     calc(-1px - var(--section-grid-origin-y, 0px));
@@ -114,8 +105,8 @@
   inset: 0;
   opacity: 0;
   background-image:
-    linear-gradient(rgba(var(--section-grid-burst-rgb), 0.92) var(--section-grid-burst-stroke), transparent var(--section-grid-burst-stroke)),
-    linear-gradient(90deg, rgba(var(--section-grid-burst-rgb), 0.92) var(--section-grid-burst-stroke), transparent var(--section-grid-burst-stroke));
+    linear-gradient(rgba(var(--section-grid-burst-rgb), 0.92) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(var(--section-grid-burst-rgb), 0.92) 2px, transparent 2px);
   background-position:
     calc(-1px - var(--section-grid-origin-x, 0px))
     calc(-1px - var(--section-grid-origin-y, 0px));
@@ -221,8 +212,8 @@
 .section-grid-bg,
 .section-grid-layer {
   background-image:
-    linear-gradient(var(--section-grid-color, rgba(31, 79, 143, 0.045)) var(--section-grid-stroke), transparent var(--section-grid-stroke)),
-    linear-gradient(90deg, var(--section-grid-color, rgba(31, 79, 143, 0.045)) var(--section-grid-stroke), transparent var(--section-grid-stroke));
+    linear-gradient(var(--section-grid-color, rgba(31, 79, 143, 0.045)) 1px, transparent 1px),
+    linear-gradient(90deg, var(--section-grid-color, rgba(31, 79, 143, 0.045)) 1px, transparent 1px);
   background-position:
     calc(-1px + var(--section-grid-layer-offset-x, 0px) - var(--section-grid-origin-x, 0px))
     calc(-1px + var(--section-grid-layer-offset-y, 0px) - var(--section-grid-origin-y, 0px));
