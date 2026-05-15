@@ -16,18 +16,18 @@ const DESCRIPTION_HOVER_EFFECT = 'web-solution-hover-text web-solution-hover-des
 const SOLUTION_CARD_DESKTOP_QUERY = '(min-width: 1024px)';
 const SOLUTION_CARD_CLASSES = {
   shell: [
-    'group relative flex min-h-[198px] items-center',
+    'group relative flex min-h-[100px] items-center',
     SOLUTION_CARD_SURFACE_CLASS,
-    'sm:min-h-[214px] md:min-h-[238px]'
+    'sm:min-h-[188px] md:min-h-[218px]'
   ].join(' '),
   stackedRow: [
-    'relative z-10 flex w-full items-center gap-3 px-5 py-3.5',
-    'sm:gap-4 sm:px-7 sm:py-4 md:px-8 lg:hidden'
+    'relative z-10 flex w-full items-center gap-3 px-5 py-2.5',
+    'sm:gap-4 sm:px-7 sm:py-3 md:px-8 lg:hidden'
   ].join(' '),
   imageShell: 'relative w-full overflow-hidden bg-transparent',
   badgeTopLeft: 'top-4 left-5 sm:top-5 sm:left-7 md:left-8 lg:top-6 lg:left-7',
   stackedTitle: cx(
-    'font-headline text-[1.12rem] font-extrabold leading-[1.08] text-[#071d3d] sm:text-[1.24rem] md:text-[1.34rem]',
+    'font-headline text-[1.12rem] font-extrabold leading-[1.08] text-[#071d3d] sm:text-[1.24rem] md:text-[1.44rem]',
     TITLE_HOVER_EFFECT
   ),
   stackedDescription: cx(
@@ -35,7 +35,7 @@ const SOLUTION_CARD_CLASSES = {
     DESCRIPTION_HOVER_EFFECT
   ),
   desktopTitle: cx(
-    'font-headline text-[1.38rem] font-extrabold leading-[1.08] text-[#071d3d] xl:text-[1.5rem]',
+    'font-headline text-[1.54rem] font-extrabold leading-[1.08] text-[#071d3d] xl:text-[1.68rem]',
     TITLE_HOVER_EFFECT
   ),
   desktopDescription: cx(
@@ -48,8 +48,8 @@ const HORIZONTAL_CARD_CLASSES = {
   stackedTextColumn: 'min-w-0 flex-1 pr-1 text-left sm:pr-2',
   stackedTextWrap: 'relative mr-auto max-w-[31ch] sm:max-w-[34ch]',
   stackedPreviewFrame: {
-    square: 'shrink-0 w-[54%] sm:w-[52%] md:w-[40%] -mr-4 sm:-mr-5 md:-mr-5',
-    wide: 'shrink-0 w-[52%] sm:w-[50%] md:w-[38%] -mr-2.5 sm:-mr-3.5 md:-mr-3.5'
+    square: 'shrink-0 w-[54%] sm:w-[52%] md:w-[36%] -mr-4 sm:-mr-5 md:-mr-5',
+    wide: 'shrink-0 w-[52%] sm:w-[50%] md:w-[34%] -mr-2.5 sm:-mr-3.5 md:-mr-3.5'
   },
   stackedPreviewRatio: {
     square: 'aspect-square',
@@ -69,7 +69,7 @@ const HORIZONTAL_CARD_CLASSES = {
 };
 const TALL_CARD_CLASSES = {
   shell: 'lg:col-span-1 lg:block lg:row-span-2 lg:min-h-[592px]',
-  stackedPreviewFrame: '-ml-2.5 w-[54%] shrink-0 sm:-ml-3.5 sm:w-[52%] md:-ml-3.5 md:w-[40%]',
+  stackedPreviewFrame: '-ml-2.5 w-[54%] shrink-0 sm:-ml-3.5 sm:w-[52%] md:-ml-3.5 md:w-[36%]',
   stackedTextColumn: 'min-w-0 flex-1 text-right sm:pl-1 md:pl-2',
   stackedTextWrap: 'relative ml-auto max-w-[31ch] sm:max-w-[34ch]',
   desktopView: 'relative z-10 hidden h-full px-7 py-6 lg:flex',
