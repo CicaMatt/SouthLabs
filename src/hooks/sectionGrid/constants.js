@@ -52,7 +52,7 @@ export const SECTION_CURSOR_THEMES = [
   },
   {
     id: 'infrastrutture-hardware',
-    color: '#28324b'
+    color: '#1a2d4e'
   },
   {
     id: 'manutenzione-supporto',
@@ -60,6 +60,6 @@ export const SECTION_CURSOR_THEMES = [
   },
   {
     id: 'contatti',
-    color: '#28324b'
+    color: '#1a2d4e'
   }
 ];
