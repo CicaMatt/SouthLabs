@@ -31,11 +31,12 @@
 }
 
 .hero-atmosphere-base {
-  background:
-    radial-gradient(circle at 12% 14%, rgba(93, 142, 241, 0.26), transparent 42%),
-    radial-gradient(circle at 88% 82%, rgba(71, 214, 255, 0.24), transparent 44%),
-    linear-gradient(138deg, #1b2540 0%, #121f38 48%, #0b1729 100%);
-  background-size: 118% 118%, 116% 116%, 100% 100%;
+  background: linear-gradient(
+    135deg,
+    #203658 0%,
+    #1a2d4e 54%,
+    #122038 100%
+  );
 }
 .hero-atmosphere-grid {
   --section-grid-layer-offset-x: var(--hero-atmosphere-bleed);
@@ -57,9 +58,11 @@
 }
 .hero-atmosphere-glow {
   overflow: hidden;
+  /* Static radial glows disabled (kept for reference)
   background:
     radial-gradient(circle at 76% 56%, rgba(112, 203, 255, 0.22), transparent 36%),
     radial-gradient(circle at 84% 28%, rgba(255, 171, 83, 0.12), transparent 22%);
+  */
   mix-blend-mode: screen;
 }
 .hero-atmosphere-glow::before {
@@ -69,9 +72,12 @@
   top: var(--hero-pointer-y);
   width: clamp(360px, 52vw, 760px);
   aspect-ratio: 1;
+  /* Cursor-following spotlight disabled (kept for reference)
   background: radial-gradient(circle, rgba(71, 214, 255, 0.34), rgba(71, 214, 255, 0.16) 34%, transparent 68%);
+  */
+  background: none;
   border-radius: 50%;
-  opacity: 0.82;
+  opacity: 0;
   transform: translate3d(-50%, -50%, 0);
   transition:
     left var(--hero-glow-position-duration) var(--hero-glow-position-ease),
@@ -114,18 +120,24 @@
   opacity: 0.48;
 }
 .hero-atmosphere-stream-a {
+  background: none;
+  /* Drifting stream A disabled (kept for reference)
   background:
     radial-gradient(ellipse at 68% 34%, rgba(72, 151, 255, 0.32), transparent 54%),
     radial-gradient(ellipse at 88% 68%, rgba(87, 226, 255, 0.18), transparent 46%);
   transform: translate3d(calc(var(--hero-shift-x)*20px), calc(var(--hero-shift-y)*-16px), 0);
   animation: heroStreamDrift 18s ease-in-out infinite;
+  */
 }
 .hero-atmosphere-stream-b {
+  background: none;
+  /* Drifting stream B disabled (kept for reference)
   background:
     radial-gradient(ellipse at 58% 92%, rgba(53, 118, 247, 0.22), transparent 48%),
     radial-gradient(ellipse at 95% 18%, rgba(255, 183, 93, 0.14), transparent 30%);
   transform: translate3d(calc(var(--hero-shift-x)*-22px), calc(var(--hero-shift-y)*14px), 0);
   animation: heroStreamDriftReverse 22s ease-in-out infinite;
+  */
 }
 
 /* Factory stage */

@@ -36,10 +36,12 @@
     opacity: 1;
   }
 
+  /* Mobile factory bottom light disabled (kept for reference)
   .hero-factory-stage .v-svg .v-factory-mobile-bottom-light {
     display: block;
     opacity: 1;
   }
+  */
 
   .hero-actions {
     max-width: 18rem;

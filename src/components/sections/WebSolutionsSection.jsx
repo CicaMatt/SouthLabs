@@ -194,17 +194,17 @@ function SolutionBadge({ card, className = '' }) {
   return (
     <span
       className={cx(
-        'pointer-events-none absolute z-20 inline-flex max-w-[calc(100%_-_2.5rem)] items-center overflow-hidden rounded-[1rem] bg-[#d1e1f9] text-[#0a46c4] sm:rounded-[1.2rem]',
-        'shadow-[inset_0_0_0_0.5px_rgba(10,70,196,0.13)]',
+        'pointer-events-none absolute z-20 inline-flex max-w-[calc(100%_-_2.5rem)] items-center overflow-hidden rounded-[1rem] bg-[#dbe4ef] text-[#1a2d4e] sm:rounded-[1.2rem]',
+        'shadow-[inset_0_0_0_0.5px_rgba(26,45,78,0.13)]',
         'sm:max-w-[calc(100%_-_3.5rem)] md:max-w-[calc(100%_-_4rem)]',
         className
       )}
     >
-      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[0.9rem] bg-[#d1e1f9] sm:h-9 sm:w-9 sm:rounded-[1.1rem]">
+      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[0.9rem] bg-[#dbe4ef] sm:h-9 sm:w-9 sm:rounded-[1.1rem]">
         {isWordpress ? (
-          <WordpressMaskedIcon className="h-4 w-4 bg-[#0a46c4] sm:h-5 sm:w-5" />
+          <WordpressMaskedIcon className="h-4 w-4 bg-[#1a2d4e] sm:h-5 sm:w-5" />
         ) : (
-          <span className="material-symbols-outlined fill text-[18px] leading-none text-[#0a46c4] sm:text-[22px]">
+          <span className="material-symbols-outlined fill text-[18px] leading-none text-[#1a2d4e] sm:text-[22px]">
             {card.icon}
           </span>
         )}

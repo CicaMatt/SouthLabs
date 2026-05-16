@@ -32,7 +32,7 @@ export default function SupportSection() {
           <ul className="space-y-4">
             {SUPPORT_ITEMS.map((item) => (
               <li key={item} className="flex items-start gap-3">
-                <span className="material-symbols-outlined shrink-0 text-[22px] leading-7 text-tertiary-fixed">check_circle</span>
+                <span className="material-symbols-outlined shrink-0 text-[22px] leading-7 text-tertiary-fixed-dim">check_circle</span>
                 <span className="font-body leading-7">{item}</span>
               </li>
             ))}
@@ -41,11 +41,11 @@ export default function SupportSection() {
 
         <div className={CTA_PANEL_CLASS} style={CTA_PANEL_STYLE}>
           <div className="text-center">
-            <span className="material-symbols-outlined text-[64px] text-tertiary-fixed mb-4">support_agent</span>
+            <span className="material-symbols-outlined text-[64px] text-tertiary-fixed-dim mb-4">support_agent</span>
             <h3 className="font-headline text-2xl font-bold mb-2">Sempre al tuo fianco</h3>
             <p className="text-on-tertiary/70 mb-6">Piani flessibili progettati sulle reali necessità della tua infrastruttura.</p>
             <a
-              className="inline-flex items-center justify-center w-full px-6 py-3 rounded-md text-sm font-medium transition-all duration-200 bg-tertiary-fixed text-on-tertiary-fixed hover:bg-white active:scale-95"
+              className="inline-flex items-center justify-center w-full px-6 py-3 rounded-md text-sm font-medium transition-all duration-200 bg-tertiary-fixed-dim text-on-tertiary-fixed hover:bg-white active:scale-95"
               href="#contatti"
             >
               Scopri i Piani

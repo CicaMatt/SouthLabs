@@ -9,7 +9,7 @@ const SOFTWARE_CARD_SURFACE_OPACITY = 0.25;
 const SOFTWARE_CARD_SURFACE_HOVER_OPACITY = 0.7;
 const SOFTWARE_FEATURE_CARD_SURFACE_OPACITY = 1;
 const SOFTWARE_FEATURE_CARD_SURFACE_HOVER_OPACITY = 1;
-const SOFTWARE_SECTION_GRID_OPACITY = 0.075;
+const SOFTWARE_SECTION_GRID_OPACITY = 0.05;
 
 const AUTOMATION_CARDS = [
   {
@@ -65,12 +65,14 @@ const SOFTWARE_FEATURE_CARD_SURFACE_STYLE = getSolutionCardSurfaceStyle(
   SOFTWARE_FEATURE_CARD_SURFACE_HOVER_OPACITY
 );
 const SOFTWARE_SECTION_STYLE = {
-  '--section-grid-color': `rgba(${SOFTWARE_SECTION_THEME_RGB_CSS}, ${SOFTWARE_SECTION_GRID_OPACITY})`,
+  '--section-grid-color': `rgba(26, 45, 78, ${SOFTWARE_SECTION_GRID_OPACITY})`,
   '--section-grid-highlight-color': SOFTWARE_SECTION_THEME_COLOR,
   '--section-grid-burst-rgb': SOFTWARE_SECTION_THEME_RGB_CSS,
   '--software-ai-accent': SOFTWARE_SECTION_THEME_COLOR,
   '--software-interaction-blue': SOFTWARE_SECTION_THEME_COLOR,
-  '--software-interaction-blue-rgb': SOFTWARE_SECTION_THEME_RGB_CSS
+  '--software-interaction-blue-rgb': SOFTWARE_SECTION_THEME_RGB_CSS,
+  '--software-support-blue': '#1a2d4e',
+  '--software-support-blue-rgb': '26, 45, 78'
 };
 
 function AutomationCard({ description, icon, surfaceHoverOpacity, surfaceOpacity, title }) {
@@ -79,7 +81,7 @@ function AutomationCard({ description, icon, surfaceHoverOpacity, surfaceOpacity
       className={AUTOMATION_CARD_CLASS}
       style={getSolutionCardSurfaceStyle(surfaceOpacity, surfaceHoverOpacity)}
     >
-      <span className="material-symbols-outlined mb-4 inline-flex h-7 w-7 origin-center items-center justify-center text-[28px] leading-none text-secondary transition-all duration-300 group-hover:scale-110 group-hover:text-[var(--software-ai-accent)]">{icon}</span>
+      <span className="material-symbols-outlined mb-4 inline-flex h-7 w-7 origin-center items-center justify-center text-[28px] leading-none text-[var(--software-support-blue)] transition-all duration-300 group-hover:scale-110">{icon}</span>
       <h4 className="mb-2 min-h-[3rem] font-headline text-lg font-bold leading-snug text-on-background">{title}</h4>
       <p className="font-body text-sm leading-relaxed text-on-surface-variant">{description}</p>
     </div>

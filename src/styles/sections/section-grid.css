@@ -229,7 +229,9 @@
 
 .section-grid-bg--web {
   --section-bg: #f7f9fb;
-  --section-grid-color: rgba(31, 79, 143, 0.045);
+  --section-grid-color: rgba(37, 74, 112, 0.045);
+  --section-grid-burst-rgb: 37, 74, 112;
+  --section-grid-highlight-color: #254a70;
 }
 
 .section-grid-bg--software {
@@ -242,8 +244,10 @@
 }
 
 .section-grid-bg--support {
-  --section-bg: #1a2d4e;
-  --section-grid-color: rgba(142, 205, 226, 0.045);
+  --section-bg: #22385a;
+  --section-grid-color: rgba(149, 227, 255, 0.045);
+  --section-grid-burst-rgb: 149, 227, 255;
+  --section-grid-highlight-color: #95e3ff;
 }
 
 .section-grid-bg--contact {

@@ -35,7 +35,7 @@ export default function HeroSection() {
           </div>
         </div>
 
-        <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#081022] to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0d1a30] to-transparent" />
       </div>
 
       <div className="max-w-7xl mx-auto px-5 sm:px-6 md:px-8 relative z-10">
@@ -62,7 +62,7 @@ export default function HeroSection() {
             <div className="hero-actions flex flex-col lg:flex-row gap-4">
               <a
                 href="#contatti"
-                className="hero-consultancy-cta inline-flex items-center justify-center px-8 py-4 rounded-md text-[1.0625rem] font-medium transition-all duration-300 bg-[#b6ebff] text-[#06222a] shadow-[0_18px_45px_rgba(12,35,46,0.45)] hover:shadow-[0_22px_55px_rgba(12,35,46,0.58)] active:scale-95"
+                className="hero-consultancy-cta inline-flex items-center justify-center px-8 py-4 rounded-md text-[1.0625rem] font-medium transition-all duration-300 bg-[#95e3ff] text-[#06222a] shadow-[0_18px_45px_rgba(12,35,46,0.45)] hover:shadow-[0_22px_55px_rgba(12,35,46,0.58)] active:scale-95"
               >
                 <span>Richiedi una Consulenza</span>
               </a>
