@@ -229,9 +229,9 @@
 
 .section-grid-bg--web {
   --section-bg: #f7f9fb;
-  --section-grid-color: rgba(37, 74, 112, 0.045);
-  --section-grid-burst-rgb: 37, 74, 112;
-  --section-grid-highlight-color: #254a70;
+  --section-grid-color: rgba(32, 54, 88, 0.045);
+  --section-grid-burst-rgb: 32, 54, 88;
+  --section-grid-highlight-color: #203658;
 }
 
 .section-grid-bg--software {
