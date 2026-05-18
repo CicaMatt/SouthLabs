@@ -121,14 +121,14 @@
 }
 
 .v-plume-trend-arrow {
-  stroke: #e9feff;
+  stroke: #95e3ff;
   stroke-width: 4.2;
   stroke-dasharray: none;
   stroke-linejoin: round;
   stroke-linecap: round;
   filter:
-    drop-shadow(0 0 8px rgba(245, 252, 255, 0.62))
-    drop-shadow(0 0 14px rgba(73, 209, 255, 0.2));
+    drop-shadow(0 0 8px rgba(149, 227, 255, 0.62))
+    drop-shadow(0 0 14px rgba(149, 227, 255, 0.2));
   animation: vTrendPulse 4s ease-in-out infinite;
 }
 .v-plume-trend-out {
@@ -139,10 +139,10 @@
 .v-node {
   transform-box: fill-box;
   transform-origin: center;
-  fill: #c9fbff;
+  fill: #95e3ff;
   filter:
-    drop-shadow(0 0 7px rgba(121, 231, 255, 0.62))
-    drop-shadow(0 0 14px rgba(73, 209, 255, 0.24));
+    drop-shadow(0 0 7px rgba(149, 227, 255, 0.62))
+    drop-shadow(0 0 14px rgba(149, 227, 255, 0.24));
   animation: vNodePulse 4s ease-in-out infinite;
 }
 .v-node-b { animation-delay: 1.6s; }
@@ -150,9 +150,9 @@
 .v-node-orange {
   transform-box: fill-box;
   transform-origin: center;
-  fill: #e9feff;
+  fill: #95e3ff;
   filter:
-    drop-shadow(0 0 8px rgba(245, 252, 255, 0.74))
+    drop-shadow(0 0 8px rgba(149, 227, 255, 0.74))
     drop-shadow(0 0 18px rgba(149, 227, 255, 0.34));
   animation: vOrangePulse 4.4s ease-in-out infinite;
 }

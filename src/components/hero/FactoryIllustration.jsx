@@ -60,13 +60,13 @@ function PlumeCloud() {
           <line className="v-plume-side-link" x1="176" y1="122" x2="206" y2="122" />
           <line className="v-plume-side-link v-plume-side-link-b" x1="342" y1="108" x2="408" y2="108" />
 
-          <circle cx="208" cy="122" r="6.5" fill="#8EEDFF" className="v-node" />
-          <circle cx="364" cy="108" r="6.2" fill="#8EEDFF" className="v-node v-node-b" />
+          <circle cx="208" cy="122" r="6.5" fill="#95E3FF" className="v-node" />
+          <circle cx="364" cy="108" r="6.2" fill="#95E3FF" className="v-node v-node-b" />
 
           <circle cx="248" cy="92" r="19" className="v-node-ring" />
-          <circle cx="248" cy="92" r="12.2" fill="#8EEDFF" className="v-node-orange" />
+          <circle cx="248" cy="92" r="12.2" fill="#95E3FF" className="v-node-orange" />
           <circle cx="374" cy="74" r="18" className="v-node-ring v-node-ring-b" />
-          <circle cx="374" cy="74" r="11.8" fill="#8EEDFF" className="v-node-orange v-node-orange-b" />
+          <circle cx="374" cy="74" r="11.8" fill="#95E3FF" className="v-node-orange v-node-orange-b" />
 
           <circle cx="248" cy="92" r="3.2" className="v-node-spark" />
           <circle cx="374" cy="74" r="3" className="v-node-spark v-node-spark-b" />
@@ -410,14 +410,14 @@ export default function FactoryIllustration() {
           <stop offset="100%" stopColor="#88C0D2" stopOpacity="0" />
         </linearGradient>
         <linearGradient id="vGraphStroke" x1="190" y1="132" x2="452" y2="30" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#47D7FF" stopOpacity="0.72" />
-          <stop offset="46%" stopColor="#C8FBFF" stopOpacity="1" />
+          <stop offset="0%" stopColor="#7FCEE8" stopOpacity="0.72" />
+          <stop offset="46%" stopColor="#95E3FF" stopOpacity="1" />
           <stop offset="72%" stopColor="#95E3FF" stopOpacity="0.94" />
-          <stop offset="100%" stopColor="#E9FEFF" stopOpacity="0.9" />
+          <stop offset="100%" stopColor="#95E3FF" stopOpacity="0.9" />
         </linearGradient>
         <linearGradient id="vGraphColumnGlow" x1="206" y1="134" x2="400" y2="60" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#2CD0FF" stopOpacity="0.48" />
-          <stop offset="58%" stopColor="#91FAFF" stopOpacity="0.96" />
+          <stop offset="0%" stopColor="#7FCEE8" stopOpacity="0.48" />
+          <stop offset="58%" stopColor="#95E3FF" stopOpacity="0.96" />
           <stop offset="100%" stopColor="#95E3FF" stopOpacity="0.78" />
         </linearGradient>
         <radialGradient
