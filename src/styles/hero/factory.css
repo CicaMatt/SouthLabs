@@ -277,9 +277,10 @@
 
 .v-factory-window {
   fill: url(#vDoorPanelFill);
+  fill-opacity: 0.80;
   stroke: url(#vPanelStroke);
   stroke-width: 1.35;
-  stroke-opacity: 0.82;
+  stroke-opacity: 0.80;
   transform-box: fill-box;
   transform-origin: center;
   will-change: filter, stroke-opacity;
@@ -307,19 +308,19 @@
   stroke-linejoin: round;
   stroke-dasharray: 32 156;
   stroke-dashoffset: 188;
-  opacity: 0;
   pointer-events: none;
   filter: drop-shadow(0 0 4px rgba(122, 235, 255, 0.42));
   vector-effect: non-scaling-stroke;
-  animation: vDoorSignalTravel 4s linear infinite;
+  animation: vDoorSignalTravel 6.4s linear infinite;
 }
 
 .v-door-perimeter-signal-b {
-  animation-delay: -2s;
+  animation-delay: -3.2s;
 }
 
 .v-factory-cutout {
   fill: url(#vSlotPanelFill);
+  fill-opacity: 0.84;
   stroke: url(#vWindowPanelStroke);
   stroke-width: 0.9;
   stroke-opacity: 0.78;
@@ -346,10 +347,9 @@
   stroke-linecap: round;
   stroke-dasharray: 34 118;
   stroke-dashoffset: 152;
-  opacity: 0;
   pointer-events: none;
   vector-effect: non-scaling-stroke;
-  animation: vWindowSweepTravel 5.8s linear infinite;
+  animation: vWindowSweepTravel 9s linear infinite;
 }
 
 .v-window-sweep-glow {
@@ -365,8 +365,8 @@
   stroke-opacity: 0.62;
 }
 
-.v-window-sweep-b { animation-delay: -1.45s; }
-.v-window-sweep-c { animation-delay: -2.9s; }
+.v-window-sweep-b { animation-delay: -2.25s; }
+.v-window-sweep-c { animation-delay: -4.5s; }
 
 .v-panel-edge-light,
 .v-panel-edge-depth {
@@ -429,7 +429,7 @@
   stroke-linejoin: round;
   stroke-opacity: 0.62;
   stroke-dasharray: 18 12;
-  animation: vFactoryTraceFlow 9.8s linear infinite, vFactoryTracePulse 4.6s ease-in-out infinite;
+  animation: vFactoryTraceFlow 14s linear infinite, vFactoryTracePulse 4.6s ease-in-out infinite;
 }
 
 .v-factory-trace-b {
@@ -437,6 +437,6 @@
   stroke-width: 0.95;
   stroke-opacity: 0.82;
   stroke-dasharray: 3 25;
-  animation: vFactoryTraceFlowReverse 7.2s linear infinite, vFactoryTracePulse 3.7s ease-in-out infinite;
+  animation: vFactoryTraceFlowReverse 10.4s linear infinite, vFactoryTracePulse 3.7s ease-in-out infinite;
   animation-delay: -1.3s, -0.9s;
 }

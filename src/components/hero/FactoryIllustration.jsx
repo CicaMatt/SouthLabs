@@ -60,13 +60,13 @@ function PlumeCloud() {
           <line className="v-plume-side-link" x1="176" y1="122" x2="206" y2="122" />
           <line className="v-plume-side-link v-plume-side-link-b" x1="342" y1="108" x2="408" y2="108" />
 
-          <circle cx="208" cy="122" r="6.5" fill="#95E3FF" className="v-node" />
-          <circle cx="364" cy="108" r="6.2" fill="#95E3FF" className="v-node v-node-b" />
+          <circle cx="208" cy="122" r="6.5" fill="#E0F5FF" className="v-node" />
+          <circle cx="364" cy="108" r="6.2" fill="#E0F5FF" className="v-node v-node-b" />
 
           <circle cx="248" cy="92" r="19" className="v-node-ring" />
-          <circle cx="248" cy="92" r="12.2" fill="#95E3FF" className="v-node-orange" />
+          <circle cx="248" cy="92" r="12.2" fill="#E0F5FF" className="v-node-orange" />
           <circle cx="374" cy="74" r="18" className="v-node-ring v-node-ring-b" />
-          <circle cx="374" cy="74" r="11.8" fill="#95E3FF" className="v-node-orange v-node-orange-b" />
+          <circle cx="374" cy="74" r="11.8" fill="#E0F5FF" className="v-node-orange v-node-orange-b" />
 
           <circle cx="248" cy="92" r="3.2" className="v-node-spark" />
           <circle cx="374" cy="74" r="3" className="v-node-spark v-node-spark-b" />
@@ -74,7 +74,6 @@ function PlumeCloud() {
 
         <polyline className="v-graph-sheen" points={PLUME_TREND_POINTS} />
         <polyline className="v-trend v-plume-trend-arrow v-plume-trend-out" points={PLUME_TREND_ARROW_POINTS} />
-        <polyline className="v-graph-sheen v-graph-sheen-arrow" points={PLUME_TREND_ARROW_POINTS} />
       </g>
     </g>
   );
