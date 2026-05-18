@@ -38,8 +38,6 @@
   --solution-card-bg-opacity: 0.92;
   --solution-card-bg-hover-opacity: 1;
   --software-ai-grid-opacity: 1;
-  --software-ai-sheen-opacity: 0.22;
-  --software-ai-sheen-translate-x: -18%;
   --card-grid-highlight-color: var(--section-grid-highlight-color);
   --card-grid-highlight-opacity: 0;
   --card-grid-highlight-x: 50%;
@@ -92,15 +90,11 @@
   outline-color: var(--software-ai-accent);
 }
 
-.software-ai-feature-card::before,
-.software-ai-feature-card::after {
+.software-ai-feature-card::before {
   content: "";
   position: absolute;
   pointer-events: none;
   z-index: 0;
-}
-
-.software-ai-feature-card::before {
   inset: -2px;
   background-image:
     linear-gradient(rgba(var(--software-interaction-blue-rgb), 0.045) 1px, transparent 1px),
@@ -194,24 +188,7 @@
   animation: sectionGridPressGlow 900ms cubic-bezier(0.2, 0.72, 0.18, 1) both;
 }
 
-.software-ai-feature-card::after {
-  inset: -42% -68%;
-  background: linear-gradient(
-    112deg,
-    transparent 43%,
-    rgba(var(--software-interaction-blue-rgb), 0.24) 50%,
-    transparent 57%
-  );
-  opacity: var(--software-ai-sheen-opacity);
-  transform: translateX(var(--software-ai-sheen-translate-x));
-  transition:
-    opacity 300ms ease,
-    transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
 .section-grid-bg--software .software-ai-feature-card.solution-card-surface--touch-selected {
-  --software-ai-sheen-opacity: 0.42;
-  --software-ai-sheen-translate-x: 18%;
   border-color: var(--software-ai-accent);
   box-shadow:
     inset 0 0 0 2px var(--software-ai-accent),
@@ -226,8 +203,6 @@
 
 @media (hover: hover) and (pointer: fine) {
   .section-grid-bg--software .software-ai-feature-card:hover {
-    --software-ai-sheen-opacity: 0.6;
-    --software-ai-sheen-translate-x: 18%;
     border-color: var(--software-ai-accent);
     box-shadow:
       inset 0 0 0 2px var(--software-ai-accent),
@@ -252,12 +227,6 @@
     box-shadow: 0 8px 20px rgba(15, 34, 52, 0.07) !important;
     transform: none !important;
   }
-
-  .software-ai-feature-card:hover:not(.solution-card-surface--touch-selected) {
-    --software-ai-sheen-opacity: 0.34;
-    --software-ai-sheen-translate-x: -18%;
-  }
-
 
   .section-grid-bg--software .group:hover > .material-symbols-outlined {
     --tw-scale-x: 1 !important;
@@ -299,7 +268,6 @@
 @media (prefers-reduced-motion: reduce) {
   .solution-card-surface,
   .software-ai-feature-card::before,
-  .software-ai-feature-card::after,
   .software-ai-grid-highlight,
   .software-ai-grid-burst {
     transition: none;
