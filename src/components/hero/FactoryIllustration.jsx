@@ -269,14 +269,14 @@ export default function FactoryIllustration() {
           <stop offset="100%" stopColor="#6FB8D0" stopOpacity="0" />
         </linearGradient>
         <linearGradient id="vDoorPanelFill" x1="132" y1="402" x2="188" y2="500" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#2E5775" />
-          <stop offset="44%" stopColor="#15355A" />
-          <stop offset="100%" stopColor="#0B1B33" />
+          <stop offset="0%" stopColor="#95E3FF" />
+          <stop offset="34%" stopColor="#4A99BE" />
+          <stop offset="100%" stopColor="#2C6088" />
         </linearGradient>
         <linearGradient id="vDoorPanelFillRight" x1="410" y1="412" x2="466" y2="500" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#37658B" />
-          <stop offset="48%" stopColor="#1A3F62" />
-          <stop offset="100%" stopColor="#0B1B33" />
+          <stop offset="0%" stopColor="#95E3FF" />
+          <stop offset="34%" stopColor="#519FBE" />
+          <stop offset="100%" stopColor="#316790" />
         </linearGradient>
         <linearGradient id="vSlotPanelFill" x1="264" y1="323" x2="350" y2="452" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#D8F1FE" />

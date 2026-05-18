@@ -48,14 +48,14 @@
 
 .v-factory-roof-upper-light {
   fill: url(#vFactoryRoofUpperLightFill);
-  opacity: 0.42;
+  opacity: 0.20;
   mix-blend-mode: screen;
   filter: url(#vFactorySoftLightBlur);
 }
 
 .v-factory-roof-light-plane {
   fill: url(#vFactoryRoofRightLightFill);
-  opacity: 0.32;
+  opacity: 0.16;
   mix-blend-mode: screen;
   filter: url(#vFactorySoftLightBlur);
 }
@@ -90,7 +90,7 @@
 
 .v-factory-left-reflected-light {
   fill: url(#vFactoryLeftRimFill);
-  opacity: 0.30;
+  opacity: 0.16;
   mix-blend-mode: screen;
   filter: url(#vFactorySoftLightBlur);
 }
@@ -104,7 +104,7 @@
 
 .v-factory-right-light-wash {
   fill: url(#vFactoryRightLightWashFill);
-  opacity: 0.44;
+  opacity: 0.20;
   mix-blend-mode: screen;
   filter: url(#vFactorySoftLightBlur);
 }
