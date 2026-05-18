@@ -228,14 +228,14 @@
 }
 
 .section-grid-bg--web {
-  --section-bg: #f7f9fb;
+  --section-bg: #d5e1ee;
   --section-grid-color: rgba(32, 54, 88, 0.045);
   --section-grid-burst-rgb: 32, 54, 88;
   --section-grid-highlight-color: #203658;
 }
 
 .section-grid-bg--software {
-  --section-bg: #d5e1ee;
+  --section-bg: #e6edf5;
 }
 
 .section-grid-bg--infrastructure {

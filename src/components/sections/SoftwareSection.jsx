@@ -9,7 +9,7 @@ const SOFTWARE_CARD_SURFACE_OPACITY = 0.25;
 const SOFTWARE_CARD_SURFACE_HOVER_OPACITY = 0.7;
 const SOFTWARE_FEATURE_CARD_SURFACE_OPACITY = 1;
 const SOFTWARE_FEATURE_CARD_SURFACE_HOVER_OPACITY = 1;
-const SOFTWARE_SECTION_GRID_OPACITY = 0.05;
+const SOFTWARE_SECTION_GRID_OPACITY = 0.06;
 
 const AUTOMATION_CARDS = [
   {
@@ -65,14 +65,14 @@ const SOFTWARE_FEATURE_CARD_SURFACE_STYLE = getSolutionCardSurfaceStyle(
   SOFTWARE_FEATURE_CARD_SURFACE_HOVER_OPACITY
 );
 const SOFTWARE_SECTION_STYLE = {
-  '--section-grid-color': `rgba(26, 45, 78, ${SOFTWARE_SECTION_GRID_OPACITY})`,
+  '--section-grid-color': `rgba(32, 54, 88, ${SOFTWARE_SECTION_GRID_OPACITY})`,
   '--section-grid-highlight-color': SOFTWARE_SECTION_THEME_COLOR,
   '--section-grid-burst-rgb': SOFTWARE_SECTION_THEME_RGB_CSS,
   '--software-ai-accent': SOFTWARE_SECTION_THEME_COLOR,
   '--software-interaction-blue': SOFTWARE_SECTION_THEME_COLOR,
   '--software-interaction-blue-rgb': SOFTWARE_SECTION_THEME_RGB_CSS,
-  '--software-support-blue': '#1a2d4e',
-  '--software-support-blue-rgb': '26, 45, 78'
+  '--software-support-blue': '#203658',
+  '--software-support-blue-rgb': '32, 54, 88'
 };
 
 function AutomationCard({ description, icon, surfaceHoverOpacity, surfaceOpacity, title }) {
