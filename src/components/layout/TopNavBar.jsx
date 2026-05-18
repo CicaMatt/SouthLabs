@@ -24,14 +24,14 @@ const DESKTOP_LINK_CLASS = [
   'px-1 py-2 text-[#28324b] transition-all duration-300 hover:text-[#203658]',
   'dark:text-slate-400 dark:hover:text-blue-500 lg:text-[14px]',
   'after:pointer-events-none after:absolute after:left-1 after:right-1 after:bottom-1 after:h-[2px]',
-  'after:origin-left after:scale-x-0 after:bg-[#203658] after:transition-transform after:duration-300 after:ease-out',
+  'after:origin-left after:scale-x-0 after:bg-[#95e3ff] after:transition-transform after:duration-300 after:ease-out',
   'hover:after:scale-x-100 dark:after:bg-blue-500'
 ].join(' ');
 const MOBILE_LINK_CLASS = [
   'group flex min-h-12 items-center justify-between rounded-lg px-4',
   'text-[14px] font-semibold text-[#28324b]',
-  'transition-colors hover:bg-blue-100/70 hover:text-blue-950 active:bg-blue-100',
-  'dark:text-slate-100 dark:hover:bg-blue-400/15 dark:hover:text-blue-300 dark:active:bg-blue-400/20'
+  'transition-colors hover:bg-[#203658]/10 hover:text-[#203658] active:bg-[#203658]/15',
+  'dark:text-slate-100 dark:hover:bg-[#95e3ff]/10 dark:hover:text-[#95e3ff] dark:active:bg-[#95e3ff]/15'
 ].join(' ');
 const CONTACT_CTA_CLASS = [
   'inline-flex items-center justify-center px-3.5 py-2 rounded-md text-xs lg:text-sm font-bold',
@@ -68,7 +68,7 @@ function BrandLogo({ onNavigate }) {
 // Desktop/tablet navigation uses two-line labels on tablet to preserve spacing.
 function DesktopNavLinks() {
   return (
-    <div className="hidden md:flex gap-14 lg:gap-10 items-center">
+    <div className="hidden md:flex md:flex-1 items-center justify-around gap-4 md:px-4 lg:gap-6 lg:px-12 xl:px-20">
       {NAV_LINKS.map((link) => (
         <a
           key={link.href}
@@ -122,8 +122,10 @@ function MobileNavMenu({ isVisible, menuRef, onNavigate }) {
             href={link.href}
             onClick={onNavigate}
           >
-            <span>{link.label}</span>
-            <span className="material-symbols-outlined text-[18px] text-[#28324b] transition-all group-hover:translate-x-0.5 group-hover:text-blue-900 dark:text-slate-500 dark:group-hover:text-blue-400">
+            <span className="relative after:pointer-events-none after:absolute after:left-0 after:right-0 after:-bottom-0.5 after:h-[2px] after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-out group-hover:after:scale-x-100">
+              {link.label}
+            </span>
+            <span className="material-symbols-outlined text-[18px] text-[#28324b] transition-all group-hover:translate-x-0.5 group-hover:text-[#203658] dark:text-slate-500 dark:group-hover:text-[#95e3ff]">
               arrow_forward
             </span>
           </a>

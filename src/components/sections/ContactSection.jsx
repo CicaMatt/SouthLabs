@@ -37,8 +37,7 @@ const FORM_PANEL_STYLE = getSolutionCardSurfaceStyle(
 );
 const SUBMIT_BUTTON_CLASS = [
   'contact-submit-cta w-full inline-flex items-center justify-center px-6 py-4 rounded-md text-base font-medium',
-  'transition-shadow duration-200 text-white',
-  'shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] hover:shadow-[0_8px_40px_rgba(32,54,88,0.25)]',
+  'text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]',
   'active:scale-95 disabled:cursor-wait disabled:opacity-70'
 ].join(' ');
 
@@ -127,7 +126,7 @@ function SubmitButton({ isSubmitting }) {
       disabled={isSubmitting}
       type="submit"
     >
-      {isSubmitting ? 'Invio in corso...' : 'Invia Richiesta'}
+      <span>{isSubmitting ? 'Invio in corso...' : 'Invia Richiesta'}</span>
     </button>
   );
 }

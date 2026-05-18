@@ -34,9 +34,15 @@ const FOOTER_LINK_CLASS = [
   'font-inter text-sm leading-relaxed text-on-surface-variant',
   'dark:text-slate-400'
 ].join(' ');
+const FOOTER_UNDERLINE_HOVER_CLASS = [
+  'relative after:pointer-events-none after:absolute after:left-0 after:right-0 after:-bottom-0.5 after:h-[2px]',
+  'after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-out',
+  'hover:after:scale-x-100'
+].join(' ');
 const FOOTER_LEGAL_BUTTON_CLASS = [
   FOOTER_LINK_CLASS,
-  'bg-transparent p-0 text-center hover:underline'
+  'bg-transparent p-0 text-center',
+  FOOTER_UNDERLINE_HOVER_CLASS
 ].join(' ');
 const FOOTER_CONTACT_ROW_CLASS = 'flex max-w-full items-center justify-center gap-1.5';
 const FOOTER_COPY_BUTTON_CLASS = 'relative inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-sm text-slate-500 transition-colors hover:bg-[#203658]/10 hover:text-[#203658] focus:outline-none focus-visible:bg-[#203658]/10 focus-visible:text-[#203658] dark:text-slate-500 dark:hover:bg-[#203658]/20 dark:hover:text-[#203658] dark:focus-visible:bg-[#203658]/20 dark:focus-visible:text-[#203658]';
@@ -195,7 +201,7 @@ export default function Footer() {
                 {contacts.map(({ id, label, value }) => (
                   <div className={FOOTER_CONTACT_ROW_CLASS} key={id}>
                     <button
-                      className={`min-w-0 break-all bg-transparent p-0 text-center hover:underline ${FOOTER_LINK_CLASS}`}
+                      className={`min-w-0 break-all bg-transparent p-0 text-center ${FOOTER_LINK_CLASS} ${FOOTER_UNDERLINE_HOVER_CLASS}`}
                       onClick={() => handleContactCopy(id, value)}
                       type="button"
                     >
@@ -212,7 +218,7 @@ export default function Footer() {
                 {socialLinks.map((link) => (
                   <a
                     key={link.label}
-                    className={`${FOOTER_LINK_CLASS} hover:underline`}
+                    className={`${FOOTER_LINK_CLASS} ${FOOTER_UNDERLINE_HOVER_CLASS}`}
                     href={link.href}
                     rel="noreferrer"
                     target="_blank"
