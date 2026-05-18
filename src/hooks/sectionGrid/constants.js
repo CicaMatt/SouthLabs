@@ -43,7 +43,7 @@ export const SECTION_CURSOR_THEMES = [
   },
   {
     id: 'siti-web',
-    color: '#254a70'
+    color: '#203658'
   },
   {
     id: 'software-automazione',

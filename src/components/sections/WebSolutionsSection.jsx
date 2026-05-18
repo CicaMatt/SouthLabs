@@ -11,8 +11,6 @@ const cx = (...classes) => classes.filter(Boolean).join(' ');
 const WORDPRESS_TITLE = 'Soluzioni WordPress';
 const WEB_CARD_SURFACE_OPACITY = 0.1;
 const WEB_CARD_SURFACE_HOVER_OPACITY = 0.7;
-const TITLE_HOVER_EFFECT = 'web-solution-hover-text web-solution-hover-title';
-const DESCRIPTION_HOVER_EFFECT = 'web-solution-hover-text web-solution-hover-description';
 const SOLUTION_CARD_DESKTOP_QUERY = '(min-width: 1024px)';
 const SOLUTION_CARD_CLASSES = {
   shell: [
@@ -26,22 +24,10 @@ const SOLUTION_CARD_CLASSES = {
   ].join(' '),
   imageShell: 'relative w-full overflow-hidden bg-transparent',
   badgeTopLeft: 'top-4 left-5 sm:top-5 sm:left-7 md:left-8 lg:top-6 lg:left-7',
-  stackedTitle: cx(
-    'font-headline text-[1.12rem] font-extrabold leading-[1.08] text-[#071d3d] sm:text-[1.24rem] md:text-[1.44rem]',
-    TITLE_HOVER_EFFECT
-  ),
-  stackedDescription: cx(
-    'font-body text-[0.79rem] font-medium leading-[1.62] text-[#2b3b59] sm:text-[0.86rem] md:text-[0.91rem]',
-    DESCRIPTION_HOVER_EFFECT
-  ),
-  desktopTitle: cx(
-    'font-headline text-[1.54rem] font-extrabold leading-[1.08] text-[#071d3d] xl:text-[1.68rem]',
-    TITLE_HOVER_EFFECT
-  ),
-  desktopDescription: cx(
-    'max-w-[34ch] font-body text-[0.93rem] font-medium leading-[1.72] text-[#2b3b59] xl:text-[0.98rem]',
-    DESCRIPTION_HOVER_EFFECT
-  )
+  stackedTitle: 'font-headline text-[1.12rem] font-extrabold leading-[1.08] text-[#071d3d] sm:text-[1.24rem] md:text-[1.44rem]',
+  stackedDescription: 'font-body text-[0.79rem] font-medium leading-[1.62] text-[#2b3b59] sm:text-[0.86rem] md:text-[0.91rem]',
+  desktopTitle: 'font-headline text-[1.54rem] font-extrabold leading-[1.08] text-[#071d3d] xl:text-[1.68rem]',
+  desktopDescription: 'max-w-[34ch] font-body text-[0.93rem] font-medium leading-[1.72] text-[#2b3b59] xl:text-[0.98rem]'
 };
 const HORIZONTAL_CARD_CLASSES = {
   shell: 'lg:col-span-2 lg:block lg:h-[284px]',
