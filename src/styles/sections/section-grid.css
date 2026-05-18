@@ -228,18 +228,18 @@
 }
 
 .section-grid-bg--web {
-  --section-bg: #d5e1ee;
+  --section-bg: #c2d0e0;
   --section-grid-color: rgba(32, 54, 88, 0.045);
   --section-grid-burst-rgb: 32, 54, 88;
   --section-grid-highlight-color: #203658;
 }
 
 .section-grid-bg--software {
-  --section-bg: #e6edf5;
+  --section-bg: #d5e1ee;
 }
 
 .section-grid-bg--infrastructure {
-  --section-bg: #f7f9fb;
+  --section-bg: #e6edf5;
   --section-grid-color: rgba(40, 50, 75, 0.04);
 }
 
