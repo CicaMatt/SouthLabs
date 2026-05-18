@@ -20,13 +20,16 @@ const NAVBAR_CLASS = [
 ].join(' ');
 const NAV_CONTENT_CLASS = 'relative max-w-7xl mx-auto h-full flex items-center justify-between px-5 lg:px-8';
 const DESKTOP_LINK_CLASS = [
-  'font-headline text-center text-[13px] font-semibold leading-tight tracking-tight',
-  'text-[#28324b] transition-all duration-300 hover:text-blue-900',
-  'dark:text-slate-400 dark:hover:text-blue-500 lg:text-[14px]'
+  'relative text-center text-[13px] font-semibold leading-tight tracking-[0.01em]',
+  'px-1 py-2 text-[#28324b] transition-all duration-300 hover:text-[#203658]',
+  'dark:text-slate-400 dark:hover:text-blue-500 lg:text-[14px]',
+  'after:pointer-events-none after:absolute after:left-1 after:right-1 after:bottom-1 after:h-[2px]',
+  'after:origin-left after:scale-x-0 after:bg-[#203658] after:transition-transform after:duration-300 after:ease-out',
+  'hover:after:scale-x-100 dark:after:bg-blue-500'
 ].join(' ');
 const MOBILE_LINK_CLASS = [
   'group flex min-h-12 items-center justify-between rounded-lg px-4',
-  'font-headline text-[14px] font-semibold text-[#28324b]',
+  'text-[14px] font-semibold text-[#28324b]',
   'transition-colors hover:bg-blue-100/70 hover:text-blue-950 active:bg-blue-100',
   'dark:text-slate-100 dark:hover:bg-blue-400/15 dark:hover:text-blue-300 dark:active:bg-blue-400/20'
 ].join(' ');
