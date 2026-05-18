@@ -11,13 +11,13 @@
 
 /* Factory body */
 .v-factory-footing {
-  stroke: #57cbef;
+  stroke: #74a9bd;
   stroke-width: 1.6;
   stroke-opacity: 0.56;
 }
 
 .v-factory-shell {
-  stroke: #61d2f0;
+  stroke: #7db4c5;
   stroke-width: 1.9;
   stroke-opacity: 0.58;
   stroke-linejoin: round;
@@ -269,7 +269,7 @@
 
 .v-pipe-outline {
   fill: none;
-  stroke: #61d2f0;
+  stroke: #7db4c5;
   stroke-width: 1.9;
   stroke-opacity: 0.7;
   stroke-linecap: round;
@@ -423,7 +423,7 @@
 
 .v-factory-trace {
   fill: none;
-  stroke: #77e6ff;
+  stroke: #95c5d5;
   stroke-width: 1.45;
   stroke-linecap: round;
   stroke-linejoin: round;

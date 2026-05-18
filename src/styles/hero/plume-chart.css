@@ -153,7 +153,7 @@
   fill: #e9feff;
   filter:
     drop-shadow(0 0 8px rgba(245, 252, 255, 0.74))
-    drop-shadow(0 0 18px rgba(255, 207, 124, 0.28));
+    drop-shadow(0 0 18px rgba(149, 227, 255, 0.34));
   animation: vOrangePulse 4.4s ease-in-out infinite;
 }
 .v-node-orange-b { animation-delay: 1.7s; }

@@ -92,10 +92,10 @@ export default function FactoryIllustration() {
       {/* Reusable gradients, filters, and clip paths for the factory and plume layers. */}
       <defs>
         <linearGradient id="vFactoryFill" x1="126" y1="256" x2="494" y2="500" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#0A2550" stopOpacity="0.60" />
-          <stop offset="42%" stopColor="#0E437F" stopOpacity="0.48" />
-          <stop offset="76%" stopColor="#0C376D" stopOpacity="0.56" />
-          <stop offset="100%" stopColor="#071B3D" stopOpacity="0.60" />
+          <stop offset="0%" stopColor="#172445" stopOpacity="0.60" />
+          <stop offset="42%" stopColor="#1F3D60" stopOpacity="0.48" />
+          <stop offset="76%" stopColor="#1B3253" stopOpacity="0.56" />
+          <stop offset="100%" stopColor="#0E1A33" stopOpacity="0.60" />
         </linearGradient>
         <linearGradient id="vFactoryFaceSheen" x1="90" y1="434" x2="480" y2="288" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0" />
@@ -104,13 +104,13 @@ export default function FactoryIllustration() {
           <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
         </linearGradient>
         <linearGradient id="vFactoryLeftShadeFill" x1="126" y1="500" x2="380" y2="282" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#020817" stopOpacity="0.64" />
-          <stop offset="16%" stopColor="#031126" stopOpacity="0.58" />
-          <stop offset="34%" stopColor="#06214A" stopOpacity="0.49" />
-          <stop offset="52%" stopColor="#0A3565" stopOpacity="0.40" />
-          <stop offset="70%" stopColor="#145B84" stopOpacity="0.30" />
-          <stop offset="86%" stopColor="#3FAED0" stopOpacity="0.20" />
-          <stop offset="100%" stopColor="#91F1FF" stopOpacity="0.11" />
+          <stop offset="0%" stopColor="#040A1B" stopOpacity="0.64" />
+          <stop offset="16%" stopColor="#08132A" stopOpacity="0.58" />
+          <stop offset="34%" stopColor="#0F2244" stopOpacity="0.49" />
+          <stop offset="52%" stopColor="#172E4D" stopOpacity="0.40" />
+          <stop offset="70%" stopColor="#264C68" stopOpacity="0.30" />
+          <stop offset="86%" stopColor="#6294A8" stopOpacity="0.20" />
+          <stop offset="100%" stopColor="#A5DBEC" stopOpacity="0.11" />
         </linearGradient>
         <linearGradient id="vFactoryLeftOcclusionFill" x1="126" y1="470" x2="304" y2="352" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#010611" stopOpacity="0.46" />
@@ -120,56 +120,56 @@ export default function FactoryIllustration() {
           <stop offset="100%" stopColor="#0F5F8C" stopOpacity="0" />
         </linearGradient>
         <linearGradient id="vFactoryLeftRimFill" x1="318" y1="500" x2="410" y2="292" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#43CEF2" stopOpacity="0" />
-          <stop offset="24%" stopColor="#49D3F5" stopOpacity="0.04" />
-          <stop offset="50%" stopColor="#5BDEF9" stopOpacity="0.08" />
-          <stop offset="72%" stopColor="#82F0FF" stopOpacity="0.11" />
-          <stop offset="88%" stopColor="#B9FAFF" stopOpacity="0.13" />
-          <stop offset="100%" stopColor="#E8FEFF" stopOpacity="0.14" />
+          <stop offset="0%" stopColor="#69ADC5" stopOpacity="0" />
+          <stop offset="24%" stopColor="#6FB1C8" stopOpacity="0.04" />
+          <stop offset="50%" stopColor="#7DBCD2" stopOpacity="0.08" />
+          <stop offset="72%" stopColor="#9CCEDF" stopOpacity="0.11" />
+          <stop offset="88%" stopColor="#BFE0EC" stopOpacity="0.13" />
+          <stop offset="100%" stopColor="#E8F3F8" stopOpacity="0.14" />
         </linearGradient>
         <linearGradient id="vFactorySidePlaneFill" x1="380" y1="500" x2="494" y2="337" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#0A305D" stopOpacity="0.60" />
-          <stop offset="18%" stopColor="#0D3B6A" stopOpacity="0.59" />
-          <stop offset="36%" stopColor="#104875" stopOpacity="0.60" />
-          <stop offset="56%" stopColor="#176A98" stopOpacity="0.52" />
-          <stop offset="74%" stopColor="#278BBC" stopOpacity="0.42" />
-          <stop offset="90%" stopColor="#58CDE3" stopOpacity="0.27" />
-          <stop offset="100%" stopColor="#A4F3FA" stopOpacity="0.18" />
+          <stop offset="0%" stopColor="#1A2C49" stopOpacity="0.60" />
+          <stop offset="18%" stopColor="#1F3554" stopOpacity="0.59" />
+          <stop offset="36%" stopColor="#264060" stopOpacity="0.60" />
+          <stop offset="56%" stopColor="#33597A" stopOpacity="0.52" />
+          <stop offset="74%" stopColor="#4D7892" stopOpacity="0.42" />
+          <stop offset="90%" stopColor="#80AFBE" stopOpacity="0.27" />
+          <stop offset="100%" stopColor="#B7DDE5" stopOpacity="0.18" />
         </linearGradient>
         <linearGradient id="vFactoryRightInnerShadeFill" x1="368" y1="392" x2="438" y2="392" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#010716" stopOpacity="0" />
-          <stop offset="22%" stopColor="#021027" stopOpacity="0.07" />
-          <stop offset="48%" stopColor="#062249" stopOpacity="0.18" />
-          <stop offset="74%" stopColor="#0A3D68" stopOpacity="0.08" />
-          <stop offset="100%" stopColor="#0D5F8F" stopOpacity="0" />
+          <stop offset="22%" stopColor="#06101F" stopOpacity="0.07" />
+          <stop offset="48%" stopColor="#0E1F3A" stopOpacity="0.18" />
+          <stop offset="74%" stopColor="#163554" stopOpacity="0.08" />
+          <stop offset="100%" stopColor="#1F4868" stopOpacity="0" />
         </linearGradient>
         <linearGradient id="vFactoryRightLightWashFill" x1="416" y1="500" x2="494" y2="337" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#3BCAF0" stopOpacity="0" />
-          <stop offset="24%" stopColor="#45D3F4" stopOpacity="0.05" />
-          <stop offset="48%" stopColor="#65E9FF" stopOpacity="0.11" />
-          <stop offset="68%" stopColor="#8EF2FF" stopOpacity="0.16" />
-          <stop offset="84%" stopColor="#C5FBFF" stopOpacity="0.22" />
-          <stop offset="100%" stopColor="#F2FFFF" stopOpacity="0.29" />
+          <stop offset="0%" stopColor="#60AFC8" stopOpacity="0" />
+          <stop offset="24%" stopColor="#68B5CC" stopOpacity="0.05" />
+          <stop offset="48%" stopColor="#83C7D8" stopOpacity="0.11" />
+          <stop offset="68%" stopColor="#A2D6E2" stopOpacity="0.16" />
+          <stop offset="84%" stopColor="#CCE6EE" stopOpacity="0.22" />
+          <stop offset="100%" stopColor="#F0F8FB" stopOpacity="0.29" />
         </linearGradient>
         <linearGradient id="vFactoryRoofUpperShadeFill" x1="126" y1="406" x2="494" y2="337" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#010817" stopOpacity="0.42" />
-          <stop offset="26%" stopColor="#031833" stopOpacity="0.34" />
-          <stop offset="52%" stopColor="#0A3E6A" stopOpacity="0.19" />
-          <stop offset="78%" stopColor="#24B5D2" stopOpacity="0.10" />
-          <stop offset="100%" stopColor="#D9FEFF" stopOpacity="0.16" />
+          <stop offset="26%" stopColor="#0A1A2F" stopOpacity="0.34" />
+          <stop offset="52%" stopColor="#163554" stopOpacity="0.19" />
+          <stop offset="78%" stopColor="#4A8AA0" stopOpacity="0.10" />
+          <stop offset="100%" stopColor="#D9F0F5" stopOpacity="0.16" />
         </linearGradient>
         <linearGradient id="vFactoryRoofUpperLightFill" x1="324" y1="372" x2="494" y2="337" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#1FB9E8" stopOpacity="0" />
-          <stop offset="40%" stopColor="#51E2FA" stopOpacity="0.07" />
-          <stop offset="72%" stopColor="#A5FBFF" stopOpacity="0.15" />
-          <stop offset="100%" stopColor="#F3FFFF" stopOpacity="0.22" />
+          <stop offset="0%" stopColor="#4D90AE" stopOpacity="0" />
+          <stop offset="40%" stopColor="#7BBED0" stopOpacity="0.07" />
+          <stop offset="72%" stopColor="#B7DDE8" stopOpacity="0.15" />
+          <stop offset="100%" stopColor="#F0F8FB" stopOpacity="0.22" />
         </linearGradient>
         <linearGradient id="vFactoryRoofRightLightFill" x1="344" y1="352" x2="494" y2="337" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#42D0F2" stopOpacity="0" />
-          <stop offset="30%" stopColor="#43D9F7" stopOpacity="0.055" />
-          <stop offset="58%" stopColor="#77F2FF" stopOpacity="0.105" />
-          <stop offset="82%" stopColor="#C5FCFF" stopOpacity="0.16" />
-          <stop offset="100%" stopColor="#F6FFFF" stopOpacity="0.20" />
+          <stop offset="0%" stopColor="#67B2C8" stopOpacity="0" />
+          <stop offset="30%" stopColor="#6CB6CC" stopOpacity="0.055" />
+          <stop offset="58%" stopColor="#90CADA" stopOpacity="0.105" />
+          <stop offset="82%" stopColor="#CCE6EE" stopOpacity="0.16" />
+          <stop offset="100%" stopColor="#F3F8FA" stopOpacity="0.20" />
         </linearGradient>
         <filter id="vFactorySoftShadeBlur" x="-18%" y="-18%" width="136%" height="136%" colorInterpolationFilters="sRGB">
           <feGaussianBlur stdDeviation="7" />
@@ -183,10 +183,10 @@ export default function FactoryIllustration() {
           gradientTransform="translate(326 506) scale(242 92)"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0%" stopColor="#B8FBFF" stopOpacity="0.22" />
-          <stop offset="42%" stopColor="#62E7FF" stopOpacity="0.14" />
-          <stop offset="72%" stopColor="#32BFEA" stopOpacity="0.06" />
-          <stop offset="100%" stopColor="#32BFEA" stopOpacity="0" />
+          <stop offset="0%" stopColor="#C5E2EC" stopOpacity="0.22" />
+          <stop offset="42%" stopColor="#86BFD2" stopOpacity="0.14" />
+          <stop offset="72%" stopColor="#5C9DBC" stopOpacity="0.06" />
+          <stop offset="100%" stopColor="#5C9DBC" stopOpacity="0" />
         </radialGradient>
         <linearGradient id="vFactoryBaseDepthFill" x1="300" y1="292" x2="300" y2="532" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#020918" stopOpacity="0" />
@@ -197,19 +197,19 @@ export default function FactoryIllustration() {
         </linearGradient>
         <linearGradient id="vFactoryRoofPlaneFill" x1="126" y1="401" x2="494" y2="337" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#020A1A" stopOpacity="0.10" />
-          <stop offset="50%" stopColor="#0B315F" stopOpacity="0.22" />
+          <stop offset="50%" stopColor="#162C4D" stopOpacity="0.22" />
           <stop offset="100%" stopColor="#020918" stopOpacity="0.32" />
         </linearGradient>
         <linearGradient id="vFactoryEdgeStroke" x1="126" y1="401" x2="494" y2="337" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#6EE4FF" stopOpacity="0.08" />
-          <stop offset="42%" stopColor="#DBFDFF" stopOpacity="0.54" />
-          <stop offset="100%" stopColor="#7DEBFF" stopOpacity="0.18" />
+          <stop offset="0%" stopColor="#88BFD0" stopOpacity="0.08" />
+          <stop offset="42%" stopColor="#D5E8EE" stopOpacity="0.54" />
+          <stop offset="100%" stopColor="#92C5D5" stopOpacity="0.18" />
         </linearGradient>
         <linearGradient id="vPipeFill" x1="238" y1="336" x2="306" y2="210" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#061B3D" stopOpacity="0.66" />
-          <stop offset="34%" stopColor="#0A2F61" stopOpacity="0.60" />
-          <stop offset="68%" stopColor="#0F4D84" stopOpacity="0.54" />
-          <stop offset="100%" stopColor="#1B79AA" stopOpacity="0.42" />
+          <stop offset="0%" stopColor="#0D1A33" stopOpacity="0.66" />
+          <stop offset="34%" stopColor="#162950" stopOpacity="0.60" />
+          <stop offset="68%" stopColor="#1B3F62" stopOpacity="0.54" />
+          <stop offset="100%" stopColor="#34657F" stopOpacity="0.42" />
         </linearGradient>
         <linearGradient id="vPipeBodyDepthFill" x1="272" y1="210" x2="272" y2="350" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#020918" stopOpacity="0" />
@@ -219,21 +219,21 @@ export default function FactoryIllustration() {
         </linearGradient>
         <linearGradient id="vPipeLeftOcclusionFill" x1="236" y1="336" x2="272" y2="214" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#010611" stopOpacity="0.42" />
-          <stop offset="32%" stopColor="#021027" stopOpacity="0.28" />
-          <stop offset="62%" stopColor="#062448" stopOpacity="0.12" />
-          <stop offset="100%" stopColor="#0E5C89" stopOpacity="0" />
+          <stop offset="32%" stopColor="#06101F" stopOpacity="0.28" />
+          <stop offset="62%" stopColor="#0E1F3A" stopOpacity="0.12" />
+          <stop offset="100%" stopColor="#1B4665" stopOpacity="0" />
         </linearGradient>
         <linearGradient id="vPipeRightLightWashFill" x1="274" y1="340" x2="306" y2="210" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#35C5ED" stopOpacity="0" />
-          <stop offset="34%" stopColor="#55DDF7" stopOpacity="0.06" />
-          <stop offset="62%" stopColor="#85F1FF" stopOpacity="0.13" />
-          <stop offset="84%" stopColor="#C3FBFF" stopOpacity="0.20" />
-          <stop offset="100%" stopColor="#F4FFFF" stopOpacity="0.28" />
+          <stop offset="0%" stopColor="#5BA9C4" stopOpacity="0" />
+          <stop offset="34%" stopColor="#7DC0D3" stopOpacity="0.06" />
+          <stop offset="62%" stopColor="#A6D6E2" stopOpacity="0.13" />
+          <stop offset="84%" stopColor="#CCE6EE" stopOpacity="0.20" />
+          <stop offset="100%" stopColor="#F2F8FA" stopOpacity="0.28" />
         </linearGradient>
         <linearGradient id="vPipeTopLightFill" x1="250" y1="214" x2="292" y2="214" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#65DFF8" stopOpacity="0" />
-          <stop offset="54%" stopColor="#A4F6FF" stopOpacity="0.10" />
-          <stop offset="100%" stopColor="#F4FFFF" stopOpacity="0.20" />
+          <stop offset="0%" stopColor="#7BBDCF" stopOpacity="0" />
+          <stop offset="54%" stopColor="#B7DDE5" stopOpacity="0.10" />
+          <stop offset="100%" stopColor="#F2F8FA" stopOpacity="0.20" />
         </linearGradient>
         <filter id="vPipeSoftShadeBlur" x="-28%" y="-16%" width="156%" height="132%" colorInterpolationFilters="sRGB">
           <feGaussianBlur stdDeviation="4.5" />
@@ -243,83 +243,83 @@ export default function FactoryIllustration() {
         </filter>
         <linearGradient id="vPipeFlowStroke" x1="266" y1="220" x2="274" y2="314" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#F4FEFF" stopOpacity="0.72" />
-          <stop offset="48%" stopColor="#6AE8FF" stopOpacity="0.42" />
-          <stop offset="100%" stopColor="#58FFC7" stopOpacity="0.18" />
+          <stop offset="48%" stopColor="#95E3FF" stopOpacity="0.46" />
+          <stop offset="100%" stopColor="#5AB8E8" stopOpacity="0.22" />
         </linearGradient>
         <linearGradient id="vPipeLeftEdgeStroke" x1="248" y1="214" x2="236" y2="340" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#E9FEFF" stopOpacity="0.44" />
-          <stop offset="58%" stopColor="#58DFFF" stopOpacity="0.22" />
+          <stop offset="0%" stopColor="#E5F2F7" stopOpacity="0.44" />
+          <stop offset="58%" stopColor="#7AB5CB" stopOpacity="0.22" />
           <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
         </linearGradient>
         <linearGradient id="vPipeRightEdgeStroke" x1="292" y1="214" x2="306" y2="304" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#E9FEFF" stopOpacity="0.44" />
-          <stop offset="58%" stopColor="#58DFFF" stopOpacity="0.22" />
+          <stop offset="0%" stopColor="#E5F2F7" stopOpacity="0.44" />
+          <stop offset="58%" stopColor="#7AB5CB" stopOpacity="0.22" />
           <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
         </linearGradient>
         <linearGradient id="vFootingFill" x1="76" y1="500" x2="544" y2="520" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#0A2D62" stopOpacity="0.58" />
-          <stop offset="50%" stopColor="#0E4A92" stopOpacity="0.46" />
-          <stop offset="100%" stopColor="#0A2D62" stopOpacity="0.58" />
+          <stop offset="0%" stopColor="#162950" stopOpacity="0.58" />
+          <stop offset="50%" stopColor="#1F3D6A" stopOpacity="0.46" />
+          <stop offset="100%" stopColor="#162950" stopOpacity="0.58" />
         </linearGradient>
         <linearGradient id="vMobileFactoryBottomLightFill" x1="76" y1="490" x2="544" y2="520" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#42DFFF" stopOpacity="0" />
-          <stop offset="18%" stopColor="#65ECFF" stopOpacity="0.28" />
-          <stop offset="50%" stopColor="#F0FFFF" stopOpacity="0.78" />
-          <stop offset="82%" stopColor="#65ECFF" stopOpacity="0.28" />
-          <stop offset="100%" stopColor="#42DFFF" stopOpacity="0" />
+          <stop offset="0%" stopColor="#6FB8D0" stopOpacity="0" />
+          <stop offset="18%" stopColor="#88C5D8" stopOpacity="0.28" />
+          <stop offset="50%" stopColor="#EFF6F9" stopOpacity="0.78" />
+          <stop offset="82%" stopColor="#88C5D8" stopOpacity="0.28" />
+          <stop offset="100%" stopColor="#6FB8D0" stopOpacity="0" />
         </linearGradient>
         <linearGradient id="vDoorPanelFill" x1="132" y1="402" x2="188" y2="500" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#1A6C9F" />
-          <stop offset="44%" stopColor="#0B3E74" />
-          <stop offset="100%" stopColor="#061A38" />
+          <stop offset="0%" stopColor="#2E5775" />
+          <stop offset="44%" stopColor="#15355A" />
+          <stop offset="100%" stopColor="#0B1B33" />
         </linearGradient>
         <linearGradient id="vDoorPanelFillRight" x1="410" y1="412" x2="466" y2="500" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#2484AE" />
-          <stop offset="48%" stopColor="#0D4B7C" />
-          <stop offset="100%" stopColor="#061A38" />
+          <stop offset="0%" stopColor="#37658B" />
+          <stop offset="48%" stopColor="#1A3F62" />
+          <stop offset="100%" stopColor="#0B1B33" />
         </linearGradient>
         <linearGradient id="vSlotPanelFill" x1="264" y1="323" x2="350" y2="452" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#D8F7FB" />
-          <stop offset="22%" stopColor="#A6EAF2" />
-          <stop offset="48%" stopColor="#55B9CC" />
-          <stop offset="74%" stopColor="#1D638F" />
-          <stop offset="100%" stopColor="#082242" />
+          <stop offset="0%" stopColor="#D8F1FE" />
+          <stop offset="22%" stopColor="#95E3FF" />
+          <stop offset="48%" stopColor="#5FB4D8" />
+          <stop offset="74%" stopColor="#28547C" />
+          <stop offset="100%" stopColor="#0C2342" />
         </linearGradient>
         <linearGradient id="vSlotPanelFillRight" x1="410" y1="338" x2="466" y2="410" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#DDF8FB" />
-          <stop offset="24%" stopColor="#AFEFF5" />
-          <stop offset="52%" stopColor="#63C6D6" />
-          <stop offset="100%" stopColor="#14527A" />
+          <stop offset="0%" stopColor="#DCF2FE" />
+          <stop offset="24%" stopColor="#A6DDF7" />
+          <stop offset="52%" stopColor="#6BB8D5" />
+          <stop offset="100%" stopColor="#234E72" />
         </linearGradient>
         <linearGradient id="vPanelStroke" x1="132" y1="402" x2="466" y2="500" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#E4FEFF" />
-          <stop offset="44%" stopColor="#73E7F8" />
-          <stop offset="100%" stopColor="#2E719B" />
+          <stop offset="0%" stopColor="#DFEBEF" />
+          <stop offset="44%" stopColor="#95C5D5" />
+          <stop offset="100%" stopColor="#3F5F80" />
         </linearGradient>
         <linearGradient id="vLeftDoorPanelStroke" x1="132" y1="402" x2="188" y2="500" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#F3FFFF" />
-          <stop offset="48%" stopColor="#A9F4FA" />
-          <stop offset="100%" stopColor="#6DB9CF" />
+          <stop offset="0%" stopColor="#EDF4F6" />
+          <stop offset="48%" stopColor="#AFD0D8" />
+          <stop offset="100%" stopColor="#83A5AF" />
         </linearGradient>
         <linearGradient id="vRightDoorPanelStroke" x1="410" y1="412" x2="466" y2="500" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#F3FFFF" />
-          <stop offset="48%" stopColor="#A9F4FA" />
-          <stop offset="100%" stopColor="#6DB9CF" />
+          <stop offset="0%" stopColor="#EDF4F6" />
+          <stop offset="48%" stopColor="#AFD0D8" />
+          <stop offset="100%" stopColor="#83A5AF" />
         </linearGradient>
         <linearGradient id="vWindowPanelStroke" x1="264" y1="323" x2="466" y2="452" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#B9EEF4" />
-          <stop offset="48%" stopColor="#5FC5D5" />
-          <stop offset="100%" stopColor="#1F5D82" />
+          <stop offset="0%" stopColor="#BCD4D8" />
+          <stop offset="48%" stopColor="#7CA6B0" />
+          <stop offset="100%" stopColor="#2C4D67" />
         </linearGradient>
         <linearGradient id="vPanelEdgeLightStroke" x1="132" y1="402" x2="466" y2="374" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#C7F7FA" />
-          <stop offset="56%" stopColor="#7DDCE8" />
-          <stop offset="100%" stopColor="#A6F0F6" />
+          <stop offset="0%" stopColor="#CDE3E8" />
+          <stop offset="56%" stopColor="#92BCC8" />
+          <stop offset="100%" stopColor="#ABCBD2" />
         </linearGradient>
         <linearGradient id="vPanelEdgeDepthStroke" x1="132" y1="500" x2="466" y2="410" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#04112A" />
-          <stop offset="58%" stopColor="#092A52" />
-          <stop offset="100%" stopColor="#0D3D64" />
+          <stop offset="58%" stopColor="#102444" />
+          <stop offset="100%" stopColor="#1A3454" />
         </linearGradient>
         <path
           id="vFactoryShape"
@@ -367,8 +367,8 @@ export default function FactoryIllustration() {
           gradientTransform="translate(310 500) scale(234 52)"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0%"   stopColor="#2ABAEE" stopOpacity="0.22" />
-          <stop offset="100%" stopColor="#2ABAEE" stopOpacity="0"    />
+          <stop offset="0%"   stopColor="#5497B5" stopOpacity="0.22" />
+          <stop offset="100%" stopColor="#5497B5" stopOpacity="0"    />
         </radialGradient>
 
         {/* Plume cloud shape and fills (logo-inspired) */}
@@ -399,26 +399,26 @@ export default function FactoryIllustration() {
           <use href="#vPlumeShape" transform="translate(0 8.64) scale(1 0.92)" />
         </clipPath>
         <linearGradient id="vPlumeFill" x1="300" y1="12" x2="300" y2="186" gradientUnits="userSpaceOnUse">
-          <stop offset="0%"   stopColor="#173B72" stopOpacity="0.36" />
-          <stop offset="45%"  stopColor="#102C5A" stopOpacity="0.34" />
-          <stop offset="100%" stopColor="#0B1B3D" stopOpacity="0.42" />
+          <stop offset="0%"   stopColor="#1F3760" stopOpacity="0.36" />
+          <stop offset="45%"  stopColor="#172C50" stopOpacity="0.34" />
+          <stop offset="100%" stopColor="#0E1A33" stopOpacity="0.42" />
         </linearGradient>
         <linearGradient id="vPlumeReflection" x1="214" y1="48" x2="430" y2="134" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#79E8FF" stopOpacity="0" />
-          <stop offset="42%" stopColor="#8EF2FF" stopOpacity="0.14" />
-          <stop offset="62%" stopColor="#F2FFFF" stopOpacity="0.10" />
-          <stop offset="100%" stopColor="#6FE5FF" stopOpacity="0" />
+          <stop offset="0%" stopColor="#8FC6D6" stopOpacity="0" />
+          <stop offset="42%" stopColor="#9FD0DE" stopOpacity="0.14" />
+          <stop offset="62%" stopColor="#F0F6F8" stopOpacity="0.10" />
+          <stop offset="100%" stopColor="#88C0D2" stopOpacity="0" />
         </linearGradient>
         <linearGradient id="vGraphStroke" x1="190" y1="132" x2="452" y2="30" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#47D7FF" stopOpacity="0.72" />
           <stop offset="46%" stopColor="#C8FBFF" stopOpacity="1" />
-          <stop offset="72%" stopColor="#54F0D6" stopOpacity="0.94" />
+          <stop offset="72%" stopColor="#95E3FF" stopOpacity="0.94" />
           <stop offset="100%" stopColor="#E9FEFF" stopOpacity="0.9" />
         </linearGradient>
         <linearGradient id="vGraphColumnGlow" x1="206" y1="134" x2="400" y2="60" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#2CD0FF" stopOpacity="0.48" />
           <stop offset="58%" stopColor="#91FAFF" stopOpacity="0.96" />
-          <stop offset="100%" stopColor="#50E7B9" stopOpacity="0.72" />
+          <stop offset="100%" stopColor="#95E3FF" stopOpacity="0.78" />
         </linearGradient>
         <radialGradient
           id="vPlumeCore"
@@ -426,16 +426,16 @@ export default function FactoryIllustration() {
           gradientTransform="translate(300 108) scale(124 72)"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0%"   stopColor="#2B6FB7" stopOpacity="0.24" />
-          <stop offset="62%"  stopColor="#15437F" stopOpacity="0.14" />
-          <stop offset="100%" stopColor="#0A224C" stopOpacity="0.04" />
+          <stop offset="0%"   stopColor="#3F5F87" stopOpacity="0.24" />
+          <stop offset="62%"  stopColor="#1F3D62" stopOpacity="0.14" />
+          <stop offset="100%" stopColor="#13243F" stopOpacity="0.04" />
         </radialGradient>
 
         {/* Wave stroke */}
         <linearGradient id="vWave" x1="20" y1="0" x2="580" y2="0" gradientUnits="userSpaceOnUse">
-          <stop offset="0%"   stopColor="#38B8EE" stopOpacity="0.06" />
-          <stop offset="50%"  stopColor="#58CEFF" stopOpacity="0.55" />
-          <stop offset="100%" stopColor="#38B8EE" stopOpacity="0.06" />
+          <stop offset="0%"   stopColor="#5A99B5" stopOpacity="0.06" />
+          <stop offset="50%"  stopColor="#7AB1CC" stopOpacity="0.55" />
+          <stop offset="100%" stopColor="#5A99B5" stopOpacity="0.06" />
         </linearGradient>
       </defs>
 
