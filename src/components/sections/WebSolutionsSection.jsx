@@ -180,8 +180,7 @@ function SolutionBadge({ card, className = '' }) {
   return (
     <span
       className={cx(
-        'pointer-events-none absolute z-20 inline-flex max-w-[calc(100%_-_2.5rem)] items-center overflow-hidden rounded-[1rem] bg-[rgba(32,54,88,0.8)] text-[#95e3ff] sm:rounded-[1.2rem]',
-        'shadow-[inset_0_0_0_0.5px_rgba(149,227,255,0.18)]',
+        'pointer-events-none absolute z-20 inline-flex max-w-[calc(100%_-_2.5rem)] items-center overflow-hidden rounded-[1rem] bg-[#203658] text-[#95e3ff] sm:rounded-[1.2rem]',
         'sm:max-w-[calc(100%_-_3.5rem)] md:max-w-[calc(100%_-_4rem)]',
         className
       )}
@@ -195,7 +194,7 @@ function SolutionBadge({ card, className = '' }) {
           </span>
         )}
       </span>
-      <span className="truncate px-2 pr-3 font-label text-[0.58rem] font-extrabold uppercase tracking-[0.08em] sm:px-2.5 sm:pr-3.5 sm:text-[0.68rem]">
+      <span className="truncate px-2 pr-3 font-label text-[0.58rem] font-extrabold uppercase tracking-[0.08em] text-[#95e3ff] sm:px-2.5 sm:pr-3.5 sm:text-[0.68rem]">
         {card.eyebrow}
       </span>
     </span>
@@ -225,7 +224,7 @@ function SolutionTextPanel({
       </h3>
       <span
         aria-hidden
-        className={cx('my-2.5 h-[3px] w-20 rounded-full bg-[#acc2df] md:my-3 lg:my-4', align === 'right' && 'self-end')}
+        className={cx('my-2.5 h-[3px] w-20 rounded-full bg-[#203658] md:my-3 lg:my-4', align === 'right' && 'self-end')}
       />
       <p ref={descriptionRef} className={descriptionClassName}>
         {description}
