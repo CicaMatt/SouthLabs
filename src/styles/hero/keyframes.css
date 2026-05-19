@@ -196,6 +196,45 @@
   0%, 100% { stroke-opacity: 0.52; }
   50%       { stroke-opacity: 0.96; }
 }
+@keyframes vTrendArrowBoost {
+  0%, 22% {
+    stroke: #95e3ff;
+    stroke-opacity: 0.82;
+    filter:
+      drop-shadow(0 0 8px rgba(149, 227, 255, 0.62))
+      drop-shadow(0 0 14px rgba(149, 227, 255, 0.2));
+  }
+  34% {
+    stroke: #f7feff;
+    stroke-opacity: 1;
+    filter:
+      drop-shadow(0 0 12px rgba(233, 254, 255, 0.95))
+      drop-shadow(0 0 24px rgba(149, 247, 255, 0.55))
+      drop-shadow(0 0 40px rgba(149, 247, 255, 0.28));
+  }
+  48%, 60% {
+    stroke: #95e3ff;
+    stroke-opacity: 0.82;
+    filter:
+      drop-shadow(0 0 8px rgba(149, 227, 255, 0.62))
+      drop-shadow(0 0 14px rgba(149, 227, 255, 0.2));
+  }
+  65% {
+    stroke: #ffffff;
+    stroke-opacity: 1;
+    filter:
+      drop-shadow(0 0 14px rgba(255, 255, 255, 1))
+      drop-shadow(0 0 28px rgba(149, 247, 255, 0.75))
+      drop-shadow(0 0 46px rgba(149, 247, 255, 0.35));
+  }
+  75%, 100% {
+    stroke: #95e3ff;
+    stroke-opacity: 0.82;
+    filter:
+      drop-shadow(0 0 8px rgba(149, 227, 255, 0.62))
+      drop-shadow(0 0 14px rgba(149, 227, 255, 0.2));
+  }
+}
 @keyframes vNodePulse {
   0%, 100% { transform: scale(0.80); }
   50%       { transform: scale(1.20); }

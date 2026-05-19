@@ -123,7 +123,7 @@
   filter:
     drop-shadow(0 0 8px rgba(149, 227, 255, 0.62))
     drop-shadow(0 0 14px rgba(149, 227, 255, 0.2));
-  animation: vTrendPulse 4s ease-in-out infinite;
+  animation: vTrendArrowBoost 5.2s ease-in-out infinite;
 }
 .v-plume-trend-out {
   stroke-opacity: 0.98;

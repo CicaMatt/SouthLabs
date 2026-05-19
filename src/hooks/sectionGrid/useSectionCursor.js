@@ -54,7 +54,7 @@ export function useSectionCursor() {
 
     updateHeroGraphicCursorState(mainElement, clientX, clientY);
 
-    const theme = getSectionCursorTheme(ownerDocument, clientY);
+    const theme = getSectionCursorTheme(ownerDocument, clientX, clientY);
     if (!theme) {
       clearSectionHighlights();
       return;
