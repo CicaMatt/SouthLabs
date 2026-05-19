@@ -228,14 +228,15 @@
 }
 
 .section-grid-bg--web {
-  --section-bg: #aebed0;
+  --section-bg: #9caabb;
   --section-grid-color: rgba(32, 54, 88, 0.045);
   --section-grid-burst-rgb: 32, 54, 88;
   --section-grid-highlight-color: #203658;
 }
 
 .section-grid-bg--software {
-  --section-bg: #c2d0e0;
+  --section-bg: #aebed0;
+  --section-grid-burst-opacity-scale: 1.85;
 }
 
 .section-grid-bg--infrastructure {
@@ -300,6 +301,11 @@
   --section-cursor-top-color: #1f4f8f;
   --section-cursor-bottom-color: #1f4f8f;
   --section-cursor-split: 100%;
+  --section-cursor-zone-color: transparent;
+  --section-cursor-zone-inset-top: 100%;
+  --section-cursor-zone-inset-right: 100%;
+  --section-cursor-zone-inset-bottom: 100%;
+  --section-cursor-zone-inset-left: 100%;
   position: fixed;
   top: 0;
   left: 0;
@@ -324,6 +330,21 @@
     width 180ms ease,
     height 180ms ease,
     opacity 120ms ease;
+}
+
+.section-cursor-dot::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--section-cursor-zone-color);
+  clip-path: inset(
+    var(--section-cursor-zone-inset-top)
+    var(--section-cursor-zone-inset-right)
+    var(--section-cursor-zone-inset-bottom)
+    var(--section-cursor-zone-inset-left)
+  );
+  pointer-events: none;
 }
 
 @media (pointer: coarse), (prefers-reduced-motion: reduce) {

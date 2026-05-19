@@ -31,54 +31,45 @@ function makeHighlight(entry, opacity = getSectionHighlightOpacity(entry)) {
   return { section: entry.element, color: entry.color, opacity };
 }
 
-function applyZoneOverride(theme, current, clientX, clientY) {
+const HIDDEN_ZONE_OVERLAY = {
+  zoneColor: 'transparent',
+  zoneInsetTop: 100,
+  zoneInsetRight: 100,
+  zoneInsetBottom: 100,
+  zoneInsetLeft: 100
+};
+
+function applyZoneOverlay(theme, current, clientX, clientY, dotSize) {
   const zoneConfig = current.zones;
-  if (!zoneConfig) return theme;
+  if (!zoneConfig) return { ...theme, ...HIDDEN_ZONE_OVERLAY };
 
   const zoneElements = current.element.querySelectorAll(zoneConfig.selector);
-  if (!zoneElements.length) return theme;
+  if (!zoneElements.length) return { ...theme, ...HIDDEN_ZONE_OVERLAY };
 
-  const dotTop = clientY - SECTION_CURSOR_DOT_SIZE / 2;
-  const dotBottom = clientY + SECTION_CURSOR_DOT_SIZE / 2;
+  const dotLeft = clientX - dotSize / 2;
+  const dotRight = clientX + dotSize / 2;
+  const dotTop = clientY - dotSize / 2;
+  const dotBottom = clientY + dotSize / 2;
 
   for (const zoneElement of zoneElements) {
     const rect = zoneElement.getBoundingClientRect();
-    if (clientX < rect.left || clientX > rect.right) continue;
+    if (dotRight <= rect.left || dotLeft >= rect.right) continue;
+    if (dotBottom <= rect.top || dotTop >= rect.bottom) continue;
 
-    if (dotBottom < rect.top || dotTop > rect.bottom) continue;
-
-    if (dotTop >= rect.top && dotBottom <= rect.bottom) {
-      return {
-        ...theme,
-        topColor: zoneConfig.color,
-        bottomColor: zoneConfig.color,
-        split: '100%'
-      };
-    }
-
-    if (rect.top >= dotTop && rect.top <= dotBottom) {
-      return {
-        ...theme,
-        topColor: current.color,
-        bottomColor: zoneConfig.color,
-        split: `${clamp(((rect.top - dotTop) / SECTION_CURSOR_DOT_SIZE) * 100, 0, 100).toFixed(2)}%`
-      };
-    }
-
-    if (rect.bottom >= dotTop && rect.bottom <= dotBottom) {
-      return {
-        ...theme,
-        topColor: zoneConfig.color,
-        bottomColor: current.color,
-        split: `${clamp(((rect.bottom - dotTop) / SECTION_CURSOR_DOT_SIZE) * 100, 0, 100).toFixed(2)}%`
-      };
-    }
+    return {
+      ...theme,
+      zoneColor: zoneConfig.color,
+      zoneInsetTop: clamp(((rect.top - dotTop) / dotSize) * 100, 0, 100),
+      zoneInsetRight: clamp(((dotRight - rect.right) / dotSize) * 100, 0, 100),
+      zoneInsetBottom: clamp(((dotBottom - rect.bottom) / dotSize) * 100, 0, 100),
+      zoneInsetLeft: clamp(((rect.left - dotLeft) / dotSize) * 100, 0, 100)
+    };
   }
 
-  return theme;
+  return { ...theme, ...HIDDEN_ZONE_OVERLAY };
 }
 
-export function getSectionCursorTheme(document, clientX, clientY) {
+export function getSectionCursorTheme(document, clientX, clientY, dotSize = SECTION_CURSOR_DOT_SIZE) {
   const sectionEntries = buildSectionEntries(document);
   const currentIndex = sectionEntries.findIndex(({ rect }) => (
     clientY >= rect.top && clientY <= rect.bottom
@@ -93,8 +84,8 @@ export function getSectionCursorTheme(document, clientX, clientY) {
   const bottomBorder = current.rect.bottom;
   const distanceFromTop = clientY - topBorder;
   const distanceFromBottom = bottomBorder - clientY;
-  const dotTop = clientY - SECTION_CURSOR_DOT_SIZE / 2;
-  const dotBottom = clientY + SECTION_CURSOR_DOT_SIZE / 2;
+  const dotTop = clientY - dotSize / 2;
+  const dotBottom = clientY + dotSize / 2;
 
   if (currentIndex > 0 && distanceFromTop <= SECTION_GRID_HIGHLIGHT_DISTANCE) {
     const neighbor = sectionEntries[currentIndex - 1];
@@ -109,27 +100,27 @@ export function getSectionCursorTheme(document, clientX, clientY) {
   }
 
   if (currentIndex > 0 && topBorder >= dotTop && topBorder <= dotBottom) {
-    return applyZoneOverride({
+    return applyZoneOverlay({
       highlights,
       topColor: sectionEntries[currentIndex - 1].color,
       bottomColor: current.color,
-      split: `${clamp(((topBorder - dotTop) / SECTION_CURSOR_DOT_SIZE) * 100, 0, 100).toFixed(2)}%`
-    }, current, clientX, clientY);
+      split: `${clamp(((topBorder - dotTop) / dotSize) * 100, 0, 100).toFixed(2)}%`
+    }, current, clientX, clientY, dotSize);
   }
 
   if (currentIndex < sectionEntries.length - 1 && bottomBorder >= dotTop && bottomBorder <= dotBottom) {
-    return applyZoneOverride({
+    return applyZoneOverlay({
       highlights,
       topColor: current.color,
       bottomColor: sectionEntries[currentIndex + 1].color,
-      split: `${clamp(((bottomBorder - dotTop) / SECTION_CURSOR_DOT_SIZE) * 100, 0, 100).toFixed(2)}%`
-    }, current, clientX, clientY);
+      split: `${clamp(((bottomBorder - dotTop) / dotSize) * 100, 0, 100).toFixed(2)}%`
+    }, current, clientX, clientY, dotSize);
   }
 
-  return applyZoneOverride({
+  return applyZoneOverlay({
     highlights,
     topColor: current.color,
     bottomColor: current.color,
     split: '100%'
-  }, current, clientX, clientY);
+  }, current, clientX, clientY, dotSize);
 }

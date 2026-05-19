@@ -54,7 +54,8 @@ export function useSectionCursor() {
 
     updateHeroGraphicCursorState(mainElement, clientX, clientY);
 
-    const theme = getSectionCursorTheme(ownerDocument, clientX, clientY);
+    const dotSize = cursorElement.getBoundingClientRect().width || 20;
+    const theme = getSectionCursorTheme(ownerDocument, clientX, clientY, dotSize);
     if (!theme) {
       clearSectionHighlights();
       return;
@@ -95,6 +96,11 @@ export function useSectionCursor() {
     cursorElement.style.setProperty('--section-cursor-top-color', theme.topColor);
     cursorElement.style.setProperty('--section-cursor-bottom-color', theme.bottomColor);
     cursorElement.style.setProperty('--section-cursor-split', theme.split);
+    cursorElement.style.setProperty('--section-cursor-zone-color', theme.zoneColor);
+    cursorElement.style.setProperty('--section-cursor-zone-inset-top', `${theme.zoneInsetTop.toFixed(2)}%`);
+    cursorElement.style.setProperty('--section-cursor-zone-inset-right', `${theme.zoneInsetRight.toFixed(2)}%`);
+    cursorElement.style.setProperty('--section-cursor-zone-inset-bottom', `${theme.zoneInsetBottom.toFixed(2)}%`);
+    cursorElement.style.setProperty('--section-cursor-zone-inset-left', `${theme.zoneInsetLeft.toFixed(2)}%`);
     cursorElement.style.setProperty('--section-cursor-opacity', '1');
   }, [clearSectionHighlights]);
 

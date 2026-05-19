@@ -181,7 +181,10 @@ export function useSectionGridInteractions() {
     );
     const targetCards = getGridBurstTargetCards(
       targetSections,
-      target
+      target,
+      clientX,
+      clientY,
+      burstOuterRadius
     );
 
     targetCards.forEach((card) => {

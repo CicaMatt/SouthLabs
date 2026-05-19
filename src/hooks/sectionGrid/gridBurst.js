@@ -42,11 +42,20 @@ function getSectionBurstRgb(section) {
   return getRgbFromHex(color) || DEFAULT_SECTION_GRID_BURST_RGB;
 }
 
-function setGridBurstShapeProperties(element, burstPoint, rgb) {
+function getSectionBurstOpacityScale(section) {
+  if (!section) return 1;
+  const raw = getComputedStyle(section).getPropertyValue('--section-grid-burst-opacity-scale');
+  const parsed = Number.parseFloat(raw);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+}
+
+function setGridBurstShapeProperties(element, burstPoint, rgb, sectionScale = 1) {
+  const opacityScale = burstPoint.opacityScale * sectionScale;
+  const clampedOpacity = (base) => Math.min(1, base * opacityScale).toFixed(3);
   element.style.setProperty('--section-grid-burst-rgb', rgb.join(', '));
-  element.style.setProperty('--section-grid-burst-peak-opacity', (0.52 * burstPoint.opacityScale).toFixed(3));
-  element.style.setProperty('--section-grid-burst-mid-opacity', (0.34 * burstPoint.opacityScale).toFixed(3));
-  element.style.setProperty('--section-grid-burst-late-opacity', (0.13 * burstPoint.opacityScale).toFixed(3));
+  element.style.setProperty('--section-grid-burst-peak-opacity', clampedOpacity(0.52));
+  element.style.setProperty('--section-grid-burst-mid-opacity', clampedOpacity(0.34));
+  element.style.setProperty('--section-grid-burst-late-opacity', clampedOpacity(0.13));
   element.style.setProperty('--section-grid-burst-early-radius', `${burstPoint.earlyRadius.toFixed(2)}px`);
   element.style.setProperty('--section-grid-burst-mid-radius', `${burstPoint.midRadius.toFixed(2)}px`);
   element.style.setProperty('--section-grid-burst-late-radius', `${burstPoint.lateRadius.toFixed(2)}px`);
@@ -72,10 +81,11 @@ function updateCardGridBurst(card, clientX, clientY, burstPoint) {
   const cardRect = card.getBoundingClientRect();
   const section = card.closest('section.section-grid-bg');
   const rgb = section ? getSectionBurstRgb(section) : DEFAULT_SECTION_GRID_BURST_RGB;
+  const sectionScale = getSectionBurstOpacityScale(section);
 
   card.style.setProperty('--card-grid-burst-x', `${(clientX - cardRect.left).toFixed(2)}px`);
   card.style.setProperty('--card-grid-burst-y', `${(clientY - cardRect.top).toFixed(2)}px`);
-  setGridBurstShapeProperties(card, burstPoint, rgb);
+  setGridBurstShapeProperties(card, burstPoint, rgb, sectionScale);
 }
 
 function removeGridBurstElement(burstElement, timeoutMap, windowObject) {
@@ -138,11 +148,23 @@ export function getGridBurstTargetSections(mainElement, clientX, clientY, burstO
   return targetSections;
 }
 
-export function getGridBurstTargetCards(targetSections, target) {
-  const card = getSolutionCardFromTarget(target);
-  const section = card?.closest('section.section-grid-bg');
+export function getGridBurstTargetCards(targetSections, target, clientX, clientY, burstOuterRadius) {
+  const cards = new Set();
 
-  return card && targetSections.includes(section) ? [card] : [];
+  const clickedCard = getSolutionCardFromTarget(target);
+  if (clickedCard && targetSections.includes(clickedCard.closest('section.section-grid-bg'))) {
+    cards.add(clickedCard);
+  }
+
+  targetSections.forEach((section) => {
+    section.querySelectorAll(CARD_GRID_ANCHOR_SELECTOR).forEach((card) => {
+      if (getPointToRectDistance(clientX, clientY, card.getBoundingClientRect()) <= burstOuterRadius) {
+        cards.add(card);
+      }
+    });
+  });
+
+  return Array.from(cards);
 }
 
 export function restartSolutionCardBurst(card, clientX, clientY, burstPoint, timeoutMap, windowObject) {
@@ -186,7 +208,12 @@ export function appendSectionGridBurst(ownerDocument, targetSection, clientX, cl
   burstElement.className = 'section-grid-burst';
   burstElement.style.setProperty('--section-grid-burst-x', `${burstX.toFixed(2)}px`);
   burstElement.style.setProperty('--section-grid-burst-y', `${burstY.toFixed(2)}px`);
-  setGridBurstShapeProperties(burstElement, burstPoint, getSectionBurstRgb(targetSection));
+  setGridBurstShapeProperties(
+    burstElement,
+    burstPoint,
+    getSectionBurstRgb(targetSection),
+    getSectionBurstOpacityScale(targetSection)
+  );
 
   targetSection.appendChild(burstElement);
 
