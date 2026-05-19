@@ -14,7 +14,7 @@ const NAV_LINKS = [
 
 const NAVBAR_CLASS = [
   'sticky top-0 w-full h-16 lg:h-20 z-50',
-  'bg-white dark:bg-slate-950',
+  'bg-[#e6ecf4] dark:bg-slate-950',
   'border-b border-slate-100 dark:border-slate-800/60',
   'shadow-[0_1px_3px_0_rgba(0,0,0,0.05),0_1px_2px_0_rgba(0,0,0,0.06)] dark:shadow-none'
 ].join(' ');
@@ -52,12 +52,12 @@ function BrandLogo({ onNavigate }) {
       href="#hero"
       onClick={onNavigate}
     >
-      <img alt="" aria-hidden="true" className="h-[3.25rem] lg:h-[3.75rem] w-auto object-contain object-center" src={logoImage} />
+      <img alt="" aria-hidden="true" className="h-[3.5rem] lg:h-[4rem] w-auto object-contain object-center" src={logoImage} />
       <div className="flex h-[3.25rem] lg:h-[3.75rem] items-center">
         <img
           alt=""
           aria-hidden="true"
-          className="relative translate-y-0.5 h-9 lg:h-11 w-auto object-contain object-center"
+          className="relative translate-y-0.5 h-11 lg:h-14 w-auto object-contain object-center"
           src={logoText}
         />
       </div>

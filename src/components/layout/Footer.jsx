@@ -177,7 +177,7 @@ export default function Footer() {
   }
 
   return (
-    <footer className="w-full border-t border-slate-200/60 dark:border-slate-800/70 bg-gradient-to-b from-slate-50 to-slate-100/70 dark:from-slate-950 dark:to-slate-950">
+    <footer className="w-full border-t border-slate-200/60 dark:border-slate-800/70 bg-gradient-to-b from-[#e6ecf4] to-[#d8e0ec]/80 dark:from-slate-950 dark:to-slate-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-8 md:py-10">
         <div className="mx-auto w-full max-w-5xl">
           <div className="mx-auto flex w-full flex-col items-center gap-8 md:w-fit md:flex-row md:items-start md:justify-center md:gap-20 lg:gap-28">
