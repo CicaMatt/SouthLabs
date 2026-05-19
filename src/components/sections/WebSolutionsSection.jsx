@@ -188,7 +188,7 @@ function SolutionBadge({ card, className = '' }) {
   return (
     <span
       className={cx(
-        'pointer-events-none absolute z-20 inline-flex max-w-[calc(100%_-_2.5rem)] items-center overflow-hidden rounded-[1rem] bg-[#203658] text-[#95e3ff] sm:rounded-[1.2rem]',
+        'pointer-events-none absolute z-20 inline-flex max-w-[calc(100%_-_2.5rem)] items-center overflow-hidden rounded-[1rem] bg-[#203658] text-[#95e3ff] opacity-90 sm:rounded-[1.2rem]',
         'sm:max-w-[calc(100%_-_3.5rem)] md:max-w-[calc(100%_-_4rem)]',
         className
       )}
@@ -279,7 +279,7 @@ function LeftSolutionCard({ card }) {
               src={card.stackedPreviewImage ?? card.previewImage}
               alt={card.title}
               className={cx(
-                'absolute inset-0 h-full w-full',
+                'absolute inset-0 h-full w-full opacity-90',
                 HORIZONTAL_CARD_CLASSES.stackedPreviewImage[stackedPreviewMode],
                 !hasStackedPreviewImage && previewPositionClass
               )}
@@ -317,7 +317,7 @@ function LeftSolutionCard({ card }) {
             <img
               src={card.previewImage}
               alt={card.title}
-              className={cx('absolute inset-0 h-full w-full object-contain', card.desktopPreviewScaleClass, previewPositionClass)}
+              className={cx('absolute inset-0 h-full w-full object-contain opacity-90', card.desktopPreviewScaleClass, previewPositionClass)}
             />
           </div>
         </div>
@@ -346,7 +346,7 @@ function RightSolutionCard({ card }) {
             <img
               src={card.previewImage}
               alt={card.title}
-              className="absolute inset-0 h-full w-full scale-[0.88] object-contain object-left-top sm:scale-100"
+              className="absolute inset-0 h-full w-full scale-[0.88] object-contain object-left-top opacity-90 sm:scale-100"
             />
           </div>
         </div>
@@ -391,7 +391,7 @@ function RightSolutionCard({ card }) {
               <img
                 src={card.previewImage}
                 alt={card.title}
-                className="absolute inset-0 h-full w-full scale-[1.1] object-contain object-bottom"
+                className="absolute inset-0 h-full w-full scale-[1.1] object-contain object-bottom opacity-90"
               />
             </div>
           </div>

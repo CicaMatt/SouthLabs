@@ -32,7 +32,7 @@ const SECTION_CONTENT_CLASS = 'max-w-7xl mx-auto px-5 sm:px-6 md:px-8';
 const CARD_GRID_CLASS = 'grid grid-cols-1 md:grid-cols-3 gap-8';
 const CARD_CLASS = 'infrastructure-image-card group';
 const IMAGE_FRAME_CLASS = 'infrastructure-image-frame solution-card-surface card-grid-anchor isolate h-48 rounded-xl mb-6 overflow-hidden relative';
-const IMAGE_CLASS = 'w-full h-full object-contain group-hover:scale-105 transition-transform duration-500';
+const IMAGE_CLASS = 'w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 opacity-85';
 const CARD_TITLE_CLASS = 'font-headline text-xl font-bold text-on-background mb-2';
 const CARD_DESCRIPTION_CLASS = 'font-body text-sm text-on-surface-variant leading-relaxed';
 

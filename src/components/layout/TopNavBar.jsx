@@ -52,12 +52,12 @@ function BrandLogo({ onNavigate }) {
       href="#hero"
       onClick={onNavigate}
     >
-      <img alt="" aria-hidden="true" className="h-[3.5rem] lg:h-[4rem] w-auto object-contain object-center" src={logoImage} />
+      <img alt="" aria-hidden="true" className="h-[4rem] lg:h-[4.5rem] w-auto object-contain object-center" src={logoImage} />
       <div className="flex h-[3.25rem] lg:h-[3.75rem] items-center">
         <img
           alt=""
           aria-hidden="true"
-          className="relative translate-y-0.5 h-11 lg:h-14 w-auto object-contain object-center"
+          className="relative translate-y-0.5 h-[2.75rem] lg:h-[3.25rem] w-auto object-contain object-center"
           src={logoText}
         />
       </div>
@@ -106,7 +106,7 @@ function MobileNavMenu({ isVisible, menuRef, onNavigate }) {
       ref={menuRef}
       aria-hidden={!isVisible}
       className={[
-        'md:hidden absolute top-[calc(100%+0.65rem)] left-4 right-4 overflow-hidden rounded-2xl border border-slate-200 bg-[#f8fafc] p-2',
+        'md:hidden absolute top-[calc(100%+0.65rem)] left-4 right-4 overflow-hidden rounded-2xl border border-slate-200 bg-[#e6ecf4] p-2',
         'shadow-[0_22px_58px_rgba(15,23,42,0.22),0_1px_0_rgba(255,255,255,0.9)_inset]',
         'origin-top transition-[opacity,transform] duration-[280ms] ease-out motion-reduce:transition-none',
         'dark:border-slate-800 dark:bg-slate-950 dark:shadow-[0_22px_58px_rgba(0,0,0,0.48)]',
@@ -122,7 +122,7 @@ function MobileNavMenu({ isVisible, menuRef, onNavigate }) {
             href={link.href}
             onClick={onNavigate}
           >
-            <span className="relative after:pointer-events-none after:absolute after:left-0 after:right-0 after:-bottom-0.5 after:h-[2px] after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-out group-hover:after:scale-x-100">
+            <span className="relative after:pointer-events-none after:absolute after:left-0 after:right-0 after:-bottom-0.5 after:h-[2px] after:origin-left after:scale-x-0 after:bg-[#95e3ff] after:transition-transform after:duration-300 after:ease-out group-hover:after:scale-x-100">
               {link.label}
             </span>
             <span className="material-symbols-outlined text-[18px] text-[#28324b] transition-all group-hover:translate-x-0.5 group-hover:text-[#203658] dark:text-slate-500 dark:group-hover:text-[#95e3ff]">
