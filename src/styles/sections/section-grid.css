@@ -228,7 +228,7 @@
 }
 
 .section-grid-bg--web {
-  --section-bg: #9caabb;
+  --section-bg: #d3deea;
   --section-grid-color: rgba(32, 54, 88, 0.045);
   --section-grid-burst-rgb: 32, 54, 88;
   --section-grid-highlight-color: #203658;
@@ -240,7 +240,7 @@
 }
 
 .section-grid-bg--infrastructure {
-  --section-bg: #d5e1ee;
+  --section-bg: #d3deea;
   --section-grid-color: rgba(40, 50, 75, 0.04);
 }
 
@@ -267,7 +267,7 @@
 }
 
 .section-grid-bg--contact {
-  --section-bg: #f2f4f6;
+  --section-bg: #d3deea;
   --section-grid-color: rgba(31, 79, 143, 0.04);
 }
 

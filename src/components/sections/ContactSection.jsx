@@ -13,19 +13,19 @@ const FORM_MESSAGES = {
   failed: 'Non siamo riusciti a inviare la richiesta. Riprova tra poco o scrivici via email.'
 };
 
-const CONTACT_FORM_SURFACE_OPACITY = 0.35;
-const CONTACT_FORM_SURFACE_HOVER_OPACITY = 0.8;
+const CONTACT_FORM_SURFACE_OPACITY = 0.78;
+const CONTACT_FORM_SURFACE_HOVER_OPACITY = CONTACT_FORM_SURFACE_OPACITY;
 const FIELD_LABEL_CLASS = [
   'block font-label text-sm font-medium',
   'text-on-surface-variant mb-2'
 ].join(' ');
 const FIELD_CONTROL_CLASS = [
-  'w-full rounded-md border-0 bg-surface-container-high',
+  'w-full rounded-md border-0 bg-[#cedaea]',
   'px-4 py-3 text-on-background transition-colors',
-  'focus:bg-surface-container-lowest focus:ring-0',
+  'focus:bg-[#edf3fa] focus:ring-0',
   'focus:shadow-[inset_0_0_0_1px_rgba(32,54,88,0.72)]'
 ].join(' ');
-const TEXT_FIELD_CLASS = `${FIELD_CONTROL_CLASS} placeholder:text-outline-variant`;
+const TEXT_FIELD_CLASS = `${FIELD_CONTROL_CLASS} placeholder:text-[rgba(32,54,88,0.5)]`;
 const FORM_MESSAGE_CLASS = 'flex items-center justify-center rounded-md px-4 py-3 text-center text-sm font-medium';
 const SECTION_CLASS = 'section-grid-bg section-grid-bg--contact py-[4.5rem] lg:py-[5.25rem]';
 const SECTION_CONTENT_CLASS = 'max-w-3xl mx-auto px-5 sm:px-6 md:px-8';
@@ -33,7 +33,7 @@ const FORM_PANEL_CLASS = 'solution-card-surface rounded-xl border-t-4 border-[#2
 const FORM_PANEL_STYLE = getSolutionCardSurfaceStyle(
   CONTACT_FORM_SURFACE_OPACITY,
   CONTACT_FORM_SURFACE_HOVER_OPACITY,
-  '255, 255, 255'
+  '235, 244, 252'
 );
 const SUBMIT_BUTTON_CLASS = [
   'contact-submit-cta w-full inline-flex items-center justify-center px-6 py-4 rounded-md text-base font-medium',

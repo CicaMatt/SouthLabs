@@ -9,8 +9,10 @@ import seoOrientedImage from '../../../media/images/seo_oriented.png';
 const cx = (...classes) => classes.filter(Boolean).join(' ');
 
 const WORDPRESS_TITLE = 'Soluzioni WordPress';
-const WEB_CARD_SURFACE_OPACITY = 0.1;
+const WEB_CARD_SURFACE_OPACITY = 0.2;
 const WEB_CARD_SURFACE_HOVER_OPACITY = 0.7;
+const WEB_CARD_SURFACE_RGB = '251, 252, 254';
+const WEB_CARD_SURFACE_HOVER_RGB = '226, 233, 243';
 const SOLUTION_CARD_DESKTOP_QUERY = '(min-width: 1024px)';
 const SOLUTION_CARD_CLASSES = {
   shell: [
@@ -75,7 +77,9 @@ const LEFT_WEB_SOLUTION_CARDS = [
     stackedPreviewImage: customWebAppImage,
     desktopPreviewScaleClass: 'scale-[1.2]',
     surfaceOpacity: WEB_CARD_SURFACE_OPACITY,
-    surfaceHoverOpacity: WEB_CARD_SURFACE_HOVER_OPACITY
+    surfaceHoverOpacity: WEB_CARD_SURFACE_HOVER_OPACITY,
+    surfaceRgb: WEB_CARD_SURFACE_RGB,
+    surfaceHoverRgb: WEB_CARD_SURFACE_HOVER_RGB
   },
   {
     icon: 'web',
@@ -87,7 +91,9 @@ const LEFT_WEB_SOLUTION_CARDS = [
     stackedPreviewImage: seoOrientedImage,
     desktopPreviewScaleClass: 'scale-[1.12]',
     surfaceOpacity: WEB_CARD_SURFACE_OPACITY,
-    surfaceHoverOpacity: WEB_CARD_SURFACE_HOVER_OPACITY
+    surfaceHoverOpacity: WEB_CARD_SURFACE_HOVER_OPACITY,
+    surfaceRgb: WEB_CARD_SURFACE_RGB,
+    surfaceHoverRgb: WEB_CARD_SURFACE_HOVER_RGB
   }
 ];
 
@@ -99,7 +105,9 @@ const RIGHT_WEB_SOLUTION_CARD = {
   mobileDescription: 'Portali di vendita online sicuri ed efficaci',
   previewImage: ecommerceImage,
   surfaceOpacity: WEB_CARD_SURFACE_OPACITY,
-  surfaceHoverOpacity: WEB_CARD_SURFACE_HOVER_OPACITY
+  surfaceHoverOpacity: WEB_CARD_SURFACE_HOVER_OPACITY,
+  surfaceRgb: WEB_CARD_SURFACE_RGB,
+  surfaceHoverRgb: WEB_CARD_SURFACE_HOVER_RGB
 };
 
 
@@ -247,7 +255,7 @@ function LeftSolutionCard({ card }) {
   return (
     <article
       className={cx(SOLUTION_CARD_CLASSES.shell, HORIZONTAL_CARD_CLASSES.shell)}
-      style={getSolutionCardSurfaceStyle(card.surfaceOpacity, card.surfaceHoverOpacity)}
+      style={getSolutionCardSurfaceStyle(card.surfaceOpacity, card.surfaceHoverOpacity, card.surfaceRgb, card.surfaceHoverRgb)}
     >
       <SolutionBadge card={card} className={badgeClassName} />
 
@@ -325,7 +333,7 @@ function RightSolutionCard({ card }) {
   return (
     <article
       className={cx(SOLUTION_CARD_CLASSES.shell, TALL_CARD_CLASSES.shell)}
-      style={getSolutionCardSurfaceStyle(card.surfaceOpacity, card.surfaceHoverOpacity)}
+      style={getSolutionCardSurfaceStyle(card.surfaceOpacity, card.surfaceHoverOpacity, card.surfaceRgb, card.surfaceHoverRgb)}
     >
       <SolutionBadge
         card={card}

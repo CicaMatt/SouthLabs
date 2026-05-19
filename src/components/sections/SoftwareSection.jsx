@@ -7,6 +7,8 @@ import {
 
 const SOFTWARE_CARD_SURFACE_OPACITY = 0.25;
 const SOFTWARE_CARD_SURFACE_HOVER_OPACITY = 0.7;
+const SOFTWARE_CARD_SURFACE_RGB = '251, 252, 254';
+const SOFTWARE_CARD_SURFACE_HOVER_RGB = '226, 233, 243';
 const SOFTWARE_FEATURE_CARD_SURFACE_OPACITY = 1;
 const SOFTWARE_FEATURE_CARD_SURFACE_HOVER_OPACITY = 1;
 const SOFTWARE_SECTION_GRID_OPACITY = 0.06;
@@ -79,7 +81,12 @@ function AutomationCard({ description, icon, surfaceHoverOpacity, surfaceOpacity
   return (
     <div
       className={AUTOMATION_CARD_CLASS}
-      style={getSolutionCardSurfaceStyle(surfaceOpacity, surfaceHoverOpacity)}
+      style={getSolutionCardSurfaceStyle(
+        surfaceOpacity,
+        surfaceHoverOpacity,
+        SOFTWARE_CARD_SURFACE_RGB,
+        SOFTWARE_CARD_SURFACE_HOVER_RGB
+      )}
     >
       <span className="material-symbols-outlined mb-4 inline-flex h-7 w-7 origin-center items-center justify-center text-[28px] leading-none text-[var(--software-support-blue)] transition-all duration-300 group-hover:scale-110">{icon}</span>
       <h4 className="mb-2 min-h-[3rem] font-headline text-lg font-bold leading-snug text-on-background">{title}</h4>

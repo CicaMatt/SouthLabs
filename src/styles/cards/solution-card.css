@@ -8,10 +8,12 @@
 
 .solution-card-surface {
   --solution-card-bg-rgb: 251, 252, 254;
+  --solution-card-bg-hover-rgb: var(--solution-card-bg-rgb);
+  --solution-card-bg-current-rgb: var(--solution-card-bg-rgb);
   --solution-card-bg-opacity: 0.24;
   --solution-card-bg-hover-opacity: var(--solution-card-bg-opacity);
   --solution-card-bg-current-opacity: var(--solution-card-bg-opacity);
-  background-color: rgba(var(--solution-card-bg-rgb), var(--solution-card-bg-current-opacity));
+  background-color: rgba(var(--solution-card-bg-current-rgb), var(--solution-card-bg-current-opacity));
   transition-property: --solution-card-bg-current-opacity, background-color, border-color, box-shadow, transform;
   transition-duration: 420ms;
   transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
@@ -19,6 +21,7 @@
 
 .solution-card-surface:hover,
 .solution-card-surface.solution-card-surface--touch-selected {
+  --solution-card-bg-current-rgb: var(--solution-card-bg-hover-rgb);
   --solution-card-bg-current-opacity: var(--solution-card-bg-hover-opacity);
 }
 

@@ -6,9 +6,10 @@ const SOLUTION_CARD_SURFACE_CLASS = [
   'hover:border-[#1f4f8f] hover:shadow-[inset_0_0_0_1.5px_rgba(31,79,143,0.92),0_20px_36px_rgba(15,34,52,0.15)]'
 ].join(' ');
 
-export function getSolutionCardSurfaceStyle(restOpacity, hoverOpacity = restOpacity, rgb = '251, 252, 254') {
+export function getSolutionCardSurfaceStyle(restOpacity, hoverOpacity = restOpacity, rgb = '251, 252, 254', hoverRgb = rgb) {
   return {
     '--solution-card-bg-rgb': rgb,
+    '--solution-card-bg-hover-rgb': hoverRgb,
     '--solution-card-bg-opacity': `${restOpacity}`,
     '--solution-card-bg-hover-opacity': `${hoverOpacity}`
   };
