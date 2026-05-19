@@ -101,6 +101,10 @@ export function useSectionCursor() {
     cursorElement.style.setProperty('--section-cursor-zone-inset-right', `${theme.zoneInsetRight.toFixed(2)}%`);
     cursorElement.style.setProperty('--section-cursor-zone-inset-bottom', `${theme.zoneInsetBottom.toFixed(2)}%`);
     cursorElement.style.setProperty('--section-cursor-zone-inset-left', `${theme.zoneInsetLeft.toFixed(2)}%`);
+    cursorElement.style.setProperty('--section-cursor-zone-radius-tl', `${theme.zoneRadiusTopLeft.toFixed(2)}px`);
+    cursorElement.style.setProperty('--section-cursor-zone-radius-tr', `${theme.zoneRadiusTopRight.toFixed(2)}px`);
+    cursorElement.style.setProperty('--section-cursor-zone-radius-br', `${theme.zoneRadiusBottomRight.toFixed(2)}px`);
+    cursorElement.style.setProperty('--section-cursor-zone-radius-bl', `${theme.zoneRadiusBottomLeft.toFixed(2)}px`);
     cursorElement.style.setProperty('--section-cursor-opacity', '1');
   }, [clearSectionHighlights]);
 

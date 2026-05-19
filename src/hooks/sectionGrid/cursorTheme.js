@@ -36,8 +36,24 @@ const HIDDEN_ZONE_OVERLAY = {
   zoneInsetTop: 100,
   zoneInsetRight: 100,
   zoneInsetBottom: 100,
-  zoneInsetLeft: 100
+  zoneInsetLeft: 100,
+  zoneRadiusTopLeft: 0,
+  zoneRadiusTopRight: 0,
+  zoneRadiusBottomRight: 0,
+  zoneRadiusBottomLeft: 0
 };
+
+function readCornerRadii(element) {
+  const view = element.ownerDocument?.defaultView;
+  if (!view) return { tl: 0, tr: 0, br: 0, bl: 0 };
+  const style = view.getComputedStyle(element);
+  return {
+    tl: parseFloat(style.borderTopLeftRadius) || 0,
+    tr: parseFloat(style.borderTopRightRadius) || 0,
+    br: parseFloat(style.borderBottomRightRadius) || 0,
+    bl: parseFloat(style.borderBottomLeftRadius) || 0
+  };
+}
 
 function applyZoneOverlay(theme, current, clientX, clientY, dotSize) {
   const zoneConfig = current.zones;
@@ -56,13 +72,23 @@ function applyZoneOverlay(theme, current, clientX, clientY, dotSize) {
     if (dotRight <= rect.left || dotLeft >= rect.right) continue;
     if (dotBottom <= rect.top || dotTop >= rect.bottom) continue;
 
+    const insetTop = clamp(((rect.top - dotTop) / dotSize) * 100, 0, 100);
+    const insetRight = clamp(((dotRight - rect.right) / dotSize) * 100, 0, 100);
+    const insetBottom = clamp(((dotBottom - rect.bottom) / dotSize) * 100, 0, 100);
+    const insetLeft = clamp(((rect.left - dotLeft) / dotSize) * 100, 0, 100);
+    const { tl, tr, br, bl } = readCornerRadii(zoneElement);
+
     return {
       ...theme,
       zoneColor: zoneConfig.color,
-      zoneInsetTop: clamp(((rect.top - dotTop) / dotSize) * 100, 0, 100),
-      zoneInsetRight: clamp(((dotRight - rect.right) / dotSize) * 100, 0, 100),
-      zoneInsetBottom: clamp(((dotBottom - rect.bottom) / dotSize) * 100, 0, 100),
-      zoneInsetLeft: clamp(((rect.left - dotLeft) / dotSize) * 100, 0, 100)
+      zoneInsetTop: insetTop,
+      zoneInsetRight: insetRight,
+      zoneInsetBottom: insetBottom,
+      zoneInsetLeft: insetLeft,
+      zoneRadiusTopLeft: insetTop > 0 && insetLeft > 0 ? tl : 0,
+      zoneRadiusTopRight: insetTop > 0 && insetRight > 0 ? tr : 0,
+      zoneRadiusBottomRight: insetBottom > 0 && insetRight > 0 ? br : 0,
+      zoneRadiusBottomLeft: insetBottom > 0 && insetLeft > 0 ? bl : 0
     };
   }
 

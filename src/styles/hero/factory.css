@@ -180,10 +180,10 @@
 .v-factory-crease {
   stroke: #9ce8ff;
   stroke-width: 1.15;
-  stroke-opacity: 0.3;
+  stroke-opacity: 0.45;
   stroke-linecap: round;
   stroke-dasharray: 7 9;
-  animation: vCreaseDashFlow 9s linear infinite, vFeatureEdgePulse 5.8s ease-in-out infinite;
+  animation: vCreaseDashFlow 9s linear infinite;
 }
 
 .v-pipe-shell {

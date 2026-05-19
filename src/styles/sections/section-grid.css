@@ -306,6 +306,10 @@
   --section-cursor-zone-inset-right: 100%;
   --section-cursor-zone-inset-bottom: 100%;
   --section-cursor-zone-inset-left: 100%;
+  --section-cursor-zone-radius-tl: 0px;
+  --section-cursor-zone-radius-tr: 0px;
+  --section-cursor-zone-radius-br: 0px;
+  --section-cursor-zone-radius-bl: 0px;
   position: fixed;
   top: 0;
   left: 0;
@@ -343,6 +347,11 @@
     var(--section-cursor-zone-inset-right)
     var(--section-cursor-zone-inset-bottom)
     var(--section-cursor-zone-inset-left)
+    round
+    var(--section-cursor-zone-radius-tl)
+    var(--section-cursor-zone-radius-tr)
+    var(--section-cursor-zone-radius-br)
+    var(--section-cursor-zone-radius-bl)
   );
   pointer-events: none;
 }
