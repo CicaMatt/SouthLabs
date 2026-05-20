@@ -307,11 +307,6 @@
       inset 0 0 0 2px var(--software-ai-accent),
       0 18px 34px rgba(15, 34, 52, 0.13);
   }
-  .software-ai-feature-card:hover::before,
-  .software-ai-feature-card:hover .software-ai-grid-highlight,
-  .software-ai-feature-card:hover .software-ai-grid-burst {
-    background-position-y: calc(-1px - var(--card-grid-origin-y, var(--section-grid-origin-y, 0px)) + 3px);
-  }
 
 }
 
@@ -342,7 +337,6 @@
     --tw-scale-x: 1.1 !important;
     --tw-scale-y: 1.1 !important;
     transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)) !important;
-    color: var(--software-ai-accent) !important;
   }
 
   .section-grid-bg--software .group:hover .software-ai-link,

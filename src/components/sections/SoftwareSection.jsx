@@ -101,11 +101,11 @@ function SoftwareAiFeatureCard() {
       <span aria-hidden="true" className="software-ai-grid-highlight" />
       <span aria-hidden="true" className="software-ai-grid-burst" />
       <div className={FEATURE_BACKGROUND_ICON_CLASS}>
-        <span className="material-symbols-outlined text-[76px] leading-none text-[var(--software-ai-accent)] lg:text-[120px]">smart_toy</span>
+        <span className="material-symbols-outlined text-[60px] leading-none text-[var(--software-ai-accent)] lg:text-[120px]">smart_toy</span>
       </div>
       <span className="material-symbols-outlined relative z-10 mb-4 inline-flex h-7 w-7 origin-center items-center justify-center text-[28px] leading-none text-[var(--software-ai-accent)] transition-all duration-300 group-hover:scale-110">memory</span>
       <h3 className="relative z-10 font-headline text-2xl font-bold mb-4">Intelligenza Artificiale</h3>
-      <p className="relative z-10 font-body text-on-primary-container mb-8 max-w-sm">
+      <p className="relative z-10 font-body text-on-primary-container mb-8 lg:max-w-sm">
         Sviluppo di modelli di intelligenza artificiale per analisi predittiva, automazione del customer service, ottimizzazione dei flussi di lavoro, e tanto altro.
       </p>
       <a className="software-ai-link relative z-10 inline-flex w-fit items-center rounded-md font-medium transition-all duration-200 hover:translate-x-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 lg:absolute lg:bottom-[4.25rem] lg:left-8 lg:translate-y-1/2 lg:hover:translate-x-1 lg:hover:translate-y-1/2" href="#contatti">

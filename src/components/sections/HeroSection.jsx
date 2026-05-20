@@ -2,7 +2,7 @@ import FactoryIllustration from '../hero/FactoryIllustration';
 import HeroParticleField from '../hero/HeroParticleField';
 import { useHeroInteractions } from '../hero/useHeroInteractions';
 
-const HERO_SHELL_CLASS = 'hero-shell section-grid-bg--hero relative isolate overflow-hidden pt-16 pb-28 lg:pt-12 lg:pb-20 xl:pt-24 xl:pb-40';
+const HERO_SHELL_CLASS = 'hero-shell section-grid-bg--hero relative isolate overflow-hidden pt-16 pb-28 lg:pt-24 lg:pb-[5.5rem] 2xl:pb-40';
 
 export default function HeroSection() {
   const {
@@ -40,10 +40,6 @@ export default function HeroSection() {
 
       <div className="max-w-7xl mx-auto px-5 sm:px-6 md:px-8 relative z-10">
         <div className="hero-reveal hero-content max-w-4xl">
-          <div className="mb-8 inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-surface-bright backdrop-blur-md">
-            <span className="h-2 w-2 rounded-full bg-tertiary-fixed" />
-            Consulenza Informatica
-          </div>
           <div className="md:flex md:w-fit md:flex-col md:items-stretch lg:block lg:w-auto">
             <h1 className="hero-title-balance font-headline text-[2.5rem] leading-[1.1] tracking-tight text-surface-bright sm:text-[2.9rem] lg:text-[3.4rem] mb-8">
               Consulenza informatica<br /> e innovazione,
