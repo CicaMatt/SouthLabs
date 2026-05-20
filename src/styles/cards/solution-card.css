@@ -14,6 +14,7 @@
   --solution-card-bg-hover-opacity: var(--solution-card-bg-opacity);
   --solution-card-bg-current-opacity: var(--solution-card-bg-opacity);
   background-color: rgba(var(--solution-card-bg-current-rgb), var(--solution-card-bg-current-opacity));
+  box-shadow: 0 8px 20px rgba(15, 34, 52, 0.07);
   transition-property: --solution-card-bg-current-opacity, background-color, border-color, box-shadow, transform;
   transition-duration: 420ms;
   transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);

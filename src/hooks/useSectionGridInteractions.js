@@ -33,7 +33,10 @@ function clearTimeoutMap(timeoutMap) {
 }
 
 function getTouchSelectableCardFromTarget(target) {
-  return target instanceof Element ? target.closest(TOUCH_SELECTABLE_CARD_SELECTOR) : null;
+  if (!(target instanceof Element)) return null;
+  const infrastructureCard = target.closest('.infrastructure-image-card');
+  if (infrastructureCard) return infrastructureCard;
+  return target.closest(TOUCH_SELECTABLE_CARD_SELECTOR);
 }
 
 export function useSectionGridInteractions() {
@@ -305,6 +308,7 @@ export function useSectionGridInteractions() {
 
     const touchedCard = getTouchSelectableCardFromTarget(event.target);
     const isSelectedCardTap = touchedCard && touchSelectedCardRef.current === touchedCard;
+    const isInfrastructureCard = touchedCard?.classList.contains('infrastructure-image-card');
 
     if (touchedCard) {
       selectTouchCard(touchedCard);
@@ -312,7 +316,7 @@ export function useSectionGridInteractions() {
       clearTouchSelectedCard();
     }
 
-    if (!touchedCard || isSelectedCardTap) {
+    if ((!touchedCard || isSelectedCardTap) && !isInfrastructureCard) {
       triggerSectionGridBurstAtPoint({
         clientX: event.clientX,
         clientY: event.clientY,
