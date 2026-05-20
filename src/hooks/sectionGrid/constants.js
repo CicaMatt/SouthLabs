@@ -60,7 +60,8 @@ export const SECTION_CURSOR_THEMES = [
   },
   {
     id: 'manutenzione-supporto',
-    color: '#95e3ff'
+    color: '#95e3ff',
+    highlightOpacity: 0.1875
   },
   {
     id: 'contatti',
