@@ -6,12 +6,16 @@
   .hero-particle-canvas { opacity: 0.72; }
 
   .hero-factory-stage {
-    --factory-stage-width: min(70vw, 360px);
+    --factory-stage-width: min(70vw, 540px);
     right: -8%;
   }
 
   .hero-actions {
     max-width: 18rem;
+  }
+
+  .hero-content > div > p {
+    font-size: 1.0625rem;
   }
 }
 @media (max-width: 639px) {
@@ -29,7 +33,7 @@
 }
 @media (max-width: 420px) {
   .hero-actions {
-    max-width: 13rem;
+    max-width: 12.25rem;
     gap: 0.625rem;
   }
 
@@ -43,7 +47,7 @@
 }
 @media (max-width: 360px) {
   .hero-actions {
-    max-width: 11.5rem;
+    max-width: 10.75rem;
     gap: 0.5rem;
   }
 

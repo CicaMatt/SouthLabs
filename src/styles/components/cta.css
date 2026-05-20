@@ -114,7 +114,55 @@
 
 .hero-consultancy-cta span {
   position: relative;
+  display: inline-block;
   z-index: 1;
+}
+
+.hero-consultancy-cta span::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  background-color: #06222a;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 300ms ease-out;
+  pointer-events: none;
+}
+
+.hero-consultancy-cta:hover span::after {
+  transform: scaleX(1);
+}
+
+.hero-solutions-cta {
+  position: relative;
+  isolation: isolate;
+}
+
+.hero-solutions-cta span {
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+}
+
+.hero-solutions-cta span::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  background-color: #f7f9fb;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 300ms ease-out;
+  pointer-events: none;
+}
+
+.hero-solutions-cta:hover span::after {
+  transform: scaleX(1);
 }
 
 @media (prefers-reduced-motion: reduce) {
