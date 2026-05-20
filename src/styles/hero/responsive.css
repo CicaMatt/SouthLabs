@@ -6,16 +6,22 @@
   .hero-particle-canvas { opacity: 0.72; }
 
   .hero-factory-stage {
-    --factory-stage-width: min(70vw, 540px);
+    --factory-stage-width: min(60vw, 500px);
     right: -8%;
-  }
-
-  .hero-actions {
-    max-width: 18rem;
   }
 
   .hero-content > div > p {
     font-size: 1.0625rem;
+  }
+}
+@media (min-width: 640px) and (max-width: 767px) {
+  .hero-factory-stage {
+    --factory-stage-width: min(56vw, 460px);
+  }
+}
+@media (max-width: 949px) {
+  .hero-actions {
+    max-width: 18rem;
   }
 }
 @media (max-width: 639px) {
@@ -29,6 +35,10 @@
     font-size: 0.88rem;
     line-height: 1.3;
     white-space: nowrap;
+  }
+
+  .hero-content > div > p {
+    font-size: 0.98rem;
   }
 }
 @media (max-width: 420px) {

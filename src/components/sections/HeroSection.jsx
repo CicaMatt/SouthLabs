@@ -45,19 +45,17 @@ export default function HeroSection() {
             Consulenza Informatica
           </div>
           <div className="md:flex md:w-fit md:flex-col md:items-stretch lg:block lg:w-auto">
-            <h1 className="hero-title-balance font-headline text-[2.5rem] leading-[1.1] tracking-tight text-surface-bright sm:text-[2.9rem] lg:text-[3.4rem] mb-6">
-              Competenza,
+            <h1 className="hero-title-balance font-headline text-[2.5rem] leading-[1.1] tracking-tight text-surface-bright sm:text-[2.9rem] lg:text-[3.4rem] mb-8">
+              Consulenza informatica<br /> e innovazione,
               <br />
-              professionalità,
-              <br />
-              e innovazione,
-              <br />
-              al servizio<br className="xl:hidden" /> del tuo <span className="text-tertiary-fixed">business</span>
+              per la crescita<br className="2xl:hidden" /> del tuo <span className="text-tertiary-fixed">business</span>
             </h1>
-            <p className="font-body text-lg text-[#d4dbea] mb-10 max-w-2xl leading-relaxed sm:text-xl">
-              Ascoltiamo, progettiamo, realizziamo,<br className="xl:hidden" /> in maniera rapida ed efficace.
+            <p className="font-body text-lg text-[#d4dbea] mb-12 max-w-2xl leading-relaxed lg:text-xl">
+              Ogni azienda ha processi, obiettivi e sfide diverse.
               <br />
-              Le tue idee, la nostra esperienza,<br className="xl:hidden" /> un unico obiettivo: farti crescere.
+              Noi li trasformiamo in soluzioni digitali mirate ed efficaci,
+              <br />
+              progettate per generare valore concreto.
             </p>
             <div className="hero-actions flex flex-col lg:flex-row gap-4">
               <a

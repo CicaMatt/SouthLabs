@@ -148,7 +148,7 @@
 }
 
 .hero-factory-stage {
-  --factory-stage-width: clamp(380px, 56vw, 880px);
+  --factory-stage-width: clamp(380px, 56vw, 800px);
   --factory-stage-scale: 1;
   position: absolute;
   right:  clamp(-80px, -2vw, 0px);

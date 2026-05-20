@@ -70,9 +70,8 @@ const LEFT_WEB_SOLUTION_CARDS = [
   {
     icon: 'code_blocks',
     eyebrow: 'Sviluppo Web',
-    title: 'Web App Personalizzate',
-    description: 'Soluzioni personalizzate per garantire efficienza, sicurezza e flessibilità nel tempo.',
-    mobileDescription: 'Soluzioni ad-hoc che garantiscono sicurezza, efficienza e flessibilità',
+    title: 'Siti Web Personalizzati',
+    description: 'Piattaforme moderne e d\'impatto, costruite per rispecchiare l\'identità del tuo brand.',
     previewImage: customWebAppImage,
     stackedPreviewImage: customWebAppImage,
     desktopPreviewScaleClass: 'scale-[1.2]',
@@ -83,10 +82,9 @@ const LEFT_WEB_SOLUTION_CARDS = [
   },
   {
     icon: 'web',
-    eyebrow: 'WordPress',
+    eyebrow: 'CMS & SEO',
     title: WORDPRESS_TITLE,
-    description: 'Siti vetrina ottimizzati per SEO e visibilità, veloci e gestibili in autonomia.',
-    mobileDescription: 'Siti vetrina ottimizzati per SEO e visibilità',
+    description: 'Siti con ottimizzazione del SEO e massima visibilità sui motori di ricerca.',
     previewImage: seoOrientedImage,
     stackedPreviewImage: seoOrientedImage,
     desktopPreviewScaleClass: 'scale-[1.12]',
@@ -99,10 +97,9 @@ const LEFT_WEB_SOLUTION_CARDS = [
 
 const RIGHT_WEB_SOLUTION_CARD = {
   icon: 'shopping_cart',
-  eyebrow: 'E-Commerce',
+  eyebrow: 'Vendita Online',
   title: 'Piattaforme E-Commerce',
-  description: 'Portali di vendita online sicuri ed efficaci, integrabili con i più noti metodi di pagamento.',
-  mobileDescription: 'Portali di vendita online sicuri ed efficaci',
+  description: 'Negozi online ad alta conversione con catalogo chiaro, checkout fluido e pagamenti sicuri.',
   previewImage: ecommerceImage,
   surfaceOpacity: WEB_CARD_SURFACE_OPACITY,
   surfaceHoverOpacity: WEB_CARD_SURFACE_HOVER_OPACITY,
@@ -173,15 +170,6 @@ function useDesktopTitleFit() {
   return { titleWrapRef, titleMeasureRef, useShortTitle };
 }
 
-function ResponsiveSolutionDescription({ description, mobileDescription }) {
-  return (
-    <>
-      <span className="md:hidden">{mobileDescription ?? description}</span>
-      <span className="hidden md:inline">{description}</span>
-    </>
-  );
-}
-
 function SolutionBadge({ card, className = '' }) {
   const isWordpress = card.title === WORDPRESS_TITLE;
 
@@ -202,7 +190,7 @@ function SolutionBadge({ card, className = '' }) {
           </span>
         )}
       </span>
-      <span className="truncate px-2 pr-3 font-label text-[0.58rem] font-extrabold uppercase tracking-[0.08em] text-[#95e3ff] sm:px-2.5 sm:pr-3.5 sm:text-[0.68rem]">
+      <span className="truncate px-2 pr-3 font-label text-[0.64rem] font-black uppercase tracking-[0.08em] text-[#95e3ff] sm:px-2.5 sm:pr-3.5 sm:text-[0.74rem]">
         {card.eyebrow}
       </span>
     </span>
@@ -266,9 +254,7 @@ function LeftSolutionCard({ card }) {
               title={card.title}
               titleClassName={SOLUTION_CARD_CLASSES.stackedTitle}
               descriptionClassName={SOLUTION_CARD_CLASSES.stackedDescription}
-              description={(
-                <ResponsiveSolutionDescription description={card.description} mobileDescription={card.mobileDescription} />
-              )}
+              description={card.description}
             />
           </div>
         </div>
@@ -358,9 +344,7 @@ function RightSolutionCard({ card }) {
               titleClassName={SOLUTION_CARD_CLASSES.stackedTitle}
               descriptionClassName={SOLUTION_CARD_CLASSES.stackedDescription}
               align="right"
-              description={(
-                <ResponsiveSolutionDescription description={card.description} mobileDescription={card.mobileDescription} />
-              )}
+              description={card.description}
             />
           </div>
         </div>
