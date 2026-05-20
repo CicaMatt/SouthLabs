@@ -62,6 +62,9 @@
 .software-card-surface {
   --solution-card-bg-opacity: 0.1;
   --solution-card-bg-hover-opacity: 0.1;
+}
+
+.section-grid-bg--software .software-card-surface {
   border-color: rgba(var(--software-support-blue-rgb), 0.15);
 }
 
