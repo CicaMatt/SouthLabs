@@ -2,7 +2,7 @@ import FactoryIllustration from '../hero/FactoryIllustration';
 import HeroParticleField from '../hero/HeroParticleField';
 import { useHeroInteractions } from '../hero/useHeroInteractions';
 
-const HERO_SHELL_CLASS = 'hero-shell section-grid-bg--hero relative isolate overflow-hidden pt-16 pb-28 lg:pt-24 lg:pb-[5.5rem] 2xl:pb-40';
+const HERO_SHELL_CLASS = 'hero-shell section-grid-bg--hero relative isolate overflow-hidden pt-16 pb-28 lg:py-[5.75rem] 2xl:py-32';
 
 export default function HeroSection() {
   const {
@@ -47,7 +47,7 @@ export default function HeroSection() {
               per la crescita<br className="2xl:hidden" /> del tuo <span className="text-tertiary-fixed">business</span>
             </h1>
             <p className="font-body text-lg text-[#d4dbea] mb-12 max-w-2xl leading-relaxed lg:text-xl">
-              Ogni azienda ha processi, obiettivi e sfide diverse.
+              Ogni realtà ha processi, obiettivi e sfide diverse.
               <br />
               Noi li trasformiamo in soluzioni digitali mirate ed efficaci,
               <br />
