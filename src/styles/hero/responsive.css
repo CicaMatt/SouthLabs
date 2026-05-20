@@ -1,47 +1,14 @@
 /* Responsive and reduced-motion overrides for the hero experience. */
-/* Responsive */
-@media (max-width: 1100px) {
-  .hero-factory-stage {
-    --factory-stage-width: min(72vw, 600px);
-    min-width: 0;
-    right: clamp(-116px, -10vw, -72px);
-  }
-}
-@media (min-width: 640px) and (max-width: 1100px) {
-  .hero-factory-stage {
-    --factory-stage-scale: 0.92;
-  }
-}
-@media (min-width: 768px) and (max-width: 1100px) {
-  .hero-factory-stage {
-    --factory-stage-scale: 0.80;
-  }
-}
-@media (max-width: 820px) {
+/* Factory illustration scales smoothly via clamp() in layout.css.
+   Only mobile needs its own rule: smaller and bled further off the right edge. */
+@media (max-width: 767px) {
   .hero-atmosphere-grid { opacity: 0.20; }
   .hero-particle-canvas { opacity: 0.72; }
-  .hero-factory-stage {
-    --factory-stage-width: min(88vw, 540px);
-    right: clamp(-126px, -15vw, -98px);
-  }
 
   .hero-factory-stage {
-    opacity: 0.88;
-  }
-}
-@media (max-width: 767px) {
-  .hero-factory-stage {
-    --factory-stage-width: min(62vw, 360px);
+    --factory-stage-width: min(70vw, 360px);
     right: -8%;
-    opacity: 1;
   }
-
-  /* Mobile factory bottom light disabled (kept for reference)
-  .hero-factory-stage .v-svg .v-factory-mobile-bottom-light {
-    display: block;
-    opacity: 1;
-  }
-  */
 
   .hero-actions {
     max-width: 18rem;

@@ -148,13 +148,13 @@
 }
 
 .hero-factory-stage {
-  --factory-stage-width: min(60vw, 740px);
+  --factory-stage-width: clamp(380px, 56vw, 740px);
   --factory-stage-scale: 1;
   position: absolute;
-  right:  clamp(-40px, -1.2vw, 64px);
+  right:  clamp(-80px, -2vw, 0px);
   bottom: calc(var(--factory-stage-width) / -30);
   width:  var(--factory-stage-width);
-  min-width: 420px;
+  min-width: 0;
   aspect-ratio: 600 / 540;
   pointer-events: none;
   /* The semi-transparent factory needs the bg atmosphere to show through */

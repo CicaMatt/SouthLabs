@@ -2,7 +2,7 @@ import FactoryIllustration from '../hero/FactoryIllustration';
 import HeroParticleField from '../hero/HeroParticleField';
 import { useHeroInteractions } from '../hero/useHeroInteractions';
 
-const HERO_SHELL_CLASS = 'hero-shell section-grid-bg--hero relative isolate overflow-hidden pt-16 pb-28 lg:pt-24 lg:pb-40';
+const HERO_SHELL_CLASS = 'hero-shell section-grid-bg--hero relative isolate overflow-hidden pt-16 pb-28 lg:pt-12 lg:pb-20 xl:pt-24 xl:pb-40';
 
 export default function HeroSection() {
   const {
@@ -45,19 +45,19 @@ export default function HeroSection() {
             Consulenza Informatica
           </div>
           <div className="md:flex md:w-fit md:flex-col md:items-stretch lg:block lg:w-auto">
-            <h1 className="hero-title-balance font-headline text-[3rem] leading-[1.05] tracking-tight text-surface-bright sm:text-[3.4rem] lg:text-[4rem] mb-6">
-              Soluzioni digitali
-              <br className="hidden md:block" />
-              <br className="md:hidden" />
+            <h1 className="hero-title-balance font-headline text-[2.5rem] leading-[1.1] tracking-tight text-surface-bright sm:text-[2.9rem] lg:text-[3.4rem] mb-6">
+              Competenza,
+              <br />
+              professionalità,
+              <br />
               e innovazione,
-              <br className="hidden md:block" />
-              <br className="md:hidden" />
-              alla portata <br className="md:hidden" />di <span className="text-tertiary-fixed">tutti</span>
+              <br />
+              al servizio<br className="xl:hidden" /> del tuo <span className="text-tertiary-fixed">business</span>
             </h1>
             <p className="font-body text-lg text-[#d4dbea] mb-10 max-w-2xl leading-relaxed sm:text-xl">
-              Consulenza su misura per
-              <br className="lg:hidden" />
-              {' '}far crescere il tuo business
+              Ascoltiamo, progettiamo, realizziamo,<br className="xl:hidden" /> in maniera rapida ed efficace.
+              <br />
+              Le tue idee, la nostra esperienza,<br className="xl:hidden" /> un unico obiettivo: farti crescere.
             </p>
             <div className="hero-actions flex flex-col lg:flex-row gap-4">
               <a
