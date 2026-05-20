@@ -10,7 +10,7 @@ const SUPPORT_PANEL_SURFACE_OPACITY = 0.4;
 const SUPPORT_PANEL_SURFACE_HOVER_OPACITY = 0.62;
 const SECTION_CLASS = 'section-grid-bg section-grid-bg--support py-[5.5rem] lg:py-[6.75rem] text-on-tertiary';
 const SECTION_CONTAINER_CLASS = 'max-w-7xl mx-auto px-5 sm:px-6 md:px-8';
-const SECTION_HEADER_CLASS = 'mb-6 max-w-2xl lg:mb-8';
+const SECTION_HEADER_CLASS = 'mb-12 max-w-2xl lg:mb-8';
 const SECTION_CONTENT_CLASS = 'flex flex-col md:flex-row gap-10 md:gap-16 items-center';
 const CTA_PANEL_CLASS = [
   'solution-card-surface support-cta-panel relative isolate flex-1 w-full overflow-hidden rounded-xl',

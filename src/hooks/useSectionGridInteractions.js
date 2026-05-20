@@ -35,7 +35,9 @@ function clearTimeoutMap(timeoutMap) {
 function getTouchSelectableCardFromTarget(target) {
   if (!(target instanceof Element)) return null;
   const infrastructureCard = target.closest('.infrastructure-image-card');
-  if (infrastructureCard) return infrastructureCard;
+  if (infrastructureCard) {
+    return target.closest('.infrastructure-image-frame') ? infrastructureCard : null;
+  }
   return target.closest(TOUCH_SELECTABLE_CARD_SELECTOR);
 }
 
