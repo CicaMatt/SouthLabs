@@ -16,9 +16,9 @@ const WEB_CARD_SURFACE_HOVER_RGB = '226, 233, 243';
 const SOLUTION_CARD_DESKTOP_QUERY = '(min-width: 1024px)';
 const SOLUTION_CARD_CLASSES = {
   shell: [
-    'group relative flex min-h-[100px] items-center',
+    'group relative flex min-h-[88px] items-center',
     SOLUTION_CARD_SURFACE_CLASS,
-    'sm:min-h-[188px] md:min-h-[218px]'
+    'sm:min-h-[144px] md:min-h-[192px]'
   ].join(' '),
   stackedRow: [
     'relative z-10 flex w-full items-center gap-3 px-5 py-2.5',
@@ -26,8 +26,8 @@ const SOLUTION_CARD_CLASSES = {
   ].join(' '),
   imageShell: 'relative w-full overflow-hidden bg-transparent',
   badgeTopLeft: 'top-4 left-5 sm:top-5 sm:left-7 md:left-8 lg:top-6 lg:left-7',
-  stackedTitle: 'font-headline text-[1.12rem] font-extrabold leading-[1.08] text-[#071d3d] sm:text-[1.24rem] md:text-[1.44rem]',
-  stackedDescription: 'font-body text-[0.79rem] font-medium leading-[1.62] text-[#2b3b59] sm:text-[0.86rem] md:text-[0.91rem]',
+  stackedTitle: 'font-headline text-[1.22rem] font-extrabold leading-[1.08] text-[#071d3d] sm:text-[1.44rem] md:text-[1.44rem]',
+  stackedDescription: 'font-body text-[0.86rem] font-medium leading-[1.62] text-[#2b3b59] sm:text-[0.91rem] md:text-[0.91rem]',
   desktopTitle: 'font-headline text-[1.54rem] font-extrabold leading-[1.08] text-[#071d3d] xl:text-[1.68rem]',
   desktopDescription: 'max-w-[34ch] font-body text-[0.93rem] font-medium leading-[1.72] text-[#2b3b59] xl:text-[0.98rem]'
 };
@@ -36,8 +36,8 @@ const HORIZONTAL_CARD_CLASSES = {
   stackedTextColumn: 'min-w-0 flex-1 pr-1 text-left sm:pr-2',
   stackedTextWrap: 'relative mr-auto max-w-[31ch] sm:max-w-[34ch]',
   stackedPreviewFrame: {
-    square: 'shrink-0 w-[54%] sm:w-[52%] md:w-[36%] -mr-4 sm:-mr-5 md:-mr-5',
-    wide: 'shrink-0 w-[52%] sm:w-[50%] md:w-[34%] -mr-2.5 sm:-mr-3.5 md:-mr-3.5'
+    square: 'shrink-0 w-[44%] sm:w-[38%] md:w-[32%] -mr-4 sm:-mr-5 md:-mr-5',
+    wide: 'shrink-0 w-[42%] sm:w-[36%] md:w-[30%] -mr-2.5 sm:-mr-3.5 md:-mr-3.5'
   },
   stackedPreviewRatio: {
     square: 'aspect-square',
@@ -57,7 +57,7 @@ const HORIZONTAL_CARD_CLASSES = {
 };
 const TALL_CARD_CLASSES = {
   shell: 'lg:col-span-1 lg:block lg:row-span-2 lg:min-h-[592px]',
-  stackedPreviewFrame: '-ml-2.5 w-[54%] shrink-0 sm:-ml-3.5 sm:w-[52%] md:-ml-3.5 md:w-[36%]',
+  stackedPreviewFrame: '-ml-2.5 w-[44%] shrink-0 sm:-ml-3.5 sm:w-[38%] md:-ml-3.5 md:w-[32%]',
   stackedTextColumn: 'min-w-0 flex-1 text-right sm:pl-1 md:pl-2',
   stackedTextWrap: 'relative ml-auto max-w-[31ch] sm:max-w-[34ch]',
   desktopView: 'relative z-10 hidden h-full px-7 py-6 lg:flex',
