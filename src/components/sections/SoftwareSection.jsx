@@ -50,7 +50,7 @@ const SERVICE_GRID_CLASS = 'software-service-grid grid grid-cols-1 md:grid-cols-
 const SOFTWARE_CARD_SURFACE_CLASS = `${SOLUTION_CARD_SURFACE_CLASS} software-card-surface`;
 const FEATURE_CARD_CLASS = [
   'software-ai-feature-card card-grid-anchor isolate',
-  'group col-span-1 md:col-span-2 row-span-2 flex h-full flex-col justify-center',
+  'group col-span-1 md:col-span-2 row-span-2 flex h-full flex-col',
   'relative p-8 text-on-primary',
   SOFTWARE_CARD_SURFACE_CLASS
 ].join(' ');
@@ -103,11 +103,7 @@ function SoftwareAiFeatureCard() {
       <div className={FEATURE_BACKGROUND_ICON_CLASS}>
         <span className="material-symbols-outlined text-[76px] leading-none text-[var(--software-ai-accent)] lg:text-[120px]">smart_toy</span>
       </div>
-      <div className="absolute top-8 right-8 lg:right-auto lg:left-8 z-10">
-        <span className="material-symbols-outlined text-[28px] text-[var(--software-ai-accent)] transition-all duration-300 group-hover:scale-110">
-          memory
-        </span>
-      </div>
+      <span className="material-symbols-outlined relative z-10 mb-4 inline-flex h-7 w-7 origin-center items-center justify-center text-[28px] leading-none text-[var(--software-ai-accent)] transition-all duration-300 group-hover:scale-110">memory</span>
       <h3 className="relative z-10 font-headline text-2xl font-bold mb-4">Intelligenza Artificiale</h3>
       <p className="relative z-10 font-body text-on-primary-container mb-8 max-w-sm">
         Sviluppo di modelli di intelligenza artificiale per analisi predittiva, automazione del customer service, ottimizzazione dei flussi di lavoro, e tanto altro.
