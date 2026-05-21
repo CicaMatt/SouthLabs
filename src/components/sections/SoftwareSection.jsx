@@ -16,29 +16,29 @@ const SOFTWARE_SECTION_GRID_OPACITY = 0.06;
 const AUTOMATION_CARDS = [
   {
     icon: 'terminal',
-    title: 'Software Personalizzati',
-    description: 'Sviluppo di software ad-hoc per soddisfare qualsiasi esigenza operativa.',
+    title: 'Software su Misura',
+    description: 'Costruiamo soluzioni modellate esattamente sui tuoi processi per darti un controllo totale.',
     surfaceOpacity: SOFTWARE_CARD_SURFACE_OPACITY,
     surfaceHoverOpacity: SOFTWARE_CARD_SURFACE_HOVER_OPACITY
   },
   {
     icon: 'api',
-    title: 'Integrazione con Sistemi Legacy',
-    description: 'Aggiornamento e manutenzione di sistemi preesistenti.',
+    title: 'Sistemi Legacy',
+    description: 'Modernizziamo e manuteniamo i tuoi vecchi sistemi, per aumentarne efficienza e usabilità.',
     surfaceOpacity: SOFTWARE_CARD_SURFACE_OPACITY,
     surfaceHoverOpacity: SOFTWARE_CARD_SURFACE_HOVER_OPACITY
   },
   {
     icon: 'router',
     title: 'Domotica',
-    description: 'Controllo centralizzato dei tuoi dispositivi aziendali.',
+    description: 'Installazione di dispositivi domotici per un\'infrastruttura moderna e interconnessa.',
     surfaceOpacity: SOFTWARE_CARD_SURFACE_OPACITY,
     surfaceHoverOpacity: SOFTWARE_CARD_SURFACE_HOVER_OPACITY
   },
   {
     icon: 'schema',
     title: 'Digitalizzazione Processi',
-    description: 'Transizione verso processi digitali veloci e moderni.',
+    description: 'Trasformiamo la complessità in processi digitali chiari ed efficienti.',
     surfaceOpacity: SOFTWARE_CARD_SURFACE_OPACITY,
     surfaceHoverOpacity: SOFTWARE_CARD_SURFACE_HOVER_OPACITY
   }
@@ -106,7 +106,7 @@ function SoftwareAiFeatureCard() {
       <span className="material-symbols-outlined relative z-10 mb-4 inline-flex h-7 w-7 origin-center items-center justify-center text-[28px] leading-none text-[var(--software-ai-accent)] transition-all duration-300 group-hover:scale-110">memory</span>
       <h3 className="relative z-10 font-headline text-2xl font-bold mb-4">Intelligenza Artificiale</h3>
       <p className="relative z-10 font-body text-on-primary-container mb-8 lg:max-w-sm">
-        Sviluppo di modelli di intelligenza artificiale per analisi predittiva, automazione del customer service, ottimizzazione dei flussi di lavoro, e tanto altro.
+        Sistemi intelligenti e algoritmi predittivi per automatizzare i flussi operativi, azzerare le inefficienze, effettuare previsioni e anticipare i trend del mercato.
       </p>
       <a className="software-ai-link relative z-10 inline-flex w-fit items-center rounded-md font-medium transition-all duration-200 hover:translate-x-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 lg:absolute lg:bottom-[4.25rem] lg:left-8 lg:translate-y-1/2 lg:hover:translate-x-1 lg:hover:translate-y-1/2" href="#contatti">
         Esplora AI

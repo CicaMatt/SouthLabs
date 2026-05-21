@@ -9,14 +9,14 @@ const INFRASTRUCTURE_CARDS = [
     src: deskImage,
     title: 'PC e Workstation',
     description:
-      'Assemblaggio e configurazione di macchine e postazioni, per qualsiasi esigenza operativa.'
+      'Assemblaggio di computer e installazione di postazioni, per qualsiasi esigenza operativa.'
   },
   {
     alt: 'Server',
     src: serverImage,
     title: 'Server Privati',
     description:
-      'Per la gestione dei tuoi dati e la sicurezza e l\'autonomia della tua attività.'
+      'Per la gestione autonoma dei dati e dei processi della tua infrastruttura .'
   },
   {
     alt: 'Security',

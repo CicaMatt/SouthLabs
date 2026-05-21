@@ -175,9 +175,9 @@ export default function ContactSection() {
     <section className={SECTION_CLASS} id="contatti">
       <div className={SECTION_CONTENT_CLASS}>
         <div className="text-center mb-10 md:mb-12">
-          <h2 className="font-headline text-3xl md:text-4xl tracking-tight text-on-background mb-4">Inizia il tuo progetto</h2>
+          <h2 className="font-headline text-3xl md:text-4xl tracking-tight text-on-background mb-4">Richiedi una consulenza</h2>
           <p className="font-body text-on-surface-variant">
-            Raccontaci la tua idea.
+            Raccontaci della tua idea.
           </p>
           <p className="font-body text-on-surface-variant">
             I nostri esperti ti contatteranno per una valutazione iniziale, senza impegno.

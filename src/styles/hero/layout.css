@@ -16,7 +16,6 @@
   --hero-glow-position-duration: 2400ms;
   --hero-glow-position-ease: cubic-bezier(0.16, 0.82, 0.14, 1);
   background-color: #0b1729;
-  contain: paint;
   transform: translateZ(0);
   user-select: none;
   -webkit-user-select: none;
@@ -53,7 +52,6 @@
   transform: translateZ(0);
   -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.68) 42%, rgba(0, 0, 0, 1));
   mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.68) 42%, rgba(0, 0, 0, 1));
-  contain: paint;
   backface-visibility: hidden;
 }
 .hero-atmosphere-glow {
@@ -158,7 +156,7 @@
   aspect-ratio: 600 / 540;
   pointer-events: none;
   /* The semi-transparent factory needs the bg atmosphere to show through */
-  contain: layout paint style;
+  contain: layout style;
   mix-blend-mode: normal;
   transform: translateZ(0) scale(var(--factory-stage-scale));
   transform-origin: 52% 100%;

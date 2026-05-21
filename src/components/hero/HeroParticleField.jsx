@@ -105,9 +105,16 @@ export default function HeroParticleField({ pointerRef }) {
     const visibilityObserver = typeof IntersectionObserverConstructor === 'undefined'
       ? null
       : new IntersectionObserverConstructor(([entry]) => {
+        const wasVisible = isVisible;
         isVisible = entry.isIntersecting;
-        if (isVisible) start();
-        else stop();
+        if (isVisible) {
+          if (!wasVisible) {
+            draw(windowObject.performance.now(), reduceMotion);
+          }
+          start();
+        } else {
+          stop();
+        }
       });
     visibilityObserver?.observe(canvas);
 

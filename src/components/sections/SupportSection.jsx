@@ -50,7 +50,7 @@ export default function SupportSection() {
             <div className="text-center">
               <span className="material-symbols-outlined text-[64px] text-tertiary-fixed-dim mb-4">support_agent</span>
               <h3 className="font-headline text-2xl font-bold mb-2">Sempre al tuo fianco</h3>
-              <p className="text-on-tertiary/70 mb-6">Piani flessibili progettati sulle reali necessità della tua infrastruttura.</p>
+              <p className="text-on-tertiary/70 mb-6">Piani flessibili progettati sulle reali necessità della tua attività.</p>
               <a
                 className="inline-flex items-center justify-center w-full px-6 py-3 rounded-md text-sm font-medium transition-all duration-200 bg-tertiary-fixed-dim text-on-tertiary-fixed hover:bg-white active:scale-95"
                 href="#contatti"
