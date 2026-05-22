@@ -14,24 +14,23 @@ const NAV_LINKS = [
 
 const NAVBAR_CLASS = [
   'sticky top-0 w-full h-16 lg:h-20 z-50',
-  'bg-[#e6ecf4] dark:bg-slate-950',
-  'border-b border-slate-100 dark:border-slate-800/60',
-  'shadow-[0_1px_3px_0_rgba(0,0,0,0.05),0_1px_2px_0_rgba(0,0,0,0.06)] dark:shadow-none'
+  'bg-[#e6ecf4]',
+  'border-b border-slate-100',
+  'shadow-[0_1px_3px_0_rgba(0,0,0,0.05),0_1px_2px_0_rgba(0,0,0,0.06)]'
 ].join(' ');
 const NAV_CONTENT_CLASS = 'relative max-w-7xl mx-auto h-full flex items-center justify-between px-5 lg:px-8';
 const DESKTOP_LINK_CLASS = [
   'relative text-center text-[13px] font-semibold leading-tight tracking-[0.01em]',
   'px-1 py-2 text-[#28324b] transition-all duration-300 hover:text-[#203658]',
-  'dark:text-slate-400 dark:hover:text-blue-500 lg:text-[14px]',
+  'lg:text-[14px]',
   'after:pointer-events-none after:absolute after:left-1 after:right-1 after:bottom-1 after:h-[2px]',
   'after:origin-left after:scale-x-0 after:bg-[#95e3ff] after:transition-transform after:duration-300 after:ease-out',
-  'hover:after:scale-x-100 dark:after:bg-blue-500'
+  'hover:after:scale-x-100'
 ].join(' ');
 const MOBILE_LINK_CLASS = [
   'group flex min-h-12 items-center justify-between rounded-lg px-4',
   'text-[14px] font-semibold text-[#28324b]',
-  'transition-colors hover:bg-[#203658]/10 hover:text-[#203658] active:bg-[#203658]/15',
-  'dark:text-slate-100 dark:hover:bg-[#95e3ff]/10 dark:hover:text-[#95e3ff] dark:active:bg-[#95e3ff]/15'
+  'transition-colors hover:bg-[#203658]/10 hover:text-[#203658] active:bg-[#203658]/15'
 ].join(' ');
 const CONTACT_CTA_CLASS = [
   'inline-flex items-center justify-center px-3.5 py-2 rounded-md text-xs lg:text-sm font-bold',
@@ -109,7 +108,6 @@ function MobileNavMenu({ isVisible, menuRef, onNavigate }) {
         'md:hidden absolute top-[calc(100%+0.65rem)] left-4 right-4 overflow-hidden rounded-2xl border border-slate-200 bg-[#e6ecf4] p-2',
         'shadow-[0_22px_58px_rgba(15,23,42,0.22),0_1px_0_rgba(255,255,255,0.9)_inset]',
         'origin-top transition-[opacity,transform] duration-[280ms] ease-out motion-reduce:transition-none',
-        'dark:border-slate-800 dark:bg-slate-950 dark:shadow-[0_22px_58px_rgba(0,0,0,0.48)]',
         isVisible ? 'translate-y-0 scale-100 opacity-100' : 'pointer-events-none -translate-y-1 scale-[0.99] opacity-0'
       ].join(' ')}
       id="mobile-nav-menu"
@@ -125,7 +123,7 @@ function MobileNavMenu({ isVisible, menuRef, onNavigate }) {
             <span className="relative after:pointer-events-none after:absolute after:left-0 after:right-0 after:-bottom-0.5 after:h-[2px] after:origin-left after:scale-x-0 after:bg-[#95e3ff] after:transition-transform after:duration-300 after:ease-out group-hover:after:scale-x-100">
               {link.label}
             </span>
-            <span className="material-symbols-outlined text-[18px] text-[#28324b] transition-all group-hover:translate-x-0.5 group-hover:text-[#203658] dark:text-slate-500 dark:group-hover:text-[#95e3ff]">
+            <span className="material-symbols-outlined text-[18px] text-[#28324b] transition-all group-hover:translate-x-0.5 group-hover:text-[#203658]">
               arrow_forward
             </span>
           </a>

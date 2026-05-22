@@ -115,43 +115,6 @@
   border-bottom: 0;
 }
 
-.dark .legal-document-content {
-  color: #cbd5e1;
-}
-
-.dark .legal-document-content > h1:first-child + p {
-  color: #94a3b8;
-}
-
-.dark .legal-document-content h2,
-.dark .legal-document-content h3,
-.dark .legal-document-content h4 {
-  color: #f8fafc;
-}
-
-.dark .legal-document-content h2 {
-  border-top-color: rgba(51, 65, 85, 0.82);
-}
-
-.dark .legal-document-content li::marker,
-.dark .legal-document-content a {
-  color: #93c5fd;
-}
-
-.dark .legal-document-content table {
-  border-color: rgba(51, 65, 85, 0.9);
-}
-
-.dark .legal-document-content thead {
-  background: #0f172a;
-  color: #f8fafc;
-}
-
-.dark .legal-document-content th,
-.dark .legal-document-content td {
-  border-bottom-color: rgba(51, 65, 85, 0.8);
-}
-
 @media (max-width: 640px) {
   .legal-document-content {
     font-size: 0.9rem;

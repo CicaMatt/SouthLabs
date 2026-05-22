@@ -28,11 +28,10 @@ const contacts = [
 const FOOTER_COLUMN_CLASS = 'flex flex-col items-center gap-2.5 text-center';
 const FOOTER_HEADING_CLASS = [
   'font-inter text-[11px] font-semibold uppercase tracking-[0.12em]',
-  'text-[#203658] dark:text-[#203658]'
+  'text-[#203658]'
 ].join(' ');
 const FOOTER_LINK_CLASS = [
-  'font-inter text-sm leading-relaxed text-on-surface-variant',
-  'dark:text-slate-400'
+  'font-inter text-sm leading-relaxed text-on-surface-variant'
 ].join(' ');
 const FOOTER_UNDERLINE_HOVER_CLASS = [
   'relative after:pointer-events-none after:absolute after:left-0 after:right-0 after:-bottom-0.5 after:h-[2px]',
@@ -45,7 +44,7 @@ const FOOTER_LEGAL_BUTTON_CLASS = [
   FOOTER_UNDERLINE_HOVER_CLASS
 ].join(' ');
 const FOOTER_CONTACT_ROW_CLASS = 'flex max-w-full items-center justify-center gap-1.5';
-const FOOTER_COPY_BUTTON_CLASS = 'relative inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-sm text-slate-500 transition-colors hover:bg-[#203658]/10 hover:text-[#203658] focus:outline-none focus-visible:bg-[#203658]/10 focus-visible:text-[#203658] dark:text-slate-500 dark:hover:bg-[#203658]/20 dark:hover:text-[#203658] dark:focus-visible:bg-[#203658]/20 dark:focus-visible:text-[#203658]';
+const FOOTER_COPY_BUTTON_CLASS = 'relative inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-sm text-slate-500 transition-colors hover:bg-[#203658]/10 hover:text-[#203658] focus:outline-none focus-visible:bg-[#203658]/10 focus-visible:text-[#203658]';
 const FOOTER_COPY_ICON_CLASS = 'material-symbols-outlined absolute inset-0 flex origin-center items-center justify-center text-[13px] leading-none transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform';
 
 async function copyTextToClipboard(value) {
@@ -121,10 +120,10 @@ function LegalDocumentDialog({ legalDoc, onClose }) {
       }}
       role="dialog"
     >
-      <div className="legal-document-modal flex max-h-[86vh] w-full max-w-5xl flex-col overflow-hidden rounded-xl border-2 border-[#203658] shadow-[inset_0_0_0_1.5px_rgba(32,54,88,0.92),0_30px_100px_rgba(15,23,42,0.28)] bg-white dark:border-[#203658] dark:bg-slate-950 lg:max-w-6xl">
-        <div className="flex items-center justify-between gap-4 border-b border-slate-200 px-5 py-4 dark:border-slate-800 sm:px-6">
+      <div className="legal-document-modal flex max-h-[86vh] w-full max-w-5xl flex-col overflow-hidden rounded-xl border-2 border-[#203658] shadow-[inset_0_0_0_1.5px_rgba(32,54,88,0.92),0_30px_100px_rgba(15,23,42,0.28)] bg-white lg:max-w-6xl">
+        <div className="flex items-center justify-between gap-4 border-b border-slate-200 px-5 py-4 sm:px-6">
           <h2
-            className="font-headline text-xl font-semibold leading-tight text-on-background dark:text-slate-50 sm:text-2xl"
+            className="font-headline text-xl font-semibold leading-tight text-on-background sm:text-2xl"
             id={`${legalDoc.id}-title`}
           >
             {legalDoc.title}
@@ -133,7 +132,7 @@ function LegalDocumentDialog({ legalDoc, onClose }) {
           <button
             ref={closeButtonRef}
             aria-label={`Chiudi ${legalDoc.title}`}
-            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md border-0 text-[#203658] transition-colors hover:bg-[#203658]/10 focus:outline-none focus-visible:bg-[#203658]/10 dark:text-[#203658] dark:hover:bg-[#203658]/10 dark:focus-visible:bg-[#203658]/10"
+            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md border-0 text-[#203658] transition-colors hover:bg-[#203658]/10 focus:outline-none focus-visible:bg-[#203658]/10"
             onClick={onClose}
             type="button"
           >
@@ -177,7 +176,7 @@ export default function Footer() {
   }
 
   return (
-    <footer className="w-full border-t border-slate-200/60 dark:border-slate-800/70 bg-gradient-to-b from-[#e6ecf4] to-[#d8e0ec]/80 dark:from-slate-950 dark:to-slate-950">
+    <footer className="w-full border-t border-slate-200/60 bg-[#e6ecf4]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-8 md:py-10">
         <div className="mx-auto w-full max-w-5xl">
           <div className="mx-auto flex w-full flex-col items-center gap-8 md:w-fit md:flex-row md:items-start md:justify-center md:gap-20 lg:gap-28">
@@ -230,7 +229,7 @@ export default function Footer() {
             </FooterColumn>
           </div>
 
-          <div className="mt-6 flex flex-col items-center gap-5 border-t border-slate-200/70 pt-5 text-center font-inter text-xs uppercase tracking-[0.08em] text-on-surface-variant dark:border-slate-800/70 dark:text-slate-500 sm:flex-row sm:justify-center sm:gap-40">
+          <div className="mt-6 flex flex-col items-center gap-5 border-t border-slate-200/70 pt-5 text-center font-inter text-xs uppercase tracking-[0.08em] text-on-surface-variant sm:flex-row sm:justify-center sm:gap-40">
             <span>P.IVA: 06403770651</span>
             <span>© 2026 SouthLabs.</span>
           </div>
