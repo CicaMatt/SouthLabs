@@ -1,14 +1,19 @@
 import {
+  CARD_GRID_BURST_RESTART_HOLD_MS,
   DEFAULT_SECTION_GRID_BURST_RGB,
   MAX_ACTIVE_SECTION_GRID_BURSTS,
   SECTION_CURSOR_THEMES,
   SECTION_GRID_BURST_DURATION_MS,
+  SECTION_GRID_BURST_RETIRE_MS,
   SECTION_GRID_BURST_SAME_POINT_DISTANCE,
   SECTION_GRID_SIZE,
   CARD_GRID_ANCHOR_SELECTOR,
   SOLUTION_CARD_BURST_ACTIVE_CLASS,
   SOLUTION_CARD_SURFACE_SELECTOR
 } from './constants';
+
+const SECTION_GRID_BURST_RETIRING_ATTR = 'data-section-grid-burst-retiring';
+const SECTION_GRID_BURST_RETIRE_BUFFER_MS = 40;
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
@@ -88,17 +93,47 @@ function updateCardGridBurst(card, clientX, clientY, burstPoint) {
   setGridBurstShapeProperties(card, burstPoint, rgb, sectionScale);
 }
 
-function removeGridBurstElement(burstElement, timeoutMap, windowObject) {
+/* Replace the burst's running keyframe animation with a short, JS-driven opacity
+   transition so the element fades out smoothly from whatever opacity it had reached
+   instead of vanishing instantly. The actual DOM removal happens after the fade. */
+function retireGridBurstElement(burstElement, timeoutMap, windowObject) {
+  if (burstElement.getAttribute(SECTION_GRID_BURST_RETIRING_ATTR) === '1') return;
+
   if (timeoutMap.has(burstElement)) {
     windowObject.clearTimeout(timeoutMap.get(burstElement));
     timeoutMap.delete(burstElement);
   }
-  burstElement.remove();
+
+  const currentOpacity = windowObject.getComputedStyle(burstElement).opacity;
+  burstElement.setAttribute(SECTION_GRID_BURST_RETIRING_ATTR, '1');
+  burstElement.style.animation = 'none';
+  burstElement.style.opacity = currentOpacity;
+  burstElement.style.transition = `opacity ${SECTION_GRID_BURST_RETIRE_MS}ms ease-out`;
+  /* Read offsetWidth to flush the snapshot so the subsequent assignment
+     actually transitions from the current animated opacity instead of
+     snapping straight to 0. */
+  void burstElement.offsetWidth;
+  burstElement.style.opacity = '0';
+
+  const removalTimeoutId = windowObject.setTimeout(() => {
+    burstElement.remove();
+    timeoutMap.delete(burstElement);
+  }, SECTION_GRID_BURST_RETIRE_MS + SECTION_GRID_BURST_RETIRE_BUFFER_MS);
+
+  timeoutMap.set(burstElement, removalTimeoutId);
+}
+
+function isBurstRetiring(burstElement) {
+  return burstElement.getAttribute(SECTION_GRID_BURST_RETIRING_ATTR) === '1';
 }
 
 function removeNearbyGridBursts(existingBursts, clientX, clientY, timeoutMap, windowObject) {
   for (let index = existingBursts.length - 1; index >= 0; index -= 1) {
     const burstElement = existingBursts[index];
+    if (isBurstRetiring(burstElement)) {
+      existingBursts.splice(index, 1);
+      continue;
+    }
     const burstX = parsePixelValue(burstElement.style.getPropertyValue('--section-grid-burst-x'), Number.NaN);
     const burstY = parsePixelValue(burstElement.style.getPropertyValue('--section-grid-burst-y'), Number.NaN);
 
@@ -108,7 +143,7 @@ function removeNearbyGridBursts(existingBursts, clientX, clientY, timeoutMap, wi
       && Math.hypot(clientX - burstX, clientY - burstY) <= SECTION_GRID_BURST_SAME_POINT_DISTANCE
     ) {
       existingBursts.splice(index, 1);
-      removeGridBurstElement(burstElement, timeoutMap, windowObject);
+      retireGridBurstElement(burstElement, timeoutMap, windowObject);
     }
   }
 }
@@ -167,8 +202,34 @@ export function getGridBurstTargetCards(targetSections, target, clientX, clientY
   return Array.from(cards);
 }
 
-export function restartSolutionCardBurst(card, clientX, clientY, burstPoint, timeoutMap, windowObject) {
+export function restartSolutionCardBurst(card, clientX, clientY, burstPoint, timeoutMap, windowObject, lastStartedAtMap) {
   const previousTimeoutId = timeoutMap.get(card);
+  const now = windowObject.performance?.now?.() ?? Date.now();
+  const lastStartedAt = lastStartedAtMap?.get(card);
+
+  /* Restarting the CSS animation mid rising-phase makes the burst overlay snap
+     back to opacity 0 for a frame before climbing again — that snap is the
+     flicker on rapid clicks. When still inside the hold window, keep the
+     in-flight animation going and just refresh the cleanup timeout. */
+  if (
+    previousTimeoutId
+    && typeof lastStartedAt === 'number'
+    && now - lastStartedAt < CARD_GRID_BURST_RESTART_HOLD_MS
+  ) {
+    windowObject.clearTimeout(previousTimeoutId);
+    const remaining = Math.max(
+      SECTION_GRID_BURST_DURATION_MS - (now - lastStartedAt),
+      80
+    );
+    const refreshedTimeoutId = windowObject.setTimeout(() => {
+      card.classList.remove(SOLUTION_CARD_BURST_ACTIVE_CLASS);
+      timeoutMap.delete(card);
+      lastStartedAtMap?.delete(card);
+    }, remaining);
+    timeoutMap.set(card, refreshedTimeoutId);
+    return;
+  }
+
   if (previousTimeoutId) {
     windowObject.clearTimeout(previousTimeoutId);
   }
@@ -182,9 +243,12 @@ export function restartSolutionCardBurst(card, clientX, clientY, burstPoint, tim
   if (wasActive) card.getBoundingClientRect();
   card.classList.add(SOLUTION_CARD_BURST_ACTIVE_CLASS);
 
+  lastStartedAtMap?.set(card, now);
+
   const timeoutId = windowObject.setTimeout(() => {
     card.classList.remove(SOLUTION_CARD_BURST_ACTIVE_CLASS);
     timeoutMap.delete(card);
+    lastStartedAtMap?.delete(card);
   }, SECTION_GRID_BURST_DURATION_MS);
 
   timeoutMap.set(card, timeoutId);
@@ -192,7 +256,9 @@ export function restartSolutionCardBurst(card, clientX, clientY, burstPoint, tim
 
 export function appendSectionGridBurst(ownerDocument, targetSection, clientX, clientY, burstPoint, timeoutMap, windowObject) {
   const targetRect = targetSection.getBoundingClientRect();
-  const existingBursts = Array.from(targetSection.querySelectorAll(':scope > .section-grid-burst'));
+  const existingBursts = Array.from(
+    targetSection.querySelectorAll(':scope > .section-grid-burst')
+  ).filter((burstElement) => !isBurstRetiring(burstElement));
   const burstX = clientX - targetRect.left;
   const burstY = clientY - targetRect.top;
 
@@ -200,7 +266,7 @@ export function appendSectionGridBurst(ownerDocument, targetSection, clientX, cl
 
   while (existingBursts.length >= MAX_ACTIVE_SECTION_GRID_BURSTS) {
     const oldestBurst = existingBursts.shift();
-    removeGridBurstElement(oldestBurst, timeoutMap, windowObject);
+    retireGridBurstElement(oldestBurst, timeoutMap, windowObject);
   }
 
   const burstElement = ownerDocument.createElement('span');

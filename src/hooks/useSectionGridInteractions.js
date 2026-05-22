@@ -45,6 +45,7 @@ export function useSectionGridInteractions() {
   const gridBurstTimeoutsRef = useRef(new Map());
   const lastGridBurstAtRef = useRef(Number.NEGATIVE_INFINITY);
   const solutionCardBurstTimeoutsRef = useRef(new Map());
+  const solutionCardBurstStartedAtRef = useRef(new Map());
   const lastTouchScrollAtRef = useRef(Number.NEGATIVE_INFINITY);
   const touchGridGestureRef = useRef(null);
   const touchScrollGuardTimeoutRef = useRef(0);
@@ -199,7 +200,8 @@ export function useSectionGridInteractions() {
         clientY,
         burstPoint,
         solutionCardBurstTimeoutsRef.current,
-        windowObject
+        windowObject,
+        solutionCardBurstStartedAtRef.current
       );
     });
 
@@ -413,6 +415,7 @@ export function useSectionGridInteractions() {
       burstElement.remove();
     });
     clearTimeoutMap(solutionCardBurstTimeoutsRef.current);
+    solutionCardBurstStartedAtRef.current.clear();
     mainRef.current?.querySelectorAll(`.${SOLUTION_CARD_BURST_ACTIVE_CLASS}`).forEach((card) => {
       card.classList.remove(SOLUTION_CARD_BURST_ACTIVE_CLASS);
     });
