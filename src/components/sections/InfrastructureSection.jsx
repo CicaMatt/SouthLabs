@@ -45,6 +45,8 @@ function InfrastructureCard({ alt, description, src, title }) {
         <img
           alt={alt}
           className={IMAGE_CLASS}
+          decoding="async"
+          loading="lazy"
           src={src}
         />
       </div>

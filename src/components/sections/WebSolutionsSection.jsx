@@ -264,6 +264,8 @@ function LeftSolutionCard({ card }) {
             <img
               src={card.stackedPreviewImage ?? card.previewImage}
               alt={card.title}
+              decoding="async"
+              loading="lazy"
               className={cx(
                 'absolute inset-0 h-full w-full opacity-90',
                 HORIZONTAL_CARD_CLASSES.stackedPreviewImage[stackedPreviewMode],
@@ -303,6 +305,8 @@ function LeftSolutionCard({ card }) {
             <img
               src={card.previewImage}
               alt={card.title}
+              decoding="async"
+              loading="lazy"
               className={cx('absolute inset-0 h-full w-full object-contain opacity-90', card.desktopPreviewScaleClass, previewPositionClass)}
             />
           </div>
@@ -332,6 +336,8 @@ function RightSolutionCard({ card }) {
             <img
               src={card.previewImage}
               alt={card.title}
+              decoding="async"
+              loading="lazy"
               className="absolute inset-0 h-full w-full scale-[0.88] object-contain object-left-top opacity-90 sm:scale-100"
             />
           </div>
@@ -375,6 +381,8 @@ function RightSolutionCard({ card }) {
               <img
                 src={card.previewImage}
                 alt={card.title}
+                decoding="async"
+                loading="lazy"
                 className="absolute inset-0 h-full w-full scale-[1.1] object-contain object-bottom opacity-90"
               />
             </div>

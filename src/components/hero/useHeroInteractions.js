@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { useFactoryAnimationAcceleration } from './useFactoryAnimationAcceleration';
 
+const FACTORY_OFFSCREEN_CLASS = 'hero-factory-stage--offscreen';
+
 const DEFAULT_POINTER = { pctX: 72, pctY: 42, shiftX: 0.18, shiftY: -0.1 };
 const POINTER_BURST_MS = 460;
 const TOUCH_PARTICLE_NUDGE_MS = 720;
@@ -81,6 +83,22 @@ export function useHeroInteractions() {
     }
     hoverLightPulseRef.current?.cancel();
     hoverLightPulseRef.current = null;
+  }, []);
+
+  useEffect(() => {
+    const stage = factoryStageRef.current;
+    const windowObject = stage?.ownerDocument.defaultView;
+    if (!stage || !windowObject) return undefined;
+
+    const IntersectionObserverConstructor = windowObject.IntersectionObserver;
+    if (typeof IntersectionObserverConstructor === 'undefined') return undefined;
+
+    const observer = new IntersectionObserverConstructor(([entry]) => {
+      stage.classList.toggle(FACTORY_OFFSCREEN_CLASS, !entry.isIntersecting);
+    }, { rootMargin: '120px 0px' });
+
+    observer.observe(stage);
+    return () => observer.disconnect();
   }, []);
 
   const runFactoryParallax = () => {

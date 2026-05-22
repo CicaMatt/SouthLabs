@@ -51,12 +51,14 @@ function BrandLogo({ onNavigate }) {
       href="#hero"
       onClick={onNavigate}
     >
-      <img alt="" aria-hidden="true" className="h-[4rem] lg:h-[4.5rem] w-auto object-contain object-center" src={logoImage} />
+      <img alt="" aria-hidden="true" className="h-[4rem] lg:h-[4.5rem] w-auto object-contain object-center" decoding="async" fetchpriority="high" src={logoImage} />
       <div className="flex h-[3.25rem] lg:h-[3.75rem] items-center">
         <img
           alt=""
           aria-hidden="true"
           className="relative translate-y-0.5 h-[2.75rem] lg:h-[3.25rem] w-auto object-contain object-center"
+          decoding="async"
+          fetchpriority="high"
           src={logoText}
         />
       </div>

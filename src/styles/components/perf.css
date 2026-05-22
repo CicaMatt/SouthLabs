@@ -1,0 +1,17 @@
+/* Performance optimizations that do not change visual behavior. */
+
+/* Let the browser skip painting/layout for non-hero sections while they are far from the viewport.
+   Each section reserves an intrinsic size so the scrollbar doesn't jump as they come into view. */
+.site-main-with-section-cursor > section.section-grid-bg:not(#hero) {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 1100px;
+}
+
+/* When the hero scrolls out of the viewport, freeze the factory's CSS animations so the GPU /
+   compositor isn't tied up driving keyframes for an off-screen subtree. */
+.hero-factory-stage.hero-factory-stage--offscreen,
+.hero-factory-stage.hero-factory-stage--offscreen *,
+.hero-factory-stage.hero-factory-stage--offscreen *::before,
+.hero-factory-stage.hero-factory-stage--offscreen *::after {
+  animation-play-state: paused !important;
+}

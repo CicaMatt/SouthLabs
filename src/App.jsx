@@ -29,7 +29,7 @@ export default function App() {
         <div ref={sectionCursorRef} aria-hidden="true" className="section-cursor-dot" />
       </main>
       <Footer />
-      <ViewModeDebugger />
+      {import.meta.env.DEV ? <ViewModeDebugger /> : null}
     </div>
   );
 }
