@@ -99,7 +99,6 @@ function SoftwareAiFeatureCard() {
   return (
     <div className={FEATURE_CARD_CLASS} style={SOFTWARE_FEATURE_CARD_SURFACE_STYLE}>
       <span aria-hidden="true" className="software-ai-grid-highlight" />
-      <span aria-hidden="true" className="software-ai-grid-burst" />
       <div className={FEATURE_BACKGROUND_ICON_CLASS}>
         <span className="material-symbols-outlined text-[60px] leading-none text-[var(--software-ai-accent)] lg:text-[120px]">smart_toy</span>
       </div>

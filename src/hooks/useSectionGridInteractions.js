@@ -3,7 +3,6 @@ import {
   HERO_GRAPHIC_CURSOR_SMALL_CLASS,
   SECTION_GRID_BURST_EDGE_FEATHER,
   SECTION_GRID_BURST_MIN_INTERVAL_MS,
-  SOLUTION_CARD_BURST_ACTIVE_CLASS,
   SOLUTION_CARD_TOUCH_SELECTED_CLASS,
   TOUCH_SCROLL_GUARD_CLASS,
   TOUCH_SCROLLING_CLASS,
@@ -13,12 +12,20 @@ import {
   TOUCH_TAP_MAX_DURATION_MS
 } from './sectionGrid/constants';
 import {
-  appendSectionGridBurst,
+  getCardClipRadius,
+  getCardGridOriginPage,
   getGridBurstPoint,
   getGridBurstTargetCards,
   getGridBurstTargetSections,
-  restartSolutionCardBurst
+  getSectionBurstOpacityScale,
+  getSectionBurstRgb,
+  getSectionGridOriginPage,
+  getSectionGridSize
 } from './sectionGrid/gridBurst';
+import {
+  createGridBurstCanvasController,
+  GRID_BURST_CANVAS_DURATION_MS
+} from './sectionGrid/gridBurstCanvas';
 import { syncSectionGridOrigins } from './sectionGrid/gridSurface';
 import { getTime, isDesktopChromium, isLikelyDesktopTrackpadPinch } from './sectionGrid/inputDetection';
 import { useSectionCursor } from './sectionGrid/useSectionCursor';
@@ -26,11 +33,6 @@ import { useSectionCursor } from './sectionGrid/useSectionCursor';
 export { preventImageDefault } from './sectionGrid/inputDetection';
 
 const TOUCH_TAP_MAX_DISTANCE_SQUARED = TOUCH_TAP_MAX_DISTANCE * TOUCH_TAP_MAX_DISTANCE;
-
-function clearTimeoutMap(timeoutMap) {
-  timeoutMap.forEach((timeoutId) => clearTimeout(timeoutId));
-  timeoutMap.clear();
-}
 
 function getTouchSelectableCardFromTarget(target) {
   if (!(target instanceof Element)) return null;
@@ -42,10 +44,9 @@ function getTouchSelectableCardFromTarget(target) {
 }
 
 export function useSectionGridInteractions() {
-  const gridBurstTimeoutsRef = useRef(new Map());
+  const burstCanvasRef = useRef(null);
+  const burstControllerRef = useRef(null);
   const lastGridBurstAtRef = useRef(Number.NEGATIVE_INFINITY);
-  const solutionCardBurstTimeoutsRef = useRef(new Map());
-  const solutionCardBurstStartedAtRef = useRef(new Map());
   const lastTouchScrollAtRef = useRef(Number.NEGATIVE_INFINITY);
   const touchGridGestureRef = useRef(null);
   const touchScrollGuardTimeoutRef = useRef(0);
@@ -59,6 +60,17 @@ export function useSectionGridInteractions() {
     refreshSectionCursor,
     trackSectionCursorPoint
   } = useSectionCursor();
+
+  useEffect(() => {
+    const canvas = burstCanvasRef.current;
+    if (!canvas) return undefined;
+    const controller = createGridBurstCanvasController(canvas);
+    burstControllerRef.current = controller;
+    return () => {
+      controller?.destroy();
+      burstControllerRef.current = null;
+    };
+  }, []);
 
   useEffect(() => {
     const windowObject = mainRef.current?.ownerDocument.defaultView;
@@ -83,16 +95,7 @@ export function useSectionGridInteractions() {
   const clearTouchSelectedCard = useCallback(() => {
     const selectedCard = touchSelectedCardRef.current;
     if (selectedCard) {
-      const burstTimeoutId = solutionCardBurstTimeoutsRef.current.get(selectedCard);
-      if (burstTimeoutId) {
-        selectedCard.ownerDocument.defaultView?.clearTimeout(burstTimeoutId);
-        solutionCardBurstTimeoutsRef.current.delete(selectedCard);
-      }
-
-      selectedCard.classList.remove(
-        SOLUTION_CARD_TOUCH_SELECTED_CLASS,
-        SOLUTION_CARD_BURST_ACTIVE_CLASS
-      );
+      selectedCard.classList.remove(SOLUTION_CARD_TOUCH_SELECTED_CLASS);
     }
 
     touchSelectedCardRef.current = null;
@@ -163,9 +166,9 @@ export function useSectionGridInteractions() {
 
     if (!section || section.id === 'hero' || !mainElement.contains(section)) return;
 
-    const ownerDocument = mainElement.ownerDocument;
-    const windowObject = ownerDocument.defaultView;
-    if (!windowObject) return;
+    const windowObject = mainElement.ownerDocument.defaultView;
+    const controller = burstControllerRef.current;
+    if (!windowObject || !controller) return;
 
     const now = getTime(windowObject);
     if (now - lastGridBurstAtRef.current < SECTION_GRID_BURST_MIN_INTERVAL_MS) return;
@@ -193,28 +196,74 @@ export function useSectionGridInteractions() {
       burstOuterRadius
     );
 
-    targetCards.forEach((card) => {
-      restartSolutionCardBurst(
-        card,
-        clientX,
-        clientY,
-        burstPoint,
-        solutionCardBurstTimeoutsRef.current,
-        windowObject,
-        solutionCardBurstStartedAtRef.current
-      );
+    const scrollX = windowObject.scrollX || 0;
+    const scrollY = windowObject.scrollY || 0;
+    const pageX = clientX + scrollX;
+    const pageY = clientY + scrollY;
+
+    /* Section bursts: aligned to each section's grid origin. We emit one
+       burst per affected section so cross-boundary clicks fade smoothly into
+       neighbors using each neighbor's color, exactly like the previous DOM
+       implementation did. */
+    targetSections.forEach((targetSection) => {
+      const rgb = getSectionBurstRgb(targetSection);
+      const intensity = burstPoint.opacityScale * getSectionBurstOpacityScale(targetSection);
+      const gridSize = getSectionGridSize(targetSection);
+      const origin = getSectionGridOriginPage(targetSection);
+      const sectionRect = targetSection.getBoundingClientRect();
+      controller.addBurst({
+        pageX,
+        pageY,
+        rgb,
+        maxRadius: burstPoint.maxRadius,
+        intensity,
+        gridSize,
+        gridOriginX: origin.x,
+        gridOriginY: origin.y,
+        clipRect: {
+          left: sectionRect.left + scrollX,
+          top: sectionRect.top + scrollY,
+          right: sectionRect.right + scrollX,
+          bottom: sectionRect.bottom + scrollY,
+          radius: 0
+        },
+        startTime: windowObject.performance.now(),
+        duration: GRID_BURST_CANVAS_DURATION_MS
+      });
     });
 
-    targetSections.forEach((targetSection) => {
-      appendSectionGridBurst(
-        ownerDocument,
-        targetSection,
-        clientX,
-        clientY,
-        burstPoint,
-        gridBurstTimeoutsRef.current,
-        windowObject
-      );
+    /* Card bursts: per-card grid origin and rounded clip so the bright grid
+       lines stay contained within the card's silhouette. */
+    targetCards.forEach((card) => {
+      const cardSection = card.closest('section.section-grid-bg');
+      const sectionRgb = cardSection ? getSectionBurstRgb(cardSection) : undefined;
+      if (!sectionRgb) return;
+      const intensity = burstPoint.opacityScale
+        * (cardSection ? getSectionBurstOpacityScale(cardSection) : 1)
+        * 0.55;
+      const sectionOrigin = cardSection ? getSectionGridOriginPage(cardSection) : { x: 0, y: 0 };
+      const cardOrigin = getCardGridOriginPage(card, sectionOrigin);
+      const gridSize = cardSection ? getSectionGridSize(cardSection) : 72;
+      const cardRect = card.getBoundingClientRect();
+      controller.addBurst({
+        pageX,
+        pageY,
+        rgb: sectionRgb,
+        maxRadius: burstPoint.maxRadius * 0.6,
+        intensity,
+        gridSize,
+        gridOriginX: cardOrigin.x,
+        gridOriginY: cardOrigin.y,
+        clipRect: {
+          left: cardRect.left + scrollX,
+          top: cardRect.top + scrollY,
+          right: cardRect.right + scrollX,
+          bottom: cardRect.bottom + scrollY,
+          radius: getCardClipRadius(card)
+        },
+        startTime: windowObject.performance.now(),
+        duration: GRID_BURST_CANVAS_DURATION_MS
+      });
     });
   }, []);
 
@@ -362,7 +411,6 @@ export function useSectionGridInteractions() {
 
     syncSectionGridOrigins(mainElement);
     resizeObserver?.observe(mainElement);
-    mainElement.querySelectorAll('section').forEach((section) => resizeObserver?.observe(section));
     windowObject?.addEventListener('resize', syncGrid);
     windowObject?.addEventListener('load', syncGrid);
 
@@ -410,20 +458,13 @@ export function useSectionGridInteractions() {
       TOUCH_SCROLLING_CLASS,
       HERO_GRAPHIC_CURSOR_SMALL_CLASS
     );
-    clearTimeoutMap(gridBurstTimeoutsRef.current);
-    mainRef.current?.querySelectorAll('.section-grid-burst').forEach((burstElement) => {
-      burstElement.remove();
-    });
-    clearTimeoutMap(solutionCardBurstTimeoutsRef.current);
-    solutionCardBurstStartedAtRef.current.clear();
-    mainRef.current?.querySelectorAll(`.${SOLUTION_CARD_BURST_ACTIVE_CLASS}`).forEach((card) => {
-      card.classList.remove(SOLUTION_CARD_BURST_ACTIVE_CLASS);
-    });
+    burstControllerRef.current?.clear();
   }, [cleanupSectionCursor]);
 
   return {
     mainRef,
     sectionCursorRef,
+    burstCanvasRef,
     mainEventHandlers: {
       onPointerLeave: handleMainPointerLeave,
       onPointerCancel: handleMainPointerCancel,

@@ -8,18 +8,13 @@ export const SECTION_GRID_BURST_MIN_INTERVAL_MS = 90;
 export const MAX_ACTIVE_SECTION_GRID_BURSTS = 3;
 export const SECTION_GRID_BURST_EDGE_FEATHER = 120;
 export const SECTION_GRID_BURST_SAME_POINT_DISTANCE = 54;
-/* Skip card burst animation restarts during the rising phase: restarting then would
-   snap the CSS animation back to its 0% keyframe (opacity 0) and cause a visible
-   flicker on rapid consecutive clicks. */
-export const CARD_GRID_BURST_RESTART_HOLD_MS = 220;
-/* When evicting a section burst (nearby duplicate or oldest beyond MAX), fade it out
-   over this window instead of removing it instantly. Avoids the visible pop-out that
-   shows up as "flickering" during rapid clicks on separate points. */
+/* When evicting a burst element (nearby duplicate on a section, or oldest beyond
+   MAX on a section or card), fade it out over this window instead of removing it
+   instantly. Avoids the visible pop-out that would otherwise read as flicker. */
 export const SECTION_GRID_BURST_RETIRE_MS = 200;
 export const DEFAULT_SECTION_GRID_BURST_RGB = [31, 79, 143];
 export const SOLUTION_CARD_SURFACE_SELECTOR = '.solution-card-surface';
 export const TOUCH_SELECTABLE_CARD_SELECTOR = `${SOLUTION_CARD_SURFACE_SELECTOR}, .infrastructure-image-card`;
-export const SOLUTION_CARD_BURST_ACTIVE_CLASS = 'solution-card-surface--burst-active';
 export const SOLUTION_CARD_TOUCH_SELECTED_CLASS = 'solution-card-surface--touch-selected';
 export const TOUCH_TAP_MAX_DISTANCE = 10;
 export const TOUCH_TAP_MAX_DURATION_MS = 650;

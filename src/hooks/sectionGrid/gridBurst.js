@@ -1,19 +1,15 @@
+/* Pure helpers used to figure out, at click time, which sections and cards
+ * should receive a grid burst and what shape/color the burst should have.
+ * The actual rendering is delegated to the canvas controller in
+ * `gridBurstCanvas.js` — that's where the animation lives. This file no
+ * longer manipulates the DOM at all. */
 import {
-  CARD_GRID_BURST_RESTART_HOLD_MS,
   DEFAULT_SECTION_GRID_BURST_RGB,
-  MAX_ACTIVE_SECTION_GRID_BURSTS,
   SECTION_CURSOR_THEMES,
-  SECTION_GRID_BURST_DURATION_MS,
-  SECTION_GRID_BURST_RETIRE_MS,
-  SECTION_GRID_BURST_SAME_POINT_DISTANCE,
   SECTION_GRID_SIZE,
   CARD_GRID_ANCHOR_SELECTOR,
-  SOLUTION_CARD_BURST_ACTIVE_CLASS,
   SOLUTION_CARD_SURFACE_SELECTOR
 } from './constants';
-
-const SECTION_GRID_BURST_RETIRING_ATTR = 'data-section-grid-burst-retiring';
-const SECTION_GRID_BURST_RETIRE_BUFFER_MS = 40;
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
@@ -42,32 +38,46 @@ function getRgbFromHex(hexColor) {
   ];
 }
 
-function getSectionBurstRgb(section) {
+export function getSectionBurstRgb(section) {
   const color = SECTION_CURSOR_THEMES.find((theme) => theme.id === section.id)?.color || '#1f4f8f';
   return getRgbFromHex(color) || DEFAULT_SECTION_GRID_BURST_RGB;
 }
 
-function getSectionBurstOpacityScale(section) {
+export function getSectionBurstOpacityScale(section) {
   if (!section) return 1;
   const raw = getComputedStyle(section).getPropertyValue('--section-grid-burst-opacity-scale');
   const parsed = Number.parseFloat(raw);
   return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
 }
 
-function setGridBurstShapeProperties(element, burstPoint, rgb, sectionScale = 1) {
-  const opacityScale = burstPoint.opacityScale * sectionScale;
-  const clampedOpacity = (base) => Math.min(1, base * opacityScale).toFixed(3);
-  element.style.setProperty('--section-grid-burst-rgb', rgb.join(', '));
-  element.style.setProperty('--section-grid-burst-peak-opacity', clampedOpacity(0.52));
-  element.style.setProperty('--section-grid-burst-mid-opacity', clampedOpacity(0.34));
-  element.style.setProperty('--section-grid-burst-late-opacity', clampedOpacity(0.13));
-  element.style.setProperty('--section-grid-burst-early-radius', `${burstPoint.earlyRadius.toFixed(2)}px`);
-  element.style.setProperty('--section-grid-burst-mid-radius', `${burstPoint.midRadius.toFixed(2)}px`);
-  element.style.setProperty('--section-grid-burst-late-radius', `${burstPoint.lateRadius.toFixed(2)}px`);
-  element.style.setProperty('--section-grid-burst-max-radius', `${burstPoint.maxRadius.toFixed(2)}px`);
+export function getSectionGridSize(section) {
+  if (!section) return SECTION_GRID_SIZE;
+  const raw = getComputedStyle(section).getPropertyValue('--section-grid-size');
+  return parsePixelValue(raw, SECTION_GRID_SIZE);
 }
 
-function getSolutionCardFromTarget(target) {
+/* Page-space origin used to align the burst's grid lines with the
+   section's background pattern. The section already exposes these as CSS
+   custom properties set by `syncSectionGridOrigins`. */
+export function getSectionGridOriginPage(section) {
+  if (!section) return { x: 0, y: 0 };
+  const style = getComputedStyle(section);
+  return {
+    x: parsePixelValue(style.getPropertyValue('--section-grid-origin-x'), 0),
+    y: parsePixelValue(style.getPropertyValue('--section-grid-origin-y'), 0)
+  };
+}
+
+export function getCardGridOriginPage(card, fallback) {
+  if (!card) return fallback;
+  const style = getComputedStyle(card);
+  return {
+    x: parsePixelValue(style.getPropertyValue('--card-grid-origin-x'), fallback?.x ?? 0),
+    y: parsePixelValue(style.getPropertyValue('--card-grid-origin-y'), fallback?.y ?? 0)
+  };
+}
+
+export function getSolutionCardFromTarget(target) {
   return target instanceof Element ? target.closest(SOLUTION_CARD_SURFACE_SELECTOR) : null;
 }
 
@@ -82,79 +92,9 @@ function getPointToRectDistance(clientX, clientY, rect) {
   return Math.hypot(dx, dy);
 }
 
-function updateCardGridBurst(card, clientX, clientY, burstPoint) {
-  const cardRect = card.getBoundingClientRect();
-  const section = card.closest('section.section-grid-bg');
-  const rgb = section ? getSectionBurstRgb(section) : DEFAULT_SECTION_GRID_BURST_RGB;
-  const sectionScale = getSectionBurstOpacityScale(section);
-
-  card.style.setProperty('--card-grid-burst-x', `${(clientX - cardRect.left).toFixed(2)}px`);
-  card.style.setProperty('--card-grid-burst-y', `${(clientY - cardRect.top).toFixed(2)}px`);
-  setGridBurstShapeProperties(card, burstPoint, rgb, sectionScale);
-}
-
-/* Replace the burst's running keyframe animation with a short, JS-driven opacity
-   transition so the element fades out smoothly from whatever opacity it had reached
-   instead of vanishing instantly. The actual DOM removal happens after the fade. */
-function retireGridBurstElement(burstElement, timeoutMap, windowObject) {
-  if (burstElement.getAttribute(SECTION_GRID_BURST_RETIRING_ATTR) === '1') return;
-
-  if (timeoutMap.has(burstElement)) {
-    windowObject.clearTimeout(timeoutMap.get(burstElement));
-    timeoutMap.delete(burstElement);
-  }
-
-  const currentOpacity = windowObject.getComputedStyle(burstElement).opacity;
-  burstElement.setAttribute(SECTION_GRID_BURST_RETIRING_ATTR, '1');
-  burstElement.style.animation = 'none';
-  burstElement.style.opacity = currentOpacity;
-  burstElement.style.transition = `opacity ${SECTION_GRID_BURST_RETIRE_MS}ms ease-out`;
-  /* Read offsetWidth to flush the snapshot so the subsequent assignment
-     actually transitions from the current animated opacity instead of
-     snapping straight to 0. */
-  void burstElement.offsetWidth;
-  burstElement.style.opacity = '0';
-
-  const removalTimeoutId = windowObject.setTimeout(() => {
-    burstElement.remove();
-    timeoutMap.delete(burstElement);
-  }, SECTION_GRID_BURST_RETIRE_MS + SECTION_GRID_BURST_RETIRE_BUFFER_MS);
-
-  timeoutMap.set(burstElement, removalTimeoutId);
-}
-
-function isBurstRetiring(burstElement) {
-  return burstElement.getAttribute(SECTION_GRID_BURST_RETIRING_ATTR) === '1';
-}
-
-function removeNearbyGridBursts(existingBursts, clientX, clientY, timeoutMap, windowObject) {
-  for (let index = existingBursts.length - 1; index >= 0; index -= 1) {
-    const burstElement = existingBursts[index];
-    if (isBurstRetiring(burstElement)) {
-      existingBursts.splice(index, 1);
-      continue;
-    }
-    const burstX = parsePixelValue(burstElement.style.getPropertyValue('--section-grid-burst-x'), Number.NaN);
-    const burstY = parsePixelValue(burstElement.style.getPropertyValue('--section-grid-burst-y'), Number.NaN);
-
-    if (
-      Number.isFinite(burstX)
-      && Number.isFinite(burstY)
-      && Math.hypot(clientX - burstX, clientY - burstY) <= SECTION_GRID_BURST_SAME_POINT_DISTANCE
-    ) {
-      existingBursts.splice(index, 1);
-      retireGridBurstElement(burstElement, timeoutMap, windowObject);
-    }
-  }
-}
-
 export function getGridBurstPoint(mainElement, section, clientX, clientY, pressure = 0.5) {
   const sectionRect = section.getBoundingClientRect();
-  const computedStyle = getComputedStyle(section);
-  const gridSize = parsePixelValue(
-    computedStyle.getPropertyValue('--section-grid-size'),
-    SECTION_GRID_SIZE
-  );
+  const gridSize = getSectionGridSize(section);
   const normalizedPressure = clamp(pressure || 0.5, 0.35, 1);
   const viewport = mainElement.ownerDocument.defaultView;
   const viewportWidth = viewport?.innerWidth || mainElement.clientWidth || 1;
@@ -164,9 +104,6 @@ export function getGridBurstPoint(mainElement, section, clientX, clientY, pressu
 
   return {
     opacityScale: 0.88 + normalizedPressure * 0.16,
-    earlyRadius: clamp(gridSize * 1.32 * sectionScale, 84, 116),
-    midRadius: maxRadius * 0.58,
-    lateRadius: maxRadius * 0.84,
     maxRadius
   };
 }
@@ -187,7 +124,10 @@ export function getGridBurstTargetCards(targetSections, target, clientX, clientY
   const cards = new Set();
 
   const clickedCard = getSolutionCardFromTarget(target);
-  if (clickedCard && targetSections.includes(clickedCard.closest('section.section-grid-bg'))) {
+  if (clickedCard
+    && clickedCard.matches(CARD_GRID_ANCHOR_SELECTOR)
+    && targetSections.includes(clickedCard.closest('section.section-grid-bg'))
+  ) {
     cards.add(clickedCard);
   }
 
@@ -202,91 +142,11 @@ export function getGridBurstTargetCards(targetSections, target, clientX, clientY
   return Array.from(cards);
 }
 
-export function restartSolutionCardBurst(card, clientX, clientY, burstPoint, timeoutMap, windowObject, lastStartedAtMap) {
-  const previousTimeoutId = timeoutMap.get(card);
-  const now = windowObject.performance?.now?.() ?? Date.now();
-  const lastStartedAt = lastStartedAtMap?.get(card);
-
-  /* Restarting the CSS animation mid rising-phase makes the burst overlay snap
-     back to opacity 0 for a frame before climbing again — that snap is the
-     flicker on rapid clicks. When still inside the hold window, keep the
-     in-flight animation going and just refresh the cleanup timeout. */
-  if (
-    previousTimeoutId
-    && typeof lastStartedAt === 'number'
-    && now - lastStartedAt < CARD_GRID_BURST_RESTART_HOLD_MS
-  ) {
-    windowObject.clearTimeout(previousTimeoutId);
-    const remaining = Math.max(
-      SECTION_GRID_BURST_DURATION_MS - (now - lastStartedAt),
-      80
-    );
-    const refreshedTimeoutId = windowObject.setTimeout(() => {
-      card.classList.remove(SOLUTION_CARD_BURST_ACTIVE_CLASS);
-      timeoutMap.delete(card);
-      lastStartedAtMap?.delete(card);
-    }, remaining);
-    timeoutMap.set(card, refreshedTimeoutId);
-    return;
-  }
-
-  if (previousTimeoutId) {
-    windowObject.clearTimeout(previousTimeoutId);
-  }
-
-  if (card.matches(CARD_GRID_ANCHOR_SELECTOR)) {
-    updateCardGridBurst(card, clientX, clientY, burstPoint);
-  }
-
-  const wasActive = card.classList.contains(SOLUTION_CARD_BURST_ACTIVE_CLASS);
-  card.classList.remove(SOLUTION_CARD_BURST_ACTIVE_CLASS);
-  if (wasActive) card.getBoundingClientRect();
-  card.classList.add(SOLUTION_CARD_BURST_ACTIVE_CLASS);
-
-  lastStartedAtMap?.set(card, now);
-
-  const timeoutId = windowObject.setTimeout(() => {
-    card.classList.remove(SOLUTION_CARD_BURST_ACTIVE_CLASS);
-    timeoutMap.delete(card);
-    lastStartedAtMap?.delete(card);
-  }, SECTION_GRID_BURST_DURATION_MS);
-
-  timeoutMap.set(card, timeoutId);
-}
-
-export function appendSectionGridBurst(ownerDocument, targetSection, clientX, clientY, burstPoint, timeoutMap, windowObject) {
-  const targetRect = targetSection.getBoundingClientRect();
-  const existingBursts = Array.from(
-    targetSection.querySelectorAll(':scope > .section-grid-burst')
-  ).filter((burstElement) => !isBurstRetiring(burstElement));
-  const burstX = clientX - targetRect.left;
-  const burstY = clientY - targetRect.top;
-
-  removeNearbyGridBursts(existingBursts, burstX, burstY, timeoutMap, windowObject);
-
-  while (existingBursts.length >= MAX_ACTIVE_SECTION_GRID_BURSTS) {
-    const oldestBurst = existingBursts.shift();
-    retireGridBurstElement(oldestBurst, timeoutMap, windowObject);
-  }
-
-  const burstElement = ownerDocument.createElement('span');
-  burstElement.setAttribute('aria-hidden', 'true');
-  burstElement.className = 'section-grid-burst';
-  burstElement.style.setProperty('--section-grid-burst-x', `${burstX.toFixed(2)}px`);
-  burstElement.style.setProperty('--section-grid-burst-y', `${burstY.toFixed(2)}px`);
-  setGridBurstShapeProperties(
-    burstElement,
-    burstPoint,
-    getSectionBurstRgb(targetSection),
-    getSectionBurstOpacityScale(targetSection)
-  );
-
-  targetSection.appendChild(burstElement);
-
-  const timeoutId = windowObject.setTimeout(() => {
-    burstElement.remove();
-    timeoutMap.delete(burstElement);
-  }, SECTION_GRID_BURST_DURATION_MS);
-
-  timeoutMap.set(burstElement, timeoutId);
+/* Read the card's border-radius (in CSS pixels) for canvas roundRect
+   clipping. We snapshot it at click time — cheap and avoids ever needing to
+   keep it in sync. */
+export function getCardClipRadius(card) {
+  if (!card) return 0;
+  const style = getComputedStyle(card);
+  return parsePixelValue(style.borderTopLeftRadius, 0);
 }

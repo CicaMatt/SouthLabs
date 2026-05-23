@@ -1,9 +1,26 @@
 import { SECTION_GRID_SIZE, CARD_GRID_ANCHOR_SELECTOR } from './constants';
 
+/* Threshold under which an origin rewrite is treated as noise. Any sub-pixel
+   change in section/card layout (font loading, image weight settling, async
+   content slot-in) used to retrigger the grid `background-position` transitions
+   across every section — that cascading shift is what reads as flicker. */
+const ORIGIN_REWRITE_EPSILON_PX = 1;
+
 function setStylePropertyIfChanged(element, propertyName, value) {
   if (element.style.getPropertyValue(propertyName) !== value) {
     element.style.setProperty(propertyName, value);
   }
+}
+
+function setPxStylePropertyIfMeaningfullyChanged(element, propertyName, nextPxValue) {
+  const previousRaw = element.style.getPropertyValue(propertyName);
+  if (previousRaw) {
+    const previousNumeric = Number.parseFloat(previousRaw);
+    if (Number.isFinite(previousNumeric) && Math.abs(previousNumeric - nextPxValue) < ORIGIN_REWRITE_EPSILON_PX) {
+      return;
+    }
+  }
+  element.style.setProperty(propertyName, `${nextPxValue.toFixed(2)}px`);
 }
 
 export function clearCardGridHighlight(card) {
@@ -43,14 +60,14 @@ export function syncSectionGridOrigins(mainElement) {
       ? 0
       : gridSize - bottomRemainder;
 
-    setStylePropertyIfChanged(section, '--section-grid-origin-x', `${(rect.left + scrollX).toFixed(2)}px`);
-    setStylePropertyIfChanged(section, '--section-grid-origin-y', `${baseTop.toFixed(2)}px`);
+    setPxStylePropertyIfMeaningfullyChanged(section, '--section-grid-origin-x', rect.left + scrollX);
+    setPxStylePropertyIfMeaningfullyChanged(section, '--section-grid-origin-y', baseTop);
     setStylePropertyIfChanged(section, '--section-grid-snap-padding', `${desiredAdjustment.toFixed(2)}px`);
 
     section.querySelectorAll(CARD_GRID_ANCHOR_SELECTOR).forEach((element) => {
       const elementRect = element.getBoundingClientRect();
-      setStylePropertyIfChanged(element, '--card-grid-origin-x', `${(elementRect.left + scrollX).toFixed(2)}px`);
-      setStylePropertyIfChanged(element, '--card-grid-origin-y', `${(baseTop + elementRect.top - rect.top).toFixed(2)}px`);
+      setPxStylePropertyIfMeaningfullyChanged(element, '--card-grid-origin-x', elementRect.left + scrollX);
+      setPxStylePropertyIfMeaningfullyChanged(element, '--card-grid-origin-y', baseTop + elementRect.top - rect.top);
     });
 
     currentAdjustmentBefore += currentAdjustment;

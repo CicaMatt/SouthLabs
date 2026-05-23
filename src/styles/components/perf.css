@@ -1,11 +1,12 @@
 /* Performance optimizations that do not change visual behavior. */
 
-/* Let the browser skip painting/layout for non-hero sections while they are far from the viewport.
-   Each section reserves an intrinsic size so the scrollbar doesn't jump as they come into view. */
-.site-main-with-section-cursor > section.section-grid-bg:not(#hero) {
-  content-visibility: auto;
-  contain-intrinsic-size: 1px 1100px;
-}
+/* Section-level containment (`content-visibility: auto` previously, then
+   `contain: layout paint`) is intentionally NOT applied here. Both forced
+   sections into their own compositor layer/relevance state, which during rapid
+   clicks interacted with burst rendering and produced visible "refresh" flashes.
+   With the new GPU-only ripple burst (transform + opacity, never any per-frame
+   paint), no section-level isolation is required for performance — and removing
+   it eliminates any path that can cause a whole-section re-render. */
 
 /* When the hero scrolls out of the viewport, freeze the factory's CSS animations so the GPU /
    compositor isn't tied up driving keyframes for an off-screen subtree. */

@@ -41,7 +41,6 @@ function InfrastructureCard({ alt, description, src, title }) {
     <div className={CARD_CLASS}>
       <div className={IMAGE_FRAME_CLASS}>
         <span aria-hidden="true" className="software-ai-grid-highlight" />
-        <span aria-hidden="true" className="software-ai-grid-burst" />
         <img
           alt={alt}
           className={IMAGE_CLASS}

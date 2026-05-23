@@ -10,7 +10,12 @@ import ViewModeDebugger from './components/debug/ViewModeDebugger';
 import { preventImageDefault, useSectionGridInteractions } from './hooks/useSectionGridInteractions';
 
 export default function App() {
-  const { mainRef, sectionCursorRef, mainEventHandlers } = useSectionGridInteractions();
+  const {
+    burstCanvasRef,
+    mainRef,
+    sectionCursorRef,
+    mainEventHandlers
+  } = useSectionGridInteractions();
 
   return (
     <div onContextMenuCapture={preventImageDefault} onDragStartCapture={preventImageDefault}>
@@ -26,6 +31,11 @@ export default function App() {
         <InfrastructureSection />
         <SupportSection />
         <ContactSection />
+        <canvas
+          ref={burstCanvasRef}
+          aria-hidden="true"
+          className="section-grid-burst-canvas"
+        />
         <div ref={sectionCursorRef} aria-hidden="true" className="section-cursor-dot" />
       </main>
       <Footer />
