@@ -19,11 +19,11 @@
  * there is at least one active burst.
  */
 
-const BURST_DURATION_MS = 1260;
+const BURST_DURATION_MS = 1080;
 const BURST_LINE_WIDTH = 2;
 const PEAK_PROGRESS = 0.14;
 const MID_PROGRESS = 0.38;
-const LATE_PROGRESS = 0.72;
+const LATE_PROGRESS = 0.65;
 const PEAK_OPACITY_FACTOR = 0.52;
 const MID_OPACITY_FACTOR = 0.34;
 const LATE_OPACITY_FACTOR = 0.13;
@@ -60,16 +60,32 @@ function sampleBurstShape(progress, maxRadius) {
       opacity: lerp(PEAK_OPACITY_FACTOR, MID_OPACITY_FACTOR, t)
     };
   }
+
+  /* From the mid keypoint onward the leading edge expands as a single
+     smoothstep all the way to maxRadius rather than re-easing at each
+     band boundary. The previous per-band easing zeroed the radius slope
+     at progress 0.72 (end of LATE) and again at the start of the fade
+     band — that one-instant stall is what reads as the dispersion
+     "ending abruptly" right before the fade-out kicks in. Folding the
+     LATE and FADE bands into one continuous smoothstep removes that
+     stall while leaving the opacity curve (and therefore the original
+     fade-out behavior) untouched. */
+  const radius = lerp(
+    maxRadius * 0.58,
+    maxRadius,
+    smoothStep((progress - MID_PROGRESS) / (1 - MID_PROGRESS))
+  );
+
   if (progress < LATE_PROGRESS) {
     const t = smoothStep((progress - MID_PROGRESS) / (LATE_PROGRESS - MID_PROGRESS));
     return {
-      radius: lerp(maxRadius * 0.58, maxRadius * 0.84, t),
+      radius,
       opacity: lerp(MID_OPACITY_FACTOR, LATE_OPACITY_FACTOR, t)
     };
   }
   const t = smoothStep((progress - LATE_PROGRESS) / (1 - LATE_PROGRESS));
   return {
-    radius: lerp(maxRadius * 0.84, maxRadius, t),
+    radius,
     opacity: lerp(LATE_OPACITY_FACTOR, 0, t)
   };
 }
