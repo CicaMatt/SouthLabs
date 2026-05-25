@@ -1,21 +1,14 @@
 import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import {
+  GRID_BURST_DISABLED_SELECTOR,
   HERO_GRAPHIC_CURSOR_SMALL_CLASS,
-  SECTION_GRID_BURST_EDGE_FEATHER,
-  SECTION_GRID_BURST_MIN_INTERVAL_MS,
   SOLUTION_CARD_TOUCH_SELECTED_CLASS,
   TOUCH_SCROLL_GUARD_CLASS,
   TOUCH_SCROLLING_CLASS,
-  TOUCH_SCROLL_SETTLE_MS,
-  TOUCH_SELECTABLE_CARD_SELECTOR,
-  TOUCH_TAP_MAX_DISTANCE,
-  TOUCH_TAP_MAX_DURATION_MS
-} from './sectionGrid/constants';
+  TOUCH_SELECTABLE_CARD_SELECTOR
+} from './sectionGrid/selectors';
 import {
-  getCardClipRadius,
-  getCardGridOriginPage,
   getGridBurstPoint,
-  getGridBurstTargetCards,
   getGridBurstTargetSections,
   getSectionBurstOpacityScale,
   getSectionBurstRgb,
@@ -23,8 +16,7 @@ import {
   getSectionGridSize
 } from './sectionGrid/gridBurst';
 import {
-  createGridBurstCanvasController,
-  GRID_BURST_CANVAS_DURATION_MS
+  createGridBurstCanvasController
 } from './sectionGrid/gridBurstCanvas';
 import { syncSectionGridOrigins } from './sectionGrid/gridSurface';
 import { getTime, isDesktopChromium, isLikelyDesktopTrackpadPinch } from './sectionGrid/inputDetection';
@@ -32,6 +24,11 @@ import { useSectionCursor } from './sectionGrid/useSectionCursor';
 
 export { preventImageDefault } from './sectionGrid/inputDetection';
 
+const SECTION_GRID_BURST_DELAY_INTERVAL_MS = 90;
+const SECTION_GRID_BURST_TARGET_MARGIN = 120;
+const TOUCH_TAP_MAX_DISTANCE = 10;
+const TOUCH_TAP_MAX_DURATION_MS = 650;
+const TOUCH_SCROLL_SETTLE_MS = 220;
 const TOUCH_TAP_MAX_DISTANCE_SQUARED = TOUCH_TAP_MAX_DISTANCE * TOUCH_TAP_MAX_DISTANCE;
 
 function getTouchSelectableCardFromTarget(target) {
@@ -160,6 +157,8 @@ export function useSectionGridInteractions() {
     pressure = 0.5,
     target
   }) => {
+    if (target instanceof Element && target.closest(GRID_BURST_DISABLED_SELECTOR)) return;
+
     const section = target instanceof Element
       ? target.closest('section.section-grid-bg')
       : null;
@@ -171,7 +170,7 @@ export function useSectionGridInteractions() {
     if (!windowObject || !controller) return;
 
     const now = getTime(windowObject);
-    if (now - lastGridBurstAtRef.current < SECTION_GRID_BURST_MIN_INTERVAL_MS) return;
+    if (now - lastGridBurstAtRef.current < SECTION_GRID_BURST_DELAY_INTERVAL_MS) return;
     lastGridBurstAtRef.current = now;
 
     const burstPoint = getGridBurstPoint(
@@ -181,21 +180,13 @@ export function useSectionGridInteractions() {
       clientY,
       pressure
     );
-    const burstOuterRadius = burstPoint.maxRadius + SECTION_GRID_BURST_EDGE_FEATHER;
+    const burstOuterRadius = burstPoint.maxRadius + SECTION_GRID_BURST_TARGET_MARGIN;
     const targetSections = getGridBurstTargetSections(
       mainElement,
       clientX,
       clientY,
       burstOuterRadius
     );
-    const targetCards = getGridBurstTargetCards(
-      targetSections,
-      target,
-      clientX,
-      clientY,
-      burstOuterRadius
-    );
-
     const scrollX = windowObject.scrollX || 0;
     const scrollY = windowObject.scrollY || 0;
     const pageX = clientX + scrollX;
@@ -227,42 +218,7 @@ export function useSectionGridInteractions() {
           bottom: sectionRect.bottom + scrollY,
           radius: 0
         },
-        startTime: windowObject.performance.now(),
-        duration: GRID_BURST_CANVAS_DURATION_MS
-      });
-    });
-
-    /* Card bursts: per-card grid origin and rounded clip so the bright grid
-       lines stay contained within the card's silhouette. */
-    targetCards.forEach((card) => {
-      const cardSection = card.closest('section.section-grid-bg');
-      const sectionRgb = cardSection ? getSectionBurstRgb(cardSection) : undefined;
-      if (!sectionRgb) return;
-      const intensity = burstPoint.opacityScale
-        * (cardSection ? getSectionBurstOpacityScale(cardSection) : 1)
-        * 0.55;
-      const sectionOrigin = cardSection ? getSectionGridOriginPage(cardSection) : { x: 0, y: 0 };
-      const cardOrigin = getCardGridOriginPage(card, sectionOrigin);
-      const gridSize = cardSection ? getSectionGridSize(cardSection) : 72;
-      const cardRect = card.getBoundingClientRect();
-      controller.addBurst({
-        pageX,
-        pageY,
-        rgb: sectionRgb,
-        maxRadius: burstPoint.maxRadius * 0.6,
-        intensity,
-        gridSize,
-        gridOriginX: cardOrigin.x,
-        gridOriginY: cardOrigin.y,
-        clipRect: {
-          left: cardRect.left + scrollX,
-          top: cardRect.top + scrollY,
-          right: cardRect.right + scrollX,
-          bottom: cardRect.bottom + scrollY,
-          radius: getCardClipRadius(card)
-        },
-        startTime: windowObject.performance.now(),
-        duration: GRID_BURST_CANVAS_DURATION_MS
+        startTime: windowObject.performance.now()
       });
     });
   }, []);

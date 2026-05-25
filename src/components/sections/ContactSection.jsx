@@ -29,7 +29,7 @@ const TEXT_FIELD_CLASS = `${FIELD_CONTROL_CLASS} placeholder:text-[rgba(32,54,88
 const FORM_MESSAGE_CLASS = 'flex items-center justify-center rounded-md px-4 py-3 text-center text-sm font-medium';
 const SECTION_CLASS = 'section-grid-bg section-grid-bg--contact py-[4.5rem] lg:py-[5.25rem]';
 const SECTION_CONTENT_CLASS = 'max-w-3xl mx-auto px-5 sm:px-6 md:px-8';
-const FORM_PANEL_CLASS = 'solution-card-surface rounded-xl border-t-4 border-[#203658] p-8 shadow-[0_4px_20px_rgba(19,27,46,0.04)]';
+const FORM_PANEL_CLASS = 'section-grid-burst-disabled solution-card-surface rounded-xl border-t-4 border-[#203658] p-8 shadow-[0_4px_20px_rgba(19,27,46,0.04)]';
 const FORM_PANEL_STYLE = getSolutionCardSurfaceStyle(
   CONTACT_FORM_SURFACE_OPACITY,
   CONTACT_FORM_SURFACE_HOVER_OPACITY,
@@ -69,10 +69,15 @@ const CONTACT_FIELDS = [
 ];
 
 const INTEREST_OPTIONS = [
-  'Sviluppo Web / E-commerce',
-  'Software Custom & AI',
-  'Infrastruttura & Sicurezza',
-  'Assistenza Tecnica'
+  'Siti Web',
+  'Piattaforme E-Commerce',
+  'Soluzioni Wordpress',
+  'Intelligenza Artificiale',
+  'Software Personalizzati',
+  'Manutenzione/Aggiornamento di Sistemi Legacy',
+  'Domotica',
+  'Digitalizzazione Processi',
+  'Assistenza Tecnica',
 ];
 
 function Field({ children, id, label }) {

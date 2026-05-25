@@ -1,4 +1,4 @@
-import { MOUSE_WHEEL_ZOOM_MIN_DELTA } from './constants';
+const MOUSE_WHEEL_ZOOM_MIN_DELTA = 80;
 
 export function getTime(windowObject) {
   return windowObject?.performance?.now?.() ?? Date.now();

@@ -1,5 +1,5 @@
 import { useCallback, useRef } from 'react';
-import { CARD_GRID_ANCHOR_SELECTOR } from './constants';
+import { CARD_GRID_ANCHOR_SELECTOR } from './selectors';
 import { getSectionCursorTheme } from './cursorTheme';
 import { clearCardGridHighlight, updateCardGridHighlight } from './gridSurface';
 import { updateHeroGraphicCursorState } from './heroGraphicHitTest';

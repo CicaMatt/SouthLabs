@@ -1,0 +1,9 @@
+export const CARD_GRID_ANCHOR_SELECTOR = '.card-grid-anchor';
+export const GRID_BURST_DISABLED_SELECTOR = '.section-grid-burst-disabled';
+export const SOLUTION_CARD_SURFACE_SELECTOR = '.solution-card-surface';
+export const TOUCH_SELECTABLE_CARD_SELECTOR = `${SOLUTION_CARD_SURFACE_SELECTOR}, .infrastructure-image-card`;
+export const SOLUTION_CARD_TOUCH_SELECTED_CLASS = 'solution-card-surface--touch-selected';
+export const TOUCH_SCROLL_GUARD_CLASS = 'site-main--touch-scroll-guard';
+export const TOUCH_SCROLLING_CLASS = 'site-main--touch-scrolling';
+export const HERO_GRAPHIC_CURSOR_SMALL_CLASS = 'site-main--hero-graphic-cursor-small';
+export const HERO_GRAPHIC_SELECTOR = '.hero-graphic-hover-target';

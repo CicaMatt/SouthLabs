@@ -3,7 +3,7 @@ import SOLUTION_CARD_SURFACE_CLASS, { getSolutionCardSurfaceStyle } from './solu
 import {
   SOFTWARE_SECTION_THEME_COLOR,
   SOFTWARE_SECTION_THEME_RGB_CSS
-} from '../../hooks/sectionGrid/constants';
+} from '../../hooks/sectionGrid/themes';
 
 const SOFTWARE_CARD_SURFACE_OPACITY = 0.25;
 const SOFTWARE_CARD_SURFACE_HOVER_OPACITY = 0.7;
@@ -17,7 +17,7 @@ const AUTOMATION_CARDS = [
   {
     icon: 'terminal',
     title: 'Software su Misura',
-    description: 'Costruiamo soluzioni modellate esattamente sui tuoi processi per darti un controllo totale.',
+    description: 'Costruiamo soluzioni personalizzate per potenziare e rendere efficienti i tuoi processi di lavoro.',
     surfaceOpacity: SOFTWARE_CARD_SURFACE_OPACITY,
     surfaceHoverOpacity: SOFTWARE_CARD_SURFACE_HOVER_OPACITY
   },
@@ -31,14 +31,14 @@ const AUTOMATION_CARDS = [
   {
     icon: 'router',
     title: 'Domotica',
-    description: 'Installazione di dispositivi domotici per un\'infrastruttura moderna e interconnessa.',
+    description: 'Installazione di dispositivi domotici per rendere i tuoi spazi più moderni e interconnessi.',
     surfaceOpacity: SOFTWARE_CARD_SURFACE_OPACITY,
     surfaceHoverOpacity: SOFTWARE_CARD_SURFACE_HOVER_OPACITY
   },
   {
     icon: 'schema',
     title: 'Digitalizzazione Processi',
-    description: 'Trasformiamo la complessità in processi digitali chiari ed efficienti.',
+    description: 'Trasformiamo la complessità in processi digitali lineari ed efficienti.',
     surfaceOpacity: SOFTWARE_CARD_SURFACE_OPACITY,
     surfaceHoverOpacity: SOFTWARE_CARD_SURFACE_HOVER_OPACITY
   }
@@ -69,7 +69,6 @@ const SOFTWARE_FEATURE_CARD_SURFACE_STYLE = getSolutionCardSurfaceStyle(
 const SOFTWARE_SECTION_STYLE = {
   '--section-grid-color': `rgba(32, 54, 88, ${SOFTWARE_SECTION_GRID_OPACITY})`,
   '--section-grid-highlight-color': SOFTWARE_SECTION_THEME_COLOR,
-  '--section-grid-burst-rgb': SOFTWARE_SECTION_THEME_RGB_CSS,
   '--software-ai-accent': SOFTWARE_SECTION_THEME_COLOR,
   '--software-interaction-blue': SOFTWARE_SECTION_THEME_COLOR,
   '--software-interaction-blue-rgb': SOFTWARE_SECTION_THEME_RGB_CSS,

@@ -97,7 +97,6 @@
 .section-grid-bg--web {
   --section-bg: #d3deea;
   --section-grid-color: rgba(32, 54, 88, 0.045);
-  --section-grid-burst-rgb: 32, 54, 88;
   --section-grid-highlight-color: #203658;
 }
 
@@ -114,7 +113,6 @@
 .section-grid-bg--support {
   --section-bg: #22385a;
   --section-grid-color: rgba(149, 227, 255, 0.0225);
-  --section-grid-burst-rgb: 149, 227, 255;
   --section-grid-highlight-color: #95e3ff;
   --section-grid-burst-opacity-scale: 0.52;
   background-image:

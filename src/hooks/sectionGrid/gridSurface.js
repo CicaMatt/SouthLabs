@@ -1,4 +1,6 @@
-import { SECTION_GRID_SIZE, CARD_GRID_ANCHOR_SELECTOR } from './constants';
+import { CARD_GRID_ANCHOR_SELECTOR } from './selectors';
+
+const SECTION_GRID_SIZE = 72;
 
 /* Threshold under which an origin rewrite is treated as noise. Any sub-pixel
    change in section/card layout (font loading, image weight settling, async

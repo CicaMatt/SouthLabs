@@ -34,7 +34,7 @@ export default function SupportSection() {
         <div className={SECTION_CONTENT_CLASS}>
           <div className="flex-1">
             <p className="font-body text-white text-lg mb-8 leading-relaxed">
-              Il nostro impegno non termina con la consegna. Forniamo piani di assistenza mensile e formazione specifica per rendere il tuo team autonomo sull'utilizzo dei tuoi nuovi strumenti digitali.
+              Il nostro impegno non termina con la consegna. Forniamo piani di assistenza mensile e formazione specifica per rendere il tuo team autonomo sull'utilizzo dei tuoi strumenti digitali.
             </p>
             <ul className="space-y-4">
               {SUPPORT_ITEMS.map((item) => (

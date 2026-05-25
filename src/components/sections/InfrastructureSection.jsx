@@ -16,7 +16,7 @@ const INFRASTRUCTURE_CARDS = [
     src: serverImage,
     title: 'Server Privati',
     description:
-      'Per la gestione autonoma dei dati e dei processi della tua infrastruttura .'
+      'Installazione e configurazione di server personali per una gestione autonoma e sicura di dati e processi.'
   },
   {
     alt: 'Security',

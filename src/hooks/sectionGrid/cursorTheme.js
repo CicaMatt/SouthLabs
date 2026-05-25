@@ -1,9 +1,8 @@
-import {
-  SECTION_CURSOR_DOT_SIZE,
-  SECTION_CURSOR_THEMES,
-  SECTION_GRID_HIGHLIGHT_DISTANCE,
-  SECTION_GRID_HIGHLIGHT_OPACITY
-} from './constants';
+import { SECTION_CURSOR_THEMES } from './themes';
+
+const SECTION_CURSOR_DOT_SIZE = 20;
+const SECTION_GRID_HIGHLIGHT_DISTANCE = 110;
+const SECTION_GRID_HIGHLIGHT_OPACITY = 0.25;
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const getSectionHighlightOpacity = (theme) => theme.highlightOpacity ?? SECTION_GRID_HIGHLIGHT_OPACITY;

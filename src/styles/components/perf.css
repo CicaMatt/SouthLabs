@@ -4,9 +4,9 @@
    `contain: layout paint`) is intentionally NOT applied here. Both forced
    sections into their own compositor layer/relevance state, which during rapid
    clicks interacted with burst rendering and produced visible "refresh" flashes.
-   With the new GPU-only ripple burst (transform + opacity, never any per-frame
-   paint), no section-level isolation is required for performance — and removing
-   it eliminates any path that can cause a whole-section re-render. */
+   With the canvas burst isolated in one fixed overlay, no section-level
+   isolation is required for performance — and removing it eliminates any path
+   that can cause a whole-section re-render. */
 
 /* When the hero scrolls out of the viewport, freeze the factory's CSS animations so the GPU /
    compositor isn't tied up driving keyframes for an off-screen subtree. */

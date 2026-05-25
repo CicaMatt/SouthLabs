@@ -19,14 +19,10 @@
  * there is at least one active burst.
  */
 
-const BURST_DURATION_MS = 1080;
+const BURST_DURATION_MS = 800;
 const BURST_LINE_WIDTH = 2;
-const PEAK_PROGRESS = 0.14;
-const MID_PROGRESS = 0.38;
-const LATE_PROGRESS = 0.65;
+const PEAK_PROGRESS = 0.1;
 const PEAK_OPACITY_FACTOR = 0.52;
-const MID_OPACITY_FACTOR = 0.34;
-const LATE_OPACITY_FACTOR = 0.13;
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const lerp = (a, b, t) => a + (b - a) * t;
@@ -40,8 +36,7 @@ function smoothStep(t) {
   return clamped * clamped * (3 - 2 * clamped);
 }
 
-/* Reconstruct radius and opacity from progress (0..1). Mirrors the four-band
-   keyframes of the original `sectionGridBurstField` animation. */
+/* Reconstruct radius and opacity from progress (0..1). */
 function sampleBurstShape(progress, maxRadius) {
   if (progress <= 0) return { radius: 0, opacity: 0 };
   if (progress >= 1) return { radius: maxRadius, opacity: 0 };
@@ -53,40 +48,12 @@ function sampleBurstShape(progress, maxRadius) {
       opacity: lerp(0, PEAK_OPACITY_FACTOR, t)
     };
   }
-  if (progress < MID_PROGRESS) {
-    const t = smoothStep((progress - PEAK_PROGRESS) / (MID_PROGRESS - PEAK_PROGRESS));
-    return {
-      radius: lerp(maxRadius * 0.27, maxRadius * 0.58, t),
-      opacity: lerp(PEAK_OPACITY_FACTOR, MID_OPACITY_FACTOR, t)
-    };
-  }
-
-  /* From the mid keypoint onward the leading edge expands as a single
-     smoothstep all the way to maxRadius rather than re-easing at each
-     band boundary. The previous per-band easing zeroed the radius slope
-     at progress 0.72 (end of LATE) and again at the start of the fade
-     band — that one-instant stall is what reads as the dispersion
-     "ending abruptly" right before the fade-out kicks in. Folding the
-     LATE and FADE bands into one continuous smoothstep removes that
-     stall while leaving the opacity curve (and therefore the original
-     fade-out behavior) untouched. */
-  const radius = lerp(
-    maxRadius * 0.58,
-    maxRadius,
-    smoothStep((progress - MID_PROGRESS) / (1 - MID_PROGRESS))
-  );
-
-  if (progress < LATE_PROGRESS) {
-    const t = smoothStep((progress - MID_PROGRESS) / (LATE_PROGRESS - MID_PROGRESS));
-    return {
-      radius,
-      opacity: lerp(MID_OPACITY_FACTOR, LATE_OPACITY_FACTOR, t)
-    };
-  }
-  const t = smoothStep((progress - LATE_PROGRESS) / (1 - LATE_PROGRESS));
+  /* Release phase: keep the leading edge expanding and fade the grid out on
+     one continuous curve so there is no late-phase plateau or fade kink. */
+  const t = smoothStep((progress - PEAK_PROGRESS) / (1 - PEAK_PROGRESS));
   return {
-    radius,
-    opacity: lerp(LATE_OPACITY_FACTOR, 0, t)
+    radius: lerp(maxRadius * 0.27, maxRadius, t),
+    opacity: lerp(PEAK_OPACITY_FACTOR, 0, t)
   };
 }
 
@@ -125,8 +92,8 @@ export function createGridBurstCanvasController(canvas) {
 
   const drawBurst = (burst, now, scrollX, scrollY) => {
     const elapsed = now - burst.startTime;
-    if (elapsed >= burst.duration) return false;
-    const progress = elapsed / burst.duration;
+    if (elapsed >= BURST_DURATION_MS) return false;
+    const progress = elapsed / BURST_DURATION_MS;
     const { radius, opacity } = sampleBurstShape(progress, burst.maxRadius);
     if (opacity <= 0.002 || radius <= 0.5) return true;
 
@@ -146,9 +113,7 @@ export function createGridBurstCanvasController(canvas) {
 
     ctx.save();
 
-    /* Optional rounded-rect clip for card bursts: keeps the bright grid
-       lines inside the card's silhouette, mirroring the previous DOM-based
-       `overflow: hidden; border-radius: inherit` clipping. */
+    /* Optional clip keeps the bright grid lines inside the affected section. */
     const clip = burst.clipRect;
     if (clip) {
       const cl = clip.left - scrollX;
@@ -196,8 +161,7 @@ export function createGridBurstCanvasController(canvas) {
       ctx.fillRect(leftEdge, y - half, radius * 2, BURST_LINE_WIDTH);
     }
 
-    /* Soft press-glow that decays faster than the grid layer — visually
-       echoes the previous `sectionGridPressGlow` `::after` pulse. */
+    /* Soft press-glow that decays faster than the grid layer. */
     const glowAlpha = clamp(opacity * burst.intensity * 0.55, 0, 1);
     if (glowAlpha > 0.002) {
       const glow = ctx.createRadialGradient(viewportX, viewportY, 0, viewportX, viewportY, radius);
@@ -253,8 +217,7 @@ export function createGridBurstCanvasController(canvas) {
       gridOriginX: burst.gridOriginX,
       gridOriginY: burst.gridOriginY,
       clipRect: burst.clipRect || null,
-      startTime: burst.startTime,
-      duration: burst.duration || BURST_DURATION_MS
+      startTime: burst.startTime
     });
     /* Cap to bound worst-case render cost; oldest goes first since that's
        the burst closest to fading out anyway. */
@@ -299,5 +262,3 @@ export function createGridBurstCanvasController(canvas) {
 
   return { addBurst, clear, destroy, resize: sizeCanvas };
 }
-
-export { BURST_DURATION_MS as GRID_BURST_CANVAS_DURATION_MS };

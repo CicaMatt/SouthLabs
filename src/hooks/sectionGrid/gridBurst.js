@@ -1,15 +1,14 @@
-/* Pure helpers used to figure out, at click time, which sections and cards
- * should receive a grid burst and what shape/color the burst should have.
+/* Pure helpers used to figure out, at click time, which sections should
+ * receive a grid burst and what shape/color the burst should have.
  * The actual rendering is delegated to the canvas controller in
  * `gridBurstCanvas.js` — that's where the animation lives. This file no
  * longer manipulates the DOM at all. */
 import {
   DEFAULT_SECTION_GRID_BURST_RGB,
-  SECTION_CURSOR_THEMES,
-  SECTION_GRID_SIZE,
-  CARD_GRID_ANCHOR_SELECTOR,
-  SOLUTION_CARD_SURFACE_SELECTOR
-} from './constants';
+  SECTION_CURSOR_THEMES
+} from './themes';
+
+const SECTION_GRID_SIZE = 72;
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
@@ -68,19 +67,6 @@ export function getSectionGridOriginPage(section) {
   };
 }
 
-export function getCardGridOriginPage(card, fallback) {
-  if (!card) return fallback;
-  const style = getComputedStyle(card);
-  return {
-    x: parsePixelValue(style.getPropertyValue('--card-grid-origin-x'), fallback?.x ?? 0),
-    y: parsePixelValue(style.getPropertyValue('--card-grid-origin-y'), fallback?.y ?? 0)
-  };
-}
-
-export function getSolutionCardFromTarget(target) {
-  return target instanceof Element ? target.closest(SOLUTION_CARD_SURFACE_SELECTOR) : null;
-}
-
 function getPointToRectDistance(clientX, clientY, rect) {
   const dx = clientX < rect.left
     ? rect.left - clientX
@@ -118,35 +104,4 @@ export function getGridBurstTargetSections(mainElement, clientX, clientY, burstO
   });
 
   return targetSections;
-}
-
-export function getGridBurstTargetCards(targetSections, target, clientX, clientY, burstOuterRadius) {
-  const cards = new Set();
-
-  const clickedCard = getSolutionCardFromTarget(target);
-  if (clickedCard
-    && clickedCard.matches(CARD_GRID_ANCHOR_SELECTOR)
-    && targetSections.includes(clickedCard.closest('section.section-grid-bg'))
-  ) {
-    cards.add(clickedCard);
-  }
-
-  targetSections.forEach((section) => {
-    section.querySelectorAll(CARD_GRID_ANCHOR_SELECTOR).forEach((card) => {
-      if (getPointToRectDistance(clientX, clientY, card.getBoundingClientRect()) <= burstOuterRadius) {
-        cards.add(card);
-      }
-    });
-  });
-
-  return Array.from(cards);
-}
-
-/* Read the card's border-radius (in CSS pixels) for canvas roundRect
-   clipping. We snapshot it at click time — cheap and avoids ever needing to
-   keep it in sync. */
-export function getCardClipRadius(card) {
-  if (!card) return 0;
-  const style = getComputedStyle(card);
-  return parsePixelValue(style.borderTopLeftRadius, 0);
 }
