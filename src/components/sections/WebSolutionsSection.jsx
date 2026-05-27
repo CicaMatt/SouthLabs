@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import SectionHeader from '../SectionHeader';
-import SOLUTION_CARD_SURFACE_CLASS, { getSolutionCardSurfaceStyle } from './solutionCardSurface';
+import SectionShell from '../SectionShell';
+import SOLUTION_CARD_SURFACE_CLASS, { getLightSolutionCardSurfaceStyle } from './solutionCardSurface';
 import wordpressLogo from '../../../media/icons/wordpress.png';
 import customWebAppImage from '../../../media/images/custom_web_app.png';
 import ecommerceImage from '../../../media/images/ecommerce.png';
@@ -11,9 +12,11 @@ const cx = (...classes) => classes.filter(Boolean).join(' ');
 const WORDPRESS_TITLE = 'Soluzioni WordPress';
 const WEB_CARD_SURFACE_OPACITY = 0.2;
 const WEB_CARD_SURFACE_HOVER_OPACITY = 0.7;
-const WEB_CARD_SURFACE_RGB = '251, 252, 254';
-const WEB_CARD_SURFACE_HOVER_RGB = '226, 233, 243';
 const SOLUTION_CARD_DESKTOP_QUERY = '(min-width: 1024px)';
+const WEB_CARD_SURFACE_STYLE = getLightSolutionCardSurfaceStyle(
+  WEB_CARD_SURFACE_OPACITY,
+  WEB_CARD_SURFACE_HOVER_OPACITY
+);
 const SOLUTION_CARD_CLASSES = {
   shell: [
     'group relative flex min-h-[88px] items-center',
@@ -74,11 +77,7 @@ const LEFT_WEB_SOLUTION_CARDS = [
     description: 'Piattaforme moderne e d\'impatto, costruite per rispecchiare l\'identità del tuo brand.',
     previewImage: customWebAppImage,
     stackedPreviewImage: customWebAppImage,
-    desktopPreviewScaleClass: 'scale-[1.2]',
-    surfaceOpacity: WEB_CARD_SURFACE_OPACITY,
-    surfaceHoverOpacity: WEB_CARD_SURFACE_HOVER_OPACITY,
-    surfaceRgb: WEB_CARD_SURFACE_RGB,
-    surfaceHoverRgb: WEB_CARD_SURFACE_HOVER_RGB
+    desktopPreviewScaleClass: 'scale-[1.2]'
   },
   {
     icon: 'web',
@@ -87,11 +86,7 @@ const LEFT_WEB_SOLUTION_CARDS = [
     description: 'Siti con ottimizzazione del SEO e massima visibilità sui motori di ricerca.',
     previewImage: seoOrientedImage,
     stackedPreviewImage: seoOrientedImage,
-    desktopPreviewScaleClass: 'scale-[1.12]',
-    surfaceOpacity: WEB_CARD_SURFACE_OPACITY,
-    surfaceHoverOpacity: WEB_CARD_SURFACE_HOVER_OPACITY,
-    surfaceRgb: WEB_CARD_SURFACE_RGB,
-    surfaceHoverRgb: WEB_CARD_SURFACE_HOVER_RGB
+    desktopPreviewScaleClass: 'scale-[1.12]'
   }
 ];
 
@@ -100,11 +95,7 @@ const RIGHT_WEB_SOLUTION_CARD = {
   eyebrow: 'Vendita Online',
   title: 'Piattaforme E-Commerce',
   description: 'Negozi online ad alta conversione con catalogo chiaro, checkout fluido e pagamenti sicuri.',
-  previewImage: ecommerceImage,
-  surfaceOpacity: WEB_CARD_SURFACE_OPACITY,
-  surfaceHoverOpacity: WEB_CARD_SURFACE_HOVER_OPACITY,
-  surfaceRgb: WEB_CARD_SURFACE_RGB,
-  surfaceHoverRgb: WEB_CARD_SURFACE_HOVER_RGB
+  previewImage: ecommerceImage
 };
 
 
@@ -199,10 +190,8 @@ function SolutionBadge({ card, className = '' }) {
 
 function SolutionTextPanel({
   title,
-  titleRef,
   titleClassName,
   description,
-  descriptionRef,
   descriptionClassName,
   align = 'left',
   className = ''
@@ -215,16 +204,145 @@ function SolutionTextPanel({
         className
       )}
     >
-      <h3 ref={titleRef} className={titleClassName}>
+      <h3 className={titleClassName}>
         {title}
       </h3>
       <span
         aria-hidden
         className={cx('my-2.5 h-[3px] w-20 rounded-full bg-[#203658] md:my-3 lg:my-4', align === 'right' && 'self-end')}
       />
-      <p ref={descriptionRef} className={descriptionClassName}>
+      <p className={descriptionClassName}>
         {description}
       </p>
+    </div>
+  );
+}
+
+function SolutionCardShell({ children, className }) {
+  return (
+    <article
+      className={cx(SOLUTION_CARD_CLASSES.shell, className)}
+      style={WEB_CARD_SURFACE_STYLE}
+    >
+      {children}
+    </article>
+  );
+}
+
+function SolutionPreview({ alt, className = '', imageClassName = '', src }) {
+  return (
+    <div className={cx(SOLUTION_CARD_CLASSES.imageShell, className)}>
+      <img
+        alt={alt}
+        className={cx('absolute inset-0 h-full w-full opacity-90', imageClassName)}
+        decoding="async"
+        loading="lazy"
+        src={src}
+      />
+    </div>
+  );
+}
+
+function StackedSolutionBody({
+  align = 'left',
+  description,
+  preview,
+  previewSide = 'right',
+  textColumnClassName,
+  textWrapClassName,
+  title
+}) {
+  const text = (
+    <div className={textColumnClassName}>
+      <div className={textWrapClassName}>
+        <SolutionTextPanel
+          align={align}
+          description={description}
+          descriptionClassName={SOLUTION_CARD_CLASSES.stackedDescription}
+          title={title}
+          titleClassName={SOLUTION_CARD_CLASSES.stackedTitle}
+        />
+      </div>
+    </div>
+  );
+
+  return (
+    <div className={SOLUTION_CARD_CLASSES.stackedRow}>
+      {previewSide === 'left' ? preview : null}
+      {text}
+      {previewSide === 'right' ? preview : null}
+    </div>
+  );
+}
+
+function HorizontalDesktopBody({
+  card,
+  previewFrameClassName,
+  previewPositionClass,
+  textAlign,
+  textWrapClassName
+}) {
+  return (
+    <div className={HORIZONTAL_CARD_CLASSES.desktopView}>
+      <div className="flex h-full flex-col justify-center">
+        <div className={textWrapClassName}>
+          <SolutionTextPanel
+            align={textAlign}
+            className="w-full"
+            description={card.description}
+            descriptionClassName={cx(SOLUTION_CARD_CLASSES.desktopDescription, HORIZONTAL_CARD_CLASSES.desktopDescription)}
+            title={card.title}
+            titleClassName={SOLUTION_CARD_CLASSES.desktopTitle}
+          />
+        </div>
+      </div>
+
+      <div className={previewFrameClassName}>
+        <SolutionPreview
+          alt={card.title}
+          className="h-[240px] sm:h-[280px] lg:h-full"
+          imageClassName={cx('object-contain', card.desktopPreviewScaleClass, previewPositionClass)}
+          src={card.previewImage}
+        />
+      </div>
+    </div>
+  );
+}
+
+function EcommerceDesktopBody({ card }) {
+  const { titleWrapRef, titleMeasureRef, useShortTitle } = useDesktopTitleFit();
+  const desktopTitle = useShortTitle ? 'E-Commerce' : card.title;
+
+  return (
+    <div className={TALL_CARD_CLASSES.desktopView}>
+      <div className="flex h-full w-full flex-col">
+        <div className="flex h-[250px] items-start pt-[13px]">
+          <div ref={titleWrapRef} className={cx('relative flex w-full flex-col', TALL_CARD_CLASSES.desktopTextBlock)}>
+            <span
+              ref={titleMeasureRef}
+              aria-hidden
+              className={TALL_CARD_CLASSES.desktopTitleMeasure}
+            >
+              {card.title}
+            </span>
+            <SolutionTextPanel
+              title={desktopTitle}
+              titleClassName={cx(SOLUTION_CARD_CLASSES.desktopTitle, TALL_CARD_CLASSES.desktopTitle)}
+              description={card.description}
+              descriptionClassName={SOLUTION_CARD_CLASSES.desktopDescription}
+            />
+          </div>
+        </div>
+
+        <div className="flex min-h-0 flex-1 items-end">
+          <SolutionPreview
+            alt={card.title}
+            className="h-[280px]"
+            imageClassName="scale-[1.1] object-contain object-bottom"
+            src={card.previewImage}
+          />
+        </div>
+      </div>
     </div>
   );
 }
@@ -234,162 +352,83 @@ function LeftSolutionCard({ card }) {
   const hasStackedPreviewImage = Boolean(card.stackedPreviewImage);
   const stackedPreviewMode = hasStackedPreviewImage ? 'square' : 'wide';
   const previewPositionClass = isWordpressCard ? 'object-[48%_50%]' : 'object-[52%_50%]';
-  const desktopTextAlign = isWordpressCard ? 'right' : 'left';
+  const textAlign = isWordpressCard ? 'right' : 'left';
   const badgeClassName = cx(
     SOLUTION_CARD_CLASSES.badgeTopLeft,
     isWordpressCard && 'lg:left-auto lg:right-7'
   );
+  const stackedPreview = (
+    <div className={HORIZONTAL_CARD_CLASSES.stackedPreviewFrame[stackedPreviewMode]}>
+      <SolutionPreview
+        alt={card.title}
+        className={HORIZONTAL_CARD_CLASSES.stackedPreviewRatio[stackedPreviewMode]}
+        imageClassName={cx(
+          HORIZONTAL_CARD_CLASSES.stackedPreviewImage[stackedPreviewMode],
+          !hasStackedPreviewImage && previewPositionClass
+        )}
+        src={card.stackedPreviewImage ?? card.previewImage}
+      />
+    </div>
+  );
+  const textWrapClassName = cx(
+    HORIZONTAL_CARD_CLASSES.desktopTextWrap,
+    isWordpressCard && HORIZONTAL_CARD_CLASSES.desktopTextWrapReversed
+  );
+  const previewFrameClassName = cx(
+    HORIZONTAL_CARD_CLASSES.desktopPreviewFrame,
+    isWordpressCard ? HORIZONTAL_CARD_CLASSES.desktopPreviewLeft : HORIZONTAL_CARD_CLASSES.desktopPreviewRight
+  );
 
   return (
-    <article
-      className={cx(SOLUTION_CARD_CLASSES.shell, HORIZONTAL_CARD_CLASSES.shell)}
-      style={getSolutionCardSurfaceStyle(card.surfaceOpacity, card.surfaceHoverOpacity, card.surfaceRgb, card.surfaceHoverRgb)}
-    >
+    <SolutionCardShell className={HORIZONTAL_CARD_CLASSES.shell}>
       <SolutionBadge card={card} className={badgeClassName} />
-
-      <div className={SOLUTION_CARD_CLASSES.stackedRow}>
-        <div className={HORIZONTAL_CARD_CLASSES.stackedTextColumn}>
-          <div className={HORIZONTAL_CARD_CLASSES.stackedTextWrap}>
-            <SolutionTextPanel
-              title={card.title}
-              titleClassName={SOLUTION_CARD_CLASSES.stackedTitle}
-              descriptionClassName={SOLUTION_CARD_CLASSES.stackedDescription}
-              description={card.description}
-            />
-          </div>
-        </div>
-
-        <div className={HORIZONTAL_CARD_CLASSES.stackedPreviewFrame[stackedPreviewMode]}>
-          <div className={cx(SOLUTION_CARD_CLASSES.imageShell, HORIZONTAL_CARD_CLASSES.stackedPreviewRatio[stackedPreviewMode])}>
-            <img
-              src={card.stackedPreviewImage ?? card.previewImage}
-              alt={card.title}
-              decoding="async"
-              loading="lazy"
-              className={cx(
-                'absolute inset-0 h-full w-full opacity-90',
-                HORIZONTAL_CARD_CLASSES.stackedPreviewImage[stackedPreviewMode],
-                !hasStackedPreviewImage && previewPositionClass
-              )}
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className={HORIZONTAL_CARD_CLASSES.desktopView}>
-        <div className="flex h-full flex-col justify-center">
-          <div
-            className={cx(
-              HORIZONTAL_CARD_CLASSES.desktopTextWrap,
-              isWordpressCard && HORIZONTAL_CARD_CLASSES.desktopTextWrapReversed
-            )}
-          >
-            <SolutionTextPanel
-              title={card.title}
-              titleClassName={SOLUTION_CARD_CLASSES.desktopTitle}
-              description={card.description}
-              descriptionClassName={cx(SOLUTION_CARD_CLASSES.desktopDescription, HORIZONTAL_CARD_CLASSES.desktopDescription)}
-              align={desktopTextAlign}
-              className="w-full"
-            />
-          </div>
-        </div>
-
-        <div
-          className={cx(
-            HORIZONTAL_CARD_CLASSES.desktopPreviewFrame,
-            isWordpressCard ? HORIZONTAL_CARD_CLASSES.desktopPreviewLeft : HORIZONTAL_CARD_CLASSES.desktopPreviewRight
-          )}
-        >
-          <div className={cx(SOLUTION_CARD_CLASSES.imageShell, 'h-[240px] sm:h-[280px] lg:h-full')}>
-            <img
-              src={card.previewImage}
-              alt={card.title}
-              decoding="async"
-              loading="lazy"
-              className={cx('absolute inset-0 h-full w-full object-contain opacity-90', card.desktopPreviewScaleClass, previewPositionClass)}
-            />
-          </div>
-        </div>
-      </div>
-    </article>
+      <StackedSolutionBody
+        description={card.description}
+        preview={stackedPreview}
+        textColumnClassName={HORIZONTAL_CARD_CLASSES.stackedTextColumn}
+        textWrapClassName={HORIZONTAL_CARD_CLASSES.stackedTextWrap}
+        title={card.title}
+      />
+      <HorizontalDesktopBody
+        card={card}
+        previewFrameClassName={previewFrameClassName}
+        previewPositionClass={previewPositionClass}
+        textAlign={textAlign}
+        textWrapClassName={textWrapClassName}
+      />
+    </SolutionCardShell>
   );
 }
 
 function RightSolutionCard({ card }) {
-  const { titleWrapRef, titleMeasureRef, useShortTitle } = useDesktopTitleFit();
-  const desktopTitle = useShortTitle ? 'E-Commerce' : card.title;
+  const stackedPreview = (
+    <div className={TALL_CARD_CLASSES.stackedPreviewFrame}>
+      <SolutionPreview
+        alt={card.title}
+        className="aspect-square"
+        imageClassName="scale-[0.88] object-contain object-left-top sm:scale-100"
+        src={card.previewImage}
+      />
+    </div>
+  );
 
   return (
-    <article
-      className={cx(SOLUTION_CARD_CLASSES.shell, TALL_CARD_CLASSES.shell)}
-      style={getSolutionCardSurfaceStyle(card.surfaceOpacity, card.surfaceHoverOpacity, card.surfaceRgb, card.surfaceHoverRgb)}
-    >
+    <SolutionCardShell className={TALL_CARD_CLASSES.shell}>
       <SolutionBadge
         card={card}
         className="top-4 right-5 sm:top-5 sm:right-7 md:right-8 lg:top-6 lg:left-7 lg:right-auto"
       />
-
-      <div className={SOLUTION_CARD_CLASSES.stackedRow}>
-        <div className={TALL_CARD_CLASSES.stackedPreviewFrame}>
-          <div className={cx(SOLUTION_CARD_CLASSES.imageShell, 'aspect-square')}>
-            <img
-              src={card.previewImage}
-              alt={card.title}
-              decoding="async"
-              loading="lazy"
-              className="absolute inset-0 h-full w-full scale-[0.88] object-contain object-left-top opacity-90 sm:scale-100"
-            />
-          </div>
-        </div>
-
-        <div className={TALL_CARD_CLASSES.stackedTextColumn}>
-          <div className={TALL_CARD_CLASSES.stackedTextWrap}>
-            <SolutionTextPanel
-              title={<>Piattaforme <span className="whitespace-nowrap">E-Commerce</span></>}
-              titleClassName={SOLUTION_CARD_CLASSES.stackedTitle}
-              descriptionClassName={SOLUTION_CARD_CLASSES.stackedDescription}
-              align="right"
-              description={card.description}
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className={TALL_CARD_CLASSES.desktopView}>
-        <div className="flex h-full w-full flex-col">
-          <div className="flex h-[250px] items-start pt-[13px]">
-            <div ref={titleWrapRef} className={cx('relative flex w-full flex-col', TALL_CARD_CLASSES.desktopTextBlock)}>
-              <span
-                ref={titleMeasureRef}
-                aria-hidden
-                className={TALL_CARD_CLASSES.desktopTitleMeasure}
-              >
-                {card.title}
-              </span>
-              <SolutionTextPanel
-                title={desktopTitle}
-                titleClassName={cx(SOLUTION_CARD_CLASSES.desktopTitle, TALL_CARD_CLASSES.desktopTitle)}
-                description={card.description}
-                descriptionClassName={SOLUTION_CARD_CLASSES.desktopDescription}
-              />
-            </div>
-          </div>
-
-          <div className="flex min-h-0 flex-1 items-end">
-            <div className={cx(SOLUTION_CARD_CLASSES.imageShell, 'h-[280px]')}>
-              <img
-                src={card.previewImage}
-                alt={card.title}
-                decoding="async"
-                loading="lazy"
-                className="absolute inset-0 h-full w-full scale-[1.1] object-contain object-bottom opacity-90"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </article>
+      <StackedSolutionBody
+        align="right"
+        description={card.description}
+        preview={stackedPreview}
+        previewSide="left"
+        textColumnClassName={TALL_CARD_CLASSES.stackedTextColumn}
+        textWrapClassName={TALL_CARD_CLASSES.stackedTextWrap}
+        title={<>Piattaforme <span className="whitespace-nowrap">E-Commerce</span></>}
+      />
+      <EcommerceDesktopBody card={card} />
+    </SolutionCardShell>
   );
 }
 
@@ -397,20 +436,18 @@ export default function WebSolutionsSection() {
   const [topLeftCard, bottomLeftCard] = LEFT_WEB_SOLUTION_CARDS;
 
   return (
-    <section className="section-grid-bg section-grid-bg--web relative overflow-hidden py-[4.5rem] lg:py-[5.25rem]" id="siti-web">
-      <div className="relative mx-auto max-w-7xl px-5 sm:px-6 md:px-8">
-        <SectionHeader
-          className="mb-12 max-w-2xl lg:mb-16"
-          title="Siti Web"
-          subtitle="Progettate per la massima conversione della tua attività."
-        />
+    <SectionShell id="siti-web" variant="web">
+      <SectionHeader
+        className="mb-12 max-w-2xl lg:mb-16"
+        title="Siti Web"
+        subtitle="Progettate per la massima conversione della tua attività."
+      />
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          <LeftSolutionCard card={topLeftCard} />
-          <RightSolutionCard card={RIGHT_WEB_SOLUTION_CARD} />
-          <LeftSolutionCard card={bottomLeftCard} />
-        </div>
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <LeftSolutionCard card={topLeftCard} />
+        <RightSolutionCard card={RIGHT_WEB_SOLUTION_CARD} />
+        <LeftSolutionCard card={bottomLeftCard} />
       </div>
-    </section>
+    </SectionShell>
   );
 }

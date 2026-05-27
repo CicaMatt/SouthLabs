@@ -1,4 +1,5 @@
 import SectionHeader from '../SectionHeader';
+import SectionShell from '../SectionShell';
 import deskImage from '../../../media/images/desk.png';
 import serverImage from '../../../media/images/server.png';
 import securityImage from '../../../media/images/security.png';
@@ -27,8 +28,6 @@ const INFRASTRUCTURE_CARDS = [
   }
 ];
 
-const SECTION_CLASS = 'section-grid-bg section-grid-bg--infrastructure py-[5.5rem] lg:py-[6.75rem]';
-const SECTION_CONTENT_CLASS = 'max-w-7xl mx-auto px-5 sm:px-6 md:px-8';
 const CARD_GRID_CLASS = 'grid grid-cols-1 md:grid-cols-3 gap-8';
 const CARD_CLASS = 'infrastructure-image-card group';
 const IMAGE_FRAME_CLASS = 'infrastructure-image-frame solution-card-surface card-grid-anchor isolate h-48 rounded-xl mb-6 overflow-hidden relative';
@@ -57,20 +56,18 @@ function InfrastructureCard({ alt, description, src, title }) {
 
 export default function InfrastructureSection() {
   return (
-    <section className={SECTION_CLASS} id="infrastrutture-hardware">
-      <div className={SECTION_CONTENT_CLASS}>
-        <SectionHeader
-          className="mb-12 max-w-2xl lg:mb-16"
-          title="Infrastruttura Hardware"
-          subtitle="Le fondamenta fisiche e virtuali per garantire continuità operativa e sicurezza dei dati."
-        />
+    <SectionShell id="infrastrutture-hardware" variant="infrastructure">
+      <SectionHeader
+        className="mb-12 max-w-2xl lg:mb-16"
+        title="Infrastruttura Hardware"
+        subtitle="Le fondamenta fisiche e virtuali per garantire continuità operativa e sicurezza dei dati."
+      />
 
-        <div className={CARD_GRID_CLASS}>
-          {INFRASTRUCTURE_CARDS.map((card) => (
-            <InfrastructureCard key={card.title} {...card} />
-          ))}
-        </div>
+      <div className={CARD_GRID_CLASS}>
+        {INFRASTRUCTURE_CARDS.map((card) => (
+          <InfrastructureCard key={card.title} {...card} />
+        ))}
       </div>
-    </section>
+    </SectionShell>
   );
 }

@@ -1,51 +1,38 @@
 import SectionHeader from '../SectionHeader';
-import SOLUTION_CARD_SURFACE_CLASS, { getSolutionCardSurfaceStyle } from './solutionCardSurface';
-import {
-  SOFTWARE_SECTION_THEME_COLOR,
-  SOFTWARE_SECTION_THEME_RGB_CSS
-} from '../../hooks/sectionGrid/themes';
+import SectionShell from '../SectionShell';
+import SOLUTION_CARD_SURFACE_CLASS, {
+  getLightSolutionCardSurfaceStyle,
+  getSolutionCardSurfaceStyle
+} from './solutionCardSurface';
 
 const SOFTWARE_CARD_SURFACE_OPACITY = 0.25;
 const SOFTWARE_CARD_SURFACE_HOVER_OPACITY = 0.7;
-const SOFTWARE_CARD_SURFACE_RGB = '251, 252, 254';
-const SOFTWARE_CARD_SURFACE_HOVER_RGB = '226, 233, 243';
 const SOFTWARE_FEATURE_CARD_SURFACE_OPACITY = 1;
 const SOFTWARE_FEATURE_CARD_SURFACE_HOVER_OPACITY = 1;
-const SOFTWARE_SECTION_GRID_OPACITY = 0.06;
 
 const AUTOMATION_CARDS = [
   {
     icon: 'terminal',
     title: 'Software su Misura',
-    description: 'Costruiamo soluzioni personalizzate per potenziare e rendere efficienti i tuoi processi di lavoro.',
-    surfaceOpacity: SOFTWARE_CARD_SURFACE_OPACITY,
-    surfaceHoverOpacity: SOFTWARE_CARD_SURFACE_HOVER_OPACITY
+    description: 'Costruiamo soluzioni personalizzate per potenziare e rendere efficienti i tuoi processi di lavoro.'
   },
   {
     icon: 'api',
     title: 'Sistemi Legacy',
-    description: 'Modernizziamo e manuteniamo i tuoi vecchi sistemi, per aumentarne efficienza e usabilità.',
-    surfaceOpacity: SOFTWARE_CARD_SURFACE_OPACITY,
-    surfaceHoverOpacity: SOFTWARE_CARD_SURFACE_HOVER_OPACITY
+    description: 'Modernizziamo e manuteniamo i tuoi vecchi sistemi, per aumentarne efficienza e usabilità.'
   },
   {
     icon: 'router',
     title: 'Domotica',
-    description: 'Installazione di dispositivi domotici per rendere i tuoi spazi più moderni e interconnessi.',
-    surfaceOpacity: SOFTWARE_CARD_SURFACE_OPACITY,
-    surfaceHoverOpacity: SOFTWARE_CARD_SURFACE_HOVER_OPACITY
+    description: 'Installazione di dispositivi domotici per rendere i tuoi spazi più moderni e interconnessi.'
   },
   {
     icon: 'schema',
     title: 'Digitalizzazione Processi',
-    description: 'Trasformiamo la complessità in processi digitali lineari ed efficienti.',
-    surfaceOpacity: SOFTWARE_CARD_SURFACE_OPACITY,
-    surfaceHoverOpacity: SOFTWARE_CARD_SURFACE_HOVER_OPACITY
+    description: 'Trasformiamo la complessità in processi digitali lineari ed efficienti.'
   }
 ];
 
-const SECTION_CLASS = 'section-grid-bg section-grid-bg--software py-[5.5rem] lg:py-[6.75rem] relative';
-const SECTION_CONTENT_CLASS = 'max-w-7xl mx-auto px-5 sm:px-6 md:px-8 relative z-10';
 const SERVICE_GRID_CLASS = 'software-service-grid grid grid-cols-1 md:grid-cols-2 gap-6';
 const SOFTWARE_CARD_SURFACE_CLASS = `${SOLUTION_CARD_SURFACE_CLASS} software-card-surface`;
 const FEATURE_CARD_CLASS = [
@@ -66,26 +53,16 @@ const SOFTWARE_FEATURE_CARD_SURFACE_STYLE = getSolutionCardSurfaceStyle(
   SOFTWARE_FEATURE_CARD_SURFACE_OPACITY,
   SOFTWARE_FEATURE_CARD_SURFACE_HOVER_OPACITY
 );
-const SOFTWARE_SECTION_STYLE = {
-  '--section-grid-color': `rgba(32, 54, 88, ${SOFTWARE_SECTION_GRID_OPACITY})`,
-  '--section-grid-highlight-color': SOFTWARE_SECTION_THEME_COLOR,
-  '--software-ai-accent': SOFTWARE_SECTION_THEME_COLOR,
-  '--software-interaction-blue': SOFTWARE_SECTION_THEME_COLOR,
-  '--software-interaction-blue-rgb': SOFTWARE_SECTION_THEME_RGB_CSS,
-  '--software-support-blue': '#203658',
-  '--software-support-blue-rgb': '32, 54, 88'
-};
+const SOFTWARE_AUTOMATION_CARD_SURFACE_STYLE = getLightSolutionCardSurfaceStyle(
+  SOFTWARE_CARD_SURFACE_OPACITY,
+  SOFTWARE_CARD_SURFACE_HOVER_OPACITY
+);
 
-function AutomationCard({ description, icon, surfaceHoverOpacity, surfaceOpacity, title }) {
+function AutomationCard({ description, icon, title }) {
   return (
     <div
       className={AUTOMATION_CARD_CLASS}
-      style={getSolutionCardSurfaceStyle(
-        surfaceOpacity,
-        surfaceHoverOpacity,
-        SOFTWARE_CARD_SURFACE_RGB,
-        SOFTWARE_CARD_SURFACE_HOVER_RGB
-      )}
+      style={SOFTWARE_AUTOMATION_CARD_SURFACE_STYLE}
     >
       <span className="material-symbols-outlined mb-4 inline-flex h-7 w-7 origin-center items-center justify-center text-[28px] leading-none text-[var(--software-support-blue)] transition-all duration-300 group-hover:scale-110">{icon}</span>
       <h4 className="mb-2 min-h-[3rem] font-headline text-lg font-bold leading-snug text-on-background">{title}</h4>
@@ -116,22 +93,20 @@ function SoftwareAiFeatureCard() {
 
 export default function SoftwareSection() {
   return (
-    <section className={SECTION_CLASS} id="software-automazione" style={SOFTWARE_SECTION_STYLE}>
-      <div className={SECTION_CONTENT_CLASS}>
-        <SectionHeader
-          className="mb-12 max-w-3xl lg:mb-16"
-          title="Software e Automazione"
-          subtitle="Sistemi progettati per digitalizzare e ottimizzare i processi aziendali."
-        />
+    <SectionShell id="software-automazione" variant="software">
+      <SectionHeader
+        className="mb-12 max-w-3xl lg:mb-16"
+        title="Software e Automazione"
+        subtitle="Sistemi progettati per digitalizzare e ottimizzare i processi aziendali."
+      />
 
-        <div className={SERVICE_GRID_CLASS}>
-          <SoftwareAiFeatureCard />
+      <div className={SERVICE_GRID_CLASS}>
+        <SoftwareAiFeatureCard />
 
-          {AUTOMATION_CARDS.map((card) => (
-            <AutomationCard key={card.title} {...card} />
-          ))}
-        </div>
+        {AUTOMATION_CARDS.map((card) => (
+          <AutomationCard key={card.title} {...card} />
+        ))}
       </div>
-    </section>
+    </SectionShell>
   );
 }

@@ -216,7 +216,7 @@ export default function TopNavBar() {
             href="#contatti"
             onClick={closeMobileMenu}
           >
-            <span className="relative z-10">Contattaci</span>
+            <span className="cta-underline-label">Contattaci</span>
           </a>
 
           <button

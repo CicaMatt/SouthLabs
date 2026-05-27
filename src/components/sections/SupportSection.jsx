@@ -1,3 +1,4 @@
+import SectionShell from '../SectionShell';
 import { getSolutionCardSurfaceStyle } from './solutionCardSurface';
 
 const SUPPORT_ITEMS = [
@@ -8,8 +9,6 @@ const SUPPORT_ITEMS = [
 
 const SUPPORT_PANEL_SURFACE_OPACITY = 0.4;
 const SUPPORT_PANEL_SURFACE_HOVER_OPACITY = 0.62;
-const SECTION_CLASS = 'section-grid-bg section-grid-bg--support py-[5.5rem] lg:py-[6.75rem] text-on-tertiary';
-const SECTION_CONTAINER_CLASS = 'max-w-7xl mx-auto px-5 sm:px-6 md:px-8';
 const SECTION_HEADER_CLASS = 'mb-12 max-w-2xl lg:mb-8';
 const SECTION_CONTENT_CLASS = 'flex flex-col md:flex-row gap-10 md:gap-16 items-center';
 const CTA_PANEL_CLASS = [
@@ -24,43 +23,41 @@ const CTA_PANEL_STYLE = getSolutionCardSurfaceStyle(
 
 export default function SupportSection() {
   return (
-    <section className={SECTION_CLASS} id="manutenzione-supporto">
-      <div className={SECTION_CONTAINER_CLASS}>
-        <div className={SECTION_HEADER_CLASS}>
-          <h2 className="font-headline text-3xl md:text-4xl tracking-tight mb-4">Supporto e Formazione</h2>
-          <p className="font-body text-on-tertiary/80">Assistenza continua e formazione su misura per la tua autonomia operativa.</p>
+    <SectionShell id="manutenzione-supporto" variant="support">
+      <div className={SECTION_HEADER_CLASS}>
+        <h2 className="font-headline text-3xl md:text-4xl tracking-tight mb-4">Supporto e Formazione</h2>
+        <p className="font-body text-on-tertiary/80">Assistenza continua e formazione su misura per la tua autonomia operativa.</p>
+      </div>
+
+      <div className={SECTION_CONTENT_CLASS}>
+        <div className="flex-1">
+          <p className="font-body text-white text-lg mb-8 leading-relaxed">
+            Il nostro impegno non termina con la consegna. Forniamo piani di assistenza mensile e formazione specifica per rendere il tuo team autonomo sull'utilizzo dei tuoi strumenti digitali.
+          </p>
+          <ul className="space-y-4">
+            {SUPPORT_ITEMS.map((item) => (
+              <li key={item} className="flex items-start gap-3">
+                <span className="material-symbols-outlined shrink-0 text-[26px] leading-7 text-tertiary-fixed-dim">check_circle</span>
+                <span className="font-body text-lg leading-7">{item}</span>
+              </li>
+            ))}
+          </ul>
         </div>
 
-        <div className={SECTION_CONTENT_CLASS}>
-          <div className="flex-1">
-            <p className="font-body text-white text-lg mb-8 leading-relaxed">
-              Il nostro impegno non termina con la consegna. Forniamo piani di assistenza mensile e formazione specifica per rendere il tuo team autonomo sull'utilizzo dei tuoi strumenti digitali.
-            </p>
-            <ul className="space-y-4">
-              {SUPPORT_ITEMS.map((item) => (
-                <li key={item} className="flex items-start gap-3">
-                  <span className="material-symbols-outlined shrink-0 text-[26px] leading-7 text-tertiary-fixed-dim">check_circle</span>
-                  <span className="font-body text-lg leading-7">{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className={CTA_PANEL_CLASS} style={CTA_PANEL_STYLE}>
-            <div className="text-center">
-              <span className="material-symbols-outlined text-[64px] text-tertiary-fixed-dim mb-4">support_agent</span>
-              <h3 className="font-headline text-2xl font-bold mb-2">Sempre al tuo fianco</h3>
-              <p className="text-on-tertiary/70 mb-6">Piani flessibili progettati sulle reali necessità della tua attività.</p>
-              <a
-                className="inline-flex items-center justify-center w-full px-6 py-3 rounded-md text-sm font-medium transition-all duration-200 bg-tertiary-fixed-dim text-on-tertiary-fixed hover:bg-white active:scale-95"
-                href="#contatti"
-              >
-                Scopri i Piani
-              </a>
-            </div>
+        <div className={CTA_PANEL_CLASS} style={CTA_PANEL_STYLE}>
+          <div className="text-center">
+            <span className="material-symbols-outlined text-[64px] text-tertiary-fixed-dim mb-4">support_agent</span>
+            <h3 className="font-headline text-2xl font-bold mb-2">Sempre al tuo fianco</h3>
+            <p className="text-on-tertiary/70 mb-6">Piani flessibili progettati sulle reali necessità della tua attività.</p>
+            <a
+              className="inline-flex items-center justify-center w-full px-6 py-3 rounded-md text-sm font-medium transition-all duration-200 bg-tertiary-fixed-dim text-on-tertiary-fixed hover:bg-white active:scale-95"
+              href="#contatti"
+            >
+              Scopri i Piani
+            </a>
           </div>
         </div>
       </div>
-    </section>
+    </SectionShell>
   );
 }

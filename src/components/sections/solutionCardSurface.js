@@ -5,13 +5,25 @@ const SOLUTION_CARD_SURFACE_CLASS = [
   'motion-safe:ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none'
 ].join(' ');
 
-export function getSolutionCardSurfaceStyle(restOpacity, hoverOpacity = restOpacity, rgb = '251, 252, 254', hoverRgb = rgb) {
+export const LIGHT_CARD_SURFACE_RGB = '251, 252, 254';
+export const LIGHT_CARD_SURFACE_HOVER_RGB = '226, 233, 243';
+
+export function getSolutionCardSurfaceStyle(restOpacity, hoverOpacity = restOpacity, rgb = LIGHT_CARD_SURFACE_RGB, hoverRgb = rgb) {
   return {
     '--solution-card-bg-rgb': rgb,
     '--solution-card-bg-hover-rgb': hoverRgb,
     '--solution-card-bg-opacity': `${restOpacity}`,
     '--solution-card-bg-hover-opacity': `${hoverOpacity}`
   };
+}
+
+export function getLightSolutionCardSurfaceStyle(restOpacity, hoverOpacity = restOpacity) {
+  return getSolutionCardSurfaceStyle(
+    restOpacity,
+    hoverOpacity,
+    LIGHT_CARD_SURFACE_RGB,
+    LIGHT_CARD_SURFACE_HOVER_RGB
+  );
 }
 
 export default SOLUTION_CARD_SURFACE_CLASS;

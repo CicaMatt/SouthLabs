@@ -440,3 +440,11 @@
   animation: vFactoryTraceFlowReverse 10.4s linear infinite, vFactoryTracePulse 3.7s ease-in-out infinite;
   animation-delay: -1.3s, -0.9s;
 }
+/* When the hero scrolls out of the viewport, freeze the factory's CSS
+   animations so the compositor is not driving keyframes off-screen. */
+.hero-factory-stage.hero-factory-stage--offscreen,
+.hero-factory-stage.hero-factory-stage--offscreen *,
+.hero-factory-stage.hero-factory-stage--offscreen *::before,
+.hero-factory-stage.hero-factory-stage--offscreen *::after {
+  animation-play-state: paused !important;
+}
