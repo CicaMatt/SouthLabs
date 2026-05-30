@@ -208,43 +208,49 @@ function SubmitButton({ isSubmitting }) {
 export default function ContactSection() {
   const [formState, setFormState] = useState({ status: FORM_STATUS.idle, message: '' });
   const formStartedAtRef = useRef(Date.now());
+  const submissionInFlightRef = useRef(false);
   const [nameField, companyField, emailField] = CONTACT_FIELDS;
   const isSubmitting = formState.status === FORM_STATUS.submitting;
 
   async function handleSubmit(event) {
     event.preventDefault();
 
+    if (submissionInFlightRef.current) {
+      return;
+    }
+
     const form = event.currentTarget;
     if (!form.reportValidity()) {
       return;
     }
 
-    const submittedAt = Date.now();
-    const formData = new FormData(form);
-    const honeypotValue = getTrimmedFormValue(formData, HONEYPOT_FIELD_NAME);
-    if (honeypotValue) {
-      form.reset();
-      setFormState({ status: FORM_STATUS.succeeded, message: FORM_MESSAGES.succeeded });
-      return;
-    }
-
-    if (submittedAt - formStartedAtRef.current < MIN_FORM_COMPLETION_MS) {
-      setFormState({ status: FORM_STATUS.failed, message: FORM_MESSAGES.tooFast });
-      return;
-    }
-
-    const previousSubmissionAt = getStoredSubmissionTime();
-    if (submittedAt - previousSubmissionAt < SUBMISSION_COOLDOWN_MS) {
-      setFormState({ status: FORM_STATUS.failed, message: FORM_MESSAGES.throttled });
-      return;
-    }
-
-    normalizeFormData(formData);
-    setStoredSubmissionTime(submittedAt);
-
-    setFormState({ status: FORM_STATUS.submitting, message: '' });
+    submissionInFlightRef.current = true;
 
     try {
+      const submittedAt = Date.now();
+      const formData = new FormData(form);
+      const honeypotValue = getTrimmedFormValue(formData, HONEYPOT_FIELD_NAME);
+      if (honeypotValue) {
+        form.reset();
+        setFormState({ status: FORM_STATUS.succeeded, message: FORM_MESSAGES.succeeded });
+        return;
+      }
+
+      if (submittedAt - formStartedAtRef.current < MIN_FORM_COMPLETION_MS) {
+        setFormState({ status: FORM_STATUS.failed, message: FORM_MESSAGES.tooFast });
+        return;
+      }
+
+      const previousSubmissionAt = getStoredSubmissionTime();
+      if (submittedAt - previousSubmissionAt < SUBMISSION_COOLDOWN_MS) {
+        setFormState({ status: FORM_STATUS.failed, message: FORM_MESSAGES.throttled });
+        return;
+      }
+
+      normalizeFormData(formData);
+      setStoredSubmissionTime(submittedAt);
+
+      setFormState({ status: FORM_STATUS.submitting, message: '' });
       const response = await fetch(FORMSPREE_ENDPOINT, {
         method: 'POST',
         body: formData,
@@ -269,6 +275,8 @@ export default function ContactSection() {
         status: FORM_STATUS.failed,
         message: FORM_MESSAGES.failed
       });
+    } finally {
+      submissionInFlightRef.current = false;
     }
   }
 

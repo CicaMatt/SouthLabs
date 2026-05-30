@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 
 const contentSecurityPolicy = [
   "default-src 'self'",
@@ -11,7 +12,7 @@ const contentSecurityPolicy = [
   "img-src 'self' data: blob:",
   "font-src 'self' https://fonts.gstatic.com data:",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-  "script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com"
+  "script-src 'self'"
 ].join('; ');
 
 const securityHeaders = {
@@ -39,7 +40,7 @@ function resolveBase() {
 
 export default defineConfig({
   base: resolveBase(),
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
   build: {
     sourcemap: false
   },

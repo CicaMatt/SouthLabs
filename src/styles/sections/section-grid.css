@@ -225,9 +225,30 @@
 }
 
 @media (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .site-main-with-section-cursor,
-  .site-main-with-section-cursor * {
+  .site-main-with-section-cursor {
     cursor: none !important;
+  }
+
+  .site-main-with-section-cursor :where(
+    a,
+    article,
+    button,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    li,
+    p,
+    span,
+    .group,
+    .software-card-surface,
+    .card-grid-anchor,
+    [role="button"],
+    [role="link"]
+  ) {
+    cursor: none;
   }
 
   .site-main-with-section-cursor:has(
@@ -239,13 +260,9 @@
     h4:hover,
     h5:hover,
     h6:hover,
-    input:hover,
-    label:hover,
     li:hover,
     p:hover,
-    select:hover,
     span:hover,
-    textarea:hover,
     article:hover,
     .group:hover,
     .software-card-surface:hover,
@@ -254,6 +271,26 @@
     [role="link"]:hover
   ) .section-cursor-dot {
     --section-cursor-size: 10px;
+  }
+
+  .site-main-with-section-cursor :where(
+    input,
+    label,
+    select,
+    textarea,
+    [contenteditable="true"]
+  ) {
+    cursor: auto;
+  }
+
+  .site-main-with-section-cursor:has(
+    input:hover,
+    label:hover,
+    select:hover,
+    textarea:hover,
+    [contenteditable="true"]:hover
+  ) .section-cursor-dot {
+    opacity: 0;
   }
 
   .site-main-with-section-cursor.site-main--hero-graphic-cursor-small .section-cursor-dot {

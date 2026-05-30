@@ -121,6 +121,7 @@ function MobileNavMenu({ isVisible, menuRef, onNavigate }) {
         isVisible ? 'translate-y-0 scale-100 opacity-100' : 'pointer-events-none -translate-y-1 scale-[0.99] opacity-0'
       ].join(' ')}
       id="mobile-nav-menu"
+      inert={isVisible ? undefined : ''}
     >
       <div className="flex flex-col gap-1">
         {NAV_LINKS.map((link) => (
@@ -129,6 +130,7 @@ function MobileNavMenu({ isVisible, menuRef, onNavigate }) {
             className={MOBILE_LINK_CLASS}
             href={link.href}
             onClick={onNavigate}
+            tabIndex={isVisible ? undefined : -1}
           >
             <span className="relative after:pointer-events-none after:absolute after:left-0 after:right-0 after:-bottom-0.5 after:h-[2px] after:origin-left after:scale-x-0 after:bg-[#95e3ff] after:transition-transform after:duration-300 after:ease-out group-hover:after:scale-x-100">
               {link.label}
