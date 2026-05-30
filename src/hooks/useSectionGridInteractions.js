@@ -55,6 +55,7 @@ export function useSectionGridInteractions() {
     clearSectionCursorPoint,
     hideSectionCursor,
     refreshSectionCursor,
+    refreshSectionCursorLayout,
     trackSectionCursorPoint
   } = useSectionCursor();
 
@@ -358,6 +359,7 @@ export function useSectionGridInteractions() {
       syncFrame = requestAnimationFrame(() => {
         syncFrame = 0;
         syncSectionGridOrigins(mainElement);
+        refreshSectionCursor(mainElement);
       });
     };
     const windowObject = mainElement.ownerDocument.defaultView;
@@ -366,6 +368,7 @@ export function useSectionGridInteractions() {
       : new ResizeObserver(syncGrid);
 
     syncSectionGridOrigins(mainElement);
+    refreshSectionCursorLayout(mainElement);
     resizeObserver?.observe(mainElement);
     windowObject?.addEventListener('resize', syncGrid);
     windowObject?.addEventListener('load', syncGrid);
@@ -378,7 +381,7 @@ export function useSectionGridInteractions() {
       windowObject?.removeEventListener('resize', syncGrid);
       windowObject?.removeEventListener('load', syncGrid);
     };
-  }, []);
+  }, [refreshSectionCursor, refreshSectionCursorLayout]);
 
   useEffect(() => {
     const mainElement = mainRef.current;

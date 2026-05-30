@@ -29,9 +29,7 @@ export function clearCardGridHighlight(card) {
   setStylePropertyIfChanged(card, '--card-grid-highlight-opacity', '0');
 }
 
-export function updateCardGridHighlight(card, clientX, clientY, color, opacity) {
-  const cardRect = card.getBoundingClientRect();
-
+export function updateCardGridHighlight(card, clientX, clientY, color, opacity, cardRect = card.getBoundingClientRect()) {
   card.style.setProperty('--card-grid-highlight-x', `${(clientX - cardRect.left).toFixed(2)}px`);
   card.style.setProperty('--card-grid-highlight-y', `${(clientY - cardRect.top).toFixed(2)}px`);
   setStylePropertyIfChanged(card, '--card-grid-highlight-color', color);

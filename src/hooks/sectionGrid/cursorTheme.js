@@ -1,4 +1,5 @@
 import { SECTION_CURSOR_THEMES } from './themes';
+import { CARD_GRID_ANCHOR_SELECTOR } from './selectors';
 
 const SECTION_CURSOR_DOT_SIZE = 20;
 const SECTION_GRID_HIGHLIGHT_DISTANCE = 110;
@@ -7,27 +8,69 @@ const SECTION_GRID_HIGHLIGHT_OPACITY = 0.25;
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const getSectionHighlightOpacity = (theme) => theme.highlightOpacity ?? SECTION_GRID_HIGHLIGHT_OPACITY;
 
-function buildSectionEntries(document) {
+function readElementRect(element) {
+  const rect = element.getBoundingClientRect();
+  return {
+    left: rect.left,
+    top: rect.top,
+    right: rect.right,
+    bottom: rect.bottom,
+    width: rect.width,
+    height: rect.height
+  };
+}
+
+function readCornerRadii(element) {
+  const view = element.ownerDocument?.defaultView;
+  if (!view) return { tl: 0, tr: 0, br: 0, bl: 0 };
+  const style = view.getComputedStyle(element);
+  return {
+    tl: parseFloat(style.borderTopLeftRadius) || 0,
+    tr: parseFloat(style.borderTopRightRadius) || 0,
+    br: parseFloat(style.borderBottomRightRadius) || 0,
+    bl: parseFloat(style.borderBottomLeftRadius) || 0
+  };
+}
+
+export function buildSectionCursorLayout(ownerDocument) {
   const entries = [];
 
   SECTION_CURSOR_THEMES.forEach((theme) => {
-    const element = document.getElementById(theme.id);
+    const element = ownerDocument.getElementById(theme.id);
     if (!element) return;
+    const zoneElements = theme.zones
+      ? Array.from(element.querySelectorAll(theme.zones.selector)).map((zoneElement) => ({
+        element: zoneElement,
+        radii: readCornerRadii(zoneElement),
+        rect: readElementRect(zoneElement)
+      }))
+      : [];
 
     entries.push({
+      cardAnchors: Array.from(element.querySelectorAll(CARD_GRID_ANCHOR_SELECTOR)).map((cardAnchor) => ({
+        element: cardAnchor,
+        rect: readElementRect(cardAnchor)
+      })),
       color: theme.color,
       element,
       highlightOpacity: theme.highlightOpacity,
+      rect: readElementRect(element),
       zones: theme.zones,
-      rect: element.getBoundingClientRect()
+      zoneElements
     });
   });
 
-  return entries;
+  return { entries };
 }
 
 function makeHighlight(entry, opacity = getSectionHighlightOpacity(entry)) {
-  return { section: entry.element, color: entry.color, opacity };
+  return {
+    cardAnchors: entry.cardAnchors,
+    color: entry.color,
+    opacity,
+    rect: entry.rect,
+    section: entry.element
+  };
 }
 
 const HIDDEN_ZONE_OVERLAY = {
@@ -42,23 +85,11 @@ const HIDDEN_ZONE_OVERLAY = {
   zoneRadiusBottomLeft: 0
 };
 
-function readCornerRadii(element) {
-  const view = element.ownerDocument?.defaultView;
-  if (!view) return { tl: 0, tr: 0, br: 0, bl: 0 };
-  const style = view.getComputedStyle(element);
-  return {
-    tl: parseFloat(style.borderTopLeftRadius) || 0,
-    tr: parseFloat(style.borderTopRightRadius) || 0,
-    br: parseFloat(style.borderBottomRightRadius) || 0,
-    bl: parseFloat(style.borderBottomLeftRadius) || 0
-  };
-}
-
 function applyZoneOverlay(theme, current, clientX, clientY, dotSize) {
   const zoneConfig = current.zones;
   if (!zoneConfig) return { ...theme, ...HIDDEN_ZONE_OVERLAY };
 
-  const zoneElements = current.element.querySelectorAll(zoneConfig.selector);
+  const zoneElements = current.zoneElements;
   if (!zoneElements.length) return { ...theme, ...HIDDEN_ZONE_OVERLAY };
 
   const dotLeft = clientX - dotSize / 2;
@@ -67,7 +98,7 @@ function applyZoneOverlay(theme, current, clientX, clientY, dotSize) {
   const dotBottom = clientY + dotSize / 2;
 
   for (const zoneElement of zoneElements) {
-    const rect = zoneElement.getBoundingClientRect();
+    const { radii, rect } = zoneElement;
     if (dotRight <= rect.left || dotLeft >= rect.right) continue;
     if (dotBottom <= rect.top || dotTop >= rect.bottom) continue;
 
@@ -75,7 +106,7 @@ function applyZoneOverlay(theme, current, clientX, clientY, dotSize) {
     const insetRight = clamp(((dotRight - rect.right) / dotSize) * 100, 0, 100);
     const insetBottom = clamp(((dotBottom - rect.bottom) / dotSize) * 100, 0, 100);
     const insetLeft = clamp(((rect.left - dotLeft) / dotSize) * 100, 0, 100);
-    const { tl, tr, br, bl } = readCornerRadii(zoneElement);
+    const { tl, tr, br, bl } = radii;
 
     return {
       ...theme,
@@ -94,8 +125,8 @@ function applyZoneOverlay(theme, current, clientX, clientY, dotSize) {
   return { ...theme, ...HIDDEN_ZONE_OVERLAY };
 }
 
-export function getSectionCursorTheme(document, clientX, clientY, dotSize = SECTION_CURSOR_DOT_SIZE) {
-  const sectionEntries = buildSectionEntries(document);
+export function getSectionCursorTheme(layout, clientX, clientY, dotSize = SECTION_CURSOR_DOT_SIZE) {
+  const sectionEntries = layout?.entries ?? [];
   const currentIndex = sectionEntries.findIndex(({ rect }) => (
     clientY >= rect.top && clientY <= rect.bottom
   ));
