@@ -31,14 +31,14 @@ export default function SupportSection() {
 
       <div className={SECTION_CONTENT_CLASS}>
         <div className="flex-1">
-          <p className="font-body text-white text-lg mb-8 leading-relaxed">
+          <p className="font-body text-white text-md lg:text-lg mb-8 leading-relaxed">
             Il nostro impegno non termina con la consegna. Forniamo piani di assistenza mensile e formazione specifica per rendere il tuo team autonomo sull'utilizzo dei tuoi strumenti digitali.
           </p>
           <ul className="space-y-4">
             {SUPPORT_ITEMS.map((item) => (
               <li key={item} className="flex items-start gap-3">
                 <span className="material-symbols-outlined shrink-0 text-[26px] leading-7 text-tertiary-fixed-dim">check_circle</span>
-                <span className="font-body text-lg leading-7">{item}</span>
+                <span className="font-body text-md lg:text-lg leading-7">{item}</span>
               </li>
             ))}
           </ul>
