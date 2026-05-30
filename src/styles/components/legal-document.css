@@ -1,5 +1,9 @@
 /* Markdown-rendered legal document styling (used inside the legal modal). */
 
+.legal-document-modal {
+  background-color: rgba(235, 244, 252, 0.78);
+}
+
 .legal-document-content {
   color: #23324f;
   font-family: Inter, sans-serif;

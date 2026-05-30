@@ -45,9 +45,10 @@ const FOOTER_LEGAL_BUTTON_CLASS = [
 ].join(' ');
 const FOOTER_CONTACT_ROW_CLASS = 'flex max-w-full items-center justify-center gap-1.5';
 const FOOTER_COPY_BUTTON_CLASS =
-  'relative inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-sm text-[#95e3ff]/80 transition-colors hover:bg-white/10 hover:text-white focus:outline-none focus-visible:bg-white/10 focus-visible:text-white';
+  'relative inline-flex h-[1.125rem] w-[1.125rem] shrink-0 items-center justify-center rounded-sm text-[#95e3ff]/80 transition-colors hover:bg-white/10 hover:text-white focus:outline-none focus-visible:bg-white/10 focus-visible:text-white';
 const FOOTER_COPY_ICON_CLASS =
-  'material-symbols-outlined absolute inset-0 flex origin-center items-center justify-center text-[13px] leading-none transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform';
+  'material-symbols-outlined absolute inset-0 flex origin-center translate-y-px items-center justify-center text-sm leading-none transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform';
+const FOOTER_COPY_ICON_STYLE = { fontSize: '0.875rem', lineHeight: 1 };
 const FOCUSABLE_DIALOG_SELECTOR = [
   'a[href]',
   'button:not([disabled])',
@@ -89,12 +90,14 @@ function ContactCopyButton({ copied, label, onCopy }) {
       <span
         className={`${FOOTER_COPY_ICON_CLASS} ${copied ? '-rotate-6 scale-95 opacity-0' : 'rotate-0 scale-100 opacity-100'}`}
         aria-hidden="true"
+        style={FOOTER_COPY_ICON_STYLE}
       >
         content_copy
       </span>
       <span
         className={`${FOOTER_COPY_ICON_CLASS} ${copied ? 'rotate-0 scale-100 opacity-100' : 'rotate-6 scale-95 opacity-0'}`}
         aria-hidden="true"
+        style={FOOTER_COPY_ICON_STYLE}
       >
         check
       </span>
@@ -188,8 +191,8 @@ function LegalDocumentDialog({ legalDoc, onClose }) {
       }}
       role="dialog"
     >
-      <div className="legal-document-modal flex max-h-[86vh] w-full max-w-5xl flex-col overflow-hidden rounded-xl border-2 border-[#203658] shadow-[inset_0_0_0_1.5px_rgba(32,54,88,0.92),0_30px_100px_rgba(15,23,42,0.28)] bg-white lg:max-w-6xl">
-        <div className="flex items-center justify-between gap-4 border-b border-slate-200 px-5 py-4 sm:px-6">
+      <div className="legal-document-modal flex max-h-[86vh] w-full max-w-5xl flex-col overflow-hidden rounded-xl border-2 border-[#203658] shadow-[inset_0_0_0_1.5px_rgba(32,54,88,0.92),0_30px_100px_rgba(15,23,42,0.28)] lg:max-w-6xl">
+        <div className="flex items-center justify-between gap-4 border-b border-[#203658] px-5 py-4 sm:px-6">
           <h2
             className="font-headline text-xl font-semibold leading-tight text-on-background sm:text-2xl"
             id={`${legalDoc.id}-title`}
