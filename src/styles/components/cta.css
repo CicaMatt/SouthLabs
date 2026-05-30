@@ -4,8 +4,29 @@
   --cta-underline-color: #95e3ff;
   position: relative;
   isolation: isolate;
+  overflow: hidden;
   background-color: #122038;
   background-image: linear-gradient(135deg, #203658 0%, #1a2d4e 54%, #122038 100%);
+  transition: color 320ms ease, transform 200ms ease;
+}
+
+.contact-submit-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: #95e3ff;
+  opacity: 0;
+  transition: opacity 320ms ease;
+}
+
+.contact-submit-cta:hover:not(:disabled) {
+  --cta-underline-color: #06222a;
+  color: #06222a;
+}
+
+.contact-submit-cta:hover:not(:disabled)::before {
+  opacity: 1;
 }
 
 .support-cta-panel {
@@ -63,6 +84,10 @@
   isolation: isolate;
 }
 
+.support-plans-cta {
+  --cta-underline-color: currentColor;
+}
+
 .cta-underline-label {
   position: relative;
   display: inline-block;
@@ -79,17 +104,22 @@
   background-color: var(--cta-underline-color);
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 300ms ease-out;
+  transition:
+    transform 300ms ease-out,
+    background-color 320ms ease;
   pointer-events: none;
 }
 
 .contact-submit-cta:hover:not(:disabled) .cta-underline-label::after,
 .hero-consultancy-cta:hover .cta-underline-label::after,
-.hero-solutions-cta:hover .cta-underline-label::after {
+.hero-solutions-cta:hover .cta-underline-label::after,
+.support-plans-cta:hover .cta-underline-label::after {
   transform: scaleX(1);
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .contact-submit-cta,
+  .contact-submit-cta::before,
   .cta-underline-label::after,
   .support-cta-panel::before {
     transition: none;
