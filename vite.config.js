@@ -1,6 +1,28 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
+const contentSecurityPolicy = [
+  "default-src 'self'",
+  "base-uri 'self'",
+  "object-src 'none'",
+  "frame-ancestors 'none'",
+  "form-action 'self' https://formspree.io",
+  "connect-src 'self' https://formspree.io https://fonts.googleapis.com https://fonts.gstatic.com",
+  "img-src 'self' data: blob:",
+  "font-src 'self' https://fonts.gstatic.com data:",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com"
+].join('; ');
+
+const securityHeaders = {
+  'Content-Security-Policy': contentSecurityPolicy,
+  'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
+  'X-Content-Type-Options': 'nosniff',
+  'X-Frame-Options': 'DENY',
+  'Referrer-Policy': 'strict-origin-when-cross-origin',
+  'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), accelerometer=(), gyroscope=(), magnetometer=()'
+};
+
 function resolveBase() {
   const explicitBase = process.env.VITE_BASE_PATH;
   if (explicitBase) return explicitBase;
@@ -17,5 +39,11 @@ function resolveBase() {
 
 export default defineConfig({
   base: resolveBase(),
-  plugins: [react()]
+  plugins: [react()],
+  build: {
+    sourcemap: false
+  },
+  preview: {
+    headers: securityHeaders
+  }
 });

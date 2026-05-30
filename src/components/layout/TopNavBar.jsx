@@ -44,12 +44,18 @@ const MOBILE_MENU_BUTTON_CLASS = [
 ].join(' ');
 
 function BrandLogo({ onNavigate }) {
+  const handleClick = (event) => {
+    event.preventDefault();
+    onNavigate();
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  };
+
   return (
     <a
       aria-label="SouthLabs - torna alla sezione principale"
       className="ml-1.5 lg:ml-0 shrink-0 flex items-center gap-1.5 lg:gap-2.5"
       href="#hero"
-      onClick={onNavigate}
+      onClick={handleClick}
     >
       <img alt="" aria-hidden="true" className="h-[4rem] lg:h-[4.5rem] w-auto object-contain object-center" decoding="async" fetchpriority="high" src={logoImage} />
       <div className="flex h-[3.25rem] lg:h-[3.75rem] items-center">
