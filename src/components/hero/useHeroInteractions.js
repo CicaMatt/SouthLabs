@@ -72,18 +72,21 @@ export function useHeroInteractions() {
   const hoverLightPulseRef = useRef(null);
   const accelerateFactoryAnimations = useFactoryAnimationAcceleration(factoryStageRef);
 
-  useEffect(() => () => {
-    if (factoryMotionRef.current.frameId) {
-      cancelAnimationFrame(factoryMotionRef.current.frameId);
-      factoryMotionRef.current.frameId = 0;
-    }
-    if (hoverLightMotionRef.current.frameId) {
-      cancelAnimationFrame(hoverLightMotionRef.current.frameId);
-      hoverLightMotionRef.current.frameId = 0;
-    }
-    hoverLightPulseRef.current?.cancel();
-    hoverLightPulseRef.current = null;
-  }, []);
+  useEffect(
+    () => () => {
+      if (factoryMotionRef.current.frameId) {
+        cancelAnimationFrame(factoryMotionRef.current.frameId);
+        factoryMotionRef.current.frameId = 0;
+      }
+      if (hoverLightMotionRef.current.frameId) {
+        cancelAnimationFrame(hoverLightMotionRef.current.frameId);
+        hoverLightMotionRef.current.frameId = 0;
+      }
+      hoverLightPulseRef.current?.cancel();
+      hoverLightPulseRef.current = null;
+    },
+    []
+  );
 
   useEffect(() => {
     const stage = factoryStageRef.current;
@@ -93,9 +96,12 @@ export function useHeroInteractions() {
     const IntersectionObserverConstructor = windowObject.IntersectionObserver;
     if (typeof IntersectionObserverConstructor === 'undefined') return undefined;
 
-    const observer = new IntersectionObserverConstructor(([entry]) => {
-      stage.classList.toggle(FACTORY_OFFSCREEN_CLASS, !entry.isIntersecting);
-    }, { rootMargin: '120px 0px' });
+    const observer = new IntersectionObserverConstructor(
+      ([entry]) => {
+        stage.classList.toggle(FACTORY_OFFSCREEN_CLASS, !entry.isIntersecting);
+      },
+      { rootMargin: '120px 0px' }
+    );
 
     observer.observe(stage);
     return () => observer.disconnect();
@@ -158,10 +164,9 @@ export function useHeroInteractions() {
     }
 
     hoverLight.style.opacity = motion.opacity.toFixed(3);
-    hoverLight.style.transform = (
-      `translate3d(${motion.x.toFixed(2)}px, ${motion.y.toFixed(2)}px, 0) `
-      + `translate(-50%, -50%) scale(${motion.scale.toFixed(3)})`
-    );
+    hoverLight.style.transform =
+      `translate3d(${motion.x.toFixed(2)}px, ${motion.y.toFixed(2)}px, 0) ` +
+      `translate(-50%, -50%) scale(${motion.scale.toFixed(3)})`;
   };
 
   const scheduleHoverLight = (pointer, isVisible) => {
@@ -169,11 +174,8 @@ export function useHeroInteractions() {
     const hasPosition = pointer.x >= 0 && pointer.y >= 0;
     if (isVisible && !hasPosition) return;
 
-    const shouldAnchor = isVisible && (
-      !motion.initialized
-      || motion.targetOpacity === 0
-      || motion.opacity < 0.04
-    );
+    const shouldAnchor =
+      isVisible && (!motion.initialized || motion.targetOpacity === 0 || motion.opacity < 0.04);
     if (shouldAnchor) {
       motion.x = pointer.x;
       motion.y = pointer.y;
@@ -210,7 +212,9 @@ export function useHeroInteractions() {
       { duration: HOVER_LIGHT_PULSE_MS, easing: 'cubic-bezier(0.22, 0.74, 0.2, 1)' }
     );
     hoverLightPulseRef.current = pulse;
-    const clearPulse = () => { hoverLightPulseRef.current = null; };
+    const clearPulse = () => {
+      hoverLightPulseRef.current = null;
+    };
     pulse.onfinish = clearPulse;
     pulse.oncancel = clearPulse;
   };

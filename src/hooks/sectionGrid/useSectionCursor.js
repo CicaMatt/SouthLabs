@@ -24,9 +24,10 @@ export function useSectionCursor() {
     return layout;
   }, []);
 
-  const getSectionCursorLayout = useCallback((mainElement) => (
-    sectionCursorLayoutRef.current ?? measureSectionCursorLayout(mainElement)
-  ), [measureSectionCursorLayout]);
+  const getSectionCursorLayout = useCallback(
+    (mainElement) => sectionCursorLayoutRef.current ?? measureSectionCursorLayout(mainElement),
+    [measureSectionCursorLayout]
+  );
 
   const clearSectionHighlights = useCallback(() => {
     highlightedSectionsRef.current.forEach((section) => {
@@ -61,11 +62,7 @@ export function useSectionCursor() {
     const latestPoint = lastSectionCursorPointRef.current;
     if (!cursorElement || !latestPoint) return;
 
-    const {
-      clientX,
-      clientY,
-      mainElement
-    } = latestPoint;
+    const { clientX, clientY, mainElement } = latestPoint;
 
     updateHeroGraphicCursorState(mainElement, clientX, clientY);
 
@@ -85,8 +82,14 @@ export function useSectionCursor() {
     });
 
     theme.highlights.forEach(({ section, color, opacity, rect }) => {
-      section.style.setProperty('--section-grid-highlight-x', `${(clientX - rect.left).toFixed(2)}px`);
-      section.style.setProperty('--section-grid-highlight-y', `${(clientY - rect.top).toFixed(2)}px`);
+      section.style.setProperty(
+        '--section-grid-highlight-x',
+        `${(clientX - rect.left).toFixed(2)}px`
+      );
+      section.style.setProperty(
+        '--section-grid-highlight-y',
+        `${(clientY - rect.top).toFixed(2)}px`
+      );
       section.style.setProperty('--section-grid-highlight-color', color);
       section.style.setProperty('--section-grid-highlight-opacity', opacity.toFixed(3));
     });
@@ -112,14 +115,38 @@ export function useSectionCursor() {
     cursorElement.style.setProperty('--section-cursor-bottom-color', theme.bottomColor);
     cursorElement.style.setProperty('--section-cursor-split', theme.split);
     cursorElement.style.setProperty('--section-cursor-zone-color', theme.zoneColor);
-    cursorElement.style.setProperty('--section-cursor-zone-inset-top', `${theme.zoneInsetTop.toFixed(2)}%`);
-    cursorElement.style.setProperty('--section-cursor-zone-inset-right', `${theme.zoneInsetRight.toFixed(2)}%`);
-    cursorElement.style.setProperty('--section-cursor-zone-inset-bottom', `${theme.zoneInsetBottom.toFixed(2)}%`);
-    cursorElement.style.setProperty('--section-cursor-zone-inset-left', `${theme.zoneInsetLeft.toFixed(2)}%`);
-    cursorElement.style.setProperty('--section-cursor-zone-radius-tl', `${theme.zoneRadiusTopLeft.toFixed(2)}px`);
-    cursorElement.style.setProperty('--section-cursor-zone-radius-tr', `${theme.zoneRadiusTopRight.toFixed(2)}px`);
-    cursorElement.style.setProperty('--section-cursor-zone-radius-br', `${theme.zoneRadiusBottomRight.toFixed(2)}px`);
-    cursorElement.style.setProperty('--section-cursor-zone-radius-bl', `${theme.zoneRadiusBottomLeft.toFixed(2)}px`);
+    cursorElement.style.setProperty(
+      '--section-cursor-zone-inset-top',
+      `${theme.zoneInsetTop.toFixed(2)}%`
+    );
+    cursorElement.style.setProperty(
+      '--section-cursor-zone-inset-right',
+      `${theme.zoneInsetRight.toFixed(2)}%`
+    );
+    cursorElement.style.setProperty(
+      '--section-cursor-zone-inset-bottom',
+      `${theme.zoneInsetBottom.toFixed(2)}%`
+    );
+    cursorElement.style.setProperty(
+      '--section-cursor-zone-inset-left',
+      `${theme.zoneInsetLeft.toFixed(2)}%`
+    );
+    cursorElement.style.setProperty(
+      '--section-cursor-zone-radius-tl',
+      `${theme.zoneRadiusTopLeft.toFixed(2)}px`
+    );
+    cursorElement.style.setProperty(
+      '--section-cursor-zone-radius-tr',
+      `${theme.zoneRadiusTopRight.toFixed(2)}px`
+    );
+    cursorElement.style.setProperty(
+      '--section-cursor-zone-radius-br',
+      `${theme.zoneRadiusBottomRight.toFixed(2)}px`
+    );
+    cursorElement.style.setProperty(
+      '--section-cursor-zone-radius-bl',
+      `${theme.zoneRadiusBottomLeft.toFixed(2)}px`
+    );
     cursorElement.style.setProperty('--section-cursor-opacity', '1');
   }, [clearSectionHighlights, getSectionCursorLayout]);
 
@@ -135,32 +162,41 @@ export function useSectionCursor() {
     sectionCursorFrameRef.current = requestAnimationFrame(updateSectionCursorAtLatestPoint);
   }, [updateSectionCursorAtLatestPoint]);
 
-  const trackSectionCursorPoint = useCallback((mainElement, clientX, clientY) => {
-    lastSectionCursorPointRef.current = {
-      clientX,
-      clientY,
-      mainElement
-    };
-    scheduleSectionCursorUpdate();
-  }, [scheduleSectionCursorUpdate]);
+  const trackSectionCursorPoint = useCallback(
+    (mainElement, clientX, clientY) => {
+      lastSectionCursorPointRef.current = {
+        clientX,
+        clientY,
+        mainElement
+      };
+      scheduleSectionCursorUpdate();
+    },
+    [scheduleSectionCursorUpdate]
+  );
 
-  const refreshSectionCursor = useCallback((mainElement) => {
-    sectionCursorLayoutRef.current = null;
+  const refreshSectionCursor = useCallback(
+    (mainElement) => {
+      sectionCursorLayoutRef.current = null;
 
-    const lastPoint = lastSectionCursorPointRef.current;
-    if (!lastPoint) return;
+      const lastPoint = lastSectionCursorPointRef.current;
+      if (!lastPoint) return;
 
-    measureSectionCursorLayout(mainElement);
-    lastSectionCursorPointRef.current = {
-      ...lastPoint,
-      mainElement
-    };
-    scheduleSectionCursorUpdate();
-  }, [measureSectionCursorLayout, scheduleSectionCursorUpdate]);
+      measureSectionCursorLayout(mainElement);
+      lastSectionCursorPointRef.current = {
+        ...lastPoint,
+        mainElement
+      };
+      scheduleSectionCursorUpdate();
+    },
+    [measureSectionCursorLayout, scheduleSectionCursorUpdate]
+  );
 
-  const refreshSectionCursorLayout = useCallback((mainElement) => {
-    measureSectionCursorLayout(mainElement);
-  }, [measureSectionCursorLayout]);
+  const refreshSectionCursorLayout = useCallback(
+    (mainElement) => {
+      measureSectionCursorLayout(mainElement);
+    },
+    [measureSectionCursorLayout]
+  );
 
   const clearSectionCursorPoint = useCallback(() => {
     lastSectionCursorPointRef.current = null;

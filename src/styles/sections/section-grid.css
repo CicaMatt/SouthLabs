@@ -18,7 +18,7 @@
 }
 
 .site-main-with-section-cursor > section.section-grid-bg:not(#hero)::before {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   z-index: 0;
@@ -27,8 +27,7 @@
   background-image:
     linear-gradient(var(--section-grid-highlight-color) 1px, transparent 1px),
     linear-gradient(90deg, var(--section-grid-highlight-color) 1px, transparent 1px);
-  background-position:
-    calc(-1px - var(--section-grid-origin-x, 0px))
+  background-position: calc(-1px - var(--section-grid-origin-x, 0px))
     calc(-1px - var(--section-grid-origin-y, 0px));
   background-repeat: repeat;
   background-size: var(--section-grid-size, 72px) var(--section-grid-size, 72px);
@@ -71,7 +70,7 @@
 }
 
 .site-main-with-section-cursor > section::after {
-  content: "";
+  content: '';
   display: block;
   height: var(--section-grid-snap-padding, 0px);
 }
@@ -81,8 +80,9 @@
   background-image:
     linear-gradient(var(--section-grid-color, rgba(31, 79, 143, 0.045)) 1px, transparent 1px),
     linear-gradient(90deg, var(--section-grid-color, rgba(31, 79, 143, 0.045)) 1px, transparent 1px);
-  background-position:
-    calc(-1px + var(--section-grid-layer-offset-x, 0px) - var(--section-grid-origin-x, 0px))
+  background-position: calc(
+      -1px + var(--section-grid-layer-offset-x, 0px) - var(--section-grid-origin-x, 0px)
+    )
     calc(-1px + var(--section-grid-layer-offset-y, 0px) - var(--section-grid-origin-y, 0px));
   background-repeat: repeat;
   background-size: var(--section-grid-size, 72px) var(--section-grid-size, 72px);
@@ -117,7 +117,11 @@
   --section-grid-burst-opacity-scale: 0.52;
   background-image:
     linear-gradient(var(--section-grid-color, rgba(31, 79, 143, 0.045)) 1px, transparent 1px),
-    linear-gradient(90deg, var(--section-grid-color, rgba(31, 79, 143, 0.045)) 1px, transparent 1px),
+    linear-gradient(
+      90deg,
+      var(--section-grid-color, rgba(31, 79, 143, 0.045)) 1px,
+      transparent 1px
+    ),
     linear-gradient(135deg, #203658 0%, #1a2d4e 54%, #122038 100%);
   background-size:
     var(--section-grid-size, 72px) var(--section-grid-size, 72px),
@@ -125,9 +129,9 @@
     100% 100%;
   background-position:
     calc(-1px + var(--section-grid-layer-offset-x, 0px) - var(--section-grid-origin-x, 0px))
-    calc(-1px + var(--section-grid-layer-offset-y, 0px) - var(--section-grid-origin-y, 0px)),
+      calc(-1px + var(--section-grid-layer-offset-y, 0px) - var(--section-grid-origin-y, 0px)),
     calc(-1px + var(--section-grid-layer-offset-x, 0px) - var(--section-grid-origin-x, 0px))
-    calc(-1px + var(--section-grid-layer-offset-y, 0px) - var(--section-grid-origin-y, 0px)),
+      calc(-1px + var(--section-grid-layer-offset-y, 0px) - var(--section-grid-origin-y, 0px)),
     0 0;
   background-repeat: repeat, repeat, no-repeat;
 }
@@ -147,12 +151,10 @@
 @media (prefers-reduced-motion: reduce) {
   .section-grid-bg,
   .section-grid-layer {
-    background-position:
-      calc(-1px + var(--section-grid-layer-offset-x, 0px))
+    background-position: calc(-1px + var(--section-grid-layer-offset-x, 0px))
       calc(-1px + var(--section-grid-layer-offset-y, 0px));
     transition: none;
   }
-
 }
 
 .section-cursor-dot {
@@ -186,12 +188,11 @@
     var(--section-cursor-top-color) 0 var(--section-cursor-split),
     var(--section-cursor-bottom-color) var(--section-cursor-split) 100%
   );
-  transform:
-    translate3d(
-      calc(var(--section-cursor-x) - 50%),
-      calc(var(--section-cursor-y) - 50%),
-      0
-    );
+  transform: translate3d(
+    calc(var(--section-cursor-x) - 50%),
+    calc(var(--section-cursor-y) - 50%),
+    0
+  );
   transition:
     width 180ms ease,
     height 180ms ease,
@@ -199,21 +200,16 @@
 }
 
 .section-cursor-dot::before {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   border-radius: inherit;
   background: var(--section-cursor-zone-color);
   clip-path: inset(
-    var(--section-cursor-zone-inset-top)
-    var(--section-cursor-zone-inset-right)
-    var(--section-cursor-zone-inset-bottom)
-    var(--section-cursor-zone-inset-left)
-    round
-    var(--section-cursor-zone-radius-tl)
-    var(--section-cursor-zone-radius-tr)
-    var(--section-cursor-zone-radius-br)
-    var(--section-cursor-zone-radius-bl)
+    var(--section-cursor-zone-inset-top) var(--section-cursor-zone-inset-right)
+      var(--section-cursor-zone-inset-bottom) var(--section-cursor-zone-inset-left) round
+      var(--section-cursor-zone-radius-tl) var(--section-cursor-zone-radius-tr)
+      var(--section-cursor-zone-radius-br) var(--section-cursor-zone-radius-bl)
   );
   pointer-events: none;
 }
@@ -229,67 +225,64 @@
     cursor: none !important;
   }
 
-  .site-main-with-section-cursor :where(
-    a,
-    article,
-    button,
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    li,
-    p,
-    span,
-    .group,
-    .software-card-surface,
-    .card-grid-anchor,
-    [role="button"],
-    [role="link"]
-  ) {
+  .site-main-with-section-cursor
+    :where(
+      a,
+      article,
+      button,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      li,
+      p,
+      span,
+      .group,
+      .software-card-surface,
+      .card-grid-anchor,
+      [role='button'],
+      [role='link']
+    ) {
     cursor: none;
   }
 
   .site-main-with-section-cursor:has(
-    a:hover,
-    button:hover,
-    h1:hover,
-    h2:hover,
-    h3:hover,
-    h4:hover,
-    h5:hover,
-    h6:hover,
-    li:hover,
-    p:hover,
-    span:hover,
-    article:hover,
-    .group:hover,
-    .software-card-surface:hover,
-    .card-grid-anchor:hover,
-    [role="button"]:hover,
-    [role="link"]:hover
-  ) .section-cursor-dot {
+      a:hover,
+      button:hover,
+      h1:hover,
+      h2:hover,
+      h3:hover,
+      h4:hover,
+      h5:hover,
+      h6:hover,
+      li:hover,
+      p:hover,
+      span:hover,
+      article:hover,
+      .group:hover,
+      .software-card-surface:hover,
+      .card-grid-anchor:hover,
+      [role='button']:hover,
+      [role='link']:hover
+    )
+    .section-cursor-dot {
     --section-cursor-size: 10px;
   }
 
-  .site-main-with-section-cursor :where(
-    input,
-    label,
-    select,
-    textarea,
-    [contenteditable="true"]
-  ) {
+  .site-main-with-section-cursor :where(input, label, select, textarea, [contenteditable='true']) {
     cursor: auto;
   }
 
   .site-main-with-section-cursor:has(
-    input:hover,
-    label:hover,
-    select:hover,
-    textarea:hover,
-    [contenteditable="true"]:hover
-  ) .section-cursor-dot {
+      input:hover,
+      label:hover,
+      select:hover,
+      textarea:hover,
+      [contenteditable='true']:hover
+    )
+    .section-cursor-dot {
     opacity: 0;
   }
 

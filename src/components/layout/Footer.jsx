@@ -44,8 +44,18 @@ const FOOTER_LEGAL_BUTTON_CLASS = [
   FOOTER_UNDERLINE_HOVER_CLASS
 ].join(' ');
 const FOOTER_CONTACT_ROW_CLASS = 'flex max-w-full items-center justify-center gap-1.5';
-const FOOTER_COPY_BUTTON_CLASS = 'relative inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-sm text-[#95e3ff]/80 transition-colors hover:bg-white/10 hover:text-white focus:outline-none focus-visible:bg-white/10 focus-visible:text-white';
-const FOOTER_COPY_ICON_CLASS = 'material-symbols-outlined absolute inset-0 flex origin-center items-center justify-center text-[13px] leading-none transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform';
+const FOOTER_COPY_BUTTON_CLASS =
+  'relative inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-sm text-[#95e3ff]/80 transition-colors hover:bg-white/10 hover:text-white focus:outline-none focus-visible:bg-white/10 focus-visible:text-white';
+const FOOTER_COPY_ICON_CLASS =
+  'material-symbols-outlined absolute inset-0 flex origin-center items-center justify-center text-[13px] leading-none transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform';
+const FOCUSABLE_DIALOG_SELECTOR = [
+  'a[href]',
+  'button:not([disabled])',
+  'input:not([disabled]):not([type="hidden"])',
+  'select:not([disabled])',
+  'textarea:not([disabled])',
+  '[tabindex]:not([tabindex="-1"])'
+].join(',');
 
 async function copyTextToClipboard(value) {
   if (navigator.clipboard?.writeText) return navigator.clipboard.writeText(value);
@@ -76,25 +86,78 @@ function ContactCopyButton({ copied, label, onCopy }) {
       title={copied ? `${label} copiato` : `Copia ${label}`}
       type="button"
     >
-      <span className={`${FOOTER_COPY_ICON_CLASS} ${copied ? '-rotate-6 scale-95 opacity-0' : 'rotate-0 scale-100 opacity-100'}`} aria-hidden="true">content_copy</span>
-      <span className={`${FOOTER_COPY_ICON_CLASS} ${copied ? 'rotate-0 scale-100 opacity-100' : 'rotate-6 scale-95 opacity-0'}`} aria-hidden="true">check</span>
+      <span
+        className={`${FOOTER_COPY_ICON_CLASS} ${copied ? '-rotate-6 scale-95 opacity-0' : 'rotate-0 scale-100 opacity-100'}`}
+        aria-hidden="true"
+      >
+        content_copy
+      </span>
+      <span
+        className={`${FOOTER_COPY_ICON_CLASS} ${copied ? 'rotate-0 scale-100 opacity-100' : 'rotate-6 scale-95 opacity-0'}`}
+        aria-hidden="true"
+      >
+        check
+      </span>
     </button>
   );
 }
 
+function getFocusableElements(container) {
+  if (!container) return [];
+  return Array.from(container.querySelectorAll(FOCUSABLE_DIALOG_SELECTOR)).filter(
+    (element) => !element.hasAttribute('disabled') && element.getAttribute('aria-hidden') !== 'true'
+  );
+}
+
 function LegalDocumentDialog({ legalDoc, onClose }) {
+  const dialogRef = useRef(null);
   const closeButtonRef = useRef(null);
+  const previousFocusRef = useRef(null);
 
   useEffect(() => {
     if (!legalDoc) return undefined;
 
     const previousOverflow = document.body.style.overflow;
+    previousFocusRef.current =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null;
     document.body.style.overflow = 'hidden';
-    closeButtonRef.current?.focus();
+    closeButtonRef.current?.focus({ preventScroll: true });
 
     function handleKeyDown(event) {
       if (event.key === 'Escape') {
+        event.preventDefault();
         onClose();
+        return;
+      }
+
+      if (event.key !== 'Tab') {
+        return;
+      }
+
+      const focusableElements = getFocusableElements(dialogRef.current);
+      const firstFocusableElement = focusableElements[0];
+      const lastFocusableElement = focusableElements[focusableElements.length - 1];
+      if (!firstFocusableElement || !lastFocusableElement) {
+        event.preventDefault();
+        closeButtonRef.current?.focus({ preventScroll: true });
+        return;
+      }
+
+      if (!dialogRef.current?.contains(document.activeElement)) {
+        event.preventDefault();
+        firstFocusableElement.focus();
+        return;
+      }
+
+      if (event.shiftKey && document.activeElement === firstFocusableElement) {
+        event.preventDefault();
+        lastFocusableElement.focus();
+        return;
+      }
+
+      if (!event.shiftKey && document.activeElement === lastFocusableElement) {
+        event.preventDefault();
+        firstFocusableElement.focus();
       }
     }
 
@@ -103,6 +166,10 @@ function LegalDocumentDialog({ legalDoc, onClose }) {
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener('keydown', handleKeyDown);
+      if (previousFocusRef.current?.isConnected) {
+        previousFocusRef.current.focus({ preventScroll: true });
+      }
+      previousFocusRef.current = null;
     };
   }, [legalDoc, onClose]);
 
@@ -110,6 +177,7 @@ function LegalDocumentDialog({ legalDoc, onClose }) {
 
   return (
     <div
+      ref={dialogRef}
       aria-labelledby={`${legalDoc.id}-title`}
       aria-modal="true"
       className="fixed inset-0 z-[80] flex items-center justify-center bg-slate-950/44 px-4 py-6 backdrop-blur-sm sm:px-6"
@@ -158,9 +226,12 @@ export default function Footer() {
   const [copiedContact, setCopiedContact] = useState(null);
   const copyFeedbackTimeoutRef = useRef(null);
 
-  useEffect(() => () => {
-    window.clearTimeout(copyFeedbackTimeoutRef.current);
-  }, []);
+  useEffect(
+    () => () => {
+      window.clearTimeout(copyFeedbackTimeoutRef.current);
+    },
+    []
+  );
 
   async function handleContactCopy(contactId, value) {
     try {
@@ -206,7 +277,11 @@ export default function Footer() {
                     >
                       {value}
                     </button>
-                    <ContactCopyButton copied={copiedContact === id} label={label} onCopy={() => handleContactCopy(id, value)} />
+                    <ContactCopyButton
+                      copied={copiedContact === id}
+                      label={label}
+                      onCopy={() => handleContactCopy(id, value)}
+                    />
                   </div>
                 ))}
               </div>
@@ -228,7 +303,6 @@ export default function Footer() {
               </div>
             </FooterColumn>
           </div>
-
         </div>
       </div>
 

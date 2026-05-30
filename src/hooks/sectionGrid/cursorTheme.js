@@ -6,7 +6,8 @@ const SECTION_GRID_HIGHLIGHT_DISTANCE = 110;
 const SECTION_GRID_HIGHLIGHT_OPACITY = 0.25;
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-const getSectionHighlightOpacity = (theme) => theme.highlightOpacity ?? SECTION_GRID_HIGHLIGHT_OPACITY;
+const getSectionHighlightOpacity = (theme) =>
+  theme.highlightOpacity ?? SECTION_GRID_HIGHLIGHT_OPACITY;
 
 function readElementRect(element) {
   const rect = element.getBoundingClientRect();
@@ -40,17 +41,19 @@ export function buildSectionCursorLayout(ownerDocument) {
     if (!element) return;
     const zoneElements = theme.zones
       ? Array.from(element.querySelectorAll(theme.zones.selector)).map((zoneElement) => ({
-        element: zoneElement,
-        radii: readCornerRadii(zoneElement),
-        rect: readElementRect(zoneElement)
-      }))
+          element: zoneElement,
+          radii: readCornerRadii(zoneElement),
+          rect: readElementRect(zoneElement)
+        }))
       : [];
 
     entries.push({
-      cardAnchors: Array.from(element.querySelectorAll(CARD_GRID_ANCHOR_SELECTOR)).map((cardAnchor) => ({
-        element: cardAnchor,
-        rect: readElementRect(cardAnchor)
-      })),
+      cardAnchors: Array.from(element.querySelectorAll(CARD_GRID_ANCHOR_SELECTOR)).map(
+        (cardAnchor) => ({
+          element: cardAnchor,
+          rect: readElementRect(cardAnchor)
+        })
+      ),
       color: theme.color,
       element,
       highlightOpacity: theme.highlightOpacity,
@@ -127,9 +130,9 @@ function applyZoneOverlay(theme, current, clientX, clientY, dotSize) {
 
 export function getSectionCursorTheme(layout, clientX, clientY, dotSize = SECTION_CURSOR_DOT_SIZE) {
   const sectionEntries = layout?.entries ?? [];
-  const currentIndex = sectionEntries.findIndex(({ rect }) => (
-    clientY >= rect.top && clientY <= rect.bottom
-  ));
+  const currentIndex = sectionEntries.findIndex(
+    ({ rect }) => clientY >= rect.top && clientY <= rect.bottom
+  );
 
   if (currentIndex === -1) return null;
 
@@ -146,37 +149,66 @@ export function getSectionCursorTheme(layout, clientX, clientY, dotSize = SECTIO
   if (currentIndex > 0 && distanceFromTop <= SECTION_GRID_HIGHLIGHT_DISTANCE) {
     const neighbor = sectionEntries[currentIndex - 1];
     const boundaryStrength = 1 - clamp(distanceFromTop / SECTION_GRID_HIGHLIGHT_DISTANCE, 0, 1);
-    highlights.push(makeHighlight(neighbor, getSectionHighlightOpacity(neighbor) * boundaryStrength));
+    highlights.push(
+      makeHighlight(neighbor, getSectionHighlightOpacity(neighbor) * boundaryStrength)
+    );
   }
 
-  if (currentIndex < sectionEntries.length - 1 && distanceFromBottom <= SECTION_GRID_HIGHLIGHT_DISTANCE) {
+  if (
+    currentIndex < sectionEntries.length - 1 &&
+    distanceFromBottom <= SECTION_GRID_HIGHLIGHT_DISTANCE
+  ) {
     const neighbor = sectionEntries[currentIndex + 1];
     const boundaryStrength = 1 - clamp(distanceFromBottom / SECTION_GRID_HIGHLIGHT_DISTANCE, 0, 1);
-    highlights.push(makeHighlight(neighbor, getSectionHighlightOpacity(neighbor) * boundaryStrength));
+    highlights.push(
+      makeHighlight(neighbor, getSectionHighlightOpacity(neighbor) * boundaryStrength)
+    );
   }
 
   if (currentIndex > 0 && topBorder >= dotTop && topBorder <= dotBottom) {
-    return applyZoneOverlay({
-      highlights,
-      topColor: sectionEntries[currentIndex - 1].color,
-      bottomColor: current.color,
-      split: `${clamp(((topBorder - dotTop) / dotSize) * 100, 0, 100).toFixed(2)}%`
-    }, current, clientX, clientY, dotSize);
+    return applyZoneOverlay(
+      {
+        highlights,
+        topColor: sectionEntries[currentIndex - 1].color,
+        bottomColor: current.color,
+        split: `${clamp(((topBorder - dotTop) / dotSize) * 100, 0, 100).toFixed(2)}%`
+      },
+      current,
+      clientX,
+      clientY,
+      dotSize
+    );
   }
 
-  if (currentIndex < sectionEntries.length - 1 && bottomBorder >= dotTop && bottomBorder <= dotBottom) {
-    return applyZoneOverlay({
+  if (
+    currentIndex < sectionEntries.length - 1 &&
+    bottomBorder >= dotTop &&
+    bottomBorder <= dotBottom
+  ) {
+    return applyZoneOverlay(
+      {
+        highlights,
+        topColor: current.color,
+        bottomColor: sectionEntries[currentIndex + 1].color,
+        split: `${clamp(((bottomBorder - dotTop) / dotSize) * 100, 0, 100).toFixed(2)}%`
+      },
+      current,
+      clientX,
+      clientY,
+      dotSize
+    );
+  }
+
+  return applyZoneOverlay(
+    {
       highlights,
       topColor: current.color,
-      bottomColor: sectionEntries[currentIndex + 1].color,
-      split: `${clamp(((bottomBorder - dotTop) / dotSize) * 100, 0, 100).toFixed(2)}%`
-    }, current, clientX, clientY, dotSize);
-  }
-
-  return applyZoneOverlay({
-    highlights,
-    topColor: current.color,
-    bottomColor: current.color,
-    split: '100%'
-  }, current, clientX, clientY, dotSize);
+      bottomColor: current.color,
+      split: '100%'
+    },
+    current,
+    clientX,
+    clientY,
+    dotSize
+  );
 }

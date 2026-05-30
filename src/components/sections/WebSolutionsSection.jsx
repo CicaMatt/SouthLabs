@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import SectionHeader from '../SectionHeader';
 import SectionShell from '../SectionShell';
-import SOLUTION_CARD_SURFACE_CLASS, { getLightSolutionCardSurfaceStyle } from './solutionCardSurface';
+import SOLUTION_CARD_SURFACE_CLASS, {
+  getLightSolutionCardSurfaceStyle
+} from './solutionCardSurface';
 import wordpressLogo from '../../../media/icons/wordpress.png';
 import customWebAppImage from '../../../media/images/custom_web_app.png';
 import ecommerceImage from '../../../media/images/ecommerce.png';
@@ -29,10 +31,14 @@ const SOLUTION_CARD_CLASSES = {
   ].join(' '),
   imageShell: 'relative w-full overflow-hidden bg-transparent',
   badgeTopLeft: 'top-4 left-5 sm:top-5 sm:left-7 md:left-8 lg:top-6 lg:left-7',
-  stackedTitle: 'font-headline text-[1.22rem] font-extrabold leading-[1.08] text-[#071d3d] sm:text-[1.44rem] md:text-[1.44rem]',
-  stackedDescription: 'font-body text-[0.86rem] font-medium leading-[1.62] text-[#2b3b59] sm:text-[0.91rem] md:text-[0.91rem]',
-  desktopTitle: 'font-headline text-[1.54rem] font-extrabold leading-[1.08] text-[#071d3d] xl:text-[1.68rem]',
-  desktopDescription: 'max-w-[34ch] font-body text-[0.93rem] font-medium leading-[1.72] text-[#2b3b59] xl:text-[0.98rem]'
+  stackedTitle:
+    'font-headline text-[1.22rem] font-extrabold leading-[1.08] text-[#071d3d] sm:text-[1.44rem] md:text-[1.44rem]',
+  stackedDescription:
+    'font-body text-[0.86rem] font-medium leading-[1.62] text-[#2b3b59] sm:text-[0.91rem] md:text-[0.91rem]',
+  desktopTitle:
+    'font-headline text-[1.54rem] font-extrabold leading-[1.08] text-[#071d3d] xl:text-[1.68rem]',
+  desktopDescription:
+    'max-w-[34ch] font-body text-[0.93rem] font-medium leading-[1.72] text-[#2b3b59] xl:text-[0.98rem]'
 };
 const HORIZONTAL_CARD_CLASSES = {
   shell: 'lg:col-span-2 lg:block lg:h-[284px]',
@@ -64,7 +70,8 @@ const TALL_CARD_CLASSES = {
   stackedTextColumn: 'min-w-0 flex-1 text-right sm:pl-1 md:pl-2',
   stackedTextWrap: 'relative ml-auto max-w-[31ch] sm:max-w-[34ch]',
   desktopView: 'relative z-10 hidden h-full px-7 py-6 lg:flex',
-  desktopTitleMeasure: 'pointer-events-none absolute left-0 top-0 inline-block whitespace-nowrap font-headline text-[1.38rem] font-extrabold leading-[1.08] opacity-0 xl:text-[1.5rem]',
+  desktopTitleMeasure:
+    'pointer-events-none absolute left-0 top-0 inline-block whitespace-nowrap font-headline text-[1.38rem] font-extrabold leading-[1.08] opacity-0 xl:text-[1.5rem]',
   desktopTitle: 'whitespace-nowrap',
   desktopTextBlock: 'pb-1'
 };
@@ -74,7 +81,7 @@ const LEFT_WEB_SOLUTION_CARDS = [
     icon: 'code_blocks',
     eyebrow: 'Sviluppo Web',
     title: 'Siti Web Personalizzati',
-    description: 'Piattaforme moderne e d\'impatto, costruite per dare valore al tuo brand.',
+    description: "Piattaforme moderne e d'impatto, costruite per dare valore al tuo brand.",
     previewImage: customWebAppImage,
     stackedPreviewImage: customWebAppImage,
     desktopPreviewScaleClass: 'scale-[1.2]'
@@ -94,10 +101,10 @@ const RIGHT_WEB_SOLUTION_CARD = {
   icon: 'shopping_cart',
   eyebrow: 'Vendita Online',
   title: 'Piattaforme E-Commerce',
-  description: 'Negozi online ad alta conversione con catalogo chiaro, checkout fluido e pagamenti sicuri.',
+  description:
+    'Negozi online ad alta conversione con catalogo chiaro, checkout fluido e pagamenti sicuri.',
   previewImage: ecommerceImage
 };
-
 
 // Renders the WordPress PNG as a mask so it can be tinted like Material Symbols.
 function WordpressMaskedIcon({ className = '' }) {
@@ -144,9 +151,8 @@ function useDesktopTitleFit() {
       setUseShortTitle(fullTitleWidth > availableWidth);
     };
 
-    const resizeObserver = typeof ResizeObserver === 'undefined'
-      ? null
-      : new ResizeObserver(evaluateTitleFit);
+    const resizeObserver =
+      typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(evaluateTitleFit);
     if (titleWrapRef.current) resizeObserver?.observe(titleWrapRef.current);
 
     window.addEventListener('resize', evaluateTitleFit);
@@ -204,26 +210,22 @@ function SolutionTextPanel({
         className
       )}
     >
-      <h3 className={titleClassName}>
-        {title}
-      </h3>
+      <h3 className={titleClassName}>{title}</h3>
       <span
         aria-hidden
-        className={cx('my-2.5 h-[3px] w-20 rounded-full bg-[#203658] md:my-3 lg:my-4', align === 'right' && 'self-end')}
+        className={cx(
+          'my-2.5 h-[3px] w-20 rounded-full bg-[#203658] md:my-3 lg:my-4',
+          align === 'right' && 'self-end'
+        )}
       />
-      <p className={descriptionClassName}>
-        {description}
-      </p>
+      <p className={descriptionClassName}>{description}</p>
     </div>
   );
 }
 
 function SolutionCardShell({ children, className }) {
   return (
-    <article
-      className={cx(SOLUTION_CARD_CLASSES.shell, className)}
-      style={WEB_CARD_SURFACE_STYLE}
-    >
+    <article className={cx(SOLUTION_CARD_CLASSES.shell, className)} style={WEB_CARD_SURFACE_STYLE}>
       {children}
     </article>
   );
@@ -291,7 +293,10 @@ function HorizontalDesktopBody({
             align={textAlign}
             className="w-full"
             description={card.description}
-            descriptionClassName={cx(SOLUTION_CARD_CLASSES.desktopDescription, HORIZONTAL_CARD_CLASSES.desktopDescription)}
+            descriptionClassName={cx(
+              SOLUTION_CARD_CLASSES.desktopDescription,
+              HORIZONTAL_CARD_CLASSES.desktopDescription
+            )}
             title={card.title}
             titleClassName={SOLUTION_CARD_CLASSES.desktopTitle}
           />
@@ -318,7 +323,10 @@ function EcommerceDesktopBody({ card }) {
     <div className={TALL_CARD_CLASSES.desktopView}>
       <div className="flex h-full w-full flex-col">
         <div className="flex h-[250px] items-start pt-[13px]">
-          <div ref={titleWrapRef} className={cx('relative flex w-full flex-col', TALL_CARD_CLASSES.desktopTextBlock)}>
+          <div
+            ref={titleWrapRef}
+            className={cx('relative flex w-full flex-col', TALL_CARD_CLASSES.desktopTextBlock)}
+          >
             <span
               ref={titleMeasureRef}
               aria-hidden
@@ -328,7 +336,10 @@ function EcommerceDesktopBody({ card }) {
             </span>
             <SolutionTextPanel
               title={desktopTitle}
-              titleClassName={cx(SOLUTION_CARD_CLASSES.desktopTitle, TALL_CARD_CLASSES.desktopTitle)}
+              titleClassName={cx(
+                SOLUTION_CARD_CLASSES.desktopTitle,
+                TALL_CARD_CLASSES.desktopTitle
+              )}
               description={card.description}
               descriptionClassName={SOLUTION_CARD_CLASSES.desktopDescription}
             />
@@ -377,7 +388,9 @@ function LeftSolutionCard({ card }) {
   );
   const previewFrameClassName = cx(
     HORIZONTAL_CARD_CLASSES.desktopPreviewFrame,
-    isWordpressCard ? HORIZONTAL_CARD_CLASSES.desktopPreviewLeft : HORIZONTAL_CARD_CLASSES.desktopPreviewRight
+    isWordpressCard
+      ? HORIZONTAL_CARD_CLASSES.desktopPreviewLeft
+      : HORIZONTAL_CARD_CLASSES.desktopPreviewRight
   );
 
   return (

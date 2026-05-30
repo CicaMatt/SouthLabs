@@ -4,9 +4,7 @@
 import { useEffect, useState } from 'react';
 
 export default function ViewModeDebugger() {
-  const [width, setWidth] = useState(() =>
-    typeof window === 'undefined' ? 0 : window.innerWidth
-  );
+  const [width, setWidth] = useState(() => (typeof window === 'undefined' ? 0 : window.innerWidth));
 
   useEffect(() => {
     if (typeof window === 'undefined') return undefined;

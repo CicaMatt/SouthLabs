@@ -58,7 +58,13 @@ function PlumeCloud() {
           <line className="v-bar v-bar-6" x1="400" y1="134" x2="400" y2="106" />
 
           <line className="v-plume-side-link" x1="176" y1="122" x2="206" y2="122" />
-          <line className="v-plume-side-link v-plume-side-link-b" x1="342" y1="108" x2="408" y2="108" />
+          <line
+            className="v-plume-side-link v-plume-side-link-b"
+            x1="342"
+            y1="108"
+            x2="408"
+            y2="108"
+          />
 
           <circle cx="208" cy="122" r="6.5" fill="#E0F5FF" className="v-node" />
           <circle cx="364" cy="108" r="6.2" fill="#E0F5FF" className="v-node v-node-b" />
@@ -66,14 +72,23 @@ function PlumeCloud() {
           <circle cx="248" cy="92" r="19" className="v-node-ring" />
           <circle cx="248" cy="92" r="12.2" fill="#E0F5FF" className="v-node-orange" />
           <circle cx="374" cy="74" r="18" className="v-node-ring v-node-ring-b" />
-          <circle cx="374" cy="74" r="11.8" fill="#E0F5FF" className="v-node-orange v-node-orange-b" />
+          <circle
+            cx="374"
+            cy="74"
+            r="11.8"
+            fill="#E0F5FF"
+            className="v-node-orange v-node-orange-b"
+          />
 
           <circle cx="248" cy="92" r="3.2" className="v-node-spark" />
           <circle cx="374" cy="74" r="3" className="v-node-spark v-node-spark-b" />
         </g>
 
         <polyline className="v-graph-sheen" points={PLUME_TREND_POINTS} />
-        <polyline className="v-trend v-plume-trend-arrow v-plume-trend-out" points={PLUME_TREND_ARROW_POINTS} />
+        <polyline
+          className="v-trend v-plume-trend-arrow v-plume-trend-out"
+          points={PLUME_TREND_ARROW_POINTS}
+        />
       </g>
     </g>
   );
@@ -90,19 +105,40 @@ export default function FactoryIllustration() {
     >
       {/* Reusable gradients, filters, and clip paths for the factory and plume layers. */}
       <defs>
-        <linearGradient id="vFactoryFill" x1="126" y1="256" x2="494" y2="500" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vFactoryFill"
+          x1="126"
+          y1="256"
+          x2="494"
+          y2="500"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#172445" stopOpacity="0.60" />
           <stop offset="42%" stopColor="#1F3D60" stopOpacity="0.48" />
           <stop offset="76%" stopColor="#1B3253" stopOpacity="0.56" />
           <stop offset="100%" stopColor="#0E1A33" stopOpacity="0.60" />
         </linearGradient>
-        <linearGradient id="vFactoryFaceSheen" x1="90" y1="434" x2="480" y2="288" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vFactoryFaceSheen"
+          x1="90"
+          y1="434"
+          x2="480"
+          y2="288"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0" />
           <stop offset="42%" stopColor="#A8F2FF" stopOpacity="0.14" />
           <stop offset="58%" stopColor="#FFFFFF" stopOpacity="0.03" />
           <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
         </linearGradient>
-        <linearGradient id="vFactoryLeftShadeFill" x1="126" y1="500" x2="380" y2="282" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vFactoryLeftShadeFill"
+          x1="126"
+          y1="500"
+          x2="380"
+          y2="282"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#040A1B" stopOpacity="0.64" />
           <stop offset="16%" stopColor="#08132A" stopOpacity="0.58" />
           <stop offset="34%" stopColor="#0F2244" stopOpacity="0.49" />
@@ -111,14 +147,28 @@ export default function FactoryIllustration() {
           <stop offset="86%" stopColor="#6294A8" stopOpacity="0.20" />
           <stop offset="100%" stopColor="#A5DBEC" stopOpacity="0.11" />
         </linearGradient>
-        <linearGradient id="vFactoryLeftOcclusionFill" x1="126" y1="470" x2="304" y2="352" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vFactoryLeftOcclusionFill"
+          x1="126"
+          y1="470"
+          x2="304"
+          y2="352"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#010611" stopOpacity="0.46" />
           <stop offset="24%" stopColor="#020C1D" stopOpacity="0.36" />
           <stop offset="48%" stopColor="#041833" stopOpacity="0.23" />
           <stop offset="72%" stopColor="#092D54" stopOpacity="0.10" />
           <stop offset="100%" stopColor="#0F5F8C" stopOpacity="0" />
         </linearGradient>
-        <linearGradient id="vFactoryLeftRimFill" x1="318" y1="500" x2="410" y2="292" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vFactoryLeftRimFill"
+          x1="318"
+          y1="500"
+          x2="410"
+          y2="292"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#69ADC5" stopOpacity="0" />
           <stop offset="24%" stopColor="#6FB1C8" stopOpacity="0.04" />
           <stop offset="50%" stopColor="#7DBCD2" stopOpacity="0.08" />
@@ -126,7 +176,14 @@ export default function FactoryIllustration() {
           <stop offset="88%" stopColor="#BFE0EC" stopOpacity="0.13" />
           <stop offset="100%" stopColor="#E8F3F8" stopOpacity="0.14" />
         </linearGradient>
-        <linearGradient id="vFactorySidePlaneFill" x1="380" y1="500" x2="494" y2="337" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vFactorySidePlaneFill"
+          x1="380"
+          y1="500"
+          x2="494"
+          y2="337"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#1A2C49" stopOpacity="0.60" />
           <stop offset="18%" stopColor="#1F3554" stopOpacity="0.59" />
           <stop offset="36%" stopColor="#264060" stopOpacity="0.60" />
@@ -135,14 +192,28 @@ export default function FactoryIllustration() {
           <stop offset="90%" stopColor="#80AFBE" stopOpacity="0.27" />
           <stop offset="100%" stopColor="#B7DDE5" stopOpacity="0.18" />
         </linearGradient>
-        <linearGradient id="vFactoryRightInnerShadeFill" x1="368" y1="392" x2="438" y2="392" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vFactoryRightInnerShadeFill"
+          x1="368"
+          y1="392"
+          x2="438"
+          y2="392"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#010716" stopOpacity="0" />
           <stop offset="22%" stopColor="#06101F" stopOpacity="0.07" />
           <stop offset="48%" stopColor="#0E1F3A" stopOpacity="0.18" />
           <stop offset="74%" stopColor="#163554" stopOpacity="0.08" />
           <stop offset="100%" stopColor="#1F4868" stopOpacity="0" />
         </linearGradient>
-        <linearGradient id="vFactoryRightLightWashFill" x1="416" y1="500" x2="494" y2="337" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vFactoryRightLightWashFill"
+          x1="416"
+          y1="500"
+          x2="494"
+          y2="337"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#60AFC8" stopOpacity="0" />
           <stop offset="24%" stopColor="#68B5CC" stopOpacity="0.05" />
           <stop offset="48%" stopColor="#83C7D8" stopOpacity="0.11" />
@@ -150,35 +221,72 @@ export default function FactoryIllustration() {
           <stop offset="84%" stopColor="#CCE6EE" stopOpacity="0.22" />
           <stop offset="100%" stopColor="#F0F8FB" stopOpacity="0.29" />
         </linearGradient>
-        <linearGradient id="vFactoryRoofUpperShadeFill" x1="126" y1="406" x2="494" y2="337" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vFactoryRoofUpperShadeFill"
+          x1="126"
+          y1="406"
+          x2="494"
+          y2="337"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#010817" stopOpacity="0.42" />
           <stop offset="26%" stopColor="#0A1A2F" stopOpacity="0.34" />
           <stop offset="52%" stopColor="#163554" stopOpacity="0.19" />
           <stop offset="78%" stopColor="#4A8AA0" stopOpacity="0.10" />
           <stop offset="100%" stopColor="#D9F0F5" stopOpacity="0.16" />
         </linearGradient>
-        <linearGradient id="vFactoryRoofUpperLightFill" x1="324" y1="372" x2="494" y2="337" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vFactoryRoofUpperLightFill"
+          x1="324"
+          y1="372"
+          x2="494"
+          y2="337"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#4D90AE" stopOpacity="0" />
           <stop offset="40%" stopColor="#7BBED0" stopOpacity="0.07" />
           <stop offset="72%" stopColor="#B7DDE8" stopOpacity="0.15" />
           <stop offset="100%" stopColor="#F0F8FB" stopOpacity="0.22" />
         </linearGradient>
-        <linearGradient id="vFactoryRoofRightLightFill" x1="344" y1="352" x2="494" y2="337" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vFactoryRoofRightLightFill"
+          x1="344"
+          y1="352"
+          x2="494"
+          y2="337"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#67B2C8" stopOpacity="0" />
           <stop offset="30%" stopColor="#6CB6CC" stopOpacity="0.055" />
           <stop offset="58%" stopColor="#90CADA" stopOpacity="0.105" />
           <stop offset="82%" stopColor="#CCE6EE" stopOpacity="0.16" />
           <stop offset="100%" stopColor="#F3F8FA" stopOpacity="0.20" />
         </linearGradient>
-        <filter id="vFactorySoftShadeBlur" x="-18%" y="-18%" width="136%" height="136%" colorInterpolationFilters="sRGB">
+        <filter
+          id="vFactorySoftShadeBlur"
+          x="-18%"
+          y="-18%"
+          width="136%"
+          height="136%"
+          colorInterpolationFilters="sRGB"
+        >
           <feGaussianBlur stdDeviation="7" />
         </filter>
-        <filter id="vFactorySoftLightBlur" x="-18%" y="-18%" width="136%" height="136%" colorInterpolationFilters="sRGB">
+        <filter
+          id="vFactorySoftLightBlur"
+          x="-18%"
+          y="-18%"
+          width="136%"
+          height="136%"
+          colorInterpolationFilters="sRGB"
+        >
           <feGaussianBlur stdDeviation="6" />
         </filter>
         <radialGradient
           id="vFactoryLowerLightFill"
-          cx="0" cy="0" r="1"
+          cx="0"
+          cy="0"
+          r="1"
           gradientTransform="translate(326 506) scale(242 92)"
           gradientUnits="userSpaceOnUse"
         >
@@ -187,135 +295,310 @@ export default function FactoryIllustration() {
           <stop offset="72%" stopColor="#5C9DBC" stopOpacity="0.06" />
           <stop offset="100%" stopColor="#5C9DBC" stopOpacity="0" />
         </radialGradient>
-        <linearGradient id="vFactoryBaseDepthFill" x1="300" y1="292" x2="300" y2="532" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vFactoryBaseDepthFill"
+          x1="300"
+          y1="292"
+          x2="300"
+          y2="532"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#020918" stopOpacity="0" />
           <stop offset="38%" stopColor="#041934" stopOpacity="0.04" />
           <stop offset="58%" stopColor="#06264A" stopOpacity="0.07" />
           <stop offset="76%" stopColor="#03162F" stopOpacity="0.14" />
           <stop offset="100%" stopColor="#010614" stopOpacity="0.24" />
         </linearGradient>
-        <linearGradient id="vFactoryRoofPlaneFill" x1="126" y1="401" x2="494" y2="337" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vFactoryRoofPlaneFill"
+          x1="126"
+          y1="401"
+          x2="494"
+          y2="337"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#020A1A" stopOpacity="0.10" />
           <stop offset="50%" stopColor="#162C4D" stopOpacity="0.22" />
           <stop offset="100%" stopColor="#020918" stopOpacity="0.32" />
         </linearGradient>
-        <linearGradient id="vFactoryEdgeStroke" x1="126" y1="401" x2="494" y2="337" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vFactoryEdgeStroke"
+          x1="126"
+          y1="401"
+          x2="494"
+          y2="337"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#88BFD0" stopOpacity="0.08" />
           <stop offset="42%" stopColor="#D5E8EE" stopOpacity="0.54" />
           <stop offset="100%" stopColor="#92C5D5" stopOpacity="0.18" />
         </linearGradient>
-        <linearGradient id="vPipeFill" x1="238" y1="336" x2="306" y2="210" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vPipeFill"
+          x1="238"
+          y1="336"
+          x2="306"
+          y2="210"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#0D1A33" stopOpacity="0.66" />
           <stop offset="34%" stopColor="#162950" stopOpacity="0.60" />
           <stop offset="68%" stopColor="#1B3F62" stopOpacity="0.54" />
           <stop offset="100%" stopColor="#34657F" stopOpacity="0.42" />
         </linearGradient>
-        <linearGradient id="vPipeBodyDepthFill" x1="272" y1="210" x2="272" y2="350" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vPipeBodyDepthFill"
+          x1="272"
+          y1="210"
+          x2="272"
+          y2="350"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#020918" stopOpacity="0" />
           <stop offset="42%" stopColor="#03142C" stopOpacity="0.06" />
           <stop offset="70%" stopColor="#041B38" stopOpacity="0.16" />
           <stop offset="100%" stopColor="#010613" stopOpacity="0.34" />
         </linearGradient>
-        <linearGradient id="vPipeLeftOcclusionFill" x1="236" y1="336" x2="272" y2="214" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vPipeLeftOcclusionFill"
+          x1="236"
+          y1="336"
+          x2="272"
+          y2="214"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#010611" stopOpacity="0.42" />
           <stop offset="32%" stopColor="#06101F" stopOpacity="0.28" />
           <stop offset="62%" stopColor="#0E1F3A" stopOpacity="0.12" />
           <stop offset="100%" stopColor="#1B4665" stopOpacity="0" />
         </linearGradient>
-        <linearGradient id="vPipeRightLightWashFill" x1="274" y1="340" x2="306" y2="210" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vPipeRightLightWashFill"
+          x1="274"
+          y1="340"
+          x2="306"
+          y2="210"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#5BA9C4" stopOpacity="0" />
           <stop offset="34%" stopColor="#7DC0D3" stopOpacity="0.06" />
           <stop offset="62%" stopColor="#A6D6E2" stopOpacity="0.13" />
           <stop offset="84%" stopColor="#CCE6EE" stopOpacity="0.20" />
           <stop offset="100%" stopColor="#F2F8FA" stopOpacity="0.28" />
         </linearGradient>
-        <linearGradient id="vPipeTopLightFill" x1="250" y1="214" x2="292" y2="214" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vPipeTopLightFill"
+          x1="250"
+          y1="214"
+          x2="292"
+          y2="214"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#7BBDCF" stopOpacity="0" />
           <stop offset="54%" stopColor="#B7DDE5" stopOpacity="0.10" />
           <stop offset="100%" stopColor="#F2F8FA" stopOpacity="0.20" />
         </linearGradient>
-        <filter id="vPipeSoftShadeBlur" x="-28%" y="-16%" width="156%" height="132%" colorInterpolationFilters="sRGB">
+        <filter
+          id="vPipeSoftShadeBlur"
+          x="-28%"
+          y="-16%"
+          width="156%"
+          height="132%"
+          colorInterpolationFilters="sRGB"
+        >
           <feGaussianBlur stdDeviation="4.5" />
         </filter>
-        <filter id="vPipeSoftLightBlur" x="-28%" y="-16%" width="156%" height="132%" colorInterpolationFilters="sRGB">
+        <filter
+          id="vPipeSoftLightBlur"
+          x="-28%"
+          y="-16%"
+          width="156%"
+          height="132%"
+          colorInterpolationFilters="sRGB"
+        >
           <feGaussianBlur stdDeviation="3.8" />
         </filter>
-        <linearGradient id="vPipeFlowStroke" x1="266" y1="220" x2="274" y2="314" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vPipeFlowStroke"
+          x1="266"
+          y1="220"
+          x2="274"
+          y2="314"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#F4FEFF" stopOpacity="0.72" />
           <stop offset="48%" stopColor="#95E3FF" stopOpacity="0.46" />
           <stop offset="100%" stopColor="#5AB8E8" stopOpacity="0.22" />
         </linearGradient>
-        <linearGradient id="vPipeLeftEdgeStroke" x1="248" y1="214" x2="236" y2="340" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vPipeLeftEdgeStroke"
+          x1="248"
+          y1="214"
+          x2="236"
+          y2="340"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#E5F2F7" stopOpacity="0.44" />
           <stop offset="58%" stopColor="#7AB5CB" stopOpacity="0.22" />
           <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
         </linearGradient>
-        <linearGradient id="vPipeRightEdgeStroke" x1="292" y1="214" x2="306" y2="304" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vPipeRightEdgeStroke"
+          x1="292"
+          y1="214"
+          x2="306"
+          y2="304"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#E5F2F7" stopOpacity="0.44" />
           <stop offset="58%" stopColor="#7AB5CB" stopOpacity="0.22" />
           <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
         </linearGradient>
-        <linearGradient id="vFootingFill" x1="76" y1="500" x2="544" y2="520" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vFootingFill"
+          x1="76"
+          y1="500"
+          x2="544"
+          y2="520"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#162950" stopOpacity="0.58" />
           <stop offset="50%" stopColor="#1F3D6A" stopOpacity="0.46" />
           <stop offset="100%" stopColor="#162950" stopOpacity="0.58" />
         </linearGradient>
-        <linearGradient id="vMobileFactoryBottomLightFill" x1="76" y1="490" x2="544" y2="520" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vMobileFactoryBottomLightFill"
+          x1="76"
+          y1="490"
+          x2="544"
+          y2="520"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#6FB8D0" stopOpacity="0" />
           <stop offset="18%" stopColor="#88C5D8" stopOpacity="0.28" />
           <stop offset="50%" stopColor="#EFF6F9" stopOpacity="0.78" />
           <stop offset="82%" stopColor="#88C5D8" stopOpacity="0.28" />
           <stop offset="100%" stopColor="#6FB8D0" stopOpacity="0" />
         </linearGradient>
-        <linearGradient id="vDoorPanelFill" x1="132" y1="402" x2="188" y2="500" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vDoorPanelFill"
+          x1="132"
+          y1="402"
+          x2="188"
+          y2="500"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#95E3FF" />
           <stop offset="34%" stopColor="#4A99BE" />
           <stop offset="100%" stopColor="#2C6088" />
         </linearGradient>
-        <linearGradient id="vDoorPanelFillRight" x1="410" y1="412" x2="466" y2="500" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vDoorPanelFillRight"
+          x1="410"
+          y1="412"
+          x2="466"
+          y2="500"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#95E3FF" />
           <stop offset="34%" stopColor="#519FBE" />
           <stop offset="100%" stopColor="#316790" />
         </linearGradient>
-        <linearGradient id="vSlotPanelFill" x1="264" y1="323" x2="350" y2="452" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vSlotPanelFill"
+          x1="264"
+          y1="323"
+          x2="350"
+          y2="452"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#D8F1FE" />
           <stop offset="22%" stopColor="#95E3FF" />
           <stop offset="48%" stopColor="#5FB4D8" />
           <stop offset="74%" stopColor="#28547C" />
           <stop offset="100%" stopColor="#0C2342" />
         </linearGradient>
-        <linearGradient id="vSlotPanelFillRight" x1="410" y1="338" x2="466" y2="410" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vSlotPanelFillRight"
+          x1="410"
+          y1="338"
+          x2="466"
+          y2="410"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#DCF2FE" />
           <stop offset="24%" stopColor="#A6DDF7" />
           <stop offset="52%" stopColor="#6BB8D5" />
           <stop offset="100%" stopColor="#234E72" />
         </linearGradient>
-        <linearGradient id="vPanelStroke" x1="132" y1="402" x2="466" y2="500" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vPanelStroke"
+          x1="132"
+          y1="402"
+          x2="466"
+          y2="500"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#DFEBEF" />
           <stop offset="44%" stopColor="#95C5D5" />
           <stop offset="100%" stopColor="#3F5F80" />
         </linearGradient>
-        <linearGradient id="vLeftDoorPanelStroke" x1="132" y1="402" x2="188" y2="500" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vLeftDoorPanelStroke"
+          x1="132"
+          y1="402"
+          x2="188"
+          y2="500"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#EDF4F6" />
           <stop offset="48%" stopColor="#AFD0D8" />
           <stop offset="100%" stopColor="#83A5AF" />
         </linearGradient>
-        <linearGradient id="vRightDoorPanelStroke" x1="410" y1="412" x2="466" y2="500" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vRightDoorPanelStroke"
+          x1="410"
+          y1="412"
+          x2="466"
+          y2="500"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#EDF4F6" />
           <stop offset="48%" stopColor="#AFD0D8" />
           <stop offset="100%" stopColor="#83A5AF" />
         </linearGradient>
-        <linearGradient id="vWindowPanelStroke" x1="264" y1="323" x2="466" y2="452" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vWindowPanelStroke"
+          x1="264"
+          y1="323"
+          x2="466"
+          y2="452"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#BCD4D8" />
           <stop offset="48%" stopColor="#7CA6B0" />
           <stop offset="100%" stopColor="#2C4D67" />
         </linearGradient>
-        <linearGradient id="vPanelEdgeLightStroke" x1="132" y1="402" x2="466" y2="374" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vPanelEdgeLightStroke"
+          x1="132"
+          y1="402"
+          x2="466"
+          y2="374"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#CDE3E8" />
           <stop offset="56%" stopColor="#92BCC8" />
           <stop offset="100%" stopColor="#ABCBD2" />
         </linearGradient>
-        <linearGradient id="vPanelEdgeDepthStroke" x1="132" y1="500" x2="466" y2="410" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vPanelEdgeDepthStroke"
+          x1="132"
+          y1="500"
+          x2="466"
+          y2="410"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#04112A" />
           <stop offset="58%" stopColor="#102444" />
           <stop offset="100%" stopColor="#1A3454" />
@@ -362,12 +645,14 @@ export default function FactoryIllustration() {
         {/* Subtle base glow bleeding into the bg */}
         <radialGradient
           id="vAura"
-          cx="0" cy="0" r="1"
+          cx="0"
+          cy="0"
+          r="1"
           gradientTransform="translate(310 500) scale(234 52)"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0%"   stopColor="#5497B5" stopOpacity="0.22" />
-          <stop offset="100%" stopColor="#5497B5" stopOpacity="0"    />
+          <stop offset="0%" stopColor="#5497B5" stopOpacity="0.22" />
+          <stop offset="100%" stopColor="#5497B5" stopOpacity="0" />
         </radialGradient>
 
         {/* Plume cloud shape and fills (logo-inspired) */}
@@ -397,43 +682,73 @@ export default function FactoryIllustration() {
         <clipPath id="vPlumeClip">
           <use href="#vPlumeShape" transform="translate(0 8.64) scale(1 0.92)" />
         </clipPath>
-        <linearGradient id="vPlumeFill" x1="300" y1="12" x2="300" y2="186" gradientUnits="userSpaceOnUse">
-          <stop offset="0%"   stopColor="#1F3760" stopOpacity="0.36" />
-          <stop offset="45%"  stopColor="#172C50" stopOpacity="0.34" />
+        <linearGradient
+          id="vPlumeFill"
+          x1="300"
+          y1="12"
+          x2="300"
+          y2="186"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset="0%" stopColor="#1F3760" stopOpacity="0.36" />
+          <stop offset="45%" stopColor="#172C50" stopOpacity="0.34" />
           <stop offset="100%" stopColor="#0E1A33" stopOpacity="0.42" />
         </linearGradient>
-        <linearGradient id="vPlumeReflection" x1="214" y1="48" x2="430" y2="134" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vPlumeReflection"
+          x1="214"
+          y1="48"
+          x2="430"
+          y2="134"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#8FC6D6" stopOpacity="0" />
           <stop offset="42%" stopColor="#9FD0DE" stopOpacity="0.14" />
           <stop offset="62%" stopColor="#F0F6F8" stopOpacity="0.10" />
           <stop offset="100%" stopColor="#88C0D2" stopOpacity="0" />
         </linearGradient>
-        <linearGradient id="vGraphStroke" x1="190" y1="132" x2="452" y2="30" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vGraphStroke"
+          x1="190"
+          y1="132"
+          x2="452"
+          y2="30"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#7FCEE8" stopOpacity="0.72" />
           <stop offset="46%" stopColor="#95E3FF" stopOpacity="1" />
           <stop offset="72%" stopColor="#95E3FF" stopOpacity="0.94" />
           <stop offset="100%" stopColor="#95E3FF" stopOpacity="0.9" />
         </linearGradient>
-        <linearGradient id="vGraphColumnGlow" x1="206" y1="134" x2="400" y2="60" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="vGraphColumnGlow"
+          x1="206"
+          y1="134"
+          x2="400"
+          y2="60"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0%" stopColor="#7FCEE8" stopOpacity="0.48" />
           <stop offset="58%" stopColor="#95E3FF" stopOpacity="0.96" />
           <stop offset="100%" stopColor="#95E3FF" stopOpacity="0.78" />
         </linearGradient>
         <radialGradient
           id="vPlumeCore"
-          cx="0" cy="0" r="1"
+          cx="0"
+          cy="0"
+          r="1"
           gradientTransform="translate(300 108) scale(124 72)"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0%"   stopColor="#3F5F87" stopOpacity="0.24" />
-          <stop offset="62%"  stopColor="#1F3D62" stopOpacity="0.14" />
+          <stop offset="0%" stopColor="#3F5F87" stopOpacity="0.24" />
+          <stop offset="62%" stopColor="#1F3D62" stopOpacity="0.14" />
           <stop offset="100%" stopColor="#13243F" stopOpacity="0.04" />
         </radialGradient>
 
         {/* Wave stroke */}
         <linearGradient id="vWave" x1="20" y1="0" x2="580" y2="0" gradientUnits="userSpaceOnUse">
-          <stop offset="0%"   stopColor="#5A99B5" stopOpacity="0.06" />
-          <stop offset="50%"  stopColor="#7AB1CC" stopOpacity="0.55" />
+          <stop offset="0%" stopColor="#5A99B5" stopOpacity="0.06" />
+          <stop offset="50%" stopColor="#7AB1CC" stopOpacity="0.55" />
           <stop offset="100%" stopColor="#5A99B5" stopOpacity="0.06" />
         </linearGradient>
       </defs>
@@ -443,15 +758,31 @@ export default function FactoryIllustration() {
 
       {/* Floating group */}
       <g className="v-float-group">
-        <path d="M 76 500 H 544 V 520 H 76 Z" fill="url(#vFootingFill)" className="v-factory-footing" />
+        <path
+          d="M 76 500 H 544 V 520 H 76 Z"
+          fill="url(#vFootingFill)"
+          className="v-factory-footing"
+        />
 
         <use href="#vFactoryShape" fill="url(#vFactoryFill)" className="v-factory-shell" />
 
         <g clipPath="url(#vFactoryClip)" className="v-factory-depth-layer">
-          <path className="v-factory-roof-plane" d="M 126 391 L 380 264 L 494 337 L 494 355 L 380 282 L 126 406 Z" />
-          <path className="v-factory-roof-upper-shade" d="M 126 391 L 380 264 L 494 337 L 494 355 L 380 282 L 126 406 Z" />
-          <path className="v-factory-roof-upper-light" d="M 308 300 L 380 264 L 494 337 L 494 355 L 406 300 Z" />
-          <path className="v-factory-roof-light-plane" d="M 346 281 L 380 264 L 494 337 L 494 355 L 420 308 Z" />
+          <path
+            className="v-factory-roof-plane"
+            d="M 126 391 L 380 264 L 494 337 L 494 355 L 380 282 L 126 406 Z"
+          />
+          <path
+            className="v-factory-roof-upper-shade"
+            d="M 126 391 L 380 264 L 494 337 L 494 355 L 380 282 L 126 406 Z"
+          />
+          <path
+            className="v-factory-roof-upper-light"
+            d="M 308 300 L 380 264 L 494 337 L 494 355 L 406 300 Z"
+          />
+          <path
+            className="v-factory-roof-light-plane"
+            d="M 346 281 L 380 264 L 494 337 L 494 355 L 420 308 Z"
+          />
           <path
             className="v-factory-face-sheen"
             d="
@@ -480,7 +811,10 @@ export default function FactoryIllustration() {
 
         <use href="#vPipeShape" fill="url(#vPipeFill)" className="v-factory-shell v-pipe-shell" />
         <g clipPath="url(#vPipeClip)" className="v-pipe-depth-layer">
-          <path className="v-pipe-body-depth" d="M 236 336 L 252 210 H 290 L 306 301 V 360 H 236 Z" />
+          <path
+            className="v-pipe-body-depth"
+            d="M 236 336 L 252 210 H 290 L 306 301 V 360 H 236 Z"
+          />
           <path className="v-pipe-left-occlusion" d="M 232 348 L 248 208 H 270 L 258 348 Z" />
           <path className="v-pipe-right-light" d="M 270 208 H 294 L 314 306 L 286 348 Z" />
           <path className="v-pipe-top-light" d="M 248 208 H 292 L 298 238 H 244 Z" />
@@ -490,42 +824,99 @@ export default function FactoryIllustration() {
           <path className="v-pipe-flow-line" d="M 271 222 L 271 312" />
         </g>
         <path className="v-pipe-top-edge" d="M 252 210 H 290" />
-        <path className="v-pipe-outline" d="M 252 210 L 290 210 M 252 210 L 236 336 M 290 210 L 306 301" />
+        <path
+          className="v-pipe-outline"
+          d="M 252 210 L 290 210 M 252 210 L 236 336 M 290 210 L 306 301"
+        />
 
         <g className="v-factory-left-door-group" transform="translate(22 0)">
-          <path className="v-factory-window v-door-panel" d="M 132 430 L 188 402 L 188 500 H 132 Z" />
+          <path
+            className="v-factory-window v-door-panel"
+            d="M 132 430 L 188 402 L 188 500 H 132 Z"
+          />
           <path className="v-door-perimeter-signal" d="M 132 430 L 188 402 L 188 500 H 132 Z" />
           <path className="v-panel-edge-light v-door-edge-light" d="M 132 430 L 188 402" />
           <path className="v-panel-edge-depth v-door-edge-depth" d="M 132 500 H 188" />
         </g>
-        <path className="v-factory-window v-factory-window-b v-door-panel" d="M 410 412 L 466 448 V 500 H 410 Z" />
-        <path className="v-door-perimeter-signal v-door-perimeter-signal-b" d="M 410 412 L 466 448 V 500 H 410 Z" />
-        <path className="v-panel-edge-light v-door-edge-light v-door-edge-light-b" d="M 410 412 L 466 448" />
-        <path className="v-panel-edge-depth v-door-edge-depth v-door-edge-depth-b" d="M 410 500 H 466" />
+        <path
+          className="v-factory-window v-factory-window-b v-door-panel"
+          d="M 410 412 L 466 448 V 500 H 410 Z"
+        />
+        <path
+          className="v-door-perimeter-signal v-door-perimeter-signal-b"
+          d="M 410 412 L 466 448 V 500 H 410 Z"
+        />
+        <path
+          className="v-panel-edge-light v-door-edge-light v-door-edge-light-b"
+          d="M 410 412 L 466 448"
+        />
+        <path
+          className="v-panel-edge-depth v-door-edge-depth v-door-edge-depth-b"
+          d="M 410 500 H 466"
+        />
 
         <g className="v-factory-left-window-group" transform="translate(0 0)">
-          <path className="v-factory-cutout v-window-panel" d="M 264 366 L 350 323 V 359 L 264 402 Z" />
+          <path
+            className="v-factory-cutout v-window-panel"
+            d="M 264 366 L 350 323 V 359 L 264 402 Z"
+          />
           <g clipPath="url(#vLeftWindowTopClip)">
             <path className="v-window-sweep v-window-sweep-glow" d="M 268 398 L 348 358" />
             <path className="v-window-sweep v-window-sweep-core" d="M 268 398 L 348 358" />
           </g>
-          <path className="v-panel-edge-light v-panel-edge-light-soft v-window-edge-light" d="M 264 366 L 350 323" />
-          <path className="v-panel-edge-depth v-panel-edge-depth-soft v-window-edge-depth" d="M 264 402 L 350 359" />
-          <path className="v-factory-cutout v-factory-cutout-b v-window-panel" d="M 264 416 L 350 373 V 409 L 264 452 Z" />
+          <path
+            className="v-panel-edge-light v-panel-edge-light-soft v-window-edge-light"
+            d="M 264 366 L 350 323"
+          />
+          <path
+            className="v-panel-edge-depth v-panel-edge-depth-soft v-window-edge-depth"
+            d="M 264 402 L 350 359"
+          />
+          <path
+            className="v-factory-cutout v-factory-cutout-b v-window-panel"
+            d="M 264 416 L 350 373 V 409 L 264 452 Z"
+          />
           <g clipPath="url(#vLeftWindowBottomClip)">
-            <path className="v-window-sweep v-window-sweep-glow v-window-sweep-b" d="M 268 448 L 348 408" />
-            <path className="v-window-sweep v-window-sweep-core v-window-sweep-b" d="M 268 448 L 348 408" />
+            <path
+              className="v-window-sweep v-window-sweep-glow v-window-sweep-b"
+              d="M 268 448 L 348 408"
+            />
+            <path
+              className="v-window-sweep v-window-sweep-core v-window-sweep-b"
+              d="M 268 448 L 348 408"
+            />
           </g>
-          <path className="v-panel-edge-light v-panel-edge-light-soft v-window-edge-light v-window-edge-light-b" d="M 264 416 L 350 373" />
-          <path className="v-panel-edge-depth v-panel-edge-depth-soft v-window-edge-depth v-window-edge-depth-b" d="M 264 452 L 350 409" />
+          <path
+            className="v-panel-edge-light v-panel-edge-light-soft v-window-edge-light v-window-edge-light-b"
+            d="M 264 416 L 350 373"
+          />
+          <path
+            className="v-panel-edge-depth v-panel-edge-depth-soft v-window-edge-depth v-window-edge-depth-b"
+            d="M 264 452 L 350 409"
+          />
         </g>
-        <path className="v-factory-cutout v-factory-cutout-c v-window-panel" d="M 410 338 L 466 374 V 410 L 410 374 Z" />
+        <path
+          className="v-factory-cutout v-factory-cutout-c v-window-panel"
+          d="M 410 338 L 466 374 V 410 L 410 374 Z"
+        />
         <g clipPath="url(#vRightWindowClip)">
-          <path className="v-window-sweep v-window-sweep-glow v-window-sweep-c" d="M 414 375 L 462 405" />
-          <path className="v-window-sweep v-window-sweep-core v-window-sweep-c" d="M 414 375 L 462 405" />
+          <path
+            className="v-window-sweep v-window-sweep-glow v-window-sweep-c"
+            d="M 414 375 L 462 405"
+          />
+          <path
+            className="v-window-sweep v-window-sweep-core v-window-sweep-c"
+            d="M 414 375 L 462 405"
+          />
         </g>
-        <path className="v-panel-edge-light v-panel-edge-light-soft v-window-edge-light v-window-edge-light-c" d="M 410 338 L 466 374" />
-        <path className="v-panel-edge-depth v-panel-edge-depth-soft v-window-edge-depth v-window-edge-depth-c" d="M 410 374 L 466 410" />
+        <path
+          className="v-panel-edge-light v-panel-edge-light-soft v-window-edge-light v-window-edge-light-c"
+          d="M 410 338 L 466 374"
+        />
+        <path
+          className="v-panel-edge-depth v-panel-edge-depth-soft v-window-edge-depth v-window-edge-depth-c"
+          d="M 410 374 L 466 410"
+        />
         <path className="v-factory-panel-ridge-base" d="M 138 407.1 L 380 289 L 484 355.6" />
         <path className="v-factory-panel-ridge-bridge" d="M 336 310.5 L 380 289 L 424 317.2" />
         <path className="v-factory-panel-ridge" d="M 138 407.1 L 380 289 L 484 355.6" />
@@ -534,32 +925,55 @@ export default function FactoryIllustration() {
 
         <g className="v-factory-trace-layer">
           <path className="v-factory-trace" d="M 126 500 L 126 391 L 380 264 L 494 337 L 494 500" />
-          <path className="v-factory-trace" d="M 252 210 L 290 210 M 252 210 L 236 336 M 290 210 L 306 301" />
+          <path
+            className="v-factory-trace"
+            d="M 252 210 L 290 210 M 252 210 L 236 336 M 290 210 L 306 301"
+          />
           <line className="v-factory-trace" x1="271" y1="210" x2="271" y2="166" />
         </g>
 
         <g className="v-factory-trace-layer v-factory-trace-layer-b">
-          <path className="v-factory-trace v-factory-trace-b" d="M 126 500 L 126 391 L 380 264 L 494 337 L 494 500" />
-          <path className="v-factory-trace v-factory-trace-b" d="M 252 210 L 290 210 M 252 210 L 236 336 M 290 210 L 306 301" />
+          <path
+            className="v-factory-trace v-factory-trace-b"
+            d="M 126 500 L 126 391 L 380 264 L 494 337 L 494 500"
+          />
+          <path
+            className="v-factory-trace v-factory-trace-b"
+            d="M 252 210 L 290 210 M 252 210 L 236 336 M 290 210 L 306 301"
+          />
           <line className="v-factory-trace v-factory-trace-b" x1="271" y1="210" x2="271" y2="166" />
         </g>
 
         {/* Plume cloud */}
         <PlumeCloud />
-
       </g>
 
       {/* Waves - very faint, blending with background */}
-      <path className="v-wave"
+      <path
+        className="v-wave"
         d="M 8 510 C 86 528, 163 532, 230 517 C 292 502, 348 502, 406 521 C 448 534, 496 536, 540 522 C 562 512, 584 512, 594 518"
-        stroke="url(#vWave)" strokeWidth="3.5" strokeLinecap="round" fill="none" />
-      <path className="v-wave v-wave-b"
+        stroke="url(#vWave)"
+        strokeWidth="3.5"
+        strokeLinecap="round"
+        fill="none"
+      />
+      <path
+        className="v-wave v-wave-b"
         d="M 14 535 C 90 552, 164 554, 228 540 C 290 526, 348 528, 400 544 C 432 556, 474 556, 516 545 C 542 536, 570 536, 594 542"
-        stroke="url(#vWave)" strokeWidth="2.6" strokeLinecap="round" fill="none" />
-      <path className="v-wave"
+        stroke="url(#vWave)"
+        strokeWidth="2.6"
+        strokeLinecap="round"
+        fill="none"
+      />
+      <path
+        className="v-wave"
         d="M 40 557 C 108 568, 172 568, 236 556 C 294 543, 346 545, 390 557"
-        stroke="url(#vWave)" strokeWidth="1.8" strokeLinecap="round" strokeOpacity="0.40" fill="none" />
-
+        stroke="url(#vWave)"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeOpacity="0.40"
+        fill="none"
+      />
     </svg>
   );
 }

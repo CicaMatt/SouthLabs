@@ -7,11 +7,13 @@
   overflow: hidden;
   background-color: #122038;
   background-image: linear-gradient(135deg, #203658 0%, #1a2d4e 54%, #122038 100%);
-  transition: color 320ms ease, transform 200ms ease;
+  transition:
+    color 320ms ease,
+    transform 200ms ease;
 }
 
 .contact-submit-cta::before {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   z-index: -1;
@@ -31,25 +33,16 @@
 
 .support-cta-panel {
   transition-property:
-    --solution-card-bg-current-opacity,
-    background-color,
-    border-color,
-    box-shadow,
-    transform;
+    --solution-card-bg-current-opacity, background-color, border-color, box-shadow, transform;
 }
 
 .support-cta-panel::before {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(0, 82, 92, 0.016),
-      rgba(0, 42, 52, 0.02)
-    );
+  background: linear-gradient(135deg, rgba(0, 82, 92, 0.016), rgba(0, 42, 52, 0.02));
 }
 
 .support-cta-panel > * {
@@ -65,7 +58,7 @@
 }
 
 .hero-consultancy-cta::before {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   z-index: -1;

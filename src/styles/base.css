@@ -1,15 +1,31 @@
 /* Site-wide typography defaults and Material Symbols variation settings. */
-body { font-family: 'Inter', sans-serif; }
-h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Manrope', sans-serif; }
+body {
+  font-family: 'Inter', sans-serif;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.font-headline {
+  font-family: 'Manrope', sans-serif;
+}
 img {
   -webkit-user-drag: none;
   -webkit-user-select: none;
   user-select: none;
 }
 .material-symbols-outlined {
-  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 300,
+    'GRAD' 0,
+    'opsz' 24;
 }
-.material-symbols-outlined.fill { font-variation-settings: 'FILL' 1; }
+.material-symbols-outlined.fill {
+  font-variation-settings: 'FILL' 1;
+}
 
 /* Shared site surface used by persistent layout elements. */
 .site-surface {
@@ -21,10 +37,8 @@ img {
     linear-gradient(90deg, var(--section-grid-color) 1px, transparent 1px),
     linear-gradient(135deg, #203658 0%, #1a2d4e 54%, #122038 100%);
   background-position:
-    calc(-1px - var(--section-grid-origin-x, 0px))
-    calc(-1px - var(--section-grid-origin-y, 0px)),
-    calc(-1px - var(--section-grid-origin-x, 0px))
-    calc(-1px - var(--section-grid-origin-y, 0px)),
+    calc(-1px - var(--section-grid-origin-x, 0px)) calc(-1px - var(--section-grid-origin-y, 0px)),
+    calc(-1px - var(--section-grid-origin-x, 0px)) calc(-1px - var(--section-grid-origin-y, 0px)),
     0 0;
   background-repeat: repeat, repeat, no-repeat;
   background-size:
@@ -32,7 +46,7 @@ img {
     var(--section-grid-size) var(--section-grid-size),
     100% 100%;
   box-shadow:
-    inset 0 -1px 0 rgba(149, 227, 255, 0.10),
+    inset 0 -1px 0 rgba(149, 227, 255, 0.1),
     0 10px 28px rgba(6, 17, 32, 0.16);
 }
 

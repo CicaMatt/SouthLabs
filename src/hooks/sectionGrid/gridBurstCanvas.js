@@ -103,10 +103,10 @@ export function createGridBurstCanvasController(canvas) {
     /* Cull bursts entirely outside the viewport so we don't issue draw calls
        for pixels nobody will see. */
     if (
-      viewportX + radius < 0
-      || viewportX - radius > viewportWidth
-      || viewportY + radius < 0
-      || viewportY - radius > viewportHeight
+      viewportX + radius < 0 ||
+      viewportX - radius > viewportWidth ||
+      viewportY + radius < 0 ||
+      viewportY - radius > viewportHeight
     ) {
       return true;
     }
@@ -151,12 +151,14 @@ export function createGridBurstCanvasController(canvas) {
     const gridOriginVx = burst.gridOriginX - scrollX;
     const gridOriginVy = burst.gridOriginY - scrollY;
 
-    const firstVerticalLine = Math.floor((leftEdge - gridOriginVx) / gridSize) * gridSize + gridOriginVx;
+    const firstVerticalLine =
+      Math.floor((leftEdge - gridOriginVx) / gridSize) * gridSize + gridOriginVx;
     for (let x = firstVerticalLine; x <= rightEdge + BURST_LINE_WIDTH; x += gridSize) {
       ctx.fillRect(x - half, topEdge, BURST_LINE_WIDTH, radius * 2);
     }
 
-    const firstHorizontalLine = Math.floor((topEdge - gridOriginVy) / gridSize) * gridSize + gridOriginVy;
+    const firstHorizontalLine =
+      Math.floor((topEdge - gridOriginVy) / gridSize) * gridSize + gridOriginVy;
     for (let y = firstHorizontalLine; y <= bottomEdge + BURST_LINE_WIDTH; y += gridSize) {
       ctx.fillRect(leftEdge, y - half, radius * 2, BURST_LINE_WIDTH);
     }

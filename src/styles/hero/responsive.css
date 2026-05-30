@@ -2,8 +2,12 @@
 /* Factory illustration scales smoothly via clamp() in layout.css.
    Only mobile needs its own rule: smaller and bled further off the right edge. */
 @media (max-width: 767px) {
-  .hero-atmosphere-grid { opacity: 0.20; }
-  .hero-particle-canvas { opacity: 0.72; }
+  .hero-atmosphere-grid {
+    opacity: 0.2;
+  }
+  .hero-particle-canvas {
+    opacity: 0.72;
+  }
 
   .hero-factory-stage {
     --factory-stage-width: min(60vw, 500px);
@@ -73,8 +77,8 @@
 
 /* Stable hero illustration: restore motion, but keep expensive SVG filters out of the zoom path. */
 .hero-factory-stage .v-svg,
-.hero-factory-stage .v-svg [class^="v-"],
-.hero-factory-stage .v-svg [class*=" v-"] {
+.hero-factory-stage .v-svg [class^='v-'],
+.hero-factory-stage .v-svg [class*=' v-'] {
   filter: none !important;
 }
 

@@ -3,10 +3,7 @@
  * The actual rendering is delegated to the canvas controller in
  * `gridBurstCanvas.js` — that's where the animation lives. This file no
  * longer manipulates the DOM at all. */
-import {
-  DEFAULT_SECTION_GRID_BURST_RGB,
-  SECTION_CURSOR_THEMES
-} from './themes';
+import { DEFAULT_SECTION_GRID_BURST_RGB, SECTION_CURSOR_THEMES } from './themes';
 
 const SECTION_GRID_SIZE = 72;
 
@@ -21,20 +18,20 @@ function getRgbFromHex(hexColor) {
   const normalized = hexColor?.trim().replace('#', '');
   if (!normalized) return null;
 
-  const expanded = normalized.length === 3
-    ? normalized.split('').map((character) => `${character}${character}`).join('')
-    : normalized;
+  const expanded =
+    normalized.length === 3
+      ? normalized
+          .split('')
+          .map((character) => `${character}${character}`)
+          .join('')
+      : normalized;
 
   if (!/^[\da-f]{6}$/i.test(expanded)) return null;
 
   const value = Number.parseInt(expanded, 16);
   if (!Number.isFinite(value)) return null;
 
-  return [
-    (value >> 16) & 255,
-    (value >> 8) & 255,
-    value & 255
-  ];
+  return [(value >> 16) & 255, (value >> 8) & 255, value & 255];
 }
 
 export function getSectionBurstRgb(section) {
@@ -68,12 +65,8 @@ export function getSectionGridOriginPage(section) {
 }
 
 function getPointToRectDistance(clientX, clientY, rect) {
-  const dx = clientX < rect.left
-    ? rect.left - clientX
-    : Math.max(clientX - rect.right, 0);
-  const dy = clientY < rect.top
-    ? rect.top - clientY
-    : Math.max(clientY - rect.bottom, 0);
+  const dx = clientX < rect.left ? rect.left - clientX : Math.max(clientX - rect.right, 0);
+  const dy = clientY < rect.top ? rect.top - clientY : Math.max(clientY - rect.bottom, 0);
 
   return Math.hypot(dx, dy);
 }
@@ -98,7 +91,9 @@ export function getGridBurstTargetSections(mainElement, clientX, clientY, burstO
   const targetSections = [];
 
   mainElement.querySelectorAll(':scope > section.section-grid-bg:not(#hero)').forEach((section) => {
-    if (getPointToRectDistance(clientX, clientY, section.getBoundingClientRect()) <= burstOuterRadius) {
+    if (
+      getPointToRectDistance(clientX, clientY, section.getBoundingClientRect()) <= burstOuterRadius
+    ) {
       targetSections.push(section);
     }
   });

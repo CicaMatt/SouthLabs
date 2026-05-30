@@ -1,43 +1,102 @@
 /* Animation keyframes referenced by the hero layout, factory, and plume CSS modules. */
 /* Keyframes - atmosphere */
 @keyframes heroStreamDrift {
-  0%   { transform: translate3d(calc(var(--hero-shift-x)*20px),  calc(var(--hero-shift-y)*-16px), 0) scale(1);    }
-  50%  { transform: translate3d(calc(var(--hero-shift-x)*24px + 20px), calc(var(--hero-shift-y)*-20px - 8px), 0) scale(1.06); }
-  100% { transform: translate3d(calc(var(--hero-shift-x)*20px),  calc(var(--hero-shift-y)*-16px), 0) scale(1);    }
+  0% {
+    transform: translate3d(calc(var(--hero-shift-x) * 20px), calc(var(--hero-shift-y) * -16px), 0)
+      scale(1);
+  }
+  50% {
+    transform: translate3d(
+        calc(var(--hero-shift-x) * 24px + 20px),
+        calc(var(--hero-shift-y) * -20px - 8px),
+        0
+      )
+      scale(1.06);
+  }
+  100% {
+    transform: translate3d(calc(var(--hero-shift-x) * 20px), calc(var(--hero-shift-y) * -16px), 0)
+      scale(1);
+  }
 }
 @keyframes heroStreamDriftReverse {
-  0%   { transform: translate3d(calc(var(--hero-shift-x)*-22px), calc(var(--hero-shift-y)*14px), 0) scale(1);    }
-  50%  { transform: translate3d(calc(var(--hero-shift-x)*-26px - 18px), calc(var(--hero-shift-y)*18px + 8px), 0) scale(1.06); }
-  100% { transform: translate3d(calc(var(--hero-shift-x)*-22px), calc(var(--hero-shift-y)*14px), 0) scale(1);    }
+  0% {
+    transform: translate3d(calc(var(--hero-shift-x) * -22px), calc(var(--hero-shift-y) * 14px), 0)
+      scale(1);
+  }
+  50% {
+    transform: translate3d(
+        calc(var(--hero-shift-x) * -26px - 18px),
+        calc(var(--hero-shift-y) * 18px + 8px),
+        0
+      )
+      scale(1.06);
+  }
+  100% {
+    transform: translate3d(calc(var(--hero-shift-x) * -22px), calc(var(--hero-shift-y) * 14px), 0)
+      scale(1);
+  }
 }
 @keyframes heroFactoryVisualFloat {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  35%      { transform: translate3d(3px, 0, 0); }
-  70%      { transform: translate3d(-2px, 0, 0); }
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  35% {
+    transform: translate3d(3px, 0, 0);
+  }
+  70% {
+    transform: translate3d(-2px, 0, 0);
+  }
 }
 /* Keyframes - illustration */
 @keyframes vFloat {
-  0%, 100% { transform: translateX(0); }
-  50%       { transform: translateX(1.2px); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(1.2px);
+  }
 }
 @keyframes vAura {
-  0%, 100% { opacity: 0.30; transform: scale(0.96); }
-  50%       { opacity: 0.60; transform: scale(1.04); }
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.96);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.04);
+  }
 }
 @keyframes vFactoryTraceFlow {
-  from { stroke-dashoffset: 0; }
-  to   { stroke-dashoffset: -210; }
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -210;
+  }
 }
 @keyframes vFactoryTraceFlowReverse {
-  from { stroke-dashoffset: 0; }
-  to   { stroke-dashoffset: 196; }
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: 196;
+  }
 }
 @keyframes vFactoryTracePulse {
-  0%, 100% { opacity: 0.24; }
-  50%       { opacity: 0.68; }
+  0%,
+  100% {
+    opacity: 0.24;
+  }
+  50% {
+    opacity: 0.68;
+  }
 }
 @keyframes vFactorySheenLift {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.16;
     transform: translateY(2px);
   }
@@ -47,40 +106,65 @@
   }
 }
 @keyframes vFactoryPanelGlide {
-  from { stroke-dashoffset: 0; }
-  to   { stroke-dashoffset: -80; }
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -80;
+  }
 }
 @keyframes vFactoryEdgeGlint {
-  0%, 18% {
+  0%,
+  18% {
     stroke-dashoffset: 360;
     stroke-opacity: 0.18;
   }
   42% {
     stroke-opacity: 0.62;
   }
-  72%, 100% {
+  72%,
+  100% {
     stroke-dashoffset: -220;
     stroke-opacity: 0.2;
   }
 }
 @keyframes vCreaseDashFlow {
-  from { stroke-dashoffset: 0; }
-  to   { stroke-dashoffset: -112; }
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -112;
+  }
 }
 @keyframes vPipeCollarPulse {
-  0%, 100% { stroke-opacity: 0.14; }
-  50%       { stroke-opacity: 0.36; }
+  0%,
+  100% {
+    stroke-opacity: 0.14;
+  }
+  50% {
+    stroke-opacity: 0.36;
+  }
 }
 @keyframes vPipeFlowDescend {
-  from { stroke-dashoffset: 0; }
-  to   { stroke-dashoffset: 88; }
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: 88;
+  }
 }
 @keyframes vPipeFlowPulse {
-  0%, 100% { opacity: 0.44; }
-  50%       { opacity: 1; }
+  0%,
+  100% {
+    opacity: 0.44;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 @keyframes vFeatureEdgePulse {
-  0%, 100% {
+  0%,
+  100% {
     stroke-opacity: 0.14;
   }
   50% {
@@ -88,7 +172,8 @@
   }
 }
 @keyframes vDoorPanelSignal {
-  0%, 100% {
+  0%,
+  100% {
     filter: brightness(0.86) saturate(0.94);
     stroke-opacity: 0.44;
   }
@@ -106,7 +191,8 @@
   }
 }
 @keyframes vDoorEdgeLightPulse {
-  0%, 100% {
+  0%,
+  100% {
     filter: drop-shadow(0 0 0 rgba(150, 240, 255, 0));
     stroke-opacity: 0.28;
   }
@@ -116,11 +202,17 @@
   }
 }
 @keyframes vDoorEdgeDepthPulse {
-  0%, 100% { stroke-opacity: 0.22; }
-  48%       { stroke-opacity: 0.5; }
+  0%,
+  100% {
+    stroke-opacity: 0.22;
+  }
+  48% {
+    stroke-opacity: 0.5;
+  }
 }
 @keyframes vWindowPanelShimmer {
-  0%, 100% {
+  0%,
+  100% {
     filter: brightness(0.78) saturate(0.9);
     stroke-opacity: 0.48;
   }
@@ -142,7 +234,8 @@
   }
 }
 @keyframes vWindowEdgeGlint {
-  0%, 100% {
+  0%,
+  100% {
     filter: drop-shadow(0 0 0 rgba(235, 255, 255, 0));
     stroke-opacity: 0.24;
   }
@@ -156,95 +249,153 @@
   }
 }
 @keyframes vWindowEdgeSettle {
-  0%, 100% { stroke-opacity: 0.22; }
-  36%       { stroke-opacity: 0.34; }
-  62%       { stroke-opacity: 0.3; }
+  0%,
+  100% {
+    stroke-opacity: 0.22;
+  }
+  36% {
+    stroke-opacity: 0.34;
+  }
+  62% {
+    stroke-opacity: 0.3;
+  }
 }
 @keyframes vCoreGlowPulse {
-  0%, 100% { opacity: 0.45; transform: scale(0.86); }
-  50%       { opacity: 1;   transform: scale(1.16); }
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.86);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.16);
+  }
 }
 @keyframes vGraphHaloPulse {
-  0%, 100% { opacity: 0.18; }
-  50%       { opacity: 0.48; }
+  0%,
+  100% {
+    opacity: 0.18;
+  }
+  50% {
+    opacity: 0.48;
+  }
 }
 @keyframes vGraphSheenFlow {
-  from { stroke-dashoffset: 310; }
-  to   { stroke-dashoffset: -310; }
+  from {
+    stroke-dashoffset: 310;
+  }
+  to {
+    stroke-dashoffset: -310;
+  }
 }
 @keyframes vPlumeBaselineFlow {
-  from { stroke-dashoffset: 0; }
-  to   { stroke-dashoffset: -168; }
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -168;
+  }
 }
 @keyframes vPlumeSideFlow {
-  from { stroke-dashoffset: 0; }
-  to   { stroke-dashoffset: -175; }
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -175;
+  }
 }
 @keyframes vBarDashFlow {
-  from { stroke-dashoffset: 0; }
-  to   { stroke-dashoffset: -176; }
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -176;
+  }
 }
 @keyframes vTrendDashFlow {
-  from { stroke-dashoffset: 0; }
-  to   { stroke-dashoffset: -180; }
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -180;
+  }
 }
 @keyframes vBarPulse {
-  0%, 100% { stroke-opacity: 0.52; }
-  50%       { stroke-opacity: 1.00; }
+  0%,
+  100% {
+    stroke-opacity: 0.52;
+  }
+  50% {
+    stroke-opacity: 1;
+  }
 }
 @keyframes vTrendPulse {
-  0%, 100% { stroke-opacity: 0.52; }
-  50%       { stroke-opacity: 0.96; }
+  0%,
+  100% {
+    stroke-opacity: 0.52;
+  }
+  50% {
+    stroke-opacity: 0.96;
+  }
 }
 @keyframes vTrendArrowBoost {
-  0%, 22% {
+  0%,
+  22% {
     stroke: #95e3ff;
     stroke-opacity: 0.82;
-    filter:
-      drop-shadow(0 0 8px rgba(149, 227, 255, 0.62))
+    filter: drop-shadow(0 0 8px rgba(149, 227, 255, 0.62))
       drop-shadow(0 0 14px rgba(149, 227, 255, 0.2));
   }
   34% {
     stroke: #f7feff;
     stroke-opacity: 1;
-    filter:
-      drop-shadow(0 0 12px rgba(233, 254, 255, 0.95))
+    filter: drop-shadow(0 0 12px rgba(233, 254, 255, 0.95))
       drop-shadow(0 0 24px rgba(149, 247, 255, 0.55))
       drop-shadow(0 0 40px rgba(149, 247, 255, 0.28));
   }
-  48%, 60% {
+  48%,
+  60% {
     stroke: #95e3ff;
     stroke-opacity: 0.82;
-    filter:
-      drop-shadow(0 0 8px rgba(149, 227, 255, 0.62))
+    filter: drop-shadow(0 0 8px rgba(149, 227, 255, 0.62))
       drop-shadow(0 0 14px rgba(149, 227, 255, 0.2));
   }
   65% {
     stroke: #ffffff;
     stroke-opacity: 1;
-    filter:
-      drop-shadow(0 0 14px rgba(255, 255, 255, 1))
+    filter: drop-shadow(0 0 14px rgba(255, 255, 255, 1))
       drop-shadow(0 0 28px rgba(149, 247, 255, 0.75))
       drop-shadow(0 0 46px rgba(149, 247, 255, 0.35));
   }
-  75%, 100% {
+  75%,
+  100% {
     stroke: #95e3ff;
     stroke-opacity: 0.82;
-    filter:
-      drop-shadow(0 0 8px rgba(149, 227, 255, 0.62))
+    filter: drop-shadow(0 0 8px rgba(149, 227, 255, 0.62))
       drop-shadow(0 0 14px rgba(149, 227, 255, 0.2));
   }
 }
 @keyframes vNodePulse {
-  0%, 100% { transform: scale(0.80); }
-  50%       { transform: scale(1.20); }
+  0%,
+  100% {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1.2);
+  }
 }
 @keyframes vOrangePulse {
-  0%, 100% { transform: scale(0.85); }
-  50%       { transform: scale(1.18); }
+  0%,
+  100% {
+    transform: scale(0.85);
+  }
+  50% {
+    transform: scale(1.18);
+  }
 }
 @keyframes vNodeRingPulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0;
     transform: scale(0.86);
     stroke-opacity: 0.18;
@@ -261,7 +412,8 @@
   }
 }
 @keyframes vNodeSpark {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.22;
     transform: scale(0.62);
   }
@@ -271,6 +423,10 @@
   }
 }
 @keyframes vWaveFlow {
-  from { stroke-dashoffset: 0;    }
-  to   { stroke-dashoffset: -228; }
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -228;
+  }
 }

@@ -10,7 +10,7 @@ const MOBILE_FIELD_MAX_WIDTH = 700;
 const MOBILE_PARTICLE_DENSITY = 3900;
 const MOBILE_PARTICLE_MIN = 88;
 const MOBILE_PARTICLE_MAX = 132;
-const IDLE_MOTION_SPEED = 0.50;
+const IDLE_MOTION_SPEED = 0.5;
 const DESKTOP_IDLE_ANCHOR_RADIUS = 24;
 const MOBILE_IDLE_ANCHOR_RADIUS = 18;
 const IDLE_ANCHOR_FOLLOW = 0.18;
@@ -67,10 +67,10 @@ function shuffleIndexes(length) {
 function createParticle(x, y, width, options = {}) {
   const leftCompensation = x < width * 0.36 ? (options.leftCompensation ?? 0.08) : 0;
   const alpha = clamp(
-    (options.alphaBase ?? 0.34)
-      + leftCompensation
-      + (options.alphaBoost ?? 0)
-      + Math.random() * (options.alphaRange ?? 0.42),
+    (options.alphaBase ?? 0.34) +
+      leftCompensation +
+      (options.alphaBoost ?? 0) +
+      Math.random() * (options.alphaRange ?? 0.42),
     0.12,
     0.88
   );
@@ -93,10 +93,9 @@ function createParticle(x, y, width, options = {}) {
     idlePhaseOffset: Math.random() * TAU,
     idlePhaseRatio: 0.72 + Math.random() * 0.36,
     phase: Math.random() * TAU,
-    phaseSpeed: (
-      (options.phaseSpeedMin ?? 0.004)
-      + Math.random() * (options.phaseSpeedRange ?? 0.009)
-    ) * IDLE_MOTION_SPEED,
+    phaseSpeed:
+      ((options.phaseSpeedMin ?? 0.004) + Math.random() * (options.phaseSpeedRange ?? 0.009)) *
+      IDLE_MOTION_SPEED,
     spring: (options.springMin ?? 0.0055) + Math.random() * (options.springRange ?? 0.006),
     drag: (options.dragMin ?? 0.885) + Math.random() * (options.dragRange ?? 0.055),
     mass: (options.massMin ?? 0.82) + Math.random() * (options.massRange ?? 0.54),
@@ -130,7 +129,7 @@ function createMobileParticles(width, height, count) {
       idleRadiusRange: 8,
       maxSpeedMin: 1.24,
       maxSpeedRange: 0.94,
-      initialVelocity: 0.10
+      initialVelocity: 0.1
     });
   });
 }
@@ -192,11 +191,13 @@ export function resizeParticles(particles, previousSize, nextSize) {
     nextParticles.length = targetCount;
   }
   while (nextParticles.length < targetCount) {
-    nextParticles.push(createParticle(
-      Math.random() * nextSize.width,
-      Math.random() * nextSize.height,
-      nextSize.width
-    ));
+    nextParticles.push(
+      createParticle(
+        Math.random() * nextSize.width,
+        Math.random() * nextSize.height,
+        nextSize.width
+      )
+    );
   }
 
   return nextParticles;
@@ -212,13 +213,16 @@ export function drawDot(ctx, x, y, radius, fillStyle) {
 function updateIdleAnchor(particle, width, step) {
   const originX = particle.originX ?? particle.anchorX;
   const originY = particle.originY ?? particle.anchorY;
-  const maxOffset = width < MOBILE_FIELD_MAX_WIDTH
-    ? MOBILE_IDLE_ANCHOR_RADIUS
-    : DESKTOP_IDLE_ANCHOR_RADIUS;
+  const maxOffset =
+    width < MOBILE_FIELD_MAX_WIDTH ? MOBILE_IDLE_ANCHOR_RADIUS : DESKTOP_IDLE_ANCHOR_RADIUS;
   const idleRadius = Math.min(particle.idleRadius ?? maxOffset * 0.7, maxOffset * 0.92);
   const phase = particle.phase + (particle.idlePhaseOffset ?? 0);
   const targetX = originX + Math.cos(phase) * idleRadius * (particle.idleXScale ?? 1);
-  const targetY = originY + Math.sin(phase * (particle.idlePhaseRatio ?? 0.86)) * idleRadius * (particle.idleYScale ?? 0.72);
+  const targetY =
+    originY +
+    Math.sin(phase * (particle.idlePhaseRatio ?? 0.86)) *
+      idleRadius *
+      (particle.idleYScale ?? 0.72);
   const follow = Math.min(1, IDLE_ANCHOR_FOLLOW * step);
 
   particle.anchorX += (targetX - particle.anchorX) * follow;
@@ -244,8 +248,8 @@ export function advanceParticle(particle, step, size, forceState) {
   let ay = (particle.anchorY - particle.y) * particle.spring;
 
   if (forceState.touchEase > 0) {
-    ax += forceState.touchOffsetX * TOUCH_NUDGE_FORCE * forceState.touchEase / particle.mass;
-    ay += forceState.touchOffsetY * TOUCH_NUDGE_FORCE * forceState.touchEase / particle.mass;
+    ax += (forceState.touchOffsetX * TOUCH_NUDGE_FORCE * forceState.touchEase) / particle.mass;
+    ay += (forceState.touchOffsetY * TOUCH_NUDGE_FORCE * forceState.touchEase) / particle.mass;
   }
 
   if (forceState.hasPointer) {
@@ -256,7 +260,7 @@ export function advanceParticle(particle, step, size, forceState) {
     if (distanceSq > 0.1 && distanceSq < forceState.repelRadiusSq) {
       const distance = Math.sqrt(distanceSq);
       const proximity = 1 - distance / forceState.repelRadius;
-      const force = smoothStep(proximity) * forceState.repelForce / particle.mass;
+      const force = (smoothStep(proximity) * forceState.repelForce) / particle.mass;
       ax += (dx / distance) * force;
       ay += (dy / distance) * force;
     }
@@ -280,21 +284,27 @@ export function advanceParticle(particle, step, size, forceState) {
 export function computeForceState(pointer, now, fieldWidth, isStatic) {
   const isRepelling = Boolean(pointer.active || pointer.repelActive);
   const burstDuration = Math.max(1, (pointer.burstUntil || 0) - (pointer.burstStart || 0));
-  const burstProgress = !isStatic && now < (pointer.burstUntil || 0)
-    ? clamp((now - pointer.burstStart) / burstDuration, 0, 1)
-    : 0;
+  const burstProgress =
+    !isStatic && now < (pointer.burstUntil || 0)
+      ? clamp((now - pointer.burstStart) / burstDuration, 0, 1)
+      : 0;
   const burstEase = Math.sin(burstProgress * Math.PI);
   const repelX = isRepelling ? pointer.x : pointer.burstX;
   const repelY = isRepelling ? pointer.y : pointer.burstY;
   const hasPointer = !isStatic && (isRepelling || burstEase > 0) && repelX >= 0 && repelY >= 0;
-  const touchDuration = Math.max(1, (pointer.touchNudgeUntil || 0) - (pointer.touchNudgeStart || 0));
-  const touchProgress = !isStatic && now < (pointer.touchNudgeUntil || 0)
-    ? clamp((now - pointer.touchNudgeStart) / touchDuration, 0, 1)
-    : 0;
+  const touchDuration = Math.max(
+    1,
+    (pointer.touchNudgeUntil || 0) - (pointer.touchNudgeStart || 0)
+  );
+  const touchProgress =
+    !isStatic && now < (pointer.touchNudgeUntil || 0)
+      ? clamp((now - pointer.touchNudgeStart) / touchDuration, 0, 1)
+      : 0;
   const touchEase = Math.sin(touchProgress * Math.PI);
-  const repelRadius = POINTER_RADIUS
-    * (fieldWidth < MOBILE_FIELD_MAX_WIDTH ? 0.76 : 1)
-    * (1 + burstEase * POINTER_BURST_RADIUS_BOOST);
+  const repelRadius =
+    POINTER_RADIUS *
+    (fieldWidth < MOBILE_FIELD_MAX_WIDTH ? 0.76 : 1) *
+    (1 + burstEase * POINTER_BURST_RADIUS_BOOST);
 
   return {
     hasPointer,
@@ -302,7 +312,8 @@ export function computeForceState(pointer, now, fieldWidth, isStatic) {
     repelY,
     repelRadius,
     repelRadiusSq: repelRadius * repelRadius,
-    repelForce: (isRepelling ? POINTER_FORCE : POINTER_FORCE * 0.42) + burstEase * POINTER_BURST_FORCE,
+    repelForce:
+      (isRepelling ? POINTER_FORCE : POINTER_FORCE * 0.42) + burstEase * POINTER_BURST_FORCE,
     touchEase,
     touchOffsetX: touchEase * pointer.touchNudgeX,
     touchOffsetY: touchEase * pointer.touchNudgeY

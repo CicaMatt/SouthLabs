@@ -5,7 +5,7 @@
 }
 
 .v-plume-shell {
-  opacity: 0.70;
+  opacity: 0.7;
   filter: drop-shadow(0 4px 10px rgba(7, 20, 52, 0.16));
 }
 
@@ -70,7 +70,9 @@
   stroke-dasharray: 14 11;
   animation: vPlumeSideFlow 12s linear infinite;
 }
-.v-plume-side-link-b { stroke-opacity: 0.62; }
+.v-plume-side-link-b {
+  stroke-opacity: 0.62;
+}
 
 .v-bar {
   stroke: url(#vGraphColumnGlow);
@@ -79,15 +81,29 @@
   stroke-opacity: 0.66;
   stroke-dasharray: 12 10;
   filter: drop-shadow(0 0 8px rgba(102, 240, 255, 0.34));
-  animation: vBarPulse 3.6s ease-in-out infinite, vBarDashFlow 12s linear infinite;
+  animation:
+    vBarPulse 3.6s ease-in-out infinite,
+    vBarDashFlow 12s linear infinite;
   animation-delay: 0s, 0s;
 }
-.v-bar-1 { animation-delay: 0s, 0s;    }
-.v-bar-2 { animation-delay: 0.18s, 0s; }
-.v-bar-3 { animation-delay: 0.36s, 0s; }
-.v-bar-4 { animation-delay: 0.54s, 0s; }
-.v-bar-5 { animation-delay: 0.72s, 0s; }
-.v-bar-6 { animation-delay: 0.9s, 0s;  }
+.v-bar-1 {
+  animation-delay: 0s, 0s;
+}
+.v-bar-2 {
+  animation-delay: 0.18s, 0s;
+}
+.v-bar-3 {
+  animation-delay: 0.36s, 0s;
+}
+.v-bar-4 {
+  animation-delay: 0.54s, 0s;
+}
+.v-bar-5 {
+  animation-delay: 0.72s, 0s;
+}
+.v-bar-6 {
+  animation-delay: 0.9s, 0s;
+}
 
 .v-trend {
   fill: none;
@@ -98,7 +114,9 @@
   stroke-opacity: 0.92;
   stroke-dasharray: 18 12;
   filter: drop-shadow(0 0 9px rgba(128, 244, 255, 0.42));
-  animation: vTrendPulse 4s ease-in-out infinite, vTrendDashFlow 11s linear infinite;
+  animation:
+    vTrendPulse 4s ease-in-out infinite,
+    vTrendDashFlow 11s linear infinite;
 }
 
 .v-graph-sheen {
@@ -120,8 +138,7 @@
   stroke-dasharray: none;
   stroke-linejoin: round;
   stroke-linecap: round;
-  filter:
-    drop-shadow(0 0 8px rgba(149, 227, 255, 0.62))
+  filter: drop-shadow(0 0 8px rgba(149, 227, 255, 0.62))
     drop-shadow(0 0 14px rgba(149, 227, 255, 0.2));
   animation: vTrendArrowBoost 5.2s ease-in-out infinite;
 }
@@ -134,23 +151,25 @@
   transform-box: fill-box;
   transform-origin: center;
   fill: #e0f5ff;
-  filter:
-    drop-shadow(0 0 7px rgba(224, 245, 255, 0.7))
+  filter: drop-shadow(0 0 7px rgba(224, 245, 255, 0.7))
     drop-shadow(0 0 14px rgba(224, 245, 255, 0.3));
   animation: vNodePulse 4s ease-in-out infinite;
 }
-.v-node-b { animation-delay: 1.6s; }
+.v-node-b {
+  animation-delay: 1.6s;
+}
 
 .v-node-orange {
   transform-box: fill-box;
   transform-origin: center;
   fill: #e0f5ff;
-  filter:
-    drop-shadow(0 0 8px rgba(224, 245, 255, 0.8))
+  filter: drop-shadow(0 0 8px rgba(224, 245, 255, 0.8))
     drop-shadow(0 0 18px rgba(224, 245, 255, 0.4));
   animation: vOrangePulse 4.4s ease-in-out infinite;
 }
-.v-node-orange-b { animation-delay: 1.7s; }
+.v-node-orange-b {
+  animation-delay: 1.7s;
+}
 
 .v-node-ring {
   fill: none;
@@ -163,7 +182,9 @@
   filter: drop-shadow(0 0 10px rgba(149, 247, 255, 0.5));
   animation: vNodeRingPulse 4.4s ease-in-out infinite;
 }
-.v-node-ring-b { animation-delay: 1.7s; }
+.v-node-ring-b {
+  animation-delay: 1.7s;
+}
 
 .v-node-spark {
   fill: #ffffff;
@@ -174,11 +195,15 @@
   filter: drop-shadow(0 0 9px rgba(255, 255, 255, 0.82));
   animation: vNodeSpark 3.6s ease-in-out infinite;
 }
-.v-node-spark-b { animation-delay: 1.4s; }
+.v-node-spark-b {
+  animation-delay: 1.4s;
+}
 
 /* Waves */
-.v-wave   {
+.v-wave {
   stroke-dasharray: 24 14;
   animation: vWaveFlow 24s linear infinite;
 }
-.v-wave-b { animation-delay: -7s; }
+.v-wave-b {
+  animation-delay: -7s;
+}

@@ -8,11 +8,7 @@ export const DEFAULT_SECTION_GRID_BURST_RGB = [31, 79, 143];
 function getRgbFromHex(hex) {
   const value = Number.parseInt(hex.replace('#', ''), 16);
 
-  return [
-    (value >> 16) & 255,
-    (value >> 8) & 255,
-    value & 255
-  ];
+  return [(value >> 16) & 255, (value >> 8) & 255, value & 255];
 }
 
 export const SECTION_CURSOR_THEMES = [

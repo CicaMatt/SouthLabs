@@ -19,14 +19,10 @@ export function isDesktopChromium(windowObject) {
   const userAgent = navigatorObject.userAgent || '';
   const brands = navigatorObject.userAgentData?.brands?.map(({ brand }) => brand).join(' ') || '';
   const hasFinePointer = windowObject.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  const isMobile = (
-    navigatorObject.userAgentData?.mobile
-    || /Android|iPhone|iPad|iPod|Mobile/i.test(userAgent)
-  );
-  const isChromium = (
-    /\b(Chromium|Google Chrome|Chrome)\b/i.test(brands)
-    || /\b(Chrome|Chromium)\//i.test(userAgent)
-  );
+  const isMobile =
+    navigatorObject.userAgentData?.mobile || /Android|iPhone|iPad|iPod|Mobile/i.test(userAgent);
+  const isChromium =
+    /\b(Chromium|Google Chrome|Chrome)\b/i.test(brands) || /\b(Chrome|Chromium)\//i.test(userAgent);
   const isExcludedChromiumShell = /\b(Edg|OPR|Opera|SamsungBrowser|CriOS)\//i.test(userAgent);
 
   return hasFinePointer && !isMobile && isChromium && !isExcludedChromiumShell;
@@ -46,11 +42,8 @@ export function isLikelyDesktopTrackpadPinch(event, windowObject) {
   if (!delta) return false;
 
   const wheelDeltaY = Math.abs(event.wheelDeltaY || 0);
-  const looksLikeSteppedMouseWheel = (
-    wheelDeltaY >= 120
-    && wheelDeltaY % 120 === 0
-    && delta >= MOUSE_WHEEL_ZOOM_MIN_DELTA
-  );
+  const looksLikeSteppedMouseWheel =
+    wheelDeltaY >= 120 && wheelDeltaY % 120 === 0 && delta >= MOUSE_WHEEL_ZOOM_MIN_DELTA;
 
   return !looksLikeSteppedMouseWheel;
 }

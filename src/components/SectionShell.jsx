@@ -63,11 +63,7 @@ export function SectionBackground({ children, className = '' }) {
   );
 }
 
-export function SectionContent({
-  children,
-  className = '',
-  width = 'standard'
-}) {
+export function SectionContent({ children, className = '', width = 'standard' }) {
   return (
     <div className={cx(SECTION_WIDTH_CLASS[width], SECTION_CONTAINER_GUTTER_CLASS, className)}>
       {children}
@@ -93,9 +89,10 @@ export default function SectionShell({
   const resolvedGrid = grid ?? variantConfig.grid ?? true;
   const resolvedPadding = padding ?? variantConfig.padding ?? 'default';
   const resolvedWidth = width ?? variantConfig.width ?? 'standard';
-  const resolvedStyle = style && variantConfig.style
-    ? { ...variantConfig.style, ...style }
-    : style ?? variantConfig.style;
+  const resolvedStyle =
+    style && variantConfig.style
+      ? { ...variantConfig.style, ...style }
+      : (style ?? variantConfig.style);
 
   return (
     <section
@@ -112,9 +109,7 @@ export default function SectionShell({
       {...sectionProps}
     >
       {background ? (
-        <SectionBackground className={backgroundClassName}>
-          {background}
-        </SectionBackground>
+        <SectionBackground className={backgroundClassName}>{background}</SectionBackground>
       ) : null}
 
       <SectionContent

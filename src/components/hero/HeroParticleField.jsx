@@ -92,9 +92,10 @@ export default function HeroParticleField({ pointerRef }) {
     };
 
     const ResizeObserverConstructor = windowObject.ResizeObserver;
-    const resizeObserver = typeof ResizeObserverConstructor === 'undefined'
-      ? null
-      : new ResizeObserverConstructor(resizeField);
+    const resizeObserver =
+      typeof ResizeObserverConstructor === 'undefined'
+        ? null
+        : new ResizeObserverConstructor(resizeField);
     if (resizeObserver) {
       resizeObserver.observe(canvas);
     } else {
@@ -102,23 +103,27 @@ export default function HeroParticleField({ pointerRef }) {
     }
 
     const IntersectionObserverConstructor = windowObject.IntersectionObserver;
-    const visibilityObserver = typeof IntersectionObserverConstructor === 'undefined'
-      ? null
-      : new IntersectionObserverConstructor(([entry]) => {
-        const wasVisible = isVisible;
-        isVisible = entry.isIntersecting;
-        if (isVisible) {
-          if (!wasVisible) {
-            draw(windowObject.performance.now(), reduceMotion);
-          }
-          start();
-        } else {
-          stop();
-        }
-      });
+    const visibilityObserver =
+      typeof IntersectionObserverConstructor === 'undefined'
+        ? null
+        : new IntersectionObserverConstructor(([entry]) => {
+            const wasVisible = isVisible;
+            isVisible = entry.isIntersecting;
+            if (isVisible) {
+              if (!wasVisible) {
+                draw(windowObject.performance.now(), reduceMotion);
+              }
+              start();
+            } else {
+              stop();
+            }
+          });
     visibilityObserver?.observe(canvas);
 
-    const removeMotionChangeListener = addMediaQueryChangeListener(reduceMotionQuery, handleMotionChange);
+    const removeMotionChangeListener = addMediaQueryChangeListener(
+      reduceMotionQuery,
+      handleMotionChange
+    );
     draw(windowObject.performance.now(), reduceMotion);
     start();
 
@@ -133,5 +138,7 @@ export default function HeroParticleField({ pointerRef }) {
     };
   }, [pointerRef]);
 
-  return <canvas aria-hidden="true" className="hero-particle-canvas absolute inset-0" ref={canvasRef} />;
+  return (
+    <canvas aria-hidden="true" className="hero-particle-canvas absolute inset-0" ref={canvasRef} />
+  );
 }

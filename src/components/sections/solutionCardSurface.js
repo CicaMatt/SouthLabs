@@ -8,7 +8,12 @@ const SOLUTION_CARD_SURFACE_CLASS = [
 export const LIGHT_CARD_SURFACE_RGB = '251, 252, 254';
 export const LIGHT_CARD_SURFACE_HOVER_RGB = '226, 233, 243';
 
-export function getSolutionCardSurfaceStyle(restOpacity, hoverOpacity = restOpacity, rgb = LIGHT_CARD_SURFACE_RGB, hoverRgb = rgb) {
+export function getSolutionCardSurfaceStyle(
+  restOpacity,
+  hoverOpacity = restOpacity,
+  rgb = LIGHT_CARD_SURFACE_RGB,
+  hoverRgb = rgb
+) {
   return {
     '--solution-card-bg-rgb': rgb,
     '--solution-card-bg-hover-rgb': hoverRgb,

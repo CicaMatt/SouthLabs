@@ -1,6 +1,8 @@
 /* Factory SVG presentation classes. Selectors map directly to FactoryIllustration.jsx. */
 /* Float group (factory + cloud) */
-.v-float-group { animation: vFloat 14s ease-in-out infinite; }
+.v-float-group {
+  animation: vFloat 14s ease-in-out infinite;
+}
 
 /* Base aura */
 .v-aura {
@@ -48,7 +50,7 @@
 
 .v-factory-roof-upper-light {
   fill: url(#vFactoryRoofUpperLightFill);
-  opacity: 0.20;
+  opacity: 0.2;
   mix-blend-mode: screen;
   filter: url(#vFactorySoftLightBlur);
 }
@@ -104,7 +106,7 @@
 
 .v-factory-right-light-wash {
   fill: url(#vFactoryRightLightWashFill);
-  opacity: 0.20;
+  opacity: 0.2;
   mix-blend-mode: screen;
   filter: url(#vFactorySoftLightBlur);
 }
@@ -210,7 +212,7 @@
 
 .v-pipe-right-light {
   fill: url(#vPipeRightLightWashFill);
-  opacity: 0.50;
+  opacity: 0.5;
   mix-blend-mode: screen;
   filter: url(#vPipeSoftLightBlur);
 }
@@ -231,8 +233,12 @@
   filter: drop-shadow(0 0 5px rgba(165, 247, 255, 0.18));
 }
 
-.v-pipe-left-edge { stroke: url(#vPipeLeftEdgeStroke); }
-.v-pipe-right-edge { stroke: url(#vPipeRightEdgeStroke); }
+.v-pipe-left-edge {
+  stroke: url(#vPipeLeftEdgeStroke);
+}
+.v-pipe-right-edge {
+  stroke: url(#vPipeRightEdgeStroke);
+}
 
 .v-pipe-collar-line {
   fill: none;
@@ -254,7 +260,9 @@
   stroke-dasharray: 9 13;
   mix-blend-mode: screen;
   filter: drop-shadow(0 0 8px rgba(102, 239, 255, 0.4));
-  animation: vPipeFlowDescend 3.8s linear infinite, vPipeFlowPulse 4.4s ease-in-out infinite;
+  animation:
+    vPipeFlowDescend 3.8s linear infinite,
+    vPipeFlowPulse 4.4s ease-in-out infinite;
 }
 
 .v-pipe-top-edge {
@@ -277,16 +285,18 @@
 
 .v-factory-window {
   fill: url(#vDoorPanelFill);
-  fill-opacity: 0.80;
+  fill-opacity: 0.8;
   stroke: url(#vPanelStroke);
   stroke-width: 1.35;
-  stroke-opacity: 0.80;
+  stroke-opacity: 0.8;
   transform-box: fill-box;
   transform-origin: center;
   will-change: filter, stroke-opacity;
 }
 
-.v-door-panel { animation: vDoorPanelSignal 8.4s ease-in-out infinite; }
+.v-door-panel {
+  animation: vDoorPanelSignal 8.4s ease-in-out infinite;
+}
 
 .v-factory-left-door-group .v-factory-window {
   stroke: url(#vLeftDoorPanelStroke);
@@ -330,7 +340,9 @@
   will-change: filter, stroke-opacity;
 }
 
-.v-window-panel { animation: vWindowPanelShimmer 5.8s ease-in-out infinite; }
+.v-window-panel {
+  animation: vWindowPanelShimmer 5.8s ease-in-out infinite;
+}
 
 .v-factory-cutout-b {
   fill: url(#vSlotPanelFill);
@@ -365,8 +377,12 @@
   stroke-opacity: 0.62;
 }
 
-.v-window-sweep-b { animation-delay: -2.25s; }
-.v-window-sweep-c { animation-delay: -4.5s; }
+.v-window-sweep-b {
+  animation-delay: -2.25s;
+}
+.v-window-sweep-c {
+  animation-delay: -4.5s;
+}
 
 .v-panel-edge-light,
 .v-panel-edge-depth {
@@ -389,21 +405,38 @@
   stroke-opacity: 0.58;
 }
 
-.v-panel-edge-light-soft { stroke-opacity: 0.54; }
-.v-panel-edge-depth-soft { stroke-opacity: 0.46; }
+.v-panel-edge-light-soft {
+  stroke-opacity: 0.54;
+}
+.v-panel-edge-depth-soft {
+  stroke-opacity: 0.46;
+}
 
-.v-door-edge-light { animation: vDoorEdgeLightPulse 4s ease-in-out infinite; }
-.v-door-edge-depth { animation: vDoorEdgeDepthPulse 4s ease-in-out infinite; }
+.v-door-edge-light {
+  animation: vDoorEdgeLightPulse 4s ease-in-out infinite;
+}
+.v-door-edge-depth {
+  animation: vDoorEdgeDepthPulse 4s ease-in-out infinite;
+}
 .v-door-edge-light-b,
-.v-door-edge-depth-b { animation-delay: -2s; }
+.v-door-edge-depth-b {
+  animation-delay: -2s;
+}
 
-.v-window-edge-light { animation: vWindowEdgeGlint 5.8s ease-in-out infinite; }
-.v-window-edge-depth { animation: vWindowEdgeSettle 5.8s ease-in-out infinite; }
+.v-window-edge-light {
+  animation: vWindowEdgeGlint 5.8s ease-in-out infinite;
+}
+.v-window-edge-depth {
+  animation: vWindowEdgeSettle 5.8s ease-in-out infinite;
+}
 .v-window-edge-light-b,
-.v-window-edge-depth-b { animation-delay: 0s; }
+.v-window-edge-depth-b {
+  animation-delay: 0s;
+}
 .v-window-edge-light-c,
-.v-window-edge-depth-c { animation-delay: -2.9s; }
-
+.v-window-edge-depth-c {
+  animation-delay: -2.9s;
+}
 
 .v-pipe-link {
   stroke: #91ecff;
@@ -429,7 +462,9 @@
   stroke-linejoin: round;
   stroke-opacity: 0.62;
   stroke-dasharray: 18 12;
-  animation: vFactoryTraceFlow 14s linear infinite, vFactoryTracePulse 4.6s ease-in-out infinite;
+  animation:
+    vFactoryTraceFlow 14s linear infinite,
+    vFactoryTracePulse 4.6s ease-in-out infinite;
 }
 
 .v-factory-trace-b {
@@ -437,8 +472,12 @@
   stroke-width: 0.95;
   stroke-opacity: 0.82;
   stroke-dasharray: 3 25;
-  animation: vFactoryTraceFlowReverse 10.4s linear infinite, vFactoryTracePulse 3.7s ease-in-out infinite;
-  animation-delay: -1.3s, -0.9s;
+  animation:
+    vFactoryTraceFlowReverse 10.4s linear infinite,
+    vFactoryTracePulse 3.7s ease-in-out infinite;
+  animation-delay:
+    -1.3s,
+    -0.9s;
 }
 /* When the hero scrolls out of the viewport, freeze the factory's CSS
    animations so the compositor is not driving keyframes off-screen. */

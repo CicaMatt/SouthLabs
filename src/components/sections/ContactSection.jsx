@@ -42,8 +42,10 @@ const FIELD_CONTROL_CLASS = [
 ].join(' ');
 const TEXT_FIELD_CLASS = `${FIELD_CONTROL_CLASS} placeholder:text-[rgba(32,54,88,0.5)]`;
 const SELECT_FIELD_CLASS = `${FIELD_CONTROL_CLASS} invalid:text-[rgba(32,54,88,0.5)]`;
-const FORM_MESSAGE_CLASS = 'flex items-center justify-center rounded-md px-4 py-3 text-center text-sm font-medium';
-const FORM_PANEL_CLASS = 'section-grid-burst-disabled solution-card-surface rounded-xl border-t-4 border-[#203658] p-8 shadow-[0_4px_20px_rgba(19,27,46,0.04)]';
+const FORM_MESSAGE_CLASS =
+  'flex items-center justify-center rounded-md px-4 py-3 text-center text-sm font-medium';
+const FORM_PANEL_CLASS =
+  'section-grid-burst-disabled solution-card-surface rounded-xl border-t-4 border-[#203658] p-8 shadow-[0_4px_20px_rgba(19,27,46,0.04)]';
 const FORM_PANEL_STYLE = getSolutionCardSurfaceStyle(
   CONTACT_FORM_SURFACE_OPACITY,
   CONTACT_FORM_SURFACE_HOVER_OPACITY,
@@ -98,7 +100,7 @@ const INTEREST_OPTIONS = [
   'Manutenzione/Aggiornamento di Sistemi Legacy',
   'Domotica',
   'Digitalizzazione Processi',
-  'Assistenza Tecnica',
+  'Assistenza Tecnica'
 ];
 
 function Field({ children, id, label }) {
@@ -178,15 +180,13 @@ function normalizeFormData(formData) {
 function FormStatusMessage({ message, status }) {
   if (!message) return null;
 
-  const toneClass = status === FORM_STATUS.succeeded
-    ? 'bg-primary-fixed text-on-primary-fixed'
-    : 'bg-error/10 text-error';
+  const toneClass =
+    status === FORM_STATUS.succeeded
+      ? 'bg-primary-fixed text-on-primary-fixed'
+      : 'bg-error/10 text-error';
 
   return (
-    <p
-      aria-live="polite"
-      className={`${FORM_MESSAGE_CLASS} ${toneClass}`}
-    >
+    <p aria-live="polite" className={`${FORM_MESSAGE_CLASS} ${toneClass}`}>
       {message}
     </p>
   );
@@ -194,12 +194,10 @@ function FormStatusMessage({ message, status }) {
 
 function SubmitButton({ isSubmitting }) {
   return (
-    <button
-      className={SUBMIT_BUTTON_CLASS}
-      disabled={isSubmitting}
-      type="submit"
-    >
-      <span className="cta-underline-label">{isSubmitting ? 'Invio in corso...' : 'Invia Richiesta'}</span>
+    <button className={SUBMIT_BUTTON_CLASS} disabled={isSubmitting} type="submit">
+      <span className="cta-underline-label">
+        {isSubmitting ? 'Invio in corso...' : 'Invia Richiesta'}
+      </span>
     </button>
   );
 }
@@ -283,10 +281,10 @@ export default function ContactSection() {
   return (
     <SectionShell id="contatti" variant="contact">
       <div className="text-center mb-10 md:mb-12">
-        <h2 className="font-headline text-3xl md:text-4xl tracking-tight text-on-background mb-4">Richiedi una consulenza</h2>
-        <p className="font-body text-on-surface-variant">
-          Raccontaci della tua idea.
-        </p>
+        <h2 className="font-headline text-3xl md:text-4xl tracking-tight text-on-background mb-4">
+          Richiedi una consulenza
+        </h2>
+        <p className="font-body text-on-surface-variant">Raccontaci della tua idea.</p>
         <p className="font-body text-on-surface-variant">
           I nostri esperti ti contatteranno per una valutazione iniziale, senza impegno.
         </p>
@@ -300,7 +298,10 @@ export default function ContactSection() {
           onSubmit={handleSubmit}
         >
           <input name="_subject" type="hidden" value="Nuova richiesta dal sito SouthLabs" />
-          <div aria-hidden="true" className="absolute left-[-10000px] top-auto h-px w-px overflow-hidden">
+          <div
+            aria-hidden="true"
+            className="absolute left-[-10000px] top-auto h-px w-px overflow-hidden"
+          >
             <label htmlFor={HONEYPOT_FIELD_NAME}>Website</label>
             <input
               autoComplete="off"
@@ -325,9 +326,13 @@ export default function ContactSection() {
               name="interest"
               required
             >
-              <option disabled value="">Seleziona</option>
+              <option disabled value="">
+                Seleziona
+              </option>
               {INTEREST_OPTIONS.map((option) => (
-                <option key={option} value={option}>{option}</option>
+                <option key={option} value={option}>
+                  {option}
+                </option>
               ))}
             </select>
           </Field>

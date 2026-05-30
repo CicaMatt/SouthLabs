@@ -4,11 +4,10 @@ const FACTORY_ACCELERATION_RATE = 2.25;
 const FACTORY_ACCELERATION_RAMP_UP_MS = 220;
 const FACTORY_ACCELERATION_HOLD_MS = 150;
 const FACTORY_ACCELERATION_RAMP_DOWN_MS = 760;
-const FACTORY_ACCELERATION_TOTAL_MS = (
-  FACTORY_ACCELERATION_RAMP_UP_MS
-  + FACTORY_ACCELERATION_HOLD_MS
-  + FACTORY_ACCELERATION_RAMP_DOWN_MS
-);
+const FACTORY_ACCELERATION_TOTAL_MS =
+  FACTORY_ACCELERATION_RAMP_UP_MS +
+  FACTORY_ACCELERATION_HOLD_MS +
+  FACTORY_ACCELERATION_RAMP_DOWN_MS;
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const lerp = (start, end, progress) => start + (end - start) * progress;
@@ -28,8 +27,8 @@ function setAnimationPlaybackRate(animation, playbackRate) {
 
 function isFactoryCssAnimation(animation) {
   return (
-    animation.playState !== 'idle'
-    && (typeof CSSAnimation === 'undefined' || animation instanceof CSSAnimation)
+    animation.playState !== 'idle' &&
+    (typeof CSSAnimation === 'undefined' || animation instanceof CSSAnimation)
   );
 }
 
@@ -106,12 +105,14 @@ export function useFactoryAnimationAcceleration(factoryStageRef) {
           nextRate = lerp(
             peakRate,
             baseRate,
-            smoothStep(clamp(
-              (elapsed - FACTORY_ACCELERATION_RAMP_UP_MS - FACTORY_ACCELERATION_HOLD_MS)
-              / FACTORY_ACCELERATION_RAMP_DOWN_MS,
-              0,
-              1
-            ))
+            smoothStep(
+              clamp(
+                (elapsed - FACTORY_ACCELERATION_RAMP_UP_MS - FACTORY_ACCELERATION_HOLD_MS) /
+                  FACTORY_ACCELERATION_RAMP_DOWN_MS,
+                0,
+                1
+              )
+            )
           );
         }
 

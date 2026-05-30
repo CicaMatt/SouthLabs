@@ -32,9 +32,7 @@ function getSvgPointForClientPoint(svgElement, clientX, clientY) {
     }
 
     const DOMPoint = svgElement.ownerDocument.defaultView?.DOMPoint;
-    return DOMPoint
-      ? new DOMPoint(clientX, clientY).matrixTransform(screenMatrix.inverse())
-      : null;
+    return DOMPoint ? new DOMPoint(clientX, clientY).matrixTransform(screenMatrix.inverse()) : null;
   } catch {
     return null;
   }
@@ -53,18 +51,18 @@ function isPointInEllipse(point, centerX, centerY, radiusX, radiusY) {
 function isPointInPolygon(point, polygon) {
   let isInside = false;
 
-  for (let currentIndex = 0, previousIndex = polygon.length - 1;
+  for (
+    let currentIndex = 0, previousIndex = polygon.length - 1;
     currentIndex < polygon.length;
     previousIndex = currentIndex, currentIndex += 1
   ) {
     const current = polygon[currentIndex];
     const previous = polygon[previousIndex];
-    const crossesY = (current.y > point.y) !== (previous.y > point.y);
+    const crossesY = current.y > point.y !== previous.y > point.y;
     if (!crossesY) continue;
 
-    const intersectX = ((previous.x - current.x) * (point.y - current.y))
-      / (previous.y - current.y)
-      + current.x;
+    const intersectX =
+      ((previous.x - current.x) * (point.y - current.y)) / (previous.y - current.y) + current.x;
     if (point.x < intersectX) {
       isInside = !isInside;
     }
@@ -94,15 +92,19 @@ function isPointInHeroGraphic(svgElement, clientX, clientY) {
   const point = getSvgPointForClientPoint(svgElement, clientX, clientY);
   if (!point) return false;
 
-  const pipeToCloudDistance = getPointToSegmentDistance(point, PIPE_TO_CLOUD_START, PIPE_TO_CLOUD_END);
+  const pipeToCloudDistance = getPointToSegmentDistance(
+    point,
+    PIPE_TO_CLOUD_START,
+    PIPE_TO_CLOUD_END
+  );
 
   return (
-    isPointInPolygon(point, FACTORY_BODY_POLYGON)
-    || isPointInRect(point, 76, 500, 544, 520)
-    || isPointInPolygon(point, PIPE_BODY_POLYGON)
-    || pipeToCloudDistance <= PIPE_TO_CLOUD_MAX_DISTANCE
-    || isPointInEllipse(point, 300, 102, 148, 88)
-    || isPointInRect(point, 190, 92, 410, 170)
+    isPointInPolygon(point, FACTORY_BODY_POLYGON) ||
+    isPointInRect(point, 76, 500, 544, 520) ||
+    isPointInPolygon(point, PIPE_BODY_POLYGON) ||
+    pipeToCloudDistance <= PIPE_TO_CLOUD_MAX_DISTANCE ||
+    isPointInEllipse(point, 300, 102, 148, 88) ||
+    isPointInRect(point, 190, 92, 410, 170)
   );
 }
 

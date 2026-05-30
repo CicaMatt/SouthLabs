@@ -7,35 +7,26 @@ import InfrastructureSection from './components/sections/InfrastructureSection';
 import SupportSection from './components/sections/SupportSection';
 import ContactSection from './components/sections/ContactSection';
 import ViewModeDebugger from './components/debug/ViewModeDebugger';
-import { preventImageDefault, useSectionGridInteractions } from './hooks/useSectionGridInteractions';
+import {
+  preventImageDefault,
+  useSectionGridInteractions
+} from './hooks/useSectionGridInteractions';
 
 export default function App() {
-  const {
-    burstCanvasRef,
-    mainRef,
-    sectionCursorRef,
-    mainEventHandlers
-  } = useSectionGridInteractions();
+  const { burstCanvasRef, mainRef, sectionCursorRef, mainEventHandlers } =
+    useSectionGridInteractions();
 
   return (
     <div onContextMenuCapture={preventImageDefault} onDragStartCapture={preventImageDefault}>
       <TopNavBar />
-      <main
-        ref={mainRef}
-        className="site-main-with-section-cursor"
-        {...mainEventHandlers}
-      >
+      <main ref={mainRef} className="site-main-with-section-cursor" {...mainEventHandlers}>
         <HeroSection />
         <WebSolutionsSection />
         <SoftwareSection />
         <InfrastructureSection />
         <SupportSection />
         <ContactSection />
-        <canvas
-          ref={burstCanvasRef}
-          aria-hidden="true"
-          className="section-grid-burst-canvas"
-        />
+        <canvas ref={burstCanvasRef} aria-hidden="true" className="section-grid-burst-canvas" />
         <div ref={sectionCursorRef} aria-hidden="true" className="section-cursor-dot" />
       </main>
       <Footer />

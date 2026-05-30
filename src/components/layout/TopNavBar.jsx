@@ -10,17 +10,26 @@ const NAV_SCROLL_TOP_BUFFER_PX = 8;
 
 const NAV_LINKS = [
   { href: '#siti-web', label: 'Siti Web', tabletLines: ['Siti', 'Web'] },
-  { href: '#software-automazione', label: 'Software e Automazione', tabletLines: ['Software e', 'Automazione'] },
-  { href: '#infrastrutture-hardware', label: 'Infrastrutture Hardware', tabletLines: ['Infrastrutture', 'Hardware'] },
-  { href: '#manutenzione-supporto', label: 'Manutenzione e Supporto', tabletLines: ['Manutenzione', 'e Supporto'] }
+  {
+    href: '#software-automazione',
+    label: 'Software e Automazione',
+    tabletLines: ['Software e', 'Automazione']
+  },
+  {
+    href: '#infrastrutture-hardware',
+    label: 'Infrastrutture Hardware',
+    tabletLines: ['Infrastrutture', 'Hardware']
+  },
+  {
+    href: '#manutenzione-supporto',
+    label: 'Manutenzione e Supporto',
+    tabletLines: ['Manutenzione', 'e Supporto']
+  }
 ];
 
-const NAVBAR_CLASS = [
-  'sticky top-0 w-full z-50',
-  'site-surface',
-  'top-nav-surface'
-].join(' ');
-const NAV_CONTENT_CLASS = 'relative max-w-7xl mx-auto h-full flex items-center justify-between px-5 lg:px-8';
+const NAVBAR_CLASS = ['sticky top-0 w-full z-50', 'site-surface', 'top-nav-surface'].join(' ');
+const NAV_CONTENT_CLASS =
+  'relative max-w-7xl mx-auto h-full flex items-center justify-between px-5 lg:px-8';
 const DESKTOP_LINK_CLASS = [
   'relative text-center text-[13px] font-semibold leading-tight tracking-[0.01em]',
   'px-1 py-2 text-[#d4dbea] transition-all duration-300 hover:text-white',
@@ -59,14 +68,21 @@ function BrandLogo({ onNavigate }) {
       href="#hero"
       onClick={handleClick}
     >
-      <img alt="" aria-hidden="true" className="h-14 lg:h-[4.25rem] w-auto object-contain object-center" decoding="async" fetchpriority="high" src={logoImage} />
+      <img
+        alt=""
+        aria-hidden="true"
+        className="h-14 lg:h-[4.25rem] w-auto object-contain object-center"
+        decoding="async"
+        fetchPriority="high"
+        src={logoImage}
+      />
       <div className="flex h-[3.25rem] lg:h-[3.75rem] items-center">
         <img
           alt=""
           aria-hidden="true"
           className="top-nav-logo-text relative translate-y-0.5 h-10 lg:h-12 w-auto object-contain object-center"
           decoding="async"
-          fetchpriority="high"
+          fetchPriority="high"
           src={logoText}
         />
       </div>
@@ -79,11 +95,7 @@ function DesktopNavLinks() {
   return (
     <div className="hidden md:flex md:flex-1 items-center justify-around gap-4 md:px-4 lg:gap-6 lg:px-12 xl:px-20">
       {NAV_LINKS.map((link) => (
-        <a
-          key={link.href}
-          className={DESKTOP_LINK_CLASS}
-          href={link.href}
-        >
+        <a key={link.href} className={DESKTOP_LINK_CLASS} href={link.href}>
           <span className="hidden lg:inline">{link.label}</span>
           <span className="block lg:hidden whitespace-nowrap">
             <span className="block">{link.tabletLines[0]}</span>
@@ -103,7 +115,12 @@ function MenuIcon({ isOpen }) {
     </svg>
   ) : (
     <svg aria-hidden="true" className="h-5 w-5" fill="none" viewBox="0 0 24 24">
-      <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" strokeLinecap="round" strokeWidth="2" />
+      <path
+        d="M4 7H20M4 12H20M4 17H20"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeWidth="2"
+      />
     </svg>
   );
 }
@@ -118,7 +135,9 @@ function MobileNavMenu({ isVisible, menuRef, onNavigate }) {
         'md:hidden absolute top-[calc(100%+0.65rem)] left-4 right-4 overflow-hidden rounded-2xl p-2',
         'top-nav-mobile-menu',
         'origin-top transition-[opacity,transform] duration-[280ms] ease-out motion-reduce:transition-none',
-        isVisible ? 'translate-y-0 scale-100 opacity-100' : 'pointer-events-none -translate-y-1 scale-[0.99] opacity-0'
+        isVisible
+          ? 'translate-y-0 scale-100 opacity-100'
+          : 'pointer-events-none -translate-y-1 scale-[0.99] opacity-0'
       ].join(' ')}
       id="mobile-nav-menu"
       inert={isVisible ? undefined : ''}
@@ -192,13 +211,9 @@ export default function TopNavBar() {
   useEffect(() => {
     if (!isMobileMenuOpen) return undefined;
 
-    const isInsideMenuControls = (target) => (
-      target instanceof Node
-      && (
-        mobileMenuRef.current?.contains(target)
-        || mobileMenuButtonRef.current?.contains(target)
-      )
-    );
+    const isInsideMenuControls = (target) =>
+      target instanceof Node &&
+      (mobileMenuRef.current?.contains(target) || mobileMenuButtonRef.current?.contains(target));
     const closeOnOutsidePointer = (event) => {
       if (!isInsideMenuControls(event.target)) {
         setIsMobileMenuOpen(false);
@@ -263,27 +278,18 @@ export default function TopNavBar() {
   }, [isMobileMenuOpen]);
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
-  const navClassName = [
-    NAVBAR_CLASS,
-    isNavHidden && 'top-nav-surface--hidden'
-  ].filter(Boolean).join(' ');
+  const navClassName = [NAVBAR_CLASS, isNavHidden && 'top-nav-surface--hidden']
+    .filter(Boolean)
+    .join(' ');
 
   return (
-    <nav
-      ref={navRef}
-      className={navClassName}
-      onFocusCapture={() => setIsNavHidden(false)}
-    >
+    <nav ref={navRef} className={navClassName} onFocusCapture={() => setIsNavHidden(false)}>
       <div className={NAV_CONTENT_CLASS}>
         <BrandLogo onNavigate={closeMobileMenu} />
         <DesktopNavLinks />
 
         <div className="flex items-center gap-2 lg:gap-3">
-          <a
-            className={CONTACT_CTA_CLASS}
-            href="#contatti"
-            onClick={closeMobileMenu}
-          >
+          <a className={CONTACT_CTA_CLASS} href="#contatti" onClick={closeMobileMenu}>
             <span className="cta-underline-label">Contattaci</span>
           </a>
 

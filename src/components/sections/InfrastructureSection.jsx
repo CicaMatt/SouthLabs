@@ -30,8 +30,10 @@ const INFRASTRUCTURE_CARDS = [
 
 const CARD_GRID_CLASS = 'grid grid-cols-1 md:grid-cols-3 gap-8';
 const CARD_CLASS = 'infrastructure-image-card group';
-const IMAGE_FRAME_CLASS = 'infrastructure-image-frame solution-card-surface card-grid-anchor isolate h-48 rounded-xl mb-6 overflow-hidden relative';
-const IMAGE_CLASS = 'w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 opacity-85';
+const IMAGE_FRAME_CLASS =
+  'infrastructure-image-frame solution-card-surface card-grid-anchor isolate h-48 rounded-xl mb-6 overflow-hidden relative';
+const IMAGE_CLASS =
+  'w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 opacity-85';
 const CARD_TITLE_CLASS = 'font-headline text-xl font-bold text-on-background mb-2';
 const CARD_DESCRIPTION_CLASS = 'font-body text-sm text-on-surface-variant leading-relaxed';
 
@@ -40,13 +42,7 @@ function InfrastructureCard({ alt, description, src, title }) {
     <div className={CARD_CLASS}>
       <div className={IMAGE_FRAME_CLASS}>
         <span aria-hidden="true" className="software-ai-grid-highlight" />
-        <img
-          alt={alt}
-          className={IMAGE_CLASS}
-          decoding="async"
-          loading="lazy"
-          src={src}
-        />
+        <img alt={alt} className={IMAGE_CLASS} decoding="async" loading="lazy" src={src} />
       </div>
       <h3 className={CARD_TITLE_CLASS}>{title}</h3>
       <p className={CARD_DESCRIPTION_CLASS}>{description}</p>
