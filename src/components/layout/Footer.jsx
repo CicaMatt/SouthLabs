@@ -21,7 +21,7 @@ const socialLinks = [
   { href: 'https://www.instagram.com', label: 'Instagram' }
 ];
 const contacts = [
-  { id: 'email', label: 'Email', value: 'matteocicalese.consulting@gmail.com' },
+  { id: 'email', label: 'Email', value: 'consulting@southlabs.it' },
   { id: 'phone', label: 'Telefono', value: '+39 3928139527' }
 ];
 
