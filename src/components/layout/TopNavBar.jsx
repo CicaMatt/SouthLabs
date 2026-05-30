@@ -17,6 +17,7 @@ const NAV_LINKS = [
 
 const NAVBAR_CLASS = [
   'sticky top-0 w-full z-50',
+  'site-surface',
   'top-nav-surface'
 ].join(' ');
 const NAV_CONTENT_CLASS = 'relative max-w-7xl mx-auto h-full flex items-center justify-between px-5 lg:px-8';

@@ -176,7 +176,7 @@ export default function Footer() {
   }
 
   return (
-    <footer className="site-footer-surface w-full text-[#d4dbea]">
+    <footer className="site-surface w-full text-[#d4dbea]">
       <div className="site-footer-main mx-auto flex max-w-7xl items-center px-4 sm:px-6 md:px-8">
         <div className="mx-auto w-full max-w-5xl">
           <div className="mx-auto flex w-full flex-col items-center gap-8 md:w-fit md:flex-row md:items-start md:justify-center md:gap-20 lg:gap-28">

@@ -1,29 +1,3 @@
-/* Shared dark chrome surfaces used by the navbar and footer. */
-.top-nav-surface,
-.site-footer-surface {
-  --section-grid-color: rgba(149, 227, 255, 0.0225);
-  --section-grid-size: 72px;
-  background-color: #22385a;
-  background-image:
-    linear-gradient(var(--section-grid-color) 1px, transparent 1px),
-    linear-gradient(90deg, var(--section-grid-color) 1px, transparent 1px),
-    linear-gradient(135deg, #203658 0%, #1a2d4e 54%, #122038 100%);
-  background-position:
-    calc(-1px - var(--section-grid-origin-x, 0px))
-    calc(-1px - var(--section-grid-origin-y, 0px)),
-    calc(-1px - var(--section-grid-origin-x, 0px))
-    calc(-1px - var(--section-grid-origin-y, 0px)),
-    0 0;
-  background-repeat: repeat, repeat, no-repeat;
-  background-size:
-    var(--section-grid-size) var(--section-grid-size),
-    var(--section-grid-size) var(--section-grid-size),
-    100% 100%;
-  box-shadow:
-    inset 0 -1px 0 rgba(149, 227, 255, 0.10),
-    0 10px 28px rgba(6, 17, 32, 0.16);
-}
-
 .top-nav-surface {
   height: var(--section-grid-size);
   transform: translateY(0);
@@ -40,14 +14,6 @@
   opacity: 0.96;
 }
 
-.site-footer-bottom-row {
-  height: var(--section-grid-size);
-}
-
-.site-footer-main {
-  min-height: calc(var(--section-grid-size) * 5);
-}
-
 .top-nav-mobile-menu {
   background-color: rgba(34, 56, 90, 0.98);
   background-image: linear-gradient(135deg, rgba(32, 54, 88, 0.98) 0%, rgba(26, 45, 78, 0.98) 54%, rgba(18, 32, 56, 0.98) 100%);
@@ -55,42 +21,6 @@
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.08),
     0 22px 58px rgba(5, 13, 24, 0.42);
-}
-
-@media (max-width: 767px) {
-  .top-nav-surface,
-  .site-footer-surface {
-    --section-grid-size: 60px;
-  }
-
-  .site-footer-main {
-    min-height: calc(var(--section-grid-size) * 6);
-  }
-}
-
-@media (max-width: 639px) {
-  .site-footer-bottom-content {
-    width: 100%;
-    min-width: 0;
-  }
-}
-
-@media (max-width: 479px) {
-  .site-footer-bottom-content {
-    justify-content: space-between;
-    gap: 0.75rem;
-    padding-inline: 0.75rem;
-  }
-
-  .site-footer-bottom-content > span {
-    white-space: nowrap;
-  }
-}
-
-@media (min-width: 768px) {
-  .site-footer-main {
-    min-height: calc(var(--section-grid-size) * 2);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
