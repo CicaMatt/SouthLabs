@@ -1,17 +1,19 @@
 const TAU = Math.PI * 2;
 const PARTICLE_DENSITY = 4400;
-const POINTER_RADIUS = 148;
+const POINTER_RADIUS = 164;
 const POINTER_BURST_RADIUS_BOOST = 0.16;
-const POINTER_FORCE = 0.49;
-const POINTER_BURST_FORCE = 1.18;
+const POINTER_FORCE = 0.68;
+const POINTER_BURST_FORCE = 1.32;
 const TOUCH_NUDGE_FORCE = 0.00205;
 const MAX_PIXEL_RATIO = 1.25;
 const MOBILE_FIELD_MAX_WIDTH = 700;
 const MOBILE_PARTICLE_DENSITY = 3900;
 const MOBILE_PARTICLE_MIN = 88;
 const MOBILE_PARTICLE_MAX = 132;
-const PARTICLE_MOTION_SPEED = 1.35;
-const FIELD_PADDING = 32;
+const IDLE_MOTION_SPEED = 1.35;
+const DESKTOP_IDLE_ANCHOR_RADIUS = 24;
+const MOBILE_IDLE_ANCHOR_RADIUS = 18;
+const IDLE_ANCHOR_FOLLOW = 0.18;
 const FRAME_INTERVAL_MS = {
   active: 16,
   idleDesktop: 32,
@@ -73,31 +75,28 @@ function createParticle(x, y, width, options = {}) {
     0.88
   );
   const color = Math.random() > (options.cyanChance ?? 0.28) ? '214, 250, 255' : '71, 214, 255';
-  const driftAngle = Math.random() * TAU;
-  const driftSpeed = (
-    (options.driftSpeedMin ?? 0.018)
-    + Math.random() * (options.driftSpeedRange ?? 0.038)
-  ) * PARTICLE_MOTION_SPEED;
+  const idleRadius = (options.idleRadiusMin ?? 9) + Math.random() * (options.idleRadiusRange ?? 12);
 
   return {
     x,
     y,
+    originX: x,
+    originY: y,
     anchorX: x,
     anchorY: y,
     vx: (Math.random() - 0.5) * (options.initialVelocity ?? 0.16),
     vy: (Math.random() - 0.5) * (options.initialVelocity ?? 0.16),
     radius: (options.radiusMin ?? 0.95) + Math.random() * (options.radiusRange ?? 1.35),
-    driftX: Math.cos(driftAngle) * driftSpeed,
-    driftY: Math.sin(driftAngle) * driftSpeed * 0.72,
+    idleRadius,
+    idleXScale: 0.78 + Math.random() * 0.34,
+    idleYScale: 0.58 + Math.random() * 0.34,
+    idlePhaseOffset: Math.random() * TAU,
+    idlePhaseRatio: 0.72 + Math.random() * 0.36,
     phase: Math.random() * TAU,
     phaseSpeed: (
       (options.phaseSpeedMin ?? 0.004)
       + Math.random() * (options.phaseSpeedRange ?? 0.009)
-    ) * PARTICLE_MOTION_SPEED,
-    flow: (
-      (options.flowMin ?? 0.012)
-      + Math.random() * (options.flowRange ?? 0.022)
-    ) * PARTICLE_MOTION_SPEED,
+    ) * IDLE_MOTION_SPEED,
     spring: (options.springMin ?? 0.0055) + Math.random() * (options.springRange ?? 0.006),
     drag: (options.dragMin ?? 0.885) + Math.random() * (options.dragRange ?? 0.055),
     mass: (options.massMin ?? 0.82) + Math.random() * (options.massRange ?? 0.54),
@@ -127,10 +126,8 @@ function createMobileParticles(width, height, count) {
       leftCompensation: 0.06,
       radiusMin: 0.88,
       radiusRange: 1.16,
-      driftSpeedMin: 0.012,
-      driftSpeedRange: 0.026,
-      flowMin: 0.010,
-      flowRange: 0.018,
+      idleRadiusMin: 6,
+      idleRadiusRange: 8,
       maxSpeedMin: 1.24,
       maxSpeedRange: 0.94,
       initialVelocity: 0.10
@@ -184,6 +181,8 @@ export function resizeParticles(particles, previousSize, nextSize) {
     ...particle,
     x: particle.x * scaleX,
     y: particle.y * scaleY,
+    originX: (particle.originX ?? particle.anchorX) * scaleX,
+    originY: (particle.originY ?? particle.anchorY) * scaleY,
     anchorX: particle.anchorX * scaleX,
     anchorY: particle.anchorY * scaleY
   }));
@@ -210,36 +209,36 @@ export function drawDot(ctx, x, y, radius, fillStyle) {
   ctx.fill();
 }
 
-function wrapParticle(particle, width, height) {
-  if (particle.anchorX < -FIELD_PADDING) {
-    particle.anchorX = width + FIELD_PADDING;
-    particle.x = particle.anchorX;
-    particle.vx = 0;
-  } else if (particle.anchorX > width + FIELD_PADDING) {
-    particle.anchorX = -FIELD_PADDING;
-    particle.x = particle.anchorX;
-    particle.vx = 0;
-  }
+function updateIdleAnchor(particle, width, step) {
+  const originX = particle.originX ?? particle.anchorX;
+  const originY = particle.originY ?? particle.anchorY;
+  const maxOffset = width < MOBILE_FIELD_MAX_WIDTH
+    ? MOBILE_IDLE_ANCHOR_RADIUS
+    : DESKTOP_IDLE_ANCHOR_RADIUS;
+  const idleRadius = Math.min(particle.idleRadius ?? maxOffset * 0.7, maxOffset * 0.92);
+  const phase = particle.phase + (particle.idlePhaseOffset ?? 0);
+  const targetX = originX + Math.cos(phase) * idleRadius * (particle.idleXScale ?? 1);
+  const targetY = originY + Math.sin(phase * (particle.idlePhaseRatio ?? 0.86)) * idleRadius * (particle.idleYScale ?? 0.72);
+  const follow = Math.min(1, IDLE_ANCHOR_FOLLOW * step);
 
-  if (particle.anchorY < -FIELD_PADDING) {
-    particle.anchorY = height + FIELD_PADDING;
-    particle.y = particle.anchorY;
-    particle.vy = 0;
-  } else if (particle.anchorY > height + FIELD_PADDING) {
-    particle.anchorY = -FIELD_PADDING;
-    particle.y = particle.anchorY;
-    particle.vy = 0;
+  particle.anchorX += (targetX - particle.anchorX) * follow;
+  particle.anchorY += (targetY - particle.anchorY) * follow;
+
+  const dx = particle.anchorX - originX;
+  const dy = particle.anchorY - originY;
+  const distanceSq = dx * dx + dy * dy;
+  const maxOffsetSq = maxOffset * maxOffset;
+
+  if (distanceSq > maxOffsetSq) {
+    const scale = maxOffset / Math.sqrt(distanceSq);
+    particle.anchorX = originX + dx * scale;
+    particle.anchorY = originY + dy * scale;
   }
 }
 
 export function advanceParticle(particle, step, size, forceState) {
   particle.phase += particle.phaseSpeed * step;
-
-  const flowX = Math.cos(particle.phase + particle.anchorY * 0.007) * particle.flow;
-  const flowY = Math.sin(particle.phase * 0.86 + particle.anchorX * 0.005) * particle.flow * 0.78;
-  particle.anchorX += (particle.driftX + flowX) * step;
-  particle.anchorY += (particle.driftY + flowY) * step;
-  wrapParticle(particle, size.width, size.height);
+  updateIdleAnchor(particle, size.width, step);
 
   let ax = (particle.anchorX - particle.x) * particle.spring;
   let ay = (particle.anchorY - particle.y) * particle.spring;

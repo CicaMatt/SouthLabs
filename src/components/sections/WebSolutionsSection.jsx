@@ -74,7 +74,7 @@ const LEFT_WEB_SOLUTION_CARDS = [
     icon: 'code_blocks',
     eyebrow: 'Sviluppo Web',
     title: 'Siti Web Personalizzati',
-    description: 'Piattaforme moderne e d\'impatto, costruite per rispecchiare l\'identità del tuo brand.',
+    description: 'Piattaforme moderne e d\'impatto, costruite per dare valore al tuo brand.',
     previewImage: customWebAppImage,
     stackedPreviewImage: customWebAppImage,
     desktopPreviewScaleClass: 'scale-[1.2]'
