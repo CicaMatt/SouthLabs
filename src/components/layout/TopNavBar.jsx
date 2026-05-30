@@ -4,6 +4,9 @@ import logoText from '../../../media/logo/logo_text.png';
 
 const NAV_DESKTOP_MIN_WIDTH = 768;
 const MOBILE_MENU_FADE_MS = 280;
+const NAV_SCROLL_DELTA_PX = 4;
+const NAV_SCROLL_REVEAL_PX = 28;
+const NAV_SCROLL_TOP_BUFFER_PX = 8;
 
 const NAV_LINKS = [
   { href: '#siti-web', label: 'Siti Web', tabletLines: ['Siti', 'Web'] },
@@ -13,15 +16,13 @@ const NAV_LINKS = [
 ];
 
 const NAVBAR_CLASS = [
-  'sticky top-0 w-full h-16 lg:h-20 z-50',
-  'bg-[#e6ecf4]',
-  'border-b border-slate-100',
-  'shadow-[0_1px_3px_0_rgba(0,0,0,0.05),0_1px_2px_0_rgba(0,0,0,0.06)]'
+  'sticky top-0 w-full z-50',
+  'top-nav-surface'
 ].join(' ');
 const NAV_CONTENT_CLASS = 'relative max-w-7xl mx-auto h-full flex items-center justify-between px-5 lg:px-8';
 const DESKTOP_LINK_CLASS = [
   'relative text-center text-[13px] font-semibold leading-tight tracking-[0.01em]',
-  'px-1 py-2 text-[#28324b] transition-all duration-300 hover:text-[#203658]',
+  'px-1 py-2 text-[#d4dbea] transition-all duration-300 hover:text-white',
   'lg:text-[14px]',
   'after:pointer-events-none after:absolute after:left-1 after:right-1 after:bottom-1 after:h-[2px]',
   'after:origin-left after:scale-x-0 after:bg-[#95e3ff] after:transition-transform after:duration-300 after:ease-out',
@@ -29,18 +30,18 @@ const DESKTOP_LINK_CLASS = [
 ].join(' ');
 const MOBILE_LINK_CLASS = [
   'group flex min-h-12 items-center justify-between rounded-lg px-4',
-  'text-[14px] font-semibold text-[#28324b]',
-  'transition-colors hover:bg-[#203658]/10 hover:text-[#203658] active:bg-[#203658]/15'
+  'text-[14px] font-semibold text-[#d4dbea]',
+  'transition-colors hover:bg-white/10 hover:text-white active:bg-[#95e3ff]/15'
 ].join(' ');
 const CONTACT_CTA_CLASS = [
-  'inline-flex items-center justify-center px-3.5 py-2 rounded-md text-xs lg:text-sm font-bold',
-  'whitespace-nowrap transition-all duration-200 active:scale-95',
-  'nav-contact-cta',
+  'hero-consultancy-cta inline-flex items-center justify-center px-3.5 py-2 rounded-md text-xs lg:text-sm font-medium',
+  'whitespace-nowrap transition-all duration-300 bg-[#95e3ff] text-[#06222a]',
+  'shadow-[0_18px_45px_rgba(12,35,46,0.45)] hover:shadow-[0_22px_55px_rgba(12,35,46,0.58)] active:scale-95',
   'lg:px-6 lg:py-2.5'
 ].join(' ');
 const MOBILE_MENU_BUTTON_CLASS = [
   'md:hidden inline-flex items-center justify-center h-10 w-10',
-  'rounded-lg text-[#28324b] hover:bg-[#28324b]/10 transition-colors'
+  'rounded-lg text-[#d4dbea] hover:bg-white/10 hover:text-white transition-colors'
 ].join(' ');
 
 function BrandLogo({ onNavigate }) {
@@ -57,12 +58,12 @@ function BrandLogo({ onNavigate }) {
       href="#hero"
       onClick={handleClick}
     >
-      <img alt="" aria-hidden="true" className="h-[4rem] lg:h-[4.5rem] w-auto object-contain object-center" decoding="async" fetchpriority="high" src={logoImage} />
+      <img alt="" aria-hidden="true" className="h-14 lg:h-[4.25rem] w-auto object-contain object-center" decoding="async" fetchpriority="high" src={logoImage} />
       <div className="flex h-[3.25rem] lg:h-[3.75rem] items-center">
         <img
           alt=""
           aria-hidden="true"
-          className="relative translate-y-0.5 h-[2.75rem] lg:h-[3.25rem] w-auto object-contain object-center"
+          className="top-nav-logo-text relative translate-y-0.5 h-10 lg:h-12 w-auto object-contain object-center"
           decoding="async"
           fetchpriority="high"
           src={logoText}
@@ -113,8 +114,8 @@ function MobileNavMenu({ isVisible, menuRef, onNavigate }) {
       ref={menuRef}
       aria-hidden={!isVisible}
       className={[
-        'md:hidden absolute top-[calc(100%+0.65rem)] left-4 right-4 overflow-hidden rounded-2xl border border-slate-200 bg-[#e6ecf4] p-2',
-        'shadow-[0_22px_58px_rgba(15,23,42,0.22),0_1px_0_rgba(255,255,255,0.9)_inset]',
+        'md:hidden absolute top-[calc(100%+0.65rem)] left-4 right-4 overflow-hidden rounded-2xl p-2',
+        'top-nav-mobile-menu',
         'origin-top transition-[opacity,transform] duration-[280ms] ease-out motion-reduce:transition-none',
         isVisible ? 'translate-y-0 scale-100 opacity-100' : 'pointer-events-none -translate-y-1 scale-[0.99] opacity-0'
       ].join(' ')}
@@ -131,7 +132,7 @@ function MobileNavMenu({ isVisible, menuRef, onNavigate }) {
             <span className="relative after:pointer-events-none after:absolute after:left-0 after:right-0 after:-bottom-0.5 after:h-[2px] after:origin-left after:scale-x-0 after:bg-[#95e3ff] after:transition-transform after:duration-300 after:ease-out group-hover:after:scale-x-100">
               {link.label}
             </span>
-            <span className="material-symbols-outlined text-[18px] text-[#28324b] transition-all group-hover:translate-x-0.5 group-hover:text-[#203658]">
+            <span className="material-symbols-outlined text-[18px] text-[#95e3ff] transition-all group-hover:translate-x-0.5 group-hover:text-white">
               arrow_forward
             </span>
           </a>
@@ -142,11 +143,16 @@ function MobileNavMenu({ isVisible, menuRef, onNavigate }) {
 }
 
 export default function TopNavBar() {
+  const [isNavHidden, setIsNavHidden] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileMenuMounted, setIsMobileMenuMounted] = useState(false);
   const [isMobileMenuVisible, setIsMobileMenuVisible] = useState(false);
+  const navRef = useRef(null);
   const mobileMenuRef = useRef(null);
   const mobileMenuButtonRef = useRef(null);
+  const lastScrollYRef = useRef(0);
+  const upwardScrollRef = useRef(0);
+  const scrollFrameRef = useRef(0);
 
   useEffect(() => {
     function handleResize() {
@@ -208,10 +214,63 @@ export default function TopNavBar() {
     };
   }, [isMobileMenuOpen]);
 
+  useEffect(() => {
+    lastScrollYRef.current = Math.max(window.scrollY, 0);
+
+    const updateNavVisibility = () => {
+      scrollFrameRef.current = 0;
+
+      const currentY = Math.max(window.scrollY, 0);
+      const deltaY = currentY - lastScrollYRef.current;
+      const navHeight = navRef.current?.offsetHeight ?? 72;
+
+      if (currentY <= NAV_SCROLL_TOP_BUFFER_PX) {
+        upwardScrollRef.current = 0;
+        setIsNavHidden(false);
+      } else if (deltaY > NAV_SCROLL_DELTA_PX && currentY > navHeight) {
+        upwardScrollRef.current = 0;
+        setIsNavHidden(true);
+      } else if (deltaY < 0) {
+        upwardScrollRef.current += Math.abs(deltaY);
+
+        if (upwardScrollRef.current >= NAV_SCROLL_REVEAL_PX) {
+          setIsNavHidden(false);
+        }
+      } else if (deltaY > 0) {
+        upwardScrollRef.current = 0;
+      }
+
+      lastScrollYRef.current = currentY;
+    };
+
+    const handleScroll = () => {
+      if (scrollFrameRef.current) return;
+      scrollFrameRef.current = requestAnimationFrame(updateNavVisibility);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (scrollFrameRef.current) cancelAnimationFrame(scrollFrameRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isMobileMenuOpen) setIsNavHidden(false);
+  }, [isMobileMenuOpen]);
+
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
+  const navClassName = [
+    NAVBAR_CLASS,
+    isNavHidden && 'top-nav-surface--hidden'
+  ].filter(Boolean).join(' ');
 
   return (
-    <nav className={NAVBAR_CLASS}>
+    <nav
+      ref={navRef}
+      className={navClassName}
+      onFocusCapture={() => setIsNavHidden(false)}
+    >
       <div className={NAV_CONTENT_CLASS}>
         <BrandLogo onNavigate={closeMobileMenu} />
         <DesktopNavLinks />

@@ -28,10 +28,10 @@ const contacts = [
 const FOOTER_COLUMN_CLASS = 'flex flex-col items-center gap-2.5 text-center';
 const FOOTER_HEADING_CLASS = [
   'font-inter text-[11px] font-semibold uppercase tracking-[0.12em]',
-  'text-[#203658]'
+  'text-[#95e3ff]'
 ].join(' ');
 const FOOTER_LINK_CLASS = [
-  'font-inter text-sm leading-relaxed text-on-surface-variant'
+  'font-inter text-sm leading-relaxed text-[#d4dbea] transition-colors hover:text-white'
 ].join(' ');
 const FOOTER_UNDERLINE_HOVER_CLASS = [
   'relative after:pointer-events-none after:absolute after:left-0 after:right-0 after:-bottom-0.5 after:h-[2px]',
@@ -44,7 +44,7 @@ const FOOTER_LEGAL_BUTTON_CLASS = [
   FOOTER_UNDERLINE_HOVER_CLASS
 ].join(' ');
 const FOOTER_CONTACT_ROW_CLASS = 'flex max-w-full items-center justify-center gap-1.5';
-const FOOTER_COPY_BUTTON_CLASS = 'relative inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-sm text-slate-500 transition-colors hover:bg-[#203658]/10 hover:text-[#203658] focus:outline-none focus-visible:bg-[#203658]/10 focus-visible:text-[#203658]';
+const FOOTER_COPY_BUTTON_CLASS = 'relative inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-sm text-[#95e3ff]/80 transition-colors hover:bg-white/10 hover:text-white focus:outline-none focus-visible:bg-white/10 focus-visible:text-white';
 const FOOTER_COPY_ICON_CLASS = 'material-symbols-outlined absolute inset-0 flex origin-center items-center justify-center text-[13px] leading-none transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform';
 
 async function copyTextToClipboard(value) {
@@ -176,8 +176,8 @@ export default function Footer() {
   }
 
   return (
-    <footer className="w-full border-t border-slate-200/60 bg-[#e6ecf4]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-8 md:py-10">
+    <footer className="site-footer-surface w-full text-[#d4dbea]">
+      <div className="site-footer-main mx-auto flex max-w-7xl items-center px-4 sm:px-6 md:px-8">
         <div className="mx-auto w-full max-w-5xl">
           <div className="mx-auto flex w-full flex-col items-center gap-8 md:w-fit md:flex-row md:items-start md:justify-center md:gap-20 lg:gap-28">
             <FooterColumn title="Documenti Legali">
@@ -229,10 +229,13 @@ export default function Footer() {
             </FooterColumn>
           </div>
 
-          <div className="mt-6 flex flex-col items-center gap-5 border-t border-slate-200/70 pt-5 text-center font-inter text-xs uppercase tracking-[0.08em] text-on-surface-variant sm:flex-row sm:justify-center sm:gap-40">
-            <span>P.IVA: 06403770651</span>
-            <span>© 2026 SouthLabs.</span>
-          </div>
+        </div>
+      </div>
+
+      <div className="site-footer-bottom-row border-t border-[#95e3ff]/10">
+        <div className="site-footer-bottom-content mx-auto flex h-full max-w-7xl flex-col items-center justify-center gap-3 px-4 text-center font-inter text-xs uppercase tracking-[0.08em] text-[#d4dbea]/80 sm:flex-row sm:gap-40 sm:px-6 md:px-8">
+          <span>P.IVA: 06403770651</span>
+          <span>© 2026 SouthLabs.</span>
         </div>
       </div>
 

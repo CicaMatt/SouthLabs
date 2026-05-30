@@ -1,14 +1,4 @@
-/* Call-to-action surfaces: nav contact button, hero consultancy button, support footer panel. */
-
-.nav-contact-cta {
-  --cta-underline-color: #95e3ff;
-  position: relative;
-  isolation: isolate;
-  background-color: #122038;
-  background-image: linear-gradient(135deg, #203658 0%, #1a2d4e 54%, #122038 100%);
-  border: 2px solid transparent;
-  color: #ffffff;
-}
+/* Call-to-action surfaces: consultancy/contact buttons, hero solutions button, support footer panel. */
 
 .contact-submit-cta {
   --cta-underline-color: #95e3ff;
@@ -93,7 +83,6 @@
   pointer-events: none;
 }
 
-.nav-contact-cta:hover .cta-underline-label::after,
 .contact-submit-cta:hover:not(:disabled) .cta-underline-label::after,
 .hero-consultancy-cta:hover .cta-underline-label::after,
 .hero-solutions-cta:hover .cta-underline-label::after {

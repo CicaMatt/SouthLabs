@@ -250,7 +250,8 @@ function StackedSolutionBody({
   previewSide = 'right',
   textColumnClassName,
   textWrapClassName,
-  title
+  title,
+  titleClassName
 }) {
   const text = (
     <div className={textColumnClassName}>
@@ -260,7 +261,7 @@ function StackedSolutionBody({
           description={description}
           descriptionClassName={SOLUTION_CARD_CLASSES.stackedDescription}
           title={title}
-          titleClassName={SOLUTION_CARD_CLASSES.stackedTitle}
+          titleClassName={cx(SOLUTION_CARD_CLASSES.stackedTitle, titleClassName)}
         />
       </div>
     </div>
@@ -425,7 +426,8 @@ function RightSolutionCard({ card }) {
         previewSide="left"
         textColumnClassName={TALL_CARD_CLASSES.stackedTextColumn}
         textWrapClassName={TALL_CARD_CLASSES.stackedTextWrap}
-        title={<>Piattaforme <span className="whitespace-nowrap">E-Commerce</span></>}
+        title="Piattaforme E-Commerce"
+        titleClassName="whitespace-nowrap !text-[0.9rem] min-[380px]:!text-[0.96rem] min-[430px]:!text-[1.22rem] sm:!text-[1.44rem] md:!text-[1.44rem]"
       />
       <EcommerceDesktopBody card={card} />
     </SolutionCardShell>
