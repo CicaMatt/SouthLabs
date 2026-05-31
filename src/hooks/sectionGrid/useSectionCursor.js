@@ -66,9 +66,12 @@ export function useSectionCursor() {
 
     updateHeroGraphicCursorState(mainElement, clientX, clientY);
 
+    const windowObject = mainElement.ownerDocument.defaultView;
+    const pageX = clientX + (windowObject?.scrollX || 0);
+    const pageY = clientY + (windowObject?.scrollY || 0);
     const dotSize = cursorElement.getBoundingClientRect().width || 20;
     const layout = getSectionCursorLayout(mainElement);
-    const theme = getSectionCursorTheme(layout, clientX, clientY, dotSize);
+    const theme = getSectionCursorTheme(layout, pageX, pageY, dotSize);
     if (!theme) {
       clearSectionHighlights();
       return;
@@ -84,12 +87,9 @@ export function useSectionCursor() {
     theme.highlights.forEach(({ section, color, opacity, rect }) => {
       section.style.setProperty(
         '--section-grid-highlight-x',
-        `${(clientX - rect.left).toFixed(2)}px`
+        `${(pageX - rect.left).toFixed(2)}px`
       );
-      section.style.setProperty(
-        '--section-grid-highlight-y',
-        `${(clientY - rect.top).toFixed(2)}px`
-      );
+      section.style.setProperty('--section-grid-highlight-y', `${(pageY - rect.top).toFixed(2)}px`);
       section.style.setProperty('--section-grid-highlight-color', color);
       section.style.setProperty('--section-grid-highlight-opacity', opacity.toFixed(3));
     });
@@ -98,7 +98,7 @@ export function useSectionCursor() {
     const nextHighlightedCardGridAnchors = new Set();
     theme.highlights.forEach(({ cardAnchors, color, opacity }) => {
       cardAnchors.forEach(({ element: card, rect }) => {
-        updateCardGridHighlight(card, clientX, clientY, color, opacity, rect);
+        updateCardGridHighlight(card, pageX, pageY, color, opacity, rect);
         nextHighlightedCardGridAnchors.add(card);
       });
     });
@@ -191,6 +191,20 @@ export function useSectionCursor() {
     [measureSectionCursorLayout, scheduleSectionCursorUpdate]
   );
 
+  const updateSectionCursor = useCallback(
+    (mainElement) => {
+      const lastPoint = lastSectionCursorPointRef.current;
+      if (!lastPoint) return;
+
+      lastSectionCursorPointRef.current = {
+        ...lastPoint,
+        mainElement
+      };
+      scheduleSectionCursorUpdate();
+    },
+    [scheduleSectionCursorUpdate]
+  );
+
   const refreshSectionCursorLayout = useCallback(
     (mainElement) => {
       measureSectionCursorLayout(mainElement);
@@ -220,6 +234,7 @@ export function useSectionCursor() {
     hideSectionCursor,
     refreshSectionCursor,
     refreshSectionCursorLayout,
-    trackSectionCursorPoint
+    trackSectionCursorPoint,
+    updateSectionCursor
   };
 }

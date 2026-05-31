@@ -9,13 +9,13 @@ const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const getSectionHighlightOpacity = (theme) =>
   theme.highlightOpacity ?? SECTION_GRID_HIGHLIGHT_OPACITY;
 
-function readElementRect(element) {
+function readElementPageRect(element, scrollX, scrollY) {
   const rect = element.getBoundingClientRect();
   return {
-    left: rect.left,
-    top: rect.top,
-    right: rect.right,
-    bottom: rect.bottom,
+    left: rect.left + scrollX,
+    top: rect.top + scrollY,
+    right: rect.right + scrollX,
+    bottom: rect.bottom + scrollY,
     width: rect.width,
     height: rect.height
   };
@@ -34,6 +34,9 @@ function readCornerRadii(element) {
 }
 
 export function buildSectionCursorLayout(ownerDocument) {
+  const windowObject = ownerDocument.defaultView;
+  const scrollX = windowObject?.scrollX || 0;
+  const scrollY = windowObject?.scrollY || 0;
   const entries = [];
 
   SECTION_CURSOR_THEMES.forEach((theme) => {
@@ -43,7 +46,7 @@ export function buildSectionCursorLayout(ownerDocument) {
       ? Array.from(element.querySelectorAll(theme.zones.selector)).map((zoneElement) => ({
           element: zoneElement,
           radii: readCornerRadii(zoneElement),
-          rect: readElementRect(zoneElement)
+          rect: readElementPageRect(zoneElement, scrollX, scrollY)
         }))
       : [];
 
@@ -51,13 +54,13 @@ export function buildSectionCursorLayout(ownerDocument) {
       cardAnchors: Array.from(element.querySelectorAll(CARD_GRID_ANCHOR_SELECTOR)).map(
         (cardAnchor) => ({
           element: cardAnchor,
-          rect: readElementRect(cardAnchor)
+          rect: readElementPageRect(cardAnchor, scrollX, scrollY)
         })
       ),
       color: theme.color,
       element,
       highlightOpacity: theme.highlightOpacity,
-      rect: readElementRect(element),
+      rect: readElementPageRect(element, scrollX, scrollY),
       zones: theme.zones,
       zoneElements
     });
@@ -88,17 +91,17 @@ const HIDDEN_ZONE_OVERLAY = {
   zoneRadiusBottomLeft: 0
 };
 
-function applyZoneOverlay(theme, current, clientX, clientY, dotSize) {
+function applyZoneOverlay(theme, current, pageX, pageY, dotSize) {
   const zoneConfig = current.zones;
   if (!zoneConfig) return { ...theme, ...HIDDEN_ZONE_OVERLAY };
 
   const zoneElements = current.zoneElements;
   if (!zoneElements.length) return { ...theme, ...HIDDEN_ZONE_OVERLAY };
 
-  const dotLeft = clientX - dotSize / 2;
-  const dotRight = clientX + dotSize / 2;
-  const dotTop = clientY - dotSize / 2;
-  const dotBottom = clientY + dotSize / 2;
+  const dotLeft = pageX - dotSize / 2;
+  const dotRight = pageX + dotSize / 2;
+  const dotTop = pageY - dotSize / 2;
+  const dotBottom = pageY + dotSize / 2;
 
   for (const zoneElement of zoneElements) {
     const { radii, rect } = zoneElement;
@@ -128,10 +131,10 @@ function applyZoneOverlay(theme, current, clientX, clientY, dotSize) {
   return { ...theme, ...HIDDEN_ZONE_OVERLAY };
 }
 
-export function getSectionCursorTheme(layout, clientX, clientY, dotSize = SECTION_CURSOR_DOT_SIZE) {
+export function getSectionCursorTheme(layout, pageX, pageY, dotSize = SECTION_CURSOR_DOT_SIZE) {
   const sectionEntries = layout?.entries ?? [];
   const currentIndex = sectionEntries.findIndex(
-    ({ rect }) => clientY >= rect.top && clientY <= rect.bottom
+    ({ rect }) => pageY >= rect.top && pageY <= rect.bottom
   );
 
   if (currentIndex === -1) return null;
@@ -141,10 +144,10 @@ export function getSectionCursorTheme(layout, clientX, clientY, dotSize = SECTIO
 
   const topBorder = current.rect.top;
   const bottomBorder = current.rect.bottom;
-  const distanceFromTop = clientY - topBorder;
-  const distanceFromBottom = bottomBorder - clientY;
-  const dotTop = clientY - dotSize / 2;
-  const dotBottom = clientY + dotSize / 2;
+  const distanceFromTop = pageY - topBorder;
+  const distanceFromBottom = bottomBorder - pageY;
+  const dotTop = pageY - dotSize / 2;
+  const dotBottom = pageY + dotSize / 2;
 
   if (currentIndex > 0 && distanceFromTop <= SECTION_GRID_HIGHLIGHT_DISTANCE) {
     const neighbor = sectionEntries[currentIndex - 1];
@@ -174,8 +177,8 @@ export function getSectionCursorTheme(layout, clientX, clientY, dotSize = SECTIO
         split: `${clamp(((topBorder - dotTop) / dotSize) * 100, 0, 100).toFixed(2)}%`
       },
       current,
-      clientX,
-      clientY,
+      pageX,
+      pageY,
       dotSize
     );
   }
@@ -193,8 +196,8 @@ export function getSectionCursorTheme(layout, clientX, clientY, dotSize = SECTIO
         split: `${clamp(((bottomBorder - dotTop) / dotSize) * 100, 0, 100).toFixed(2)}%`
       },
       current,
-      clientX,
-      clientY,
+      pageX,
+      pageY,
       dotSize
     );
   }
@@ -207,8 +210,8 @@ export function getSectionCursorTheme(layout, clientX, clientY, dotSize = SECTIO
       split: '100%'
     },
     current,
-    clientX,
-    clientY,
+    pageX,
+    pageY,
     dotSize
   );
 }

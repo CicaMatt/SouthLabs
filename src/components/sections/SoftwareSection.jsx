@@ -44,10 +44,6 @@ const FEATURE_CARD_CLASS = [
   'relative p-8 text-on-primary',
   SOFTWARE_CARD_SURFACE_CLASS
 ].join(' ');
-const FEATURE_BACKGROUND_ICON_CLASS = [
-  'software-ai-background-icon absolute bottom-0 right-0 z-[2] p-2 opacity-[0.18] transition-[opacity,transform] duration-300 group-hover:opacity-[0.45] group-hover:scale-105',
-  'lg:p-2'
-].join(' ');
 const AUTOMATION_CARD_CLASS = [
   'group relative flex h-full flex-col p-6',
   SOFTWARE_CARD_SURFACE_CLASS
@@ -79,11 +75,6 @@ function SoftwareAiFeatureCard() {
   return (
     <div className={FEATURE_CARD_CLASS} style={SOFTWARE_FEATURE_CARD_SURFACE_STYLE}>
       <span aria-hidden="true" className="software-ai-grid-highlight" />
-      <div className={FEATURE_BACKGROUND_ICON_CLASS}>
-        <span className="material-symbols-outlined text-[60px] leading-none text-[var(--software-ai-accent)] lg:text-[120px]">
-          smart_toy
-        </span>
-      </div>
       <span className="material-symbols-outlined relative z-10 mb-4 inline-flex h-7 w-7 origin-center items-center justify-center text-[28px] leading-none text-[var(--software-ai-accent)] transition-all duration-300 group-hover:scale-110">
         memory
       </span>
@@ -98,7 +89,7 @@ function SoftwareAiFeatureCard() {
         className="software-ai-link relative z-10 inline-flex w-fit items-center rounded-md font-medium transition-all duration-200 hover:translate-x-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 lg:absolute lg:bottom-[4.25rem] lg:left-8 lg:translate-y-1/2 lg:hover:translate-x-1 lg:hover:translate-y-1/2"
         href="#contatti"
       >
-        Esplora AI
+        Scopri cosa puoi fare con l'AI
         <span className="material-symbols-outlined ml-1 text-sm transition-transform duration-200 group-hover:translate-x-0.5">
           arrow_forward
         </span>

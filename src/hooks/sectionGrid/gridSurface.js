@@ -34,14 +34,14 @@ export function clearCardGridHighlight(card) {
 
 export function updateCardGridHighlight(
   card,
-  clientX,
-  clientY,
+  pointerX,
+  pointerY,
   color,
   opacity,
   cardRect = card.getBoundingClientRect()
 ) {
-  card.style.setProperty('--card-grid-highlight-x', `${(clientX - cardRect.left).toFixed(2)}px`);
-  card.style.setProperty('--card-grid-highlight-y', `${(clientY - cardRect.top).toFixed(2)}px`);
+  card.style.setProperty('--card-grid-highlight-x', `${(pointerX - cardRect.left).toFixed(2)}px`);
+  card.style.setProperty('--card-grid-highlight-y', `${(pointerY - cardRect.top).toFixed(2)}px`);
   setStylePropertyIfChanged(card, '--card-grid-highlight-color', color);
   card.style.setProperty('--card-grid-highlight-opacity', opacity.toFixed(3));
 }

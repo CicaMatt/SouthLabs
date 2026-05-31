@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from 'react';
 import SectionHeader from '../SectionHeader';
 import SectionShell from '../SectionShell';
 import SOLUTION_CARD_SURFACE_CLASS, {
@@ -14,7 +13,6 @@ const cx = (...classes) => classes.filter(Boolean).join(' ');
 const WORDPRESS_TITLE = 'Soluzioni WordPress';
 const WEB_CARD_SURFACE_OPACITY = 0.2;
 const WEB_CARD_SURFACE_HOVER_OPACITY = 0.7;
-const SOLUTION_CARD_DESKTOP_QUERY = '(min-width: 1024px)';
 const WEB_CARD_SURFACE_STYLE = getLightSolutionCardSurfaceStyle(
   WEB_CARD_SURFACE_OPACITY,
   WEB_CARD_SURFACE_HOVER_OPACITY
@@ -44,18 +42,9 @@ const HORIZONTAL_CARD_CLASSES = {
   shell: 'lg:col-span-2 lg:block lg:h-[284px]',
   stackedTextColumn: 'min-w-0 flex-1 pr-1 text-left sm:pr-2',
   stackedTextWrap: 'relative mr-auto max-w-[31ch] sm:max-w-[34ch]',
-  stackedPreviewFrame: {
-    square: 'shrink-0 w-[44%] sm:w-[38%] md:w-[32%] -mr-4 sm:-mr-5 md:-mr-5',
-    wide: 'shrink-0 w-[42%] sm:w-[36%] md:w-[30%] -mr-2.5 sm:-mr-3.5 md:-mr-3.5'
-  },
-  stackedPreviewRatio: {
-    square: 'aspect-square',
-    wide: 'aspect-[4/3]'
-  },
-  stackedPreviewImage: {
-    square: 'object-contain object-center',
-    wide: 'translate-x-1.5 object-cover scale-[1.18] sm:scale-[1.2]'
-  },
+  stackedPreviewFrame: 'shrink-0 w-[44%] sm:w-[38%] md:w-[32%] -mr-4 sm:-mr-5 md:-mr-5',
+  stackedPreviewRatio: 'aspect-square',
+  stackedPreviewImage: 'object-contain object-center',
   desktopView: 'relative z-10 hidden h-full px-7 py-6 lg:block',
   desktopTextWrap: 'relative flex flex-col lg:max-w-[57%]',
   desktopTextWrapReversed: 'lg:ml-auto lg:items-end lg:text-right',
@@ -70,41 +59,108 @@ const TALL_CARD_CLASSES = {
   stackedTextColumn: 'min-w-0 flex-1 text-right sm:pl-1 md:pl-2',
   stackedTextWrap: 'relative ml-auto max-w-[31ch] sm:max-w-[34ch]',
   desktopView: 'relative z-10 hidden h-full px-7 py-6 lg:flex',
-  desktopTitleMeasure:
-    'pointer-events-none absolute left-0 top-0 inline-block whitespace-nowrap font-headline text-[1.38rem] font-extrabold leading-[1.08] opacity-0 xl:text-[1.5rem]',
-  desktopTitle: 'whitespace-nowrap',
   desktopTextBlock: 'pb-1'
 };
 
-const LEFT_WEB_SOLUTION_CARDS = [
+const horizontalStackedPreview = {
+  frameClassName: HORIZONTAL_CARD_CLASSES.stackedPreviewFrame,
+  imageClassName: HORIZONTAL_CARD_CLASSES.stackedPreviewImage,
+  ratioClassName: HORIZONTAL_CARD_CLASSES.stackedPreviewRatio
+};
+const defaultHorizontalStacked = {
+  previewSide: 'right',
+  textColumnClassName: HORIZONTAL_CARD_CLASSES.stackedTextColumn,
+  textWrapClassName: HORIZONTAL_CARD_CLASSES.stackedTextWrap
+};
+
+const WEB_SOLUTION_CARDS = [
   {
+    id: 'custom-web-app',
     icon: 'code_blocks',
     eyebrow: 'Sviluppo Web',
     title: 'Siti Web Personalizzati',
     description: "Piattaforme moderne e d'impatto, costruite per dare valore al tuo brand.",
     previewImage: customWebAppImage,
-    stackedPreviewImage: customWebAppImage,
-    desktopPreviewScaleClass: 'scale-[1.2]'
+    shellClassName: HORIZONTAL_CARD_CLASSES.shell,
+    badgeClassName: SOLUTION_CARD_CLASSES.badgeTopLeft,
+    stacked: defaultHorizontalStacked,
+    stackedPreview: {
+      ...horizontalStackedPreview,
+      src: customWebAppImage
+    },
+    desktop: {
+      type: 'horizontal',
+      previewFrameClassName: cx(
+        HORIZONTAL_CARD_CLASSES.desktopPreviewFrame,
+        HORIZONTAL_CARD_CLASSES.desktopPreviewRight
+      ),
+      previewImageClassName: 'scale-[1.2] object-[52%_50%]',
+      textAlign: 'left',
+      textWrapClassName: HORIZONTAL_CARD_CLASSES.desktopTextWrap
+    }
   },
   {
+    id: 'ecommerce',
+    icon: 'shopping_cart',
+    eyebrow: 'Vendita Online',
+    title: 'Piattaforme E-Commerce',
+    description:
+      'Negozi online ad alta conversione con catalogo chiaro, checkout fluido e pagamenti sicuri.',
+    previewImage: ecommerceImage,
+    shellClassName: TALL_CARD_CLASSES.shell,
+    badgeClassName: 'top-4 right-5 sm:top-5 sm:right-7 md:right-8 lg:top-6 lg:left-7 lg:right-auto',
+    stacked: {
+      align: 'right',
+      previewSide: 'left',
+      textColumnClassName: TALL_CARD_CLASSES.stackedTextColumn,
+      textWrapClassName: TALL_CARD_CLASSES.stackedTextWrap,
+      titleClassName:
+        'whitespace-nowrap !text-[0.9rem] min-[380px]:!text-[0.96rem] min-[430px]:!text-[1.22rem] sm:!text-[1.44rem] md:!text-[1.44rem]'
+    },
+    stackedPreview: {
+      frameClassName: TALL_CARD_CLASSES.stackedPreviewFrame,
+      imageClassName: 'scale-[0.88] object-contain object-left-top sm:scale-100',
+      ratioClassName: 'aspect-square',
+      src: ecommerceImage
+    },
+    desktop: {
+      type: 'tall',
+      previewFrameClassName: 'h-[280px]',
+      previewImageClassName: 'scale-[1.1] object-contain object-bottom',
+      titleClassName:
+        'max-w-[12ch] whitespace-normal text-balance !text-[1.38rem] !leading-[1.05] xl:!text-[1.5rem]'
+    }
+  },
+  {
+    id: 'wordpress-seo',
     icon: 'web',
+    iconType: 'wordpress',
     eyebrow: 'CMS & SEO',
     title: WORDPRESS_TITLE,
     description: 'Siti con ottimizzazione del SEO e massima visibilità sui motori di ricerca.',
     previewImage: seoOrientedImage,
-    stackedPreviewImage: seoOrientedImage,
-    desktopPreviewScaleClass: 'scale-[1.12]'
+    shellClassName: HORIZONTAL_CARD_CLASSES.shell,
+    badgeClassName: cx(SOLUTION_CARD_CLASSES.badgeTopLeft, 'lg:left-auto lg:right-7'),
+    stacked: defaultHorizontalStacked,
+    stackedPreview: {
+      ...horizontalStackedPreview,
+      src: seoOrientedImage
+    },
+    desktop: {
+      type: 'horizontal',
+      previewFrameClassName: cx(
+        HORIZONTAL_CARD_CLASSES.desktopPreviewFrame,
+        HORIZONTAL_CARD_CLASSES.desktopPreviewLeft
+      ),
+      previewImageClassName: 'scale-[1.12] object-[48%_50%]',
+      textAlign: 'right',
+      textWrapClassName: cx(
+        HORIZONTAL_CARD_CLASSES.desktopTextWrap,
+        HORIZONTAL_CARD_CLASSES.desktopTextWrapReversed
+      )
+    }
   }
 ];
-
-const RIGHT_WEB_SOLUTION_CARD = {
-  icon: 'shopping_cart',
-  eyebrow: 'Vendita Online',
-  title: 'Piattaforme E-Commerce',
-  description:
-    'Negozi online ad alta conversione con catalogo chiaro, checkout fluido e pagamenti sicuri.',
-  previewImage: ecommerceImage
-};
 
 // Renders the WordPress PNG as a mask so it can be tinted like Material Symbols.
 function WordpressMaskedIcon({ className = '' }) {
@@ -126,50 +182,7 @@ function WordpressMaskedIcon({ className = '' }) {
   );
 }
 
-function useDesktopTitleFit() {
-  const titleWrapRef = useRef(null);
-  const titleMeasureRef = useRef(null);
-  const [useShortTitle, setUseShortTitle] = useState(false);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return undefined;
-
-    const evaluateTitleFit = () => {
-      const wrap = titleWrapRef.current;
-      const measure = titleMeasureRef.current;
-
-      if (!wrap || !measure) return;
-
-      const isDesktop = window.matchMedia(SOLUTION_CARD_DESKTOP_QUERY).matches;
-      if (!isDesktop) {
-        setUseShortTitle(false);
-        return;
-      }
-
-      const availableWidth = wrap.getBoundingClientRect().width;
-      const fullTitleWidth = measure.getBoundingClientRect().width;
-      setUseShortTitle(fullTitleWidth > availableWidth);
-    };
-
-    const resizeObserver =
-      typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(evaluateTitleFit);
-    if (titleWrapRef.current) resizeObserver?.observe(titleWrapRef.current);
-
-    window.addEventListener('resize', evaluateTitleFit);
-    evaluateTitleFit();
-
-    return () => {
-      resizeObserver?.disconnect();
-      window.removeEventListener('resize', evaluateTitleFit);
-    };
-  }, []);
-
-  return { titleWrapRef, titleMeasureRef, useShortTitle };
-}
-
 function SolutionBadge({ card, className = '' }) {
-  const isWordpress = card.title === WORDPRESS_TITLE;
-
   return (
     <span
       className={cx(
@@ -179,10 +192,10 @@ function SolutionBadge({ card, className = '' }) {
       )}
     >
       <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[0.9rem] sm:h-9 sm:w-9 sm:rounded-[1.1rem]">
-        {isWordpress ? (
+        {card.iconType === 'wordpress' ? (
           <WordpressMaskedIcon className="h-4 w-4 bg-[#95e3ff] sm:h-5 sm:w-5" />
         ) : (
-          <span className="material-symbols-outlined fill text-[18px] leading-none text-[#95e3ff] sm:text-[22px]">
+          <span className="material-symbols-outlined fill text-[16px] leading-none text-[#95e3ff] sm:text-[20px]">
             {card.icon}
           </span>
         )}
@@ -278,36 +291,30 @@ function StackedSolutionBody({
   );
 }
 
-function HorizontalDesktopBody({
-  card,
-  previewFrameClassName,
-  previewPositionClass,
-  textAlign,
-  textWrapClassName
-}) {
+function HorizontalDesktopBody({ card }) {
   return (
     <div className={HORIZONTAL_CARD_CLASSES.desktopView}>
       <div className="flex h-full flex-col justify-center">
-        <div className={textWrapClassName}>
+        <div className={card.desktop.textWrapClassName}>
           <SolutionTextPanel
-            align={textAlign}
+            align={card.desktop.textAlign}
             className="w-full"
             description={card.description}
             descriptionClassName={cx(
               SOLUTION_CARD_CLASSES.desktopDescription,
               HORIZONTAL_CARD_CLASSES.desktopDescription
             )}
-            title={card.title}
+            title={card.desktop.title ?? card.title}
             titleClassName={SOLUTION_CARD_CLASSES.desktopTitle}
           />
         </div>
       </div>
 
-      <div className={previewFrameClassName}>
+      <div className={card.desktop.previewFrameClassName}>
         <SolutionPreview
           alt={card.title}
           className="h-[240px] sm:h-[280px] lg:h-full"
-          imageClassName={cx('object-contain', card.desktopPreviewScaleClass, previewPositionClass)}
+          imageClassName={cx('object-contain', card.desktop.previewImageClassName)}
           src={card.previewImage}
         />
       </div>
@@ -315,31 +322,15 @@ function HorizontalDesktopBody({
   );
 }
 
-function EcommerceDesktopBody({ card }) {
-  const { titleWrapRef, titleMeasureRef, useShortTitle } = useDesktopTitleFit();
-  const desktopTitle = useShortTitle ? 'E-Commerce' : card.title;
-
+function TallDesktopBody({ card }) {
   return (
     <div className={TALL_CARD_CLASSES.desktopView}>
       <div className="flex h-full w-full flex-col">
         <div className="flex h-[250px] items-start pt-[13px]">
-          <div
-            ref={titleWrapRef}
-            className={cx('relative flex w-full flex-col', TALL_CARD_CLASSES.desktopTextBlock)}
-          >
-            <span
-              ref={titleMeasureRef}
-              aria-hidden
-              className={TALL_CARD_CLASSES.desktopTitleMeasure}
-            >
-              {card.title}
-            </span>
+          <div className={cx('relative flex w-full flex-col', TALL_CARD_CLASSES.desktopTextBlock)}>
             <SolutionTextPanel
-              title={desktopTitle}
-              titleClassName={cx(
-                SOLUTION_CARD_CLASSES.desktopTitle,
-                TALL_CARD_CLASSES.desktopTitle
-              )}
+              title={card.desktop.title ?? card.title}
+              titleClassName={cx(SOLUTION_CARD_CLASSES.desktopTitle, card.desktop.titleClassName)}
               description={card.description}
               descriptionClassName={SOLUTION_CARD_CLASSES.desktopDescription}
             />
@@ -349,8 +340,8 @@ function EcommerceDesktopBody({ card }) {
         <div className="flex min-h-0 flex-1 items-end">
           <SolutionPreview
             alt={card.title}
-            className="h-[280px]"
-            imageClassName="scale-[1.1] object-contain object-bottom"
+            className={card.desktop.previewFrameClassName}
+            imageClassName={card.desktop.previewImageClassName}
             src={card.previewImage}
           />
         </div>
@@ -359,97 +350,41 @@ function EcommerceDesktopBody({ card }) {
   );
 }
 
-function LeftSolutionCard({ card }) {
-  const isWordpressCard = card.title === WORDPRESS_TITLE;
-  const hasStackedPreviewImage = Boolean(card.stackedPreviewImage);
-  const stackedPreviewMode = hasStackedPreviewImage ? 'square' : 'wide';
-  const previewPositionClass = isWordpressCard ? 'object-[48%_50%]' : 'object-[52%_50%]';
-  const textAlign = isWordpressCard ? 'right' : 'left';
-  const badgeClassName = cx(
-    SOLUTION_CARD_CLASSES.badgeTopLeft,
-    isWordpressCard && 'lg:left-auto lg:right-7'
-  );
+function SolutionCard({ card }) {
   const stackedPreview = (
-    <div className={HORIZONTAL_CARD_CLASSES.stackedPreviewFrame[stackedPreviewMode]}>
+    <div className={card.stackedPreview.frameClassName}>
       <SolutionPreview
         alt={card.title}
-        className={HORIZONTAL_CARD_CLASSES.stackedPreviewRatio[stackedPreviewMode]}
-        imageClassName={cx(
-          HORIZONTAL_CARD_CLASSES.stackedPreviewImage[stackedPreviewMode],
-          !hasStackedPreviewImage && previewPositionClass
-        )}
-        src={card.stackedPreviewImage ?? card.previewImage}
-      />
-    </div>
-  );
-  const textWrapClassName = cx(
-    HORIZONTAL_CARD_CLASSES.desktopTextWrap,
-    isWordpressCard && HORIZONTAL_CARD_CLASSES.desktopTextWrapReversed
-  );
-  const previewFrameClassName = cx(
-    HORIZONTAL_CARD_CLASSES.desktopPreviewFrame,
-    isWordpressCard
-      ? HORIZONTAL_CARD_CLASSES.desktopPreviewLeft
-      : HORIZONTAL_CARD_CLASSES.desktopPreviewRight
-  );
-
-  return (
-    <SolutionCardShell className={HORIZONTAL_CARD_CLASSES.shell}>
-      <SolutionBadge card={card} className={badgeClassName} />
-      <StackedSolutionBody
-        description={card.description}
-        preview={stackedPreview}
-        textColumnClassName={HORIZONTAL_CARD_CLASSES.stackedTextColumn}
-        textWrapClassName={HORIZONTAL_CARD_CLASSES.stackedTextWrap}
-        title={card.title}
-      />
-      <HorizontalDesktopBody
-        card={card}
-        previewFrameClassName={previewFrameClassName}
-        previewPositionClass={previewPositionClass}
-        textAlign={textAlign}
-        textWrapClassName={textWrapClassName}
-      />
-    </SolutionCardShell>
-  );
-}
-
-function RightSolutionCard({ card }) {
-  const stackedPreview = (
-    <div className={TALL_CARD_CLASSES.stackedPreviewFrame}>
-      <SolutionPreview
-        alt={card.title}
-        className="aspect-square"
-        imageClassName="scale-[0.88] object-contain object-left-top sm:scale-100"
-        src={card.previewImage}
+        className={card.stackedPreview.ratioClassName}
+        imageClassName={card.stackedPreview.imageClassName}
+        src={card.stackedPreview.src}
       />
     </div>
   );
 
   return (
-    <SolutionCardShell className={TALL_CARD_CLASSES.shell}>
-      <SolutionBadge
-        card={card}
-        className="top-4 right-5 sm:top-5 sm:right-7 md:right-8 lg:top-6 lg:left-7 lg:right-auto"
-      />
+    <SolutionCardShell className={card.shellClassName}>
+      <SolutionBadge card={card} className={card.badgeClassName} />
       <StackedSolutionBody
-        align="right"
+        align={card.stacked.align}
         description={card.description}
         preview={stackedPreview}
-        previewSide="left"
-        textColumnClassName={TALL_CARD_CLASSES.stackedTextColumn}
-        textWrapClassName={TALL_CARD_CLASSES.stackedTextWrap}
-        title="Piattaforme E-Commerce"
-        titleClassName="whitespace-nowrap !text-[0.9rem] min-[380px]:!text-[0.96rem] min-[430px]:!text-[1.22rem] sm:!text-[1.44rem] md:!text-[1.44rem]"
+        previewSide={card.stacked.previewSide}
+        textColumnClassName={card.stacked.textColumnClassName}
+        textWrapClassName={card.stacked.textWrapClassName}
+        title={card.stacked.title ?? card.title}
+        titleClassName={card.stacked.titleClassName}
       />
-      <EcommerceDesktopBody card={card} />
+      {card.desktop.type === 'tall' ? (
+        <TallDesktopBody card={card} />
+      ) : (
+        <HorizontalDesktopBody card={card} />
+      )}
     </SolutionCardShell>
   );
 }
 
 export default function WebSolutionsSection() {
-  const [topLeftCard, bottomLeftCard] = LEFT_WEB_SOLUTION_CARDS;
-
   return (
     <SectionShell id="siti-web" variant="web">
       <SectionHeader
@@ -459,9 +394,9 @@ export default function WebSolutionsSection() {
       />
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        <LeftSolutionCard card={topLeftCard} />
-        <RightSolutionCard card={RIGHT_WEB_SOLUTION_CARD} />
-        <LeftSolutionCard card={bottomLeftCard} />
+        {WEB_SOLUTION_CARDS.map((card) => (
+          <SolutionCard key={card.id} card={card} />
+        ))}
       </div>
     </SectionShell>
   );
