@@ -54,7 +54,7 @@ export default function SupportSection() {
 
         <div className={CTA_PANEL_CLASS} style={CTA_PANEL_STYLE}>
           <div className="text-center">
-            <span className="material-symbols-outlined text-[64px] text-tertiary-fixed-dim mb-4">
+            <span className="material-symbols-outlined support-cta-icon text-tertiary-fixed-dim mb-4">
               support_agent
             </span>
             <h3 className="font-headline text-2xl font-bold mb-2">Sempre al tuo fianco</h3>

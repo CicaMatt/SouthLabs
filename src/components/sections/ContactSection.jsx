@@ -65,7 +65,7 @@ const CONTACT_FIELDS = [
     label: 'Nome e Cognome',
     maxLength: FIELD_MAX_LENGTHS.name,
     pattern: REQUIRED_TEXT_PATTERN,
-    placeholder: 'Mario Rossi',
+    placeholder: '',
     required: true,
     title: 'Inserisci nome e cognome.',
     type: 'text'
@@ -75,7 +75,7 @@ const CONTACT_FIELDS = [
     id: 'company',
     label: 'Azienda',
     maxLength: FIELD_MAX_LENGTHS.company,
-    placeholder: 'Nome Azienda',
+    placeholder: '',
     type: 'text'
   },
   {
@@ -84,7 +84,7 @@ const CONTACT_FIELDS = [
     label: 'Email',
     maxLength: FIELD_MAX_LENGTHS.email,
     pattern: EMAIL_PATTERN,
-    placeholder: 'mario.rossi@esempio.it',
+    placeholder: '',
     required: true,
     title: 'Inserisci un indirizzo email valido.',
     type: 'email'

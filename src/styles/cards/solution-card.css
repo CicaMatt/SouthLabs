@@ -201,6 +201,16 @@
   }
 }
 
+.solution-badge-material-icon {
+  font-size: 17px !important;
+}
+
+@media (min-width: 40rem) {
+  .solution-badge-material-icon {
+    font-size: 22px !important;
+  }
+}
+
 @media (hover: none), (pointer: coarse) {
   .solution-card-surface:hover:not(.solution-card-surface--touch-selected) {
     --solution-card-bg-current-opacity: var(--solution-card-bg-opacity);

@@ -50,6 +50,10 @@
   z-index: 1;
 }
 
+.support-cta-icon {
+  font-size: 50px !important;
+}
+
 .hero-consultancy-cta {
   --cta-underline-color: #06222a;
   position: relative;

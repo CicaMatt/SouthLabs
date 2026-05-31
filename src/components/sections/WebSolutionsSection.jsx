@@ -195,7 +195,7 @@ function SolutionBadge({ card, className = '' }) {
         {card.iconType === 'wordpress' ? (
           <WordpressMaskedIcon className="h-4 w-4 bg-[#95e3ff] sm:h-5 sm:w-5" />
         ) : (
-          <span className="material-symbols-outlined fill text-[16px] leading-none text-[#95e3ff] sm:text-[20px]">
+          <span className="material-symbols-outlined fill solution-badge-material-icon leading-none text-[#95e3ff]">
             {card.icon}
           </span>
         )}

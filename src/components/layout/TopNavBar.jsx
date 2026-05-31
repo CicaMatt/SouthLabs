@@ -29,25 +29,29 @@ const NAV_LINKS = [
 
 const NAVBAR_CLASS = ['sticky top-0 w-full z-50', 'site-surface', 'top-nav-surface'].join(' ');
 const NAV_CONTENT_CLASS =
-  'relative max-w-7xl mx-auto h-full flex items-center justify-between px-5 lg:px-8';
+  'relative max-w-7xl mx-auto h-full flex items-center justify-between px-5 min-[1116px]:px-8';
 const DESKTOP_LINK_CLASS = [
   'relative text-center text-[13px] font-semibold leading-tight tracking-[0.01em]',
   'px-1 py-2 text-[#d4dbea] transition-all duration-300 hover:text-white',
-  'lg:text-[14px]',
+  'min-[1116px]:text-[14px]',
   'after:pointer-events-none after:absolute after:left-1 after:right-1 after:bottom-1 after:h-[2px]',
   'after:origin-left after:scale-x-0 after:bg-[#95e3ff] after:transition-transform after:duration-300 after:ease-out',
   'hover:after:scale-x-100'
 ].join(' ');
 const MOBILE_LINK_CLASS = [
-  'group flex min-h-12 items-center justify-between rounded-lg px-4',
+  'group relative flex min-h-12 items-center justify-between rounded-xl px-4',
   'text-[14px] font-semibold text-[#d4dbea]',
-  'transition-colors hover:bg-white/10 hover:text-white active:bg-[#95e3ff]/15'
+  'transition-colors hover:text-white',
+  'before:pointer-events-none before:absolute before:inset-x-1 before:inset-y-1.5 before:rounded-xl',
+  'before:bg-[#95e3ff]/0 before:transition-colors hover:before:bg-[#95e3ff]/[0.05] active:before:bg-[#95e3ff]/10'
 ].join(' ');
+const MOBILE_LINK_SEPARATOR_CLASS =
+  'after:pointer-events-none after:absolute after:bottom-0 after:left-4 after:right-4 after:h-px after:bg-[#95e3ff]/15';
 const CONTACT_CTA_CLASS = [
-  'hero-consultancy-cta inline-flex items-center justify-center px-3.5 py-2 rounded-md text-xs lg:text-sm font-medium',
+  'hero-consultancy-cta inline-flex items-center justify-center px-3.5 py-2 rounded-md text-xs min-[1116px]:text-sm font-medium',
   'whitespace-nowrap transition-all duration-300 bg-[#95e3ff] text-[#06222a]',
   'shadow-[0_18px_45px_rgba(12,35,46,0.45)] hover:shadow-[0_22px_55px_rgba(12,35,46,0.58)] active:scale-95',
-  'lg:px-6 lg:py-2.5'
+  'min-[1116px]:px-5 md:py-2.5 mr-3'
 ].join(' ');
 const MOBILE_MENU_BUTTON_CLASS = [
   'md:hidden inline-flex items-center justify-center h-10 w-10',
@@ -64,23 +68,23 @@ function BrandLogo({ onNavigate }) {
   return (
     <a
       aria-label="SouthLabs - torna alla sezione principale"
-      className="ml-1.5 lg:ml-0 shrink-0 flex items-center gap-1.5 lg:gap-2.5"
+      className="md:ml-2 flex items-center gap-1.5 min-[1116px]:gap-2.5"
       href="#hero"
       onClick={handleClick}
     >
       <img
-        alt=""
+        alt="Logo"
         aria-hidden="true"
-        className="h-14 lg:h-[4.25rem] w-auto object-contain object-center"
+        className="h-16 md:h-19 w-auto object-contain object-center"
         decoding="async"
         fetchPriority="high"
         src={logoImage}
       />
-      <div className="flex h-[3.25rem] lg:h-[3.75rem] items-center">
+      <div>
         <img
-          alt=""
+          alt="SouthLabs"
           aria-hidden="true"
-          className="top-nav-logo-text relative translate-y-0.5 h-10 lg:h-12 w-auto object-contain object-center"
+          className="top-nav-logo-text translate-y-0.25 h-9.25 md:h-10.5 w-auto"
           decoding="async"
           fetchPriority="high"
           src={logoText}
@@ -93,11 +97,13 @@ function BrandLogo({ onNavigate }) {
 // Desktop/tablet navigation uses two-line labels on tablet to preserve spacing.
 function DesktopNavLinks() {
   return (
-    <div className="hidden md:flex md:flex-1 items-center justify-around gap-4 md:px-4 lg:gap-6 lg:px-12 xl:px-20">
+    <div
+      className="hidden md:flex md:flex-1 items-center justify-around gap-4 md:px-4 min-[1116px]:gap-6 min-[1116px]:px-12 xl:px-20"
+    >
       {NAV_LINKS.map((link) => (
         <a key={link.href} className={DESKTOP_LINK_CLASS} href={link.href}>
-          <span className="hidden lg:inline">{link.label}</span>
-          <span className="block lg:hidden whitespace-nowrap">
+          <span className="hidden min-[1116px]:inline">{link.label}</span>
+          <span className="block min-[1116px]:hidden whitespace-nowrap">
             <span className="block">{link.tabletLines[0]}</span>
             <span className="block">{link.tabletLines[1]}</span>
           </span>
@@ -142,19 +148,24 @@ function MobileNavMenu({ isVisible, menuRef, onNavigate }) {
       id="mobile-nav-menu"
       inert={isVisible ? undefined : ''}
     >
-      <div className="flex flex-col gap-1">
-        {NAV_LINKS.map((link) => (
+      <div className="flex flex-col">
+        {NAV_LINKS.map((link, index) => (
           <a
             key={link.href}
-            className={MOBILE_LINK_CLASS}
+            className={[
+              MOBILE_LINK_CLASS,
+              index < NAV_LINKS.length - 1 && MOBILE_LINK_SEPARATOR_CLASS
+            ]
+              .filter(Boolean)
+              .join(' ')}
             href={link.href}
             onClick={onNavigate}
             tabIndex={isVisible ? undefined : -1}
           >
-            <span className="relative after:pointer-events-none after:absolute after:left-0 after:right-0 after:-bottom-0.5 after:h-[2px] after:origin-left after:scale-x-0 after:bg-[#95e3ff] after:transition-transform after:duration-300 after:ease-out group-hover:after:scale-x-100">
+            <span className="relative z-10 after:pointer-events-none after:absolute after:left-0 after:right-0 after:-bottom-0.5 after:h-[2px] after:origin-left after:scale-x-0 after:bg-[#95e3ff] after:transition-transform after:duration-300 after:ease-out group-hover:after:scale-x-100">
               {link.label}
             </span>
-            <span className="material-symbols-outlined text-[18px] text-[#95e3ff] transition-all group-hover:translate-x-0.5 group-hover:text-white">
+            <span className="material-symbols-outlined relative z-10 text-[18px] text-[#95e3ff] transition-all group-hover:translate-x-0.5 group-hover:text-white">
               arrow_forward
             </span>
           </a>
@@ -288,7 +299,7 @@ export default function TopNavBar() {
         <BrandLogo onNavigate={closeMobileMenu} />
         <DesktopNavLinks />
 
-        <div className="flex items-center gap-2 lg:gap-3">
+        <div className="flex items-center gap-2 min-[1116px]:gap-3">
           <a className={CONTACT_CTA_CLASS} href="#contatti" onClick={closeMobileMenu}>
             <span className="cta-underline-label">Contattaci</span>
           </a>
