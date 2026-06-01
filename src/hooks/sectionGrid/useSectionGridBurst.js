@@ -9,10 +9,70 @@ import {
 } from './gridBurst';
 import { createGridBurstCanvasController } from './gridBurstCanvas';
 import { getTime } from './inputDetection';
-import { GRID_BURST_DISABLED_SELECTOR } from './selectors';
+import { GRID_BURST_DISABLED_SELECTOR, SOLUTION_CARD_SURFACE_SELECTOR } from './selectors';
 
 const SECTION_GRID_BURST_DELAY_INTERVAL_MS = 90;
 const SECTION_GRID_BURST_TARGET_MARGIN = 120;
+const CARD_BURST_PROXIMITY_RADIUS_PX = 180;
+const CARD_BURST_INNER_ATTENUATION = 0.54;
+const CARD_BURST_OUTER_MIN_ATTENUATION = 0.07;
+const CARD_BURST_OUTER_MAX_ATTENUATION = 0.25;
+const CARD_BURST_OUTER_MIN_PADDING = 24;
+const CARD_BURST_OUTER_MAX_PADDING = 72;
+
+const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+
+function getPointDistanceToRect(pageX, pageY, rect) {
+  const dx = pageX < rect.left ? rect.left - pageX : Math.max(pageX - rect.right, 0);
+  const dy = pageY < rect.top ? rect.top - pageY : Math.max(pageY - rect.bottom, 0);
+  return Math.hypot(dx, dy);
+}
+
+function getElementPageRect(element, scrollX, scrollY) {
+  const rect = element.getBoundingClientRect();
+  return {
+    bottom: rect.bottom + scrollY,
+    height: rect.height,
+    left: rect.left + scrollX,
+    right: rect.right + scrollX,
+    top: rect.top + scrollY,
+    width: rect.width
+  };
+}
+
+function getCardBurstAttenuationZones(section, pageX, pageY, scrollX, scrollY, burstRadius) {
+  return Array.from(section.querySelectorAll(SOLUTION_CARD_SURFACE_SELECTOR))
+    .map((card) => {
+      const rect = getElementPageRect(card, scrollX, scrollY);
+      if (rect.width <= 0 || rect.height <= 0) return null;
+
+      const distance = getPointDistanceToRect(pageX, pageY, rect);
+      if (distance > burstRadius + CARD_BURST_OUTER_MAX_PADDING) return null;
+
+      const proximity = 1 - clamp(distance / CARD_BURST_PROXIMITY_RADIUS_PX, 0, 1);
+      const style = getComputedStyle(card);
+      const radius =
+        Number.parseFloat(style.borderTopLeftRadius || style.borderRadius) ||
+        Number.parseFloat(style.borderRadius) ||
+        0;
+
+      return {
+        bottom: rect.bottom,
+        innerAlpha: CARD_BURST_INNER_ATTENUATION,
+        left: rect.left,
+        outerAlpha:
+          CARD_BURST_OUTER_MIN_ATTENUATION +
+          (CARD_BURST_OUTER_MAX_ATTENUATION - CARD_BURST_OUTER_MIN_ATTENUATION) * proximity,
+        outerPadding:
+          CARD_BURST_OUTER_MIN_PADDING +
+          (CARD_BURST_OUTER_MAX_PADDING - CARD_BURST_OUTER_MIN_PADDING) * proximity,
+        radius,
+        right: rect.right,
+        top: rect.top
+      };
+    })
+    .filter(Boolean);
+}
 
 export function useSectionGridBurst() {
   const burstCanvasRef = useRef(null);
@@ -70,6 +130,14 @@ export function useSectionGridBurst() {
         const gridSize = getSectionGridSize(targetSection);
         const origin = getSectionGridOriginPage(targetSection);
         const sectionRect = targetSection.getBoundingClientRect();
+        const cardAttenuationZones = getCardBurstAttenuationZones(
+          targetSection,
+          pageX,
+          pageY,
+          scrollX,
+          scrollY,
+          burstPoint.maxRadius
+        );
 
         controller.addBurst({
           pageX,
@@ -80,6 +148,7 @@ export function useSectionGridBurst() {
           gridSize,
           gridOriginX: origin.x,
           gridOriginY: origin.y,
+          cardAttenuationZones,
           clipRect: {
             left: sectionRect.left + scrollX,
             top: sectionRect.top + scrollY,

@@ -57,6 +57,56 @@ function sampleBurstShape(progress, maxRadius) {
   };
 }
 
+function drawRoundedRectPath(ctx, left, top, width, height, radius) {
+  ctx.beginPath();
+  if (typeof ctx.roundRect === 'function' && radius > 0) {
+    ctx.roundRect(left, top, width, height, radius);
+  } else {
+    ctx.rect(left, top, width, height);
+  }
+}
+
+function attenuateBurstOverCards(ctx, cardAttenuationZones, scrollX, scrollY) {
+  if (!cardAttenuationZones?.length) return;
+
+  ctx.save();
+  ctx.globalCompositeOperation = 'destination-out';
+
+  cardAttenuationZones.forEach((zone) => {
+    if (zone.outerAlpha > 0.002 && zone.outerPadding > 0) {
+      const outerLeft = zone.left - scrollX - zone.outerPadding;
+      const outerTop = zone.top - scrollY - zone.outerPadding;
+      const outerWidth = zone.right - zone.left + zone.outerPadding * 2;
+      const outerHeight = zone.bottom - zone.top + zone.outerPadding * 2;
+      drawRoundedRectPath(
+        ctx,
+        outerLeft,
+        outerTop,
+        outerWidth,
+        outerHeight,
+        zone.radius + zone.outerPadding
+      );
+      ctx.fillStyle = `rgba(0, 0, 0, ${zone.outerAlpha})`;
+      ctx.fill();
+    }
+
+    if (zone.innerAlpha > 0.002) {
+      drawRoundedRectPath(
+        ctx,
+        zone.left - scrollX,
+        zone.top - scrollY,
+        zone.right - zone.left,
+        zone.bottom - zone.top,
+        zone.radius
+      );
+      ctx.fillStyle = `rgba(0, 0, 0, ${zone.innerAlpha})`;
+      ctx.fill();
+    }
+  });
+
+  ctx.restore();
+}
+
 /* Cap on simultaneously active bursts. The renderer can comfortably handle
    far more, but a cap prevents pathological cases (e.g., a script flooding
    the queue) from ever building up. */
@@ -120,12 +170,7 @@ export function createGridBurstCanvasController(canvas) {
       const ct = clip.top - scrollY;
       const cw = clip.right - clip.left;
       const ch = clip.bottom - clip.top;
-      ctx.beginPath();
-      if (typeof ctx.roundRect === 'function' && clip.radius > 0) {
-        ctx.roundRect(cl, ct, cw, ch, clip.radius);
-      } else {
-        ctx.rect(cl, ct, cw, ch);
-      }
+      drawRoundedRectPath(ctx, cl, ct, cw, ch, clip.radius);
       ctx.clip();
     }
 
@@ -174,6 +219,8 @@ export function createGridBurstCanvasController(canvas) {
       ctx.fillRect(leftEdge, topEdge, radius * 2, radius * 2);
     }
 
+    attenuateBurstOverCards(ctx, burst.cardAttenuationZones, scrollX, scrollY);
+
     ctx.restore();
     return true;
   };
@@ -219,6 +266,7 @@ export function createGridBurstCanvasController(canvas) {
       gridOriginX: burst.gridOriginX,
       gridOriginY: burst.gridOriginY,
       clipRect: burst.clipRect || null,
+      cardAttenuationZones: burst.cardAttenuationZones || [],
       startTime: burst.startTime
     });
     /* Cap to bound worst-case render cost; oldest goes first since that's

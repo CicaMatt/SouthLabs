@@ -79,7 +79,7 @@ const WEB_SOLUTION_CARDS = [
     icon: 'code_blocks',
     eyebrow: 'Sviluppo Web',
     title: 'Siti Web Personalizzati',
-    description: "Piattaforme moderne e d'impatto, costruite per dare valore al tuo brand.",
+    description: "Piattaforme moderne e d'impatto, costruite per dare valore al tuo business.",
     previewImage: customWebAppImage,
     shellClassName: HORIZONTAL_CARD_CLASSES.shell,
     badgeClassName: SOLUTION_CARD_CLASSES.badgeTopLeft,

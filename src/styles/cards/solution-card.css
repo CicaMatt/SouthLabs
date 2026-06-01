@@ -13,6 +13,7 @@
   --solution-card-bg-opacity: 0.24;
   --solution-card-bg-hover-opacity: var(--solution-card-bg-opacity);
   --solution-card-bg-current-opacity: var(--solution-card-bg-opacity);
+  --card-grid-highlight-impact: 1;
   background-color: rgba(
     var(--solution-card-bg-current-rgb),
     var(--solution-card-bg-current-opacity)
@@ -28,6 +29,12 @@
 .solution-card-surface.solution-card-surface--touch-selected {
   --solution-card-bg-current-rgb: var(--solution-card-bg-hover-rgb);
   --solution-card-bg-current-opacity: var(--solution-card-bg-hover-opacity);
+}
+
+.solution-card-surface:hover,
+.solution-card-surface.solution-card-surface--touch-selected,
+.infrastructure-image-card.solution-card-surface--touch-selected .solution-card-surface {
+  --card-grid-highlight-impact: 0.52;
 }
 
 .section-grid-bg--web .solution-card-surface {
@@ -119,7 +126,7 @@
   transition:
     opacity 140ms ease-out,
     background-position 420ms cubic-bezier(0.22, 1, 0.36, 1);
-  opacity: var(--card-grid-highlight-opacity, 0);
+  opacity: calc(var(--card-grid-highlight-opacity, 0) * var(--card-grid-highlight-impact, 1));
   background-image:
     linear-gradient(var(--card-grid-highlight-color) 1px, transparent 1px),
     linear-gradient(90deg, var(--card-grid-highlight-color) 1px, transparent 1px);
@@ -136,7 +143,9 @@
 }
 
 .software-ai-feature-card .software-ai-grid-highlight {
-  opacity: calc(var(--card-grid-highlight-opacity, 0) * 0.25);
+  opacity: calc(
+    var(--card-grid-highlight-opacity, 0) * 0.25 * var(--card-grid-highlight-impact, 1)
+  );
 }
 
 .section-grid-bg--software .software-ai-feature-card.solution-card-surface--touch-selected {
@@ -178,7 +187,9 @@
 
 .infrastructure-image-frame .software-ai-grid-highlight {
   inset: 0;
-  opacity: calc(var(--card-grid-highlight-opacity, 0) * 0.67);
+  opacity: calc(
+    var(--card-grid-highlight-opacity, 0) * 0.67 * var(--card-grid-highlight-impact, 1)
+  );
 }
 
 .infrastructure-image-frame > img {

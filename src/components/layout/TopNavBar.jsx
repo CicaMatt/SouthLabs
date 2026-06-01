@@ -42,7 +42,7 @@ const MOBILE_LINK_CLASS = [
   'group relative flex min-h-12 items-center justify-between rounded-xl px-4',
   'text-[14px] font-semibold text-[#d4dbea]',
   'transition-colors hover:text-white',
-  'before:pointer-events-none before:absolute before:inset-x-1 before:inset-y-1.5 before:rounded-xl',
+  'before:pointer-events-none before:absolute before:inset-x-1.5 before:inset-y-1.5 before:rounded-xl',
   'before:bg-[#95e3ff]/0 before:transition-colors hover:before:bg-[#95e3ff]/[0.05] active:before:bg-[#95e3ff]/10'
 ].join(' ');
 const MOBILE_LINK_SEPARATOR_CLASS =

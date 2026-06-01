@@ -89,7 +89,7 @@ function SoftwareAiFeatureCard() {
         className="software-ai-link relative z-10 inline-flex w-fit items-center rounded-md font-medium transition-all duration-200 hover:translate-x-1 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 lg:absolute lg:bottom-[4.25rem] lg:left-8 lg:translate-y-1/2 lg:hover:translate-x-1 lg:hover:translate-y-1/2"
         href="#contatti"
       >
-        Scopri cosa puoi fare con l'AI
+        Scopri cosa puoi fare con l&apos;AI
         <span className="material-symbols-outlined ml-1 text-sm transition-transform duration-200 group-hover:translate-x-0.5">
           arrow_forward
         </span>
