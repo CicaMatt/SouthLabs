@@ -4,13 +4,6 @@
   animation: vFloat 14s ease-in-out infinite;
 }
 
-/* Base aura */
-.v-aura {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: vAura 9s ease-in-out infinite;
-}
-
 /* Factory body */
 .v-factory-footing {
   stroke: #74a9bd;
@@ -291,7 +284,6 @@
   stroke-opacity: 0.8;
   transform-box: fill-box;
   transform-origin: center;
-  will-change: filter, stroke-opacity;
 }
 
 .v-door-panel {
@@ -337,7 +329,6 @@
   stroke-linejoin: round;
   transform-box: fill-box;
   transform-origin: center;
-  will-change: filter, stroke-opacity;
 }
 
 .v-window-panel {
@@ -448,10 +439,19 @@
 .v-factory-trace-layer {
   mix-blend-mode: screen;
   filter: drop-shadow(0 0 5px rgba(112, 229, 255, 0.22));
+  animation:
+    vFactoryTraceFlow 14s linear infinite,
+    vFactoryTracePulse 4.6s ease-in-out infinite;
 }
 
 .v-factory-trace-layer-b {
   filter: drop-shadow(0 0 7px rgba(191, 247, 255, 0.36));
+  animation:
+    vFactoryTraceFlowReverse 10.4s linear infinite,
+    vFactoryTracePulse 3.7s ease-in-out infinite;
+  animation-delay:
+    -1.3s,
+    -0.9s;
 }
 
 .v-factory-trace {
@@ -462,9 +462,6 @@
   stroke-linejoin: round;
   stroke-opacity: 0.62;
   stroke-dasharray: 18 12;
-  animation:
-    vFactoryTraceFlow 14s linear infinite,
-    vFactoryTracePulse 4.6s ease-in-out infinite;
 }
 
 .v-factory-trace-b {
@@ -472,13 +469,8 @@
   stroke-width: 0.95;
   stroke-opacity: 0.82;
   stroke-dasharray: 3 25;
-  animation:
-    vFactoryTraceFlowReverse 10.4s linear infinite,
-    vFactoryTracePulse 3.7s ease-in-out infinite;
-  animation-delay:
-    -1.3s,
-    -0.9s;
 }
+
 /* When the hero scrolls out of the viewport, freeze the factory's CSS
    animations so the compositor is not driving keyframes off-screen. */
 .hero-factory-stage.hero-factory-stage--offscreen,

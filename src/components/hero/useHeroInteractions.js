@@ -50,7 +50,7 @@ function readPointerFromEvent(event) {
   };
 }
 
-export function useHeroInteractions() {
+export function useHeroInteractions({ factoryEnabled = true } = {}) {
   const pointerRef = useRef(createPointerState());
   const factoryStageRef = useRef(null);
   const factoryParallaxRef = useRef(null);
@@ -89,23 +89,41 @@ export function useHeroInteractions() {
   );
 
   useEffect(() => {
+    if (!factoryEnabled) return undefined;
+
     const stage = factoryStageRef.current;
-    const windowObject = stage?.ownerDocument.defaultView;
-    if (!stage || !windowObject) return undefined;
+    const documentObject = stage?.ownerDocument;
+    const windowObject = documentObject?.defaultView;
+    if (!stage || !documentObject || !windowObject) return undefined;
 
     const IntersectionObserverConstructor = windowObject.IntersectionObserver;
     if (typeof IntersectionObserverConstructor === 'undefined') return undefined;
 
+    let isFactoryNearViewport = true;
+    const updateFactoryPauseState = () => {
+      stage.classList.toggle(
+        FACTORY_OFFSCREEN_CLASS,
+        !isFactoryNearViewport || documentObject.visibilityState === 'hidden'
+      );
+    };
+
     const observer = new IntersectionObserverConstructor(
       ([entry]) => {
-        stage.classList.toggle(FACTORY_OFFSCREEN_CLASS, !entry.isIntersecting);
+        isFactoryNearViewport = entry.isIntersecting;
+        updateFactoryPauseState();
       },
       { rootMargin: '120px 0px' }
     );
 
     observer.observe(stage);
-    return () => observer.disconnect();
-  }, []);
+    documentObject.addEventListener('visibilitychange', updateFactoryPauseState);
+    updateFactoryPauseState();
+
+    return () => {
+      observer.disconnect();
+      documentObject.removeEventListener('visibilitychange', updateFactoryPauseState);
+    };
+  }, [factoryEnabled]);
 
   const runFactoryParallax = () => {
     const motion = factoryMotionRef.current;
@@ -127,6 +145,8 @@ export function useHeroInteractions() {
   };
 
   const scheduleFactoryParallax = (pointer, isActive) => {
+    if (!factoryEnabled) return;
+
     const motion = factoryMotionRef.current;
     motion.targetX = isActive ? pointer.shiftX * FACTORY_PARALLAX_SHIFT_PX : 0;
     if (!motion.frameId) {
@@ -280,13 +300,13 @@ export function useHeroInteractions() {
       applyTouchPointer(pointer, true);
       triggerPointerBurst(pointer);
       triggerTouchParticleNudge(pointer);
-      accelerateFactoryAnimations();
+      if (factoryEnabled) accelerateFactoryAnimations();
       return;
     }
     applyPointer(pointer, true);
     triggerPointerBurst(pointer);
     triggerHoverLightPulse();
-    accelerateFactoryAnimations();
+    if (factoryEnabled) accelerateFactoryAnimations();
   };
 
   const handlePointerUp = (event) => {

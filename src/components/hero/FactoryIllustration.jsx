@@ -50,12 +50,14 @@ function PlumeCloud() {
           </g>
 
           <line className="v-plume-baseline" x1="172" y1="134" x2="420" y2="134" />
-          <line className="v-bar v-bar-1" x1="208" y1="134" x2="208" y2="96" />
-          <line className="v-bar v-bar-2" x1="246" y1="134" x2="246" y2="84" />
-          <line className="v-bar v-bar-3" x1="286" y1="134" x2="286" y2="60" />
-          <line className="v-bar v-bar-4" x1="326" y1="134" x2="326" y2="80" />
-          <line className="v-bar v-bar-5" x1="364" y1="134" x2="364" y2="92" />
-          <line className="v-bar v-bar-6" x1="400" y1="134" x2="400" y2="106" />
+          <g className="v-bar-flow">
+            <line className="v-bar v-bar-1" x1="208" y1="134" x2="208" y2="96" />
+            <line className="v-bar v-bar-2" x1="246" y1="134" x2="246" y2="84" />
+            <line className="v-bar v-bar-3" x1="286" y1="134" x2="286" y2="60" />
+            <line className="v-bar v-bar-4" x1="326" y1="134" x2="326" y2="80" />
+            <line className="v-bar v-bar-5" x1="364" y1="134" x2="364" y2="92" />
+            <line className="v-bar v-bar-6" x1="400" y1="134" x2="400" y2="106" />
+          </g>
 
           <line className="v-plume-side-link" x1="176" y1="122" x2="206" y2="122" />
           <line
@@ -264,23 +266,23 @@ export default function FactoryIllustration() {
         </linearGradient>
         <filter
           id="vFactorySoftShadeBlur"
-          x="-18%"
-          y="-18%"
-          width="136%"
-          height="136%"
+          x="-8%"
+          y="-8%"
+          width="116%"
+          height="116%"
           colorInterpolationFilters="sRGB"
         >
-          <feGaussianBlur stdDeviation="7" />
+          <feGaussianBlur stdDeviation="2.8" />
         </filter>
         <filter
           id="vFactorySoftLightBlur"
-          x="-18%"
-          y="-18%"
-          width="136%"
-          height="136%"
+          x="-8%"
+          y="-8%"
+          width="116%"
+          height="116%"
           colorInterpolationFilters="sRGB"
         >
-          <feGaussianBlur stdDeviation="6" />
+          <feGaussianBlur stdDeviation="2.4" />
         </filter>
         <radialGradient
           id="vFactoryLowerLightFill"
@@ -400,23 +402,23 @@ export default function FactoryIllustration() {
         </linearGradient>
         <filter
           id="vPipeSoftShadeBlur"
-          x="-28%"
-          y="-16%"
-          width="156%"
-          height="132%"
+          x="-12%"
+          y="-8%"
+          width="124%"
+          height="116%"
           colorInterpolationFilters="sRGB"
         >
-          <feGaussianBlur stdDeviation="4.5" />
+          <feGaussianBlur stdDeviation="2" />
         </filter>
         <filter
           id="vPipeSoftLightBlur"
-          x="-28%"
-          y="-16%"
-          width="156%"
-          height="132%"
+          x="-12%"
+          y="-8%"
+          width="124%"
+          height="116%"
           colorInterpolationFilters="sRGB"
         >
-          <feGaussianBlur stdDeviation="3.8" />
+          <feGaussianBlur stdDeviation="1.8" />
         </filter>
         <linearGradient
           id="vPipeFlowStroke"
@@ -642,19 +644,6 @@ export default function FactoryIllustration() {
         <clipPath id="vRightWindowClip">
           <use href="#vRightWindowShape" />
         </clipPath>
-        {/* Subtle base glow bleeding into the bg */}
-        <radialGradient
-          id="vAura"
-          cx="0"
-          cy="0"
-          r="1"
-          gradientTransform="translate(310 500) scale(234 52)"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop offset="0%" stopColor="#5497B5" stopOpacity="0.22" />
-          <stop offset="100%" stopColor="#5497B5" stopOpacity="0" />
-        </radialGradient>
-
         {/* Plume cloud shape and fills (logo-inspired) */}
         <path
           id="vPlumeShape"
@@ -752,9 +741,6 @@ export default function FactoryIllustration() {
           <stop offset="100%" stopColor="#5A99B5" stopOpacity="0.06" />
         </linearGradient>
       </defs>
-
-      {/* Base aura */}
-      <ellipse cx="310" cy="500" rx="234" ry="52" fill="url(#vAura)" className="v-aura" />
 
       {/* Floating group */}
       <g className="v-float-group">
@@ -860,7 +846,7 @@ export default function FactoryIllustration() {
             className="v-factory-cutout v-window-panel"
             d="M 264 366 L 350 323 V 359 L 264 402 Z"
           />
-          <g clipPath="url(#vLeftWindowTopClip)">
+          <g clipPath="url(#vLeftWindowTopClip)" className="v-window-sweep-track">
             <path className="v-window-sweep v-window-sweep-glow" d="M 268 398 L 348 358" />
             <path className="v-window-sweep v-window-sweep-core" d="M 268 398 L 348 358" />
           </g>
@@ -876,7 +862,10 @@ export default function FactoryIllustration() {
             className="v-factory-cutout v-factory-cutout-b v-window-panel"
             d="M 264 416 L 350 373 V 409 L 264 452 Z"
           />
-          <g clipPath="url(#vLeftWindowBottomClip)">
+          <g
+            clipPath="url(#vLeftWindowBottomClip)"
+            className="v-window-sweep-track v-window-sweep-track-b"
+          >
             <path
               className="v-window-sweep v-window-sweep-glow v-window-sweep-b"
               d="M 268 448 L 348 408"
@@ -899,7 +888,10 @@ export default function FactoryIllustration() {
           className="v-factory-cutout v-factory-cutout-c v-window-panel"
           d="M 410 338 L 466 374 V 410 L 410 374 Z"
         />
-        <g clipPath="url(#vRightWindowClip)">
+        <g
+          clipPath="url(#vRightWindowClip)"
+          className="v-window-sweep-track v-window-sweep-track-c"
+        >
           <path
             className="v-window-sweep v-window-sweep-glow v-window-sweep-c"
             d="M 414 375 L 462 405"
@@ -932,17 +924,25 @@ export default function FactoryIllustration() {
           <line className="v-factory-trace" x1="271" y1="210" x2="271" y2="166" />
         </g>
 
-        <g className="v-factory-trace-layer v-factory-trace-layer-b">
-          <path
-            className="v-factory-trace v-factory-trace-b"
-            d="M 126 500 L 126 391 L 380 264 L 494 337 L 494 500"
-          />
-          <path
-            className="v-factory-trace v-factory-trace-b"
-            d="M 252 210 L 290 210 M 252 210 L 236 336 M 290 210 L 306 301"
-          />
-          <line className="v-factory-trace v-factory-trace-b" x1="271" y1="210" x2="271" y2="166" />
-        </g>
+        {false && (
+          <g className="v-factory-trace-layer v-factory-trace-layer-b">
+            <path
+              className="v-factory-trace v-factory-trace-b"
+              d="M 126 500 L 126 391 L 380 264 L 494 337 L 494 500"
+            />
+            <path
+              className="v-factory-trace v-factory-trace-b"
+              d="M 252 210 L 290 210 M 252 210 L 236 336 M 290 210 L 306 301"
+            />
+            <line
+              className="v-factory-trace v-factory-trace-b"
+              x1="271"
+              y1="210"
+              x2="271"
+              y2="166"
+            />
+          </g>
+        )}
 
         {/* Plume cloud */}
         <PlumeCloud />

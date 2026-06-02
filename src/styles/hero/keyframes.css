@@ -58,17 +58,6 @@
     transform: translateX(1.2px);
   }
 }
-@keyframes vAura {
-  0%,
-  100% {
-    opacity: 0.3;
-    transform: scale(0.96);
-  }
-  50% {
-    opacity: 0.6;
-    transform: scale(1.04);
-  }
-}
 @keyframes vFactoryTraceFlow {
   from {
     stroke-dashoffset: 0;
@@ -174,11 +163,11 @@
 @keyframes vDoorPanelSignal {
   0%,
   100% {
-    filter: brightness(0.86) saturate(0.94);
+    fill-opacity: 0.74;
     stroke-opacity: 0.44;
   }
   48% {
-    filter: brightness(1.02) saturate(1.02);
+    fill-opacity: 0.88;
     stroke-opacity: 0.62;
   }
 }
@@ -193,11 +182,9 @@
 @keyframes vDoorEdgeLightPulse {
   0%,
   100% {
-    filter: drop-shadow(0 0 0 rgba(150, 240, 255, 0));
     stroke-opacity: 0.28;
   }
   48% {
-    filter: drop-shadow(0 0 6px rgba(150, 240, 255, 0.5));
     stroke-opacity: 0.68;
   }
 }
@@ -213,15 +200,15 @@
 @keyframes vWindowPanelShimmer {
   0%,
   100% {
-    filter: brightness(0.78) saturate(0.9);
+    fill-opacity: 0.76;
     stroke-opacity: 0.48;
   }
   36% {
-    filter: brightness(0.88) saturate(0.92);
+    fill-opacity: 0.84;
     stroke-opacity: 0.54;
   }
   62% {
-    filter: brightness(0.82) saturate(0.9);
+    fill-opacity: 0.8;
     stroke-opacity: 0.5;
   }
 }
@@ -236,15 +223,12 @@
 @keyframes vWindowEdgeGlint {
   0%,
   100% {
-    filter: drop-shadow(0 0 0 rgba(235, 255, 255, 0));
     stroke-opacity: 0.24;
   }
   36% {
-    filter: drop-shadow(0 0 2px rgba(235, 255, 255, 0.18));
     stroke-opacity: 0.5;
   }
   62% {
-    filter: drop-shadow(0 0 0 rgba(235, 255, 255, 0));
     stroke-opacity: 0.36;
   }
 }
@@ -343,36 +327,24 @@
   22% {
     stroke: #95e3ff;
     stroke-opacity: 0.82;
-    filter: drop-shadow(0 0 8px rgba(149, 227, 255, 0.62))
-      drop-shadow(0 0 14px rgba(149, 227, 255, 0.2));
   }
   34% {
     stroke: #f7feff;
     stroke-opacity: 1;
-    filter: drop-shadow(0 0 12px rgba(233, 254, 255, 0.95))
-      drop-shadow(0 0 24px rgba(149, 247, 255, 0.55))
-      drop-shadow(0 0 40px rgba(149, 247, 255, 0.28));
   }
   48%,
   60% {
     stroke: #95e3ff;
     stroke-opacity: 0.82;
-    filter: drop-shadow(0 0 8px rgba(149, 227, 255, 0.62))
-      drop-shadow(0 0 14px rgba(149, 227, 255, 0.2));
   }
   65% {
     stroke: #ffffff;
     stroke-opacity: 1;
-    filter: drop-shadow(0 0 14px rgba(255, 255, 255, 1))
-      drop-shadow(0 0 28px rgba(149, 247, 255, 0.75))
-      drop-shadow(0 0 46px rgba(149, 247, 255, 0.35));
   }
   75%,
   100% {
     stroke: #95e3ff;
     stroke-opacity: 0.82;
-    filter: drop-shadow(0 0 8px rgba(149, 227, 255, 0.62))
-      drop-shadow(0 0 14px rgba(149, 227, 255, 0.2));
   }
 }
 @keyframes vNodePulse {

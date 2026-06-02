@@ -75,14 +75,39 @@
   }
 }
 
-/* Stable hero illustration: restore motion, but keep expensive SVG filters out of the zoom path. */
+/* Keep the live hero SVG off the expensive filter/blend pipeline. */
 .hero-factory-stage .v-svg,
 .hero-factory-stage .v-svg [class^='v-'],
 .hero-factory-stage .v-svg [class*=' v-'] {
   filter: none !important;
+  mix-blend-mode: normal !important;
 }
 
-/* Restore only the static wall/pipe shading filters; keep animated glows and drop-shadows disabled. */
+.hero-factory-stage .v-float-group {
+  will-change: auto;
+}
+
+.hero-factory-stage .v-svg .v-factory-roof-plane,
+.hero-factory-stage .v-svg .v-factory-base-depth,
+.hero-factory-stage .v-svg .v-factory-left-inner-shadow,
+.hero-factory-stage .v-svg .v-factory-right-inner-shadow,
+.hero-factory-stage .v-svg .v-pipe-body-depth,
+.hero-factory-stage .v-svg .v-pipe-left-occlusion {
+  mix-blend-mode: multiply !important;
+}
+
+.hero-factory-stage .v-svg .v-factory-face-sheen,
+.hero-factory-stage .v-svg .v-factory-roof-upper-light,
+.hero-factory-stage .v-svg .v-factory-roof-light-plane,
+.hero-factory-stage .v-svg .v-factory-left-reflected-light,
+.hero-factory-stage .v-svg .v-factory-right-light-wash,
+.hero-factory-stage .v-svg .v-factory-lower-light,
+.hero-factory-stage .v-svg .v-factory-mobile-bottom-light,
+.hero-factory-stage .v-svg .v-pipe-right-light,
+.hero-factory-stage .v-svg .v-pipe-top-light {
+  mix-blend-mode: screen !important;
+}
+
 .hero-factory-stage .v-svg .v-factory-roof-upper-shade,
 .hero-factory-stage .v-svg .v-factory-left-inner-shadow,
 .hero-factory-stage .v-svg .v-factory-right-inner-shadow {
@@ -107,10 +132,6 @@
   filter: url(#vPipeSoftLightBlur) !important;
 }
 
-.hero-factory-stage .v-float-group {
-  will-change: transform;
-}
-
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .hero-reveal,
@@ -118,7 +139,6 @@
   .hero-atmosphere-stream-a,
   .hero-atmosphere-stream-b,
   .v-float-group,
-  .v-aura,
   .v-factory-footing,
   .v-factory-shell,
   .v-factory-face-sheen,
@@ -132,11 +152,13 @@
   .v-factory-cutout,
   .v-door-perimeter-signal,
   .v-window-sweep,
+  .v-window-sweep-track,
   .v-door-edge-light,
   .v-door-edge-depth,
   .v-window-edge-light,
   .v-window-edge-depth,
   .v-pipe-link,
+  .v-factory-trace-layer,
   .v-factory-trace,
   .v-plume-shell-highlight,
   .v-plume-core,
@@ -145,6 +167,7 @@
   .v-graph-sheen,
   .v-plume-baseline,
   .v-plume-side-link,
+  .v-bar-flow,
   .v-bar,
   .v-trend,
   .v-node,

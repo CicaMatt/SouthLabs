@@ -28,6 +28,7 @@ export default function HeroParticleField({ pointerRef }) {
     const reduceMotionQuery = windowObject.matchMedia('(prefers-reduced-motion: reduce)');
     let reduceMotion = reduceMotionQuery.matches;
     let frameId = null;
+    let frameTimeoutId = null;
     let lastFrameTime = 0;
     let lastPhysicsTime = 0;
     let isVisible = true;
@@ -46,29 +47,61 @@ export default function HeroParticleField({ pointerRef }) {
       }
     };
 
-    const render = (now) => {
+    const queueAnimationFrame = () => {
+      if (frameId !== null || reduceMotion || !isVisible) return;
       frameId = requestAnimationFrame(render);
+    };
 
-      const frameInterval = getFrameInterval(size.width, isPointerActive(pointerRef.current, now));
-      if (now - lastFrameTime < frameInterval) return;
+    const scheduleFrame = (delay = 0) => {
+      if (frameId !== null || frameTimeoutId !== null || reduceMotion || !isVisible) return;
+
+      if (delay > 0) {
+        frameTimeoutId = windowObject.setTimeout(() => {
+          frameTimeoutId = null;
+          queueAnimationFrame();
+        }, delay);
+        return;
+      }
+
+      queueAnimationFrame();
+    };
+
+    function render(now) {
+      frameId = null;
+
+      const isActiveFrame = isPointerActive(pointerRef.current, now);
+      const frameInterval = getFrameInterval(size.width, isActiveFrame);
+      const timeSinceLastFrame = lastFrameTime > 0 ? now - lastFrameTime : frameInterval;
+      if (timeSinceLastFrame < frameInterval) {
+        scheduleFrame(isActiveFrame ? 0 : frameInterval - timeSinceLastFrame);
+        return;
+      }
 
       const elapsed = lastPhysicsTime > 0 ? now - lastPhysicsTime : frameInterval;
       lastFrameTime = now;
       lastPhysicsTime = now;
       draw(now, false, computeFrameStep(elapsed));
-    };
+
+      const nextFrameIsActive = isPointerActive(pointerRef.current, now);
+      scheduleFrame(nextFrameIsActive ? 0 : getFrameInterval(size.width, false));
+    }
 
     const start = () => {
-      if (frameId !== null || reduceMotion || !isVisible) return;
+      if (frameId !== null || frameTimeoutId !== null || reduceMotion || !isVisible) return;
       lastFrameTime = 0;
       lastPhysicsTime = 0;
-      frameId = requestAnimationFrame(render);
+      scheduleFrame();
     };
 
     const stop = () => {
-      if (frameId === null) return;
-      cancelAnimationFrame(frameId);
-      frameId = null;
+      if (frameId !== null) {
+        cancelAnimationFrame(frameId);
+        frameId = null;
+      }
+      if (frameTimeoutId !== null) {
+        windowObject.clearTimeout(frameTimeoutId);
+        frameTimeoutId = null;
+      }
     };
 
     const resizeField = () => {

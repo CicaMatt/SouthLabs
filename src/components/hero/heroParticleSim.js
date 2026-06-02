@@ -5,19 +5,19 @@ const POINTER_BURST_RADIUS_BOOST = 0.16;
 const POINTER_FORCE = 0.68;
 const POINTER_BURST_FORCE = 1.32;
 const TOUCH_NUDGE_FORCE = 0.00205;
-const MAX_PIXEL_RATIO = 1.25;
+const MAX_PIXEL_RATIO = 1.1;
 const MOBILE_FIELD_MAX_WIDTH = 700;
 const MOBILE_PARTICLE_DENSITY = 3900;
 const MOBILE_PARTICLE_MIN = 88;
 const MOBILE_PARTICLE_MAX = 132;
-const IDLE_MOTION_SPEED = 0.5;
-const DESKTOP_IDLE_ANCHOR_RADIUS = 24;
-const MOBILE_IDLE_ANCHOR_RADIUS = 18;
-const IDLE_ANCHOR_FOLLOW = 0.18;
+const IDLE_MOTION_SPEED = 0.32;
+const DESKTOP_IDLE_ANCHOR_RADIUS = 12;
+const MOBILE_IDLE_ANCHOR_RADIUS = 9;
+const IDLE_ANCHOR_FOLLOW = 0.11;
 const FRAME_INTERVAL_MS = {
   active: 16,
-  idleDesktop: 32,
-  idleMobile: 48
+  idleDesktop: 40,
+  idleMobile: 56
 };
 
 export const BASE_FRAME_MS = 1000 / 60;
@@ -75,7 +75,7 @@ function createParticle(x, y, width, options = {}) {
     0.88
   );
   const color = Math.random() > (options.cyanChance ?? 0.28) ? '214, 250, 255' : '71, 214, 255';
-  const idleRadius = (options.idleRadiusMin ?? 9) + Math.random() * (options.idleRadiusRange ?? 12);
+  const idleRadius = (options.idleRadiusMin ?? 5) + Math.random() * (options.idleRadiusRange ?? 6);
 
   return {
     x,
@@ -88,10 +88,7 @@ function createParticle(x, y, width, options = {}) {
     vy: (Math.random() - 0.5) * (options.initialVelocity ?? 0.16),
     radius: (options.radiusMin ?? 0.95) + Math.random() * (options.radiusRange ?? 1.35),
     idleRadius,
-    idleXScale: 0.78 + Math.random() * 0.34,
-    idleYScale: 0.58 + Math.random() * 0.34,
     idlePhaseOffset: Math.random() * TAU,
-    idlePhaseRatio: 0.72 + Math.random() * 0.36,
     phase: Math.random() * TAU,
     phaseSpeed:
       ((options.phaseSpeedMin ?? 0.004) + Math.random() * (options.phaseSpeedRange ?? 0.009)) *
@@ -125,8 +122,8 @@ function createMobileParticles(width, height, count) {
       leftCompensation: 0.06,
       radiusMin: 0.88,
       radiusRange: 1.16,
-      idleRadiusMin: 6,
-      idleRadiusRange: 8,
+      idleRadiusMin: 4,
+      idleRadiusRange: 5,
       maxSpeedMin: 1.24,
       maxSpeedRange: 0.94,
       initialVelocity: 0.1
@@ -217,12 +214,8 @@ function updateIdleAnchor(particle, width, step) {
     width < MOBILE_FIELD_MAX_WIDTH ? MOBILE_IDLE_ANCHOR_RADIUS : DESKTOP_IDLE_ANCHOR_RADIUS;
   const idleRadius = Math.min(particle.idleRadius ?? maxOffset * 0.7, maxOffset * 0.92);
   const phase = particle.phase + (particle.idlePhaseOffset ?? 0);
-  const targetX = originX + Math.cos(phase) * idleRadius * (particle.idleXScale ?? 1);
-  const targetY =
-    originY +
-    Math.sin(phase * (particle.idlePhaseRatio ?? 0.86)) *
-      idleRadius *
-      (particle.idleYScale ?? 0.72);
+  const targetX = originX + Math.cos(phase) * idleRadius;
+  const targetY = originY + Math.sin(phase) * idleRadius;
   const follow = Math.min(1, IDLE_ANCHOR_FOLLOW * step);
 
   particle.anchorX += (targetX - particle.anchorX) * follow;

@@ -81,28 +81,28 @@
   stroke-opacity: 0.66;
   stroke-dasharray: 12 10;
   filter: drop-shadow(0 0 8px rgba(102, 240, 255, 0.34));
-  animation:
-    vBarPulse 3.6s ease-in-out infinite,
-    vBarDashFlow 12s linear infinite;
-  animation-delay: 0s, 0s;
+  animation: vBarPulse 3.6s ease-in-out infinite;
+}
+.v-bar-flow {
+  animation: vBarDashFlow 12s linear infinite;
 }
 .v-bar-1 {
-  animation-delay: 0s, 0s;
+  animation-delay: 0s;
 }
 .v-bar-2 {
-  animation-delay: 0.18s, 0s;
+  animation-delay: 0.18s;
 }
 .v-bar-3 {
-  animation-delay: 0.36s, 0s;
+  animation-delay: 0.36s;
 }
 .v-bar-4 {
-  animation-delay: 0.54s, 0s;
+  animation-delay: 0.54s;
 }
 .v-bar-5 {
-  animation-delay: 0.72s, 0s;
+  animation-delay: 0.72s;
 }
 .v-bar-6 {
-  animation-delay: 0.9s, 0s;
+  animation-delay: 0.9s;
 }
 
 .v-trend {

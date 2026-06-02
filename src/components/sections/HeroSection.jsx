@@ -3,6 +3,8 @@ import FactoryIllustration from '../hero/FactoryIllustration';
 import HeroParticleField from '../hero/HeroParticleField';
 import { useHeroInteractions } from '../hero/useHeroInteractions';
 
+const HERO_FACTORY_ILLUSTRATION_ENABLED = true;
+
 function HeroBackground({
   factoryParallaxRef,
   factoryStageRef,
@@ -22,13 +24,15 @@ function HeroBackground({
       <div className="hero-atmosphere-stream hero-atmosphere-stream-a absolute inset-0" />
       <div className="hero-atmosphere-stream hero-atmosphere-stream-b absolute inset-0" />
 
-      <div ref={factoryStageRef} className="hero-factory-stage">
-        <div ref={factoryParallaxRef} className="hero-factory-parallax">
-          <div className="hero-factory-visual">
-            <FactoryIllustration />
+      {HERO_FACTORY_ILLUSTRATION_ENABLED && (
+        <div ref={factoryStageRef} className="hero-factory-stage">
+          <div ref={factoryParallaxRef} className="hero-factory-parallax">
+            <div className="hero-factory-visual">
+              <FactoryIllustration />
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0d1a30] to-transparent" />
     </>
@@ -43,7 +47,7 @@ export default function HeroSection() {
     hoverLightRef,
     hoverLightCoreRef,
     heroEventHandlers
-  } = useHeroInteractions();
+  } = useHeroInteractions({ factoryEnabled: HERO_FACTORY_ILLUSTRATION_ENABLED });
 
   return (
     <SectionShell
