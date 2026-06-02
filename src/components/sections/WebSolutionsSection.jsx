@@ -119,7 +119,7 @@ const WEB_SOLUTION_CARDS = [
     },
     stackedPreview: {
       frameClassName: TALL_CARD_CLASSES.stackedPreviewFrame,
-      imageClassName: 'scale-[0.88] object-contain object-left-top sm:scale-100',
+      imageClassName: 'scale-[0.88] object-contain object-left-top sm:scale-100 -translate-x-3 sm:-translate-x-0',
       ratioClassName: 'aspect-square',
       src: ecommerceImage
     },

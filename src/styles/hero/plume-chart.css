@@ -4,8 +4,14 @@
   isolation: isolate;
 }
 
+.v-plume-background {
+  fill: #203658;
+  fill-opacity: 0.16;
+  pointer-events: none;
+}
+
 .v-plume-shell-highlight {
-  animation: vTrendPulse 4.8s ease-in-out infinite;
+  animation: vTrendPulse 5.6s ease-in-out infinite;
 }
 
 .v-graph-halo-line {
@@ -17,14 +23,14 @@
   stroke-opacity: 0.18;
   mix-blend-mode: screen;
   filter: drop-shadow(0 0 15px rgba(86, 226, 255, 0.44));
-  animation: vGraphHaloPulse 5.4s ease-in-out infinite;
+  animation: vGraphHaloPulse 6.2s ease-in-out infinite;
 }
 
 .v-graph-halo-bars {
   mix-blend-mode: screen;
   filter: drop-shadow(0 0 15px rgba(75, 221, 255, 0.4));
   opacity: 0.34;
-  animation: vGraphHaloPulse 4.8s ease-in-out infinite;
+  animation: vGraphHaloPulse 5.6s ease-in-out infinite;
 }
 .v-graph-halo-bars line {
   stroke: url(#vGraphColumnGlow);
@@ -40,7 +46,7 @@
   stroke-opacity: 0.92;
   stroke-dasharray: 16 12;
   filter: drop-shadow(0 0 8px rgba(84, 226, 255, 0.28));
-  animation: vPlumeBaselineFlow 13s linear infinite;
+  animation: vPlumeBaselineFlow 15s linear infinite;
 }
 
 .v-plume-side-link {
@@ -49,7 +55,7 @@
   stroke-linecap: round;
   stroke-opacity: 0.56;
   stroke-dasharray: 14 11;
-  animation: vPlumeSideFlow 12s linear infinite;
+  animation: vPlumeSideFlow 14s linear infinite;
 }
 .v-plume-side-link-b {
   stroke-opacity: 0.62;
@@ -62,10 +68,10 @@
   stroke-opacity: 0.66;
   stroke-dasharray: 12 10;
   filter: drop-shadow(0 0 8px rgba(102, 240, 255, 0.34));
-  animation: vBarPulse 3.6s ease-in-out infinite;
+  animation: vBarPulse 4.2s ease-in-out infinite;
 }
 .v-bar-flow {
-  animation: vBarDashFlow 12s linear infinite;
+  animation: vBarDashFlow 14s linear infinite;
 }
 .v-bar-1 {
   animation-delay: 0s;
@@ -96,8 +102,8 @@
   stroke-dasharray: 18 12;
   filter: drop-shadow(0 0 9px rgba(128, 244, 255, 0.42));
   animation:
-    vTrendPulse 4s ease-in-out infinite,
-    vTrendDashFlow 11s linear infinite;
+    vTrendPulse 4.7s ease-in-out infinite,
+    vTrendDashFlow 12.8s linear infinite;
 }
 
 .v-graph-sheen {
@@ -111,7 +117,7 @@
   stroke-dashoffset: 310;
   mix-blend-mode: screen;
   filter: drop-shadow(0 0 9px rgba(233, 254, 255, 0.68));
-  animation: vGraphSheenFlow 5.2s cubic-bezier(0.5, 0, 0.18, 1) infinite;
+  animation: vGraphSheenFlow 6s cubic-bezier(0.5, 0, 0.18, 1) infinite;
 }
 .v-plume-trend-arrow {
   stroke: #95e3ff;
@@ -121,7 +127,7 @@
   stroke-linecap: round;
   filter: drop-shadow(0 0 8px rgba(149, 227, 255, 0.62))
     drop-shadow(0 0 14px rgba(149, 227, 255, 0.2));
-  animation: vTrendArrowBoost 5.2s ease-in-out infinite;
+  animation: vTrendArrowBoost 6s ease-in-out infinite;
 }
 .v-plume-trend-out {
   stroke-opacity: 0.98;
@@ -134,7 +140,7 @@
   fill: #e0f5ff;
   filter: drop-shadow(0 0 7px rgba(224, 245, 255, 0.7))
     drop-shadow(0 0 14px rgba(224, 245, 255, 0.3));
-  animation: vNodePulse 4s ease-in-out infinite;
+  animation: vNodePulse 4.7s ease-in-out infinite;
 }
 .v-node-b {
   animation-delay: 1.6s;
@@ -146,7 +152,7 @@
   fill: #e0f5ff;
   filter: drop-shadow(0 0 8px rgba(224, 245, 255, 0.8))
     drop-shadow(0 0 18px rgba(224, 245, 255, 0.4));
-  animation: vOrangePulse 4.4s ease-in-out infinite;
+  animation: vOrangePulse 5.1s ease-in-out infinite;
 }
 .v-node-orange-b {
   animation-delay: 1.7s;
@@ -161,7 +167,7 @@
   transform-origin: center;
   mix-blend-mode: screen;
   filter: drop-shadow(0 0 10px rgba(149, 247, 255, 0.5));
-  animation: vNodeRingPulse 4.4s ease-in-out infinite;
+  animation: vNodeRingPulse 5.1s ease-in-out infinite;
 }
 .v-node-ring-b {
   animation-delay: 1.7s;
@@ -174,7 +180,7 @@
   transform-origin: center;
   mix-blend-mode: screen;
   filter: drop-shadow(0 0 9px rgba(255, 255, 255, 0.82));
-  animation: vNodeSpark 3.6s ease-in-out infinite;
+  animation: vNodeSpark 4.2s ease-in-out infinite;
 }
 .v-node-spark-b {
   animation-delay: 1.4s;

@@ -17,6 +17,11 @@
   stroke-linejoin: round;
 }
 
+.v-factory-cool-wash {
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
 .v-factory-depth-layer {
   pointer-events: none;
 }
@@ -122,8 +127,8 @@
   stroke-dasharray: 9 13;
   mix-blend-mode: screen;
   animation:
-    vPipeFlowDescend 3.8s linear infinite,
-    vPipeFlowPulse 4.4s ease-in-out infinite;
+    vPipeFlowDescend 8s linear infinite,
+    vPipeFlowPulse 4s ease-in-out infinite;
 }
 
 .v-pipe-top-edge {
@@ -260,9 +265,8 @@
 
 .v-factory-trace-layer {
   mix-blend-mode: screen;
-  animation:
-    vFactoryTraceFlow 14s linear infinite,
-    vFactoryTracePulse 4.6s ease-in-out infinite;
+  opacity: 0.68;
+  animation: vFactoryTraceFlow 14s linear infinite;
 }
 
 .v-factory-trace {

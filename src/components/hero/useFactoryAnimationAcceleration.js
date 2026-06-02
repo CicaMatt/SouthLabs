@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 
 const FACTORY_ACCELERATION_RATE = 2.25;
+const PLUME_ACCELERATION_RATE = 1.75;
 const FACTORY_ACCELERATION_RAMP_UP_MS = 220;
 const FACTORY_ACCELERATION_HOLD_MS = 150;
 const FACTORY_ACCELERATION_RAMP_DOWN_MS = 760;
@@ -30,6 +31,13 @@ function isFactoryCssAnimation(animation) {
     animation.playState !== 'idle' &&
     (typeof CSSAnimation === 'undefined' || animation instanceof CSSAnimation)
   );
+}
+
+function getAccelerationRate(animation) {
+  const target = animation.effect?.target;
+  return target && typeof target.closest === 'function' && target.closest('.v-plume-cloud')
+    ? PLUME_ACCELERATION_RATE
+    : FACTORY_ACCELERATION_RATE;
 }
 
 export function useFactoryAnimationAcceleration(factoryStageRef) {
@@ -90,7 +98,7 @@ export function useFactoryAnimationAcceleration(factoryStageRef) {
       const elapsed = Math.max(0, timestamp - accelerationStart);
 
       acceleratedAnimationsRef.current.forEach(({ animation, baseRate, startRate }) => {
-        const peakRate = baseRate * FACTORY_ACCELERATION_RATE;
+        const peakRate = baseRate * getAccelerationRate(animation);
         let nextRate = baseRate;
 
         if (elapsed < FACTORY_ACCELERATION_RAMP_UP_MS) {

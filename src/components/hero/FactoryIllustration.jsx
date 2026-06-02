@@ -9,6 +9,11 @@ function PlumeCloud() {
     <g className="v-plume-cloud" transform="translate(600 0) scale(-1 1)">
       <use
         href="#vPlumeShape"
+        className="v-plume-background"
+        transform={plumeHeightTransform}
+      />
+      <use
+        href="#vPlumeShape"
         className="v-plume-shell-highlight"
         fill="none"
         stroke="#9EEBFF"
@@ -222,6 +227,29 @@ export default function FactoryIllustration() {
           <stop offset="50%" stopColor="#7AB1CC" stopOpacity="0.55" />
           <stop offset="100%" stopColor="#5A99B5" stopOpacity="0.06" />
         </linearGradient>
+        <linearGradient
+          id="vFactoryCoolWash"
+          x1="126"
+          y1="264"
+          x2="494"
+          y2="500"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset="0%" stopColor="#95E3FF" stopOpacity="0.09" />
+          <stop offset="52%" stopColor="#95E3FF" stopOpacity="0.035" />
+          <stop offset="100%" stopColor="#95E3FF" stopOpacity="0" />
+        </linearGradient>
+        <linearGradient
+          id="vPipeCoolWash"
+          x1="252"
+          y1="210"
+          x2="306"
+          y2="336"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset="0%" stopColor="#95E3FF" stopOpacity="0.08" />
+          <stop offset="100%" stopColor="#95E3FF" stopOpacity="0" />
+        </linearGradient>
       </defs>
 
       {/* Floating group */}
@@ -234,6 +262,11 @@ export default function FactoryIllustration() {
         />
 
         <use href="#vFactoryShape" fill="#162950" fillOpacity="0.58" className="v-factory-shell" />
+
+        <g className="v-factory-cool-wash" aria-hidden="true">
+          <use href="#vFactoryShape" fill="url(#vFactoryCoolWash)" />
+          <use href="#vPipeShape" fill="url(#vPipeCoolWash)" />
+        </g>
 
         <g clipPath="url(#vFactoryClip)" className="v-factory-depth-layer">
           <path className="v-factory-roof-highlight" d="M 126 391 L 380 264 L 494 337" />

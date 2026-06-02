@@ -30,15 +30,6 @@
     stroke-dashoffset: -210;
   }
 }
-@keyframes vFactoryTracePulse {
-  0%,
-  100% {
-    opacity: 0.24;
-  }
-  50% {
-    opacity: 0.68;
-  }
-}
 @keyframes vFactoryPanelGlide {
   from {
     stroke-dashoffset: 0;
