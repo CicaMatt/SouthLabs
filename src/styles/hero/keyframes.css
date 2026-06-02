@@ -1,41 +1,5 @@
 /* Animation keyframes referenced by the hero layout, factory, and plume CSS modules. */
 /* Keyframes - atmosphere */
-@keyframes heroStreamDrift {
-  0% {
-    transform: translate3d(calc(var(--hero-shift-x) * 20px), calc(var(--hero-shift-y) * -16px), 0)
-      scale(1);
-  }
-  50% {
-    transform: translate3d(
-        calc(var(--hero-shift-x) * 24px + 20px),
-        calc(var(--hero-shift-y) * -20px - 8px),
-        0
-      )
-      scale(1.06);
-  }
-  100% {
-    transform: translate3d(calc(var(--hero-shift-x) * 20px), calc(var(--hero-shift-y) * -16px), 0)
-      scale(1);
-  }
-}
-@keyframes heroStreamDriftReverse {
-  0% {
-    transform: translate3d(calc(var(--hero-shift-x) * -22px), calc(var(--hero-shift-y) * 14px), 0)
-      scale(1);
-  }
-  50% {
-    transform: translate3d(
-        calc(var(--hero-shift-x) * -26px - 18px),
-        calc(var(--hero-shift-y) * 18px + 8px),
-        0
-      )
-      scale(1.06);
-  }
-  100% {
-    transform: translate3d(calc(var(--hero-shift-x) * -22px), calc(var(--hero-shift-y) * 14px), 0)
-      scale(1);
-  }
-}
 @keyframes heroFactoryVisualFloat {
   0%,
   100% {
@@ -64,14 +28,6 @@
   }
   to {
     stroke-dashoffset: -210;
-  }
-}
-@keyframes vFactoryTraceFlowReverse {
-  from {
-    stroke-dashoffset: 0;
-  }
-  to {
-    stroke-dashoffset: 196;
   }
 }
 @keyframes vFactoryTracePulse {
@@ -140,15 +96,6 @@
     opacity: 1;
   }
 }
-@keyframes vFeatureEdgePulse {
-  0%,
-  100% {
-    stroke-opacity: 0.14;
-  }
-  50% {
-    stroke-opacity: 0.56;
-  }
-}
 @keyframes vDoorSignalTravel {
   0% {
     stroke-dashoffset: 188;
@@ -163,17 +110,6 @@
   }
   100% {
     stroke-dashoffset: -152;
-  }
-}
-@keyframes vCoreGlowPulse {
-  0%,
-  100% {
-    opacity: 0.45;
-    transform: scale(0.86);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.16);
   }
 }
 @keyframes vGraphHaloPulse {

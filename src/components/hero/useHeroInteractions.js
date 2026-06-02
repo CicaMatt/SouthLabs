@@ -50,7 +50,7 @@ function readPointerFromEvent(event) {
   };
 }
 
-export function useHeroInteractions({ factoryEnabled = true } = {}) {
+export function useHeroInteractions() {
   const pointerRef = useRef(createPointerState());
   const factoryStageRef = useRef(null);
   const factoryParallaxRef = useRef(null);
@@ -89,8 +89,6 @@ export function useHeroInteractions({ factoryEnabled = true } = {}) {
   );
 
   useEffect(() => {
-    if (!factoryEnabled) return undefined;
-
     const stage = factoryStageRef.current;
     const documentObject = stage?.ownerDocument;
     const windowObject = documentObject?.defaultView;
@@ -123,7 +121,7 @@ export function useHeroInteractions({ factoryEnabled = true } = {}) {
       observer.disconnect();
       documentObject.removeEventListener('visibilitychange', updateFactoryPauseState);
     };
-  }, [factoryEnabled]);
+  }, []);
 
   const runFactoryParallax = () => {
     const motion = factoryMotionRef.current;
@@ -145,8 +143,6 @@ export function useHeroInteractions({ factoryEnabled = true } = {}) {
   };
 
   const scheduleFactoryParallax = (pointer, isActive) => {
-    if (!factoryEnabled) return;
-
     const motion = factoryMotionRef.current;
     motion.targetX = isActive ? pointer.shiftX * FACTORY_PARALLAX_SHIFT_PX : 0;
     if (!motion.frameId) {
@@ -300,13 +296,13 @@ export function useHeroInteractions({ factoryEnabled = true } = {}) {
       applyTouchPointer(pointer, true);
       triggerPointerBurst(pointer);
       triggerTouchParticleNudge(pointer);
-      if (factoryEnabled) accelerateFactoryAnimations();
+      accelerateFactoryAnimations();
       return;
     }
     applyPointer(pointer, true);
     triggerPointerBurst(pointer);
     triggerHoverLightPulse();
-    if (factoryEnabled) accelerateFactoryAnimations();
+    accelerateFactoryAnimations();
   };
 
   const handlePointerUp = (event) => {

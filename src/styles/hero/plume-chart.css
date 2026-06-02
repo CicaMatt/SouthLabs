@@ -4,26 +4,8 @@
   isolation: isolate;
 }
 
-.v-plume-shell {
-  opacity: 0.7;
-  filter: drop-shadow(0 4px 10px rgba(7, 20, 52, 0.16));
-}
-
-.v-plume-reflection {
-  opacity: 0.58;
-  mix-blend-mode: screen;
-}
-
 .v-plume-shell-highlight {
   animation: vTrendPulse 4.8s ease-in-out infinite;
-}
-
-.v-plume-core {
-  transform-box: fill-box;
-  transform-origin: center;
-  mix-blend-mode: screen;
-  opacity: 0.54;
-  animation: vCoreGlowPulse 5.4s ease-in-out infinite;
 }
 
 .v-graph-halo-line {

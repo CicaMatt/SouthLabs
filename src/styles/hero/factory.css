@@ -4,7 +4,6 @@
   animation: vFloat 14s ease-in-out infinite;
 }
 
-/* Factory body */
 .v-factory-footing {
   stroke: #74a9bd;
   stroke-width: 1.6;
@@ -211,10 +210,6 @@
   animation: vWindowSweepTravel 9s linear infinite;
 }
 
-.v-window-sweep-glow {
-  display: none;
-}
-
 .v-window-sweep-core {
   stroke: #ffffff;
   stroke-width: 2.4;
@@ -270,15 +265,6 @@
     vFactoryTracePulse 4.6s ease-in-out infinite;
 }
 
-.v-factory-trace-layer-b {
-  animation:
-    vFactoryTraceFlowReverse 10.4s linear infinite,
-    vFactoryTracePulse 3.7s ease-in-out infinite;
-  animation-delay:
-    -1.3s,
-    -0.9s;
-}
-
 .v-factory-trace {
   fill: none;
   stroke: #95c5d5;
@@ -287,13 +273,6 @@
   stroke-linejoin: round;
   stroke-opacity: 0.62;
   stroke-dasharray: 18 12;
-}
-
-.v-factory-trace-b {
-  stroke: #defbff;
-  stroke-width: 0.95;
-  stroke-opacity: 0.82;
-  stroke-dasharray: 3 25;
 }
 
 /* When the hero scrolls out of the viewport, freeze the factory's CSS

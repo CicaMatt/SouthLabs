@@ -7,22 +7,6 @@ function PlumeCloud() {
   const plumeInnerMirrorTransform = 'translate(600 0) scale(-1 1)';
   return (
     <g className="v-plume-cloud" transform="translate(600 0) scale(-1 1)">
-      {false && (
-        <>
-          <use
-            href="#vPlumeShape"
-            className="v-plume-shell"
-            fill="url(#vPlumeFill)"
-            transform={plumeHeightTransform}
-          />
-          <use
-            href="#vPlumeShape"
-            className="v-plume-reflection"
-            fill="url(#vPlumeReflection)"
-            transform={plumeHeightTransform}
-          />
-        </>
-      )}
       <use
         href="#vPlumeShape"
         className="v-plume-shell-highlight"
@@ -32,14 +16,6 @@ function PlumeCloud() {
         strokeOpacity="0.42"
         transform={plumeHeightTransform}
       />
-      {false && (
-        <use
-          href="#vPlumeShape"
-          className="v-plume-core"
-          fill="url(#vPlumeCore)"
-          transform={plumeHeightTransform}
-        />
-      )}
 
       <g transform={plumeInnerMirrorTransform}>
         <polyline className="v-graph-halo-line" points={PLUME_TREND_POINTS} />
@@ -188,7 +164,7 @@ export default function FactoryIllustration() {
         <clipPath id="vRightWindowClip">
           <use href="#vRightWindowShape" />
         </clipPath>
-        {/* Plume cloud shape and fills (logo-inspired) */}
+        {/* Plume cloud shape (logo-inspired) */}
         <path
           id="vPlumeShape"
           d="
@@ -216,31 +192,6 @@ export default function FactoryIllustration() {
           <use href="#vPlumeShape" transform="translate(0 8.64) scale(1 0.92)" />
         </clipPath>
         <linearGradient
-          id="vPlumeFill"
-          x1="300"
-          y1="12"
-          x2="300"
-          y2="186"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop offset="0%" stopColor="#1F3760" stopOpacity="0.36" />
-          <stop offset="45%" stopColor="#172C50" stopOpacity="0.34" />
-          <stop offset="100%" stopColor="#0E1A33" stopOpacity="0.42" />
-        </linearGradient>
-        <linearGradient
-          id="vPlumeReflection"
-          x1="214"
-          y1="48"
-          x2="430"
-          y2="134"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop offset="0%" stopColor="#8FC6D6" stopOpacity="0" />
-          <stop offset="42%" stopColor="#9FD0DE" stopOpacity="0.14" />
-          <stop offset="62%" stopColor="#F0F6F8" stopOpacity="0.10" />
-          <stop offset="100%" stopColor="#88C0D2" stopOpacity="0" />
-        </linearGradient>
-        <linearGradient
           id="vGraphStroke"
           x1="190"
           y1="132"
@@ -265,19 +216,6 @@ export default function FactoryIllustration() {
           <stop offset="58%" stopColor="#95E3FF" stopOpacity="0.96" />
           <stop offset="100%" stopColor="#95E3FF" stopOpacity="0.78" />
         </linearGradient>
-        <radialGradient
-          id="vPlumeCore"
-          cx="0"
-          cy="0"
-          r="1"
-          gradientTransform="translate(300 108) scale(124 72)"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop offset="0%" stopColor="#3F5F87" stopOpacity="0.24" />
-          <stop offset="62%" stopColor="#1F3D62" stopOpacity="0.14" />
-          <stop offset="100%" stopColor="#13243F" stopOpacity="0.04" />
-        </radialGradient>
-
         {/* Wave stroke */}
         <linearGradient id="vWave" x1="20" y1="0" x2="580" y2="0" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#5A99B5" stopOpacity="0.06" />
@@ -325,98 +263,54 @@ export default function FactoryIllustration() {
 
         <g className="v-factory-left-door-group" transform="translate(22 0)">
           <path
-            className="v-factory-window v-door-panel"
+            className="v-factory-window"
             d="M 132 430 L 188 402 L 188 500 H 132 Z"
           />
           <path className="v-door-perimeter-signal" d="M 132 430 L 188 402 L 188 500 H 132 Z" />
-          <path className="v-panel-edge-light v-door-edge-light" d="M 132 430 L 188 402" />
-          <path className="v-panel-edge-depth v-door-edge-depth" d="M 132 500 H 188" />
+          <path className="v-panel-edge-light" d="M 132 430 L 188 402" />
+          <path className="v-panel-edge-depth" d="M 132 500 H 188" />
         </g>
         <path
-          className="v-factory-window v-factory-window-b v-door-panel"
+          className="v-factory-window v-factory-window-b"
           d="M 410 412 L 466 448 V 500 H 410 Z"
         />
         <path
           className="v-door-perimeter-signal v-door-perimeter-signal-b"
           d="M 410 412 L 466 448 V 500 H 410 Z"
         />
-        <path
-          className="v-panel-edge-light v-door-edge-light v-door-edge-light-b"
-          d="M 410 412 L 466 448"
-        />
-        <path
-          className="v-panel-edge-depth v-door-edge-depth v-door-edge-depth-b"
-          d="M 410 500 H 466"
-        />
+        <path className="v-panel-edge-light" d="M 410 412 L 466 448" />
+        <path className="v-panel-edge-depth" d="M 410 500 H 466" />
 
-        <g className="v-factory-left-window-group" transform="translate(0 0)">
+        <path className="v-factory-cutout" d="M 264 366 L 350 323 V 359 L 264 402 Z" />
+        <g clipPath="url(#vLeftWindowTopClip)">
+          <path className="v-window-sweep v-window-sweep-core" d="M 264 402 L 350 359" />
+        </g>
+        <path className="v-panel-edge-light v-panel-edge-light-soft" d="M 264 366 L 350 323" />
+        <path className="v-panel-edge-depth v-panel-edge-depth-soft" d="M 264 402 L 350 359" />
+        <path
+          className="v-factory-cutout v-factory-cutout-b"
+          d="M 264 416 L 350 373 V 409 L 264 452 Z"
+        />
+        <g clipPath="url(#vLeftWindowBottomClip)">
           <path
-            className="v-factory-cutout v-window-panel"
-            d="M 264 366 L 350 323 V 359 L 264 402 Z"
-          />
-          <g clipPath="url(#vLeftWindowTopClip)" className="v-window-sweep-track">
-            <path className="v-window-sweep v-window-sweep-glow" d="M 264 402 L 350 359" />
-            <path className="v-window-sweep v-window-sweep-core" d="M 264 402 L 350 359" />
-          </g>
-          <path
-            className="v-panel-edge-light v-panel-edge-light-soft v-window-edge-light"
-            d="M 264 366 L 350 323"
-          />
-          <path
-            className="v-panel-edge-depth v-panel-edge-depth-soft v-window-edge-depth"
-            d="M 264 402 L 350 359"
-          />
-          <path
-            className="v-factory-cutout v-factory-cutout-b v-window-panel"
-            d="M 264 416 L 350 373 V 409 L 264 452 Z"
-          />
-          <g
-            clipPath="url(#vLeftWindowBottomClip)"
-            className="v-window-sweep-track v-window-sweep-track-b"
-          >
-            <path
-              className="v-window-sweep v-window-sweep-glow v-window-sweep-b"
-              d="M 264 452 L 350 409"
-            />
-            <path
-              className="v-window-sweep v-window-sweep-core v-window-sweep-b"
-              d="M 264 452 L 350 409"
-            />
-          </g>
-          <path
-            className="v-panel-edge-light v-panel-edge-light-soft v-window-edge-light v-window-edge-light-b"
-            d="M 264 416 L 350 373"
-          />
-          <path
-            className="v-panel-edge-depth v-panel-edge-depth-soft v-window-edge-depth v-window-edge-depth-b"
+            className="v-window-sweep v-window-sweep-core v-window-sweep-b"
             d="M 264 452 L 350 409"
           />
         </g>
+        <path className="v-panel-edge-light v-panel-edge-light-soft" d="M 264 416 L 350 373" />
+        <path className="v-panel-edge-depth v-panel-edge-depth-soft" d="M 264 452 L 350 409" />
         <path
-          className="v-factory-cutout v-factory-cutout-c v-window-panel"
+          className="v-factory-cutout v-factory-cutout-c"
           d="M 410 338 L 466 374 V 410 L 410 374 Z"
         />
-        <g
-          clipPath="url(#vRightWindowClip)"
-          className="v-window-sweep-track v-window-sweep-track-c"
-        >
-          <path
-            className="v-window-sweep v-window-sweep-glow v-window-sweep-c"
-            d="M 410 374 L 466 410"
-          />
+        <g clipPath="url(#vRightWindowClip)">
           <path
             className="v-window-sweep v-window-sweep-core v-window-sweep-c"
             d="M 410 374 L 466 410"
           />
         </g>
-        <path
-          className="v-panel-edge-light v-panel-edge-light-soft v-window-edge-light v-window-edge-light-c"
-          d="M 410 338 L 466 374"
-        />
-        <path
-          className="v-panel-edge-depth v-panel-edge-depth-soft v-window-edge-depth v-window-edge-depth-c"
-          d="M 410 374 L 466 410"
-        />
+        <path className="v-panel-edge-light v-panel-edge-light-soft" d="M 410 338 L 466 374" />
+        <path className="v-panel-edge-depth v-panel-edge-depth-soft" d="M 410 374 L 466 410" />
         <path className="v-factory-panel-ridge-base" d="M 138 407.1 L 380 289 L 484 355.6" />
         <path className="v-factory-panel-ridge-bridge" d="M 336 310.5 L 380 289 L 424 317.2" />
         <path className="v-factory-panel-ridge" d="M 138 407.1 L 380 289 L 484 355.6" />
@@ -431,26 +325,6 @@ export default function FactoryIllustration() {
           />
           <line className="v-factory-trace" x1="271" y1="210" x2="271" y2="166" />
         </g>
-
-        {false && (
-          <g className="v-factory-trace-layer v-factory-trace-layer-b">
-            <path
-              className="v-factory-trace v-factory-trace-b"
-              d="M 126 500 L 126 391 L 380 264 L 494 337 L 494 500"
-            />
-            <path
-              className="v-factory-trace v-factory-trace-b"
-              d="M 252 210 L 290 210 M 252 210 L 236 336 M 290 210 L 306 301"
-            />
-            <line
-              className="v-factory-trace v-factory-trace-b"
-              x1="271"
-              y1="210"
-              x2="271"
-              y2="166"
-            />
-          </g>
-        )}
 
         {/* Plume cloud */}
         <PlumeCloud />
