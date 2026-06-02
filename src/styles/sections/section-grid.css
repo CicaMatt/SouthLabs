@@ -276,6 +276,16 @@
     cursor: auto;
   }
 
+  .site-main-with-section-cursor
+    .contact-form-panel
+    :where(button, button *, a, a *, [role='button'], [role='button'] *, [role='link'], [role='link'] *) {
+    cursor: pointer;
+  }
+
+  .site-main-with-section-cursor .contact-form-panel :where(button:disabled, button:disabled *) {
+    cursor: wait;
+  }
+
   .site-main-with-section-cursor:has(
       input:hover,
       label:hover,

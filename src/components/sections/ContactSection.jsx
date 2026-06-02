@@ -31,13 +31,12 @@ const EMAIL_PATTERN = '[^\\s@]+@[^\\s@]+\\.[^\\s@]+';
 const CONTACT_FORM_SURFACE_OPACITY = 0.78;
 const CONTACT_FORM_SURFACE_HOVER_OPACITY = CONTACT_FORM_SURFACE_OPACITY;
 const FIELD_LABEL_CLASS = [
-  'block font-label text-sm font-medium',
+  'pointer-events-none block font-label text-sm font-medium',
   'text-on-surface-variant mb-2'
 ].join(' ');
 const FIELD_CONTROL_CLASS = [
   'contact-field-control w-full rounded-md border-2 border-transparent bg-[#cedaea]',
-  'px-4 py-3 text-on-background transition-colors',
-  'focus:bg-[#edf3fa]'
+  'px-4 py-3 text-on-background transition-colors'
 ].join(' ');
 const TEXT_FIELD_CLASS = `${FIELD_CONTROL_CLASS} placeholder:text-[rgba(32,54,88,0.5)]`;
 const SELECT_FIELD_CLASS = `${FIELD_CONTROL_CLASS} invalid:text-[rgba(32,54,88,0.5)]`;

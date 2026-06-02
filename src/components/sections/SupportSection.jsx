@@ -2,9 +2,9 @@ import SectionShell from '../SectionShell';
 import { getSolutionCardSurfaceStyle } from './solutionCardSurface';
 
 const SUPPORT_ITEMS = [
-  'Manutenzione preventiva e correttiva programmata.',
-  'Sessioni di training per la formazione del personale.',
-  'Supporto per eventi critici.'
+  'Manutenzione preventiva e correttiva programmata',
+  'Sessioni di training per la formazione del personale',
+  'Supporto per eventi critici'
 ];
 
 const SUPPORT_PANEL_SURFACE_OPACITY = 0.4;
@@ -43,8 +43,10 @@ export default function SupportSection() {
           <ul className="space-y-4">
             {SUPPORT_ITEMS.map((item) => (
               <li key={item} className="flex items-center gap-3">
-                <span className="material-symbols-outlined inline-flex h-7 w-7 shrink-0 translate-y-[3px] items-center justify-center text-[26px] leading-none text-tertiary-fixed-dim">
-                  check_circle
+                <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center">
+                  <span className="material-symbols-outlined block text-[26px] leading-none text-tertiary-fixed-dim">
+                    check_circle
+                  </span>
                 </span>
                 <span className="font-body text-md lg:text-lg leading-7">{item}</span>
               </li>
