@@ -2,8 +2,7 @@ import {
   SOFTWARE_SECTION_THEME_COLOR,
   SOFTWARE_SECTION_THEME_RGB_CSS
 } from '../hooks/sectionGrid/themes';
-
-const cx = (...classes) => classes.filter(Boolean).join(' ');
+import { cx } from '../utils/classNames';
 
 const SECTION_PADDING_CLASS = {
   default: 'py-[5.5rem] lg:py-[6.75rem]',
@@ -53,9 +52,9 @@ const SECTION_VARIANTS = {
   }
 };
 
-export const SECTION_CONTAINER_GUTTER_CLASS = 'mx-auto px-5 sm:px-6 md:px-8';
+const SECTION_CONTAINER_GUTTER_CLASS = 'mx-auto px-5 sm:px-6 md:px-8';
 
-export function SectionBackground({ children, className = '' }) {
+function SectionBackground({ children, className = '' }) {
   return (
     <div aria-hidden="true" className={cx('absolute inset-0 z-0', className)}>
       {children}
@@ -63,7 +62,7 @@ export function SectionBackground({ children, className = '' }) {
   );
 }
 
-export function SectionContent({ children, className = '', width = 'standard' }) {
+function SectionContent({ children, className = '', width = 'standard' }) {
   return (
     <div className={cx(SECTION_WIDTH_CLASS[width], SECTION_CONTAINER_GUTTER_CLASS, className)}>
       {children}

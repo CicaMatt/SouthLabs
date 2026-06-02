@@ -122,7 +122,7 @@
       var(--section-grid-color, rgba(31, 79, 143, 0.045)) 1px,
       transparent 1px
     ),
-    linear-gradient(135deg, #203658 0%, #1a2d4e 54%, #122038 100%);
+    var(--site-deep-surface-gradient);
   background-size:
     var(--section-grid-size, 72px) var(--section-grid-size, 72px),
     var(--section-grid-size, 72px) var(--section-grid-size, 72px),
@@ -267,7 +267,8 @@
       [role='button']:hover,
       [role='link']:hover
     )
-    .section-cursor-dot {
+    .section-cursor-dot,
+  .site-main-with-section-cursor.site-main--hero-graphic-cursor-small .section-cursor-dot {
     --section-cursor-size: 10px;
   }
 
@@ -278,7 +279,16 @@
 
   .site-main-with-section-cursor
     .contact-form-panel
-    :where(button, button *, a, a *, [role='button'], [role='button'] *, [role='link'], [role='link'] *) {
+    :where(
+      button,
+      button *,
+      a,
+      a *,
+      [role='button'],
+      [role='button'] *,
+      [role='link'],
+      [role='link'] *
+    ) {
     cursor: pointer;
   }
 
@@ -296,9 +306,5 @@
     )
     .section-cursor-dot {
     opacity: 0;
-  }
-
-  .site-main-with-section-cursor.site-main--hero-graphic-cursor-small .section-cursor-dot {
-    --section-cursor-size: 10px;
   }
 }

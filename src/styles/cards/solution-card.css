@@ -59,7 +59,7 @@
   --card-grid-highlight-x: 50%;
   --card-grid-highlight-y: 50%;
   background-color: #122038;
-  background-image: linear-gradient(135deg, #203658 0%, #1a2d4e 54%, #122038 100%);
+  background-image: var(--site-deep-surface-gradient);
 }
 
 .software-card-surface {
@@ -165,7 +165,7 @@
   --infrastructure-frame-grid-color: rgba(149, 227, 255, 0.0225);
   --card-grid-effect-color: #95e3ff;
   background-color: #122038;
-  background-image: linear-gradient(135deg, #203658 0%, #1a2d4e 54%, #122038 100%);
+  background-image: var(--site-deep-surface-gradient);
 }
 
 .infrastructure-image-frame::before {
@@ -270,12 +270,6 @@
 
   .section-grid-bg--software .group:hover .software-ai-link {
     color: var(--software-ai-accent) !important;
-  }
-
-  .software-ai-feature-card.group:hover .software-ai-background-icon {
-    --tw-scale-x: 1 !important;
-    --tw-scale-y: 1 !important;
-    opacity: 0.1 !important;
   }
 
   .section-grid-bg--infrastructure .group:hover img {

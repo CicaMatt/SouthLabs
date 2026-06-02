@@ -32,7 +32,7 @@
 }
 
 .hero-atmosphere-base {
-  background: linear-gradient(135deg, #203658 0%, #1a2d4e 54%, #122038 100%);
+  background: var(--site-deep-surface-gradient);
 }
 .hero-atmosphere-grid {
   --section-grid-layer-offset-x: var(--hero-atmosphere-bleed);

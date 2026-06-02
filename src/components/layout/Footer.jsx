@@ -17,7 +17,10 @@ const legalDocuments = [
   }
 ];
 const socialLinks = [
-  { href: 'https://www.facebook.com/profile.php?id=61590605188546&locale=it_IT', label: 'Facebook' },
+  {
+    href: 'https://www.facebook.com/profile.php?id=61590605188546&locale=it_IT',
+    label: 'Facebook'
+  },
   { href: 'https://www.instagram.com/southlabs_consulting/', label: 'Instagram' }
 ];
 const contacts = [

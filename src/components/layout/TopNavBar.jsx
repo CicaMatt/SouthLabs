@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import logoImage from '../../../media/logo/logo_image.png';
 import logoText from '../../../media/logo/logo_text.png';
+import { cx } from '../../utils/classNames';
 
 const NAV_DESKTOP_MIN_WIDTH = 768;
 const MOBILE_MENU_FADE_MS = 280;
@@ -97,9 +98,7 @@ function BrandLogo({ onNavigate }) {
 // Desktop/tablet navigation uses two-line labels on tablet to preserve spacing.
 function DesktopNavLinks() {
   return (
-    <div
-      className="hidden md:flex md:flex-1 items-center justify-around gap-4 md:px-4 min-[1116px]:gap-6 min-[1116px]:px-12 xl:px-20"
-    >
+    <div className="hidden md:flex md:flex-1 items-center justify-around gap-4 md:px-4 min-[1116px]:gap-6 min-[1116px]:px-12 xl:px-20">
       {NAV_LINKS.map((link) => (
         <a key={link.href} className={DESKTOP_LINK_CLASS} href={link.href}>
           <span className="hidden min-[1116px]:inline">{link.label}</span>
@@ -152,12 +151,10 @@ function MobileNavMenu({ isVisible, menuRef, onNavigate }) {
         {NAV_LINKS.map((link, index) => (
           <a
             key={link.href}
-            className={[
+            className={cx(
               MOBILE_LINK_CLASS,
               index < NAV_LINKS.length - 1 && MOBILE_LINK_SEPARATOR_CLASS
-            ]
-              .filter(Boolean)
-              .join(' ')}
+            )}
             href={link.href}
             onClick={onNavigate}
             tabIndex={isVisible ? undefined : -1}
@@ -289,9 +286,7 @@ export default function TopNavBar() {
   }, [isMobileMenuOpen]);
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
-  const navClassName = [NAVBAR_CLASS, isNavHidden && 'top-nav-surface--hidden']
-    .filter(Boolean)
-    .join(' ');
+  const navClassName = cx(NAVBAR_CLASS, isNavHidden && 'top-nav-surface--hidden');
 
   return (
     <nav ref={navRef} className={navClassName} onFocusCapture={() => setIsNavHidden(false)}>

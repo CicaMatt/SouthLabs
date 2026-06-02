@@ -7,11 +7,7 @@ function PlumeCloud() {
   const plumeInnerMirrorTransform = 'translate(600 0) scale(-1 1)';
   return (
     <g className="v-plume-cloud" transform="translate(600 0) scale(-1 1)">
-      <use
-        href="#vPlumeShape"
-        className="v-plume-background"
-        transform={plumeHeightTransform}
-      />
+      <use href="#vPlumeShape" className="v-plume-background" transform={plumeHeightTransform} />
       <use
         href="#vPlumeShape"
         className="v-plume-shell-highlight"
@@ -295,18 +291,12 @@ export default function FactoryIllustration() {
         />
 
         <g className="v-factory-left-door-group" transform="translate(22 0)">
-          <path
-            className="v-factory-window"
-            d="M 132 430 L 188 402 L 188 500 H 132 Z"
-          />
+          <path className="v-factory-window" d="M 132 430 L 188 402 L 188 500 H 132 Z" />
           <path className="v-door-perimeter-signal" d="M 132 430 L 188 402 L 188 500 H 132 Z" />
           <path className="v-panel-edge-light" d="M 132 430 L 188 402" />
           <path className="v-panel-edge-depth" d="M 132 500 H 188" />
         </g>
-        <path
-          className="v-factory-window v-factory-window-b"
-          d="M 410 412 L 466 448 V 500 H 410 Z"
-        />
+        <path className="v-factory-window" d="M 410 412 L 466 448 V 500 H 410 Z" />
         <path
           className="v-door-perimeter-signal v-door-perimeter-signal-b"
           d="M 410 412 L 466 448 V 500 H 410 Z"
@@ -320,10 +310,7 @@ export default function FactoryIllustration() {
         </g>
         <path className="v-panel-edge-light v-panel-edge-light-soft" d="M 264 366 L 350 323" />
         <path className="v-panel-edge-depth v-panel-edge-depth-soft" d="M 264 402 L 350 359" />
-        <path
-          className="v-factory-cutout v-factory-cutout-b"
-          d="M 264 416 L 350 373 V 409 L 264 452 Z"
-        />
+        <path className="v-factory-cutout" d="M 264 416 L 350 373 V 409 L 264 452 Z" />
         <g clipPath="url(#vLeftWindowBottomClip)">
           <path
             className="v-window-sweep v-window-sweep-core v-window-sweep-b"
@@ -332,10 +319,7 @@ export default function FactoryIllustration() {
         </g>
         <path className="v-panel-edge-light v-panel-edge-light-soft" d="M 264 416 L 350 373" />
         <path className="v-panel-edge-depth v-panel-edge-depth-soft" d="M 264 452 L 350 409" />
-        <path
-          className="v-factory-cutout v-factory-cutout-c"
-          d="M 410 338 L 466 374 V 410 L 410 374 Z"
-        />
+        <path className="v-factory-cutout" d="M 410 338 L 466 374 V 410 L 410 374 Z" />
         <g clipPath="url(#vRightWindowClip)">
           <path
             className="v-window-sweep v-window-sweep-core v-window-sweep-c"

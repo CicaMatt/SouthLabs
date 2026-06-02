@@ -79,7 +79,12 @@ function createFactoryExclusion(canvas, factoryStage) {
 
   const canvasRect = canvas.getBoundingClientRect();
   const svgRect = svg.getBoundingClientRect();
-  if (canvasRect.width <= 0 || canvasRect.height <= 0 || svgRect.width <= 0 || svgRect.height <= 0) {
+  if (
+    canvasRect.width <= 0 ||
+    canvasRect.height <= 0 ||
+    svgRect.width <= 0 ||
+    svgRect.height <= 0
+  ) {
     return null;
   }
 
@@ -149,14 +154,7 @@ export default function HeroParticleField({ factoryStageRef, pointerRef }) {
         if (!isStatic) {
           advanceParticle(particle, step, size, forceState);
         }
-        if (
-          isInsideFactoryExclusion(
-            particle.x,
-            particle.y,
-            particle.radius,
-            factoryExclusion
-          )
-        ) {
+        if (isInsideFactoryExclusion(particle.x, particle.y, particle.radius, factoryExclusion)) {
           continue;
         }
         drawDot(ctx, particle.x, particle.y, particle.radius, particle.fillStyle);

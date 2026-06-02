@@ -5,9 +5,6 @@
   .hero-atmosphere-grid {
     opacity: 0.2;
   }
-  .hero-particle-canvas {
-    opacity: 0.72;
-  }
 
   .hero-factory-stage {
     --factory-stage-width: min(60vw, 500px);

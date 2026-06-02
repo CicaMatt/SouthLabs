@@ -6,7 +6,7 @@
   isolation: isolate;
   overflow: hidden;
   background-color: #122038;
-  background-image: linear-gradient(135deg, #203658 0%, #1a2d4e 54%, #122038 100%);
+  background-image: var(--site-deep-surface-gradient);
   transition:
     color 320ms ease,
     transform 200ms ease;
@@ -25,10 +25,6 @@
 .contact-submit-cta:hover:not(:disabled) {
   --cta-underline-color: #06222a;
   color: #06222a;
-}
-
-.contact-submit-cta:hover:not(:disabled)::before {
-  opacity: 1;
 }
 
 .support-cta-panel {
@@ -71,6 +67,7 @@
   transition: opacity 240ms ease;
 }
 
+.contact-submit-cta:hover:not(:disabled)::before,
 .hero-consultancy-cta:hover::before {
   opacity: 1;
 }

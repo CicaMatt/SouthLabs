@@ -154,10 +154,6 @@
     drop-shadow(0 0 18px rgba(224, 245, 255, 0.4));
   animation: vOrangePulse 5.1s ease-in-out infinite;
 }
-.v-node-orange-b {
-  animation-delay: 1.7s;
-}
-
 .v-node-ring {
   fill: none;
   stroke: url(#vGraphStroke);
@@ -169,6 +165,7 @@
   filter: drop-shadow(0 0 10px rgba(149, 247, 255, 0.5));
   animation: vNodeRingPulse 5.1s ease-in-out infinite;
 }
+.v-node-orange-b,
 .v-node-ring-b {
   animation-delay: 1.7s;
 }

@@ -8,8 +8,7 @@ import wordpressLogo from '../../../media/icons/wordpress.png';
 import customWebAppImage from '../../../media/images/custom_web_app.png';
 import ecommerceImage from '../../../media/images/ecommerce.png';
 import seoOrientedImage from '../../../media/images/seo_oriented.png';
-
-const cx = (...classes) => classes.filter(Boolean).join(' ');
+import { cx } from '../../utils/classNames';
 
 const WORDPRESS_TITLE = 'Soluzioni WordPress';
 const WEB_CARD_SURFACE_OPACITY = 0.2;
@@ -120,7 +119,8 @@ const WEB_SOLUTION_CARDS = [
     },
     stackedPreview: {
       frameClassName: TALL_CARD_CLASSES.stackedPreviewFrame,
-      imageClassName: 'scale-[0.88] object-contain object-left-top sm:scale-100 -translate-x-3 sm:-translate-x-0',
+      imageClassName:
+        'scale-[0.88] object-contain object-left-top sm:scale-100 -translate-x-3 sm:-translate-x-0',
       ratioClassName: 'aspect-square',
       src: ecommerceImage
     },

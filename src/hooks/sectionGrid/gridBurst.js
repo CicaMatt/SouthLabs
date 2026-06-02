@@ -3,7 +3,7 @@
  * The actual rendering is delegated to the canvas controller in
  * `gridBurstCanvas.js` — that's where the animation lives. This file no
  * longer manipulates the DOM at all. */
-import { DEFAULT_SECTION_GRID_BURST_RGB, SECTION_CURSOR_THEMES } from './themes';
+import { DEFAULT_SECTION_GRID_BURST_RGB, SECTION_CURSOR_THEMES, getRgbFromHex } from './themes';
 
 const SECTION_GRID_SIZE = 72;
 
@@ -12,26 +12,6 @@ const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 function parsePixelValue(value, fallback = 0) {
   const parsed = Number.parseFloat(value);
   return Number.isFinite(parsed) ? parsed : fallback;
-}
-
-function getRgbFromHex(hexColor) {
-  const normalized = hexColor?.trim().replace('#', '');
-  if (!normalized) return null;
-
-  const expanded =
-    normalized.length === 3
-      ? normalized
-          .split('')
-          .map((character) => `${character}${character}`)
-          .join('')
-      : normalized;
-
-  if (!/^[\da-f]{6}$/i.test(expanded)) return null;
-
-  const value = Number.parseInt(expanded, 16);
-  if (!Number.isFinite(value)) return null;
-
-  return [(value >> 16) & 255, (value >> 8) & 255, value & 255];
 }
 
 export function getSectionBurstRgb(section) {
