@@ -27,7 +27,7 @@ function HeroBackground({
         </div>
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0d1a30] to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#0d1a30] to-transparent sm:h-28" />
     </>
   );
 }
