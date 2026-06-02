@@ -76,6 +76,8 @@ function createParticle(x, y, width, options = {}) {
   );
   const color = Math.random() > (options.cyanChance ?? 0.28) ? '214, 250, 255' : '71, 214, 255';
   const idleRadius = (options.idleRadiusMin ?? 5) + Math.random() * (options.idleRadiusRange ?? 6);
+  const idlePhase = Math.random() * TAU;
+  const maxSpeed = (options.maxSpeedMin ?? 1.72) + Math.random() * (options.maxSpeedRange ?? 1.34);
 
   return {
     x,
@@ -88,15 +90,16 @@ function createParticle(x, y, width, options = {}) {
     vy: (Math.random() - 0.5) * (options.initialVelocity ?? 0.16),
     radius: (options.radiusMin ?? 0.95) + Math.random() * (options.radiusRange ?? 1.35),
     idleRadius,
-    idlePhaseOffset: Math.random() * TAU,
-    phase: Math.random() * TAU,
+    idleOrbitX: Math.cos(idlePhase),
+    idleOrbitY: Math.sin(idlePhase),
     phaseSpeed:
       ((options.phaseSpeedMin ?? 0.004) + Math.random() * (options.phaseSpeedRange ?? 0.009)) *
       IDLE_MOTION_SPEED,
     spring: (options.springMin ?? 0.0055) + Math.random() * (options.springRange ?? 0.006),
     drag: (options.dragMin ?? 0.885) + Math.random() * (options.dragRange ?? 0.055),
     mass: (options.massMin ?? 0.82) + Math.random() * (options.massRange ?? 0.54),
-    maxSpeed: (options.maxSpeedMin ?? 1.72) + Math.random() * (options.maxSpeedRange ?? 1.34),
+    maxSpeed,
+    maxSpeedSq: maxSpeed * maxSpeed,
     fillStyle: `rgba(${color}, ${alpha})`
   };
 }
@@ -213,9 +216,18 @@ function updateIdleAnchor(particle, width, step) {
   const maxOffset =
     width < MOBILE_FIELD_MAX_WIDTH ? MOBILE_IDLE_ANCHOR_RADIUS : DESKTOP_IDLE_ANCHOR_RADIUS;
   const idleRadius = Math.min(particle.idleRadius ?? maxOffset * 0.7, maxOffset * 0.92);
-  const phase = particle.phase + (particle.idlePhaseOffset ?? 0);
-  const targetX = originX + Math.cos(phase) * idleRadius;
-  const targetY = originY + Math.sin(phase) * idleRadius;
+  const orbitX = particle.idleOrbitX ?? 1;
+  const orbitY = particle.idleOrbitY ?? 0;
+  const rotation = (particle.phaseSpeed ?? 0) * step;
+  const nextOrbitX = orbitX - orbitY * rotation;
+  const nextOrbitY = orbitY + orbitX * rotation;
+  const orbitLengthSq = nextOrbitX * nextOrbitX + nextOrbitY * nextOrbitY;
+  const orbitCorrection = 1.5 - 0.5 * orbitLengthSq;
+  particle.idleOrbitX = nextOrbitX * orbitCorrection;
+  particle.idleOrbitY = nextOrbitY * orbitCorrection;
+
+  const targetX = originX + particle.idleOrbitX * idleRadius;
+  const targetY = originY + particle.idleOrbitY * idleRadius;
   const follow = Math.min(1, IDLE_ANCHOR_FOLLOW * step);
 
   particle.anchorX += (targetX - particle.anchorX) * follow;
@@ -227,14 +239,13 @@ function updateIdleAnchor(particle, width, step) {
   const maxOffsetSq = maxOffset * maxOffset;
 
   if (distanceSq > maxOffsetSq) {
-    const scale = maxOffset / Math.sqrt(distanceSq);
+    const scale = maxOffsetSq / distanceSq;
     particle.anchorX = originX + dx * scale;
     particle.anchorY = originY + dy * scale;
   }
 }
 
 export function advanceParticle(particle, step, size, forceState) {
-  particle.phase += particle.phaseSpeed * step;
   updateIdleAnchor(particle, size.width, step);
 
   let ax = (particle.anchorX - particle.x) * particle.spring;
@@ -263,11 +274,14 @@ export function advanceParticle(particle, step, size, forceState) {
   particle.vx = (particle.vx + ax * step) * dragFactor;
   particle.vy = (particle.vy + ay * step) * dragFactor;
 
-  const speed = Math.sqrt(particle.vx * particle.vx + particle.vy * particle.vy);
-  if (speed > particle.maxSpeed) {
-    const limit = particle.maxSpeed / speed;
-    particle.vx *= limit;
-    particle.vy *= limit;
+  if (forceState.hasPointer || forceState.touchEase > 0) {
+    const maxSpeedSq = particle.maxSpeedSq ?? particle.maxSpeed * particle.maxSpeed;
+    const speedSq = particle.vx * particle.vx + particle.vy * particle.vy;
+    if (speedSq > maxSpeedSq) {
+      const limit = particle.maxSpeed / Math.sqrt(speedSq);
+      particle.vx *= limit;
+      particle.vy *= limit;
+    }
   }
 
   particle.x += particle.vx * step;

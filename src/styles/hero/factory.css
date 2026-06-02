@@ -4,6 +4,10 @@
   animation: vFloat 14s ease-in-out infinite;
 }
 
+.v-factory-base-cache {
+  pointer-events: none;
+}
+
 .v-factory-footing {
   stroke: #74a9bd;
   stroke-width: 1.6;

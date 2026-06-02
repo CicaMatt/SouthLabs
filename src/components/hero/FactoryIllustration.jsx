@@ -1,23 +1,13 @@
+import factoryBaseImageUrl from '../../../media/images/hero-factory-base.svg';
+
 const PLUME_TREND_POINTS = '206,122 248,92 314,108 374,74 452,30';
 const PLUME_TREND_ARROW_POINTS = '443,42 452,30 437,32';
 
-// Builds the chart-like plume that sits above the factory chimney.
-function PlumeCloud() {
-  const plumeHeightTransform = 'translate(0 8.64) scale(1 0.92)';
+// Animated chart-like plume overlay that sits above the cached factory base.
+function PlumeChartOverlay() {
   const plumeInnerMirrorTransform = 'translate(600 0) scale(-1 1)';
   return (
     <g className="v-plume-cloud" transform="translate(600 0) scale(-1 1)">
-      <use href="#vPlumeShape" className="v-plume-background" transform={plumeHeightTransform} />
-      <use
-        href="#vPlumeShape"
-        className="v-plume-shell-highlight"
-        fill="none"
-        stroke="#9EEBFF"
-        strokeWidth="1.2"
-        strokeOpacity="0.42"
-        transform={plumeHeightTransform}
-      />
-
       <g transform={plumeInnerMirrorTransform}>
         <polyline className="v-graph-halo-line" points={PLUME_TREND_POINTS} />
         <polyline className="v-trend v-plume-trend-out" points={PLUME_TREND_POINTS} />
@@ -250,89 +240,51 @@ export default function FactoryIllustration() {
 
       {/* Floating group */}
       <g className="v-float-group">
-        <path
-          d="M 76 500 H 544 V 520 H 76 Z"
-          fill="#162950"
-          fillOpacity="0.54"
-          className="v-factory-footing"
+        <image
+          href={factoryBaseImageUrl}
+          className="v-factory-base-cache"
+          x="0"
+          y="0"
+          width="600"
+          height="540"
+          preserveAspectRatio="xMidYMid meet"
         />
-
-        <use href="#vFactoryShape" fill="#162950" fillOpacity="0.58" className="v-factory-shell" />
-
-        <g className="v-factory-cool-wash" aria-hidden="true">
-          <use href="#vFactoryShape" fill="url(#vFactoryCoolWash)" />
-          <use href="#vPipeShape" fill="url(#vPipeCoolWash)" />
-        </g>
 
         <g clipPath="url(#vFactoryClip)" className="v-factory-depth-layer">
           <path className="v-factory-roof-highlight" d="M 126 391 L 380 264 L 494 337" />
-          <path className="v-factory-left-depth" d="M 126 406 L 380 282" />
-          <path className="v-factory-right-depth" d="M 380 282 L 494 355" />
         </g>
 
         <line className="v-factory-crease" x1="380" y1="264" x2="380" y2="500" />
 
-        <use
-          href="#vPipeShape"
-          fill="#162950"
-          fillOpacity="0.58"
-          className="v-factory-shell v-pipe-shell"
-        />
         <g clipPath="url(#vPipeClip)" className="v-pipe-depth-layer">
-          <path className="v-pipe-edge v-pipe-left-edge" d="M 252 212 L 238 335" />
-          <path className="v-pipe-edge v-pipe-right-edge" d="M 290 212 L 304 301" />
           <path className="v-pipe-collar-line" d="M 248 236 L 294 236" />
           <path className="v-pipe-flow-line" d="M 271 222 L 271 312" />
         </g>
-        <path className="v-pipe-top-edge" d="M 252 210 H 290" />
-        <path
-          className="v-pipe-outline"
-          d="M 252 210 L 290 210 M 252 210 L 236 336 M 290 210 L 306 301"
-        />
 
         <g className="v-factory-left-door-group" transform="translate(22 0)">
-          <path className="v-factory-window" d="M 132 430 L 188 402 L 188 500 H 132 Z" />
           <path className="v-door-perimeter-signal" d="M 132 430 L 188 402 L 188 500 H 132 Z" />
-          <path className="v-panel-edge-light" d="M 132 430 L 188 402" />
-          <path className="v-panel-edge-depth" d="M 132 500 H 188" />
         </g>
-        <path className="v-factory-window" d="M 410 412 L 466 448 V 500 H 410 Z" />
         <path
           className="v-door-perimeter-signal v-door-perimeter-signal-b"
           d="M 410 412 L 466 448 V 500 H 410 Z"
         />
-        <path className="v-panel-edge-light" d="M 410 412 L 466 448" />
-        <path className="v-panel-edge-depth" d="M 410 500 H 466" />
 
-        <path className="v-factory-cutout" d="M 264 366 L 350 323 V 359 L 264 402 Z" />
         <g clipPath="url(#vLeftWindowTopClip)">
           <path className="v-window-sweep v-window-sweep-core" d="M 264 402 L 350 359" />
         </g>
-        <path className="v-panel-edge-light v-panel-edge-light-soft" d="M 264 366 L 350 323" />
-        <path className="v-panel-edge-depth v-panel-edge-depth-soft" d="M 264 402 L 350 359" />
-        <path className="v-factory-cutout" d="M 264 416 L 350 373 V 409 L 264 452 Z" />
         <g clipPath="url(#vLeftWindowBottomClip)">
           <path
             className="v-window-sweep v-window-sweep-core v-window-sweep-b"
             d="M 264 452 L 350 409"
           />
         </g>
-        <path className="v-panel-edge-light v-panel-edge-light-soft" d="M 264 416 L 350 373" />
-        <path className="v-panel-edge-depth v-panel-edge-depth-soft" d="M 264 452 L 350 409" />
-        <path className="v-factory-cutout" d="M 410 338 L 466 374 V 410 L 410 374 Z" />
         <g clipPath="url(#vRightWindowClip)">
           <path
             className="v-window-sweep v-window-sweep-core v-window-sweep-c"
             d="M 410 374 L 466 410"
           />
         </g>
-        <path className="v-panel-edge-light v-panel-edge-light-soft" d="M 410 338 L 466 374" />
-        <path className="v-panel-edge-depth v-panel-edge-depth-soft" d="M 410 374 L 466 410" />
-        <path className="v-factory-panel-ridge-base" d="M 138 407.1 L 380 289 L 484 355.6" />
-        <path className="v-factory-panel-ridge-bridge" d="M 336 310.5 L 380 289 L 424 317.2" />
         <path className="v-factory-panel-ridge" d="M 138 407.1 L 380 289 L 484 355.6" />
-
-        <line className="v-pipe-link" x1="271" y1="210" x2="271" y2="166" />
 
         <g className="v-factory-trace-layer">
           <path className="v-factory-trace" d="M 126 500 L 126 391 L 380 264 L 494 337 L 494 500" />
@@ -343,8 +295,7 @@ export default function FactoryIllustration() {
           <line className="v-factory-trace" x1="271" y1="210" x2="271" y2="166" />
         </g>
 
-        {/* Plume cloud */}
-        <PlumeCloud />
+        <PlumeChartOverlay />
       </g>
 
       {/* Waves - very faint, blending with background */}

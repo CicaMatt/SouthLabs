@@ -135,6 +135,7 @@ export default function HeroParticleField({ factoryStageRef, pointerRef }) {
     let isVisible = true;
     let size = resizeCanvas(canvas, ctx);
     let particles = createParticles(size.width, size.height);
+    let factoryExclusion = createFactoryExclusion(canvas, factoryStageRef?.current);
 
     const shouldUseActiveFrameRate = (now) => {
       if (isPointerActive(pointerRef.current, now)) {
@@ -148,7 +149,6 @@ export default function HeroParticleField({ factoryStageRef, pointerRef }) {
     const draw = (now, isStatic = false, step = 1) => {
       ctx.clearRect(0, 0, size.width, size.height);
       const forceState = computeForceState(pointerRef.current, now, size.width, isStatic);
-      const factoryExclusion = createFactoryExclusion(canvas, factoryStageRef?.current);
 
       for (const particle of particles) {
         if (!isStatic) {
@@ -224,6 +224,7 @@ export default function HeroParticleField({ factoryStageRef, pointerRef }) {
         particles = resizeParticles(particles, size, nextSize);
       }
       size = nextSize;
+      factoryExclusion = createFactoryExclusion(canvas, factoryStageRef?.current);
       lastPhysicsTime = 0;
       draw(windowObject.performance.now(), reduceMotion);
     };
@@ -245,6 +246,9 @@ export default function HeroParticleField({ factoryStageRef, pointerRef }) {
         : new ResizeObserverConstructor(resizeField);
     if (resizeObserver) {
       resizeObserver.observe(canvas);
+      if (factoryStageRef?.current) {
+        resizeObserver.observe(factoryStageRef.current);
+      }
     } else {
       windowObject.addEventListener('resize', resizeField, { passive: true });
     }
@@ -258,6 +262,7 @@ export default function HeroParticleField({ factoryStageRef, pointerRef }) {
             isVisible = entry.isIntersecting;
             if (isVisible) {
               if (!wasVisible) {
+                factoryExclusion = createFactoryExclusion(canvas, factoryStageRef?.current);
                 draw(windowObject.performance.now(), reduceMotion);
               }
               start();

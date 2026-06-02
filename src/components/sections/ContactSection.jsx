@@ -340,7 +340,7 @@ export default function ContactSection() {
               className={TEXT_FIELD_CLASS}
               id="message"
               name="message"
-              placeholder="Descrivi brevemente il tuo progetto..."
+              placeholder="Descrivi il tuo progetto..."
               maxLength={FIELD_MAX_LENGTHS.message}
               required
               rows="4"

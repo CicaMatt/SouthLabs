@@ -1,0 +1,82 @@
+<svg viewBox="0 0 600 540" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="pipeLeftEdgeStroke" x1="248" y1="214" x2="236" y2="340" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#E5F2F7" stop-opacity="0.44" />
+      <stop offset="58%" stop-color="#7AB5CB" stop-opacity="0.22" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+    </linearGradient>
+    <linearGradient id="pipeRightEdgeStroke" x1="292" y1="214" x2="306" y2="304" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#E5F2F7" stop-opacity="0.44" />
+      <stop offset="58%" stop-color="#7AB5CB" stop-opacity="0.22" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+    </linearGradient>
+    <linearGradient id="factoryCoolWash" x1="126" y1="264" x2="494" y2="500" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#95E3FF" stop-opacity="0.09" />
+      <stop offset="52%" stop-color="#95E3FF" stop-opacity="0.035" />
+      <stop offset="100%" stop-color="#95E3FF" stop-opacity="0" />
+    </linearGradient>
+    <linearGradient id="pipeCoolWash" x1="252" y1="210" x2="306" y2="336" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#95E3FF" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#95E3FF" stop-opacity="0" />
+    </linearGradient>
+    <path id="factoryShape" d="M 126 500 L 126 391 L 380 264 L 494 337 L 494 500 Z" />
+    <clipPath id="factoryClip">
+      <use href="#factoryShape" />
+    </clipPath>
+    <path id="pipeShape" d="M 236 336 L 252 210 L 290 210 L 306 301 Z" />
+    <clipPath id="pipeClip">
+      <use href="#pipeShape" />
+    </clipPath>
+    <path id="plumeShape" d="M 206 154 C 183 154, 164 137, 164 114 C 164 96, 175 81, 192 75 C 190 69, 190 63, 192 57 C 196 38, 212 25, 232 25 C 241 20, 258 12, 277 12 C 304 12, 327 25, 337 45 C 345 37, 357 33, 370 33 C 400 33, 424 56, 424 86 C 438 93, 448 108, 448 126 C 448 152, 427 173, 401 173 C 392 173, 384 171, 376 168 C 365 178, 351 184, 336 184 C 321 184, 307 178, 297 168 C 286 178, 272 186, 255 186 C 238 186, 223 178, 212 166 C 209 162, 207 158, 206 154 Z" />
+  </defs>
+
+  <g>
+    <path d="M 76 500 H 544 V 520 H 76 Z" fill="#162950" fill-opacity="0.54" stroke="#74A9BD" stroke-width="1.6" stroke-opacity="0.56" />
+
+    <use href="#factoryShape" fill="#162950" fill-opacity="0.58" stroke="#7DB4C5" stroke-width="1.9" stroke-opacity="0.58" stroke-linejoin="round" />
+    <use href="#factoryShape" fill="url(#factoryCoolWash)" />
+    <use href="#pipeShape" fill="url(#pipeCoolWash)" />
+
+    <g clip-path="url(#factoryClip)">
+      <path d="M 126 406 L 380 282" fill="none" stroke="#9CE8FF" stroke-width="1.45" stroke-opacity="0.2" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M 380 282 L 494 355" fill="none" stroke="#9CE8FF" stroke-width="1.45" stroke-opacity="0.2" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+
+    <use href="#pipeShape" fill="#162950" fill-opacity="0.58" />
+    <g clip-path="url(#pipeClip)">
+      <path d="M 252 212 L 238 335" fill="none" stroke="url(#pipeLeftEdgeStroke)" stroke-width="2.2" stroke-linecap="round" stroke-opacity="0.58" />
+      <path d="M 290 212 L 304 301" fill="none" stroke="url(#pipeRightEdgeStroke)" stroke-width="2.2" stroke-linecap="round" stroke-opacity="0.58" />
+    </g>
+    <path d="M 252 210 H 290" fill="none" stroke="#D9FEFF" stroke-width="2.4" stroke-linecap="round" stroke-opacity="0.38" />
+    <path d="M 252 210 L 290 210 M 252 210 L 236 336 M 290 210 L 306 301" fill="none" stroke="#7DB4C5" stroke-width="1.9" stroke-opacity="0.7" stroke-linecap="round" />
+
+    <g transform="translate(22 0)">
+      <path d="M 132 430 L 188 402 L 188 500 H 132 Z" fill="#95E3FF" fill-opacity="0.7" stroke="#95E3FF" stroke-width="1.35" stroke-opacity="0.7" />
+      <path d="M 132 430 L 188 402" fill="none" stroke="#95E3FF" stroke-width="0.78" stroke-opacity="0.34" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M 132 500 H 188" fill="none" stroke="#95E3FF" stroke-width="0.84" stroke-opacity="0.18" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+
+    <path d="M 410 412 L 466 448 V 500 H 410 Z" fill="#95E3FF" fill-opacity="0.7" stroke="#95E3FF" stroke-width="1.35" stroke-opacity="0.7" />
+    <path d="M 410 412 L 466 448" fill="none" stroke="#95E3FF" stroke-width="0.78" stroke-opacity="0.34" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M 410 500 H 466" fill="none" stroke="#95E3FF" stroke-width="0.84" stroke-opacity="0.18" stroke-linecap="round" stroke-linejoin="round" />
+
+    <path d="M 264 366 L 350 323 V 359 L 264 402 Z" fill="#95E3FF" fill-opacity="0.7" stroke="#95E3FF" stroke-width="0.9" stroke-opacity="0.7" stroke-linejoin="round" />
+    <path d="M 264 366 L 350 323" fill="none" stroke="#95E3FF" stroke-width="0.78" stroke-opacity="0.3" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M 264 402 L 350 359" fill="none" stroke="#95E3FF" stroke-width="0.84" stroke-opacity="0.16" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M 264 416 L 350 373 V 409 L 264 452 Z" fill="#95E3FF" fill-opacity="0.7" stroke="#95E3FF" stroke-width="0.9" stroke-opacity="0.7" stroke-linejoin="round" />
+    <path d="M 264 416 L 350 373" fill="none" stroke="#95E3FF" stroke-width="0.78" stroke-opacity="0.3" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M 264 452 L 350 409" fill="none" stroke="#95E3FF" stroke-width="0.84" stroke-opacity="0.16" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M 410 338 L 466 374 V 410 L 410 374 Z" fill="#95E3FF" fill-opacity="0.7" stroke="#95E3FF" stroke-width="0.9" stroke-opacity="0.7" stroke-linejoin="round" />
+    <path d="M 410 338 L 466 374" fill="none" stroke="#95E3FF" stroke-width="0.78" stroke-opacity="0.3" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M 410 374 L 466 410" fill="none" stroke="#95E3FF" stroke-width="0.84" stroke-opacity="0.16" stroke-linecap="round" stroke-linejoin="round" />
+
+    <path d="M 138 407.1 L 380 289 L 484 355.6" fill="none" stroke="rgba(205, 250, 255, 0.08)" stroke-width="0.62" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M 336 310.5 L 380 289 L 424 317.2" fill="none" stroke="rgba(220, 252, 255, 0.12)" stroke-width="0.66" stroke-linecap="round" stroke-linejoin="round" />
+    <line x1="271" y1="210" x2="271" y2="166" stroke="#91ECFF" stroke-width="2.2" stroke-linecap="round" stroke-opacity="0.8" />
+
+    <g transform="translate(600 0) scale(-1 1)">
+      <use href="#plumeShape" transform="translate(0 8.64) scale(1 0.92)" fill="#203658" fill-opacity="0.16" />
+      <use href="#plumeShape" transform="translate(0 8.64) scale(1 0.92)" fill="none" stroke="#9EEBFF" stroke-width="1.2" stroke-opacity="0.42" />
+    </g>
+  </g>
+</svg>
