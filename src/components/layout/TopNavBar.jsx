@@ -68,7 +68,7 @@ function BrandLogo({ onNavigate }) {
   return (
     <a
       aria-label="SouthLabs - torna alla sezione principale"
-      className="md:ml-2 flex items-center gap-1.5 min-[1116px]:gap-2.5"
+      className="md:ml-2 shrink-0 flex items-center gap-1.5 min-[1116px]:gap-2.5"
       href="#hero"
       onClick={handleClick}
     >

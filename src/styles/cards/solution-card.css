@@ -162,9 +162,8 @@
 }
 
 .infrastructure-image-frame {
-  --infrastructure-frame-grid-rgb: 149, 227, 255;
-  --infrastructure-frame-grid-color: rgba(var(--infrastructure-frame-grid-rgb), 0.0225);
-  --card-grid-highlight-color: rgb(var(--infrastructure-frame-grid-rgb)) !important;
+  --infrastructure-frame-grid-color: rgba(149, 227, 255, 0.0225);
+  --card-grid-effect-color: #95e3ff;
   background-color: #122038;
   background-image: linear-gradient(135deg, #203658 0%, #1a2d4e 54%, #122038 100%);
 }
@@ -190,6 +189,13 @@
   opacity: calc(
     var(--card-grid-highlight-opacity, 0) * 0.67 * var(--card-grid-highlight-impact, 1)
   );
+}
+
+.infrastructure-image-card.solution-card-surface--touch-selected .infrastructure-image-frame {
+  --card-grid-highlight-color: var(--card-grid-effect-color) !important;
+  --card-grid-highlight-opacity: 0.25;
+  --card-grid-highlight-x: 50%;
+  --card-grid-highlight-y: 50%;
 }
 
 .infrastructure-image-frame > img {

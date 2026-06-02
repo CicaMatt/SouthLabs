@@ -1,8 +1,9 @@
 import SectionHeader from '../SectionHeader';
 import SectionShell from '../SectionShell';
-import SOLUTION_CARD_SURFACE_CLASS, {
+import {
+  SOLUTION_CARD_SURFACE_CLASS,
   getLightSolutionCardSurfaceStyle
-} from './solutionCardSurface';
+} from '../../hooks/sectionGrid/selectors';
 import wordpressLogo from '../../../media/icons/wordpress.png';
 import customWebAppImage from '../../../media/images/custom_web_app.png';
 import ecommerceImage from '../../../media/images/ecommerce.png';

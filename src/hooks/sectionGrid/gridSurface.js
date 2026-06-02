@@ -40,9 +40,12 @@ export function updateCardGridHighlight(
   opacity,
   cardRect = card.getBoundingClientRect()
 ) {
+  const resolvedColor =
+    getComputedStyle(card).getPropertyValue('--card-grid-effect-color').trim() || color;
+
   card.style.setProperty('--card-grid-highlight-x', `${(pointerX - cardRect.left).toFixed(2)}px`);
   card.style.setProperty('--card-grid-highlight-y', `${(pointerY - cardRect.top).toFixed(2)}px`);
-  setStylePropertyIfChanged(card, '--card-grid-highlight-color', color);
+  setStylePropertyIfChanged(card, '--card-grid-highlight-color', resolvedColor);
   card.style.setProperty('--card-grid-highlight-opacity', opacity.toFixed(3));
 }
 

@@ -39,6 +39,13 @@ export function getSectionBurstRgb(section) {
   return getRgbFromHex(color) || DEFAULT_SECTION_GRID_BURST_RGB;
 }
 
+export function getCardGridEffectRgb(card) {
+  if (!card) return null;
+
+  const color = getComputedStyle(card).getPropertyValue('--card-grid-effect-color').trim();
+  return getRgbFromHex(color);
+}
+
 export function getSectionBurstOpacityScale(section) {
   if (!section) return 1;
   const raw = getComputedStyle(section).getPropertyValue('--section-grid-burst-opacity-scale');
@@ -61,6 +68,29 @@ export function getSectionGridOriginPage(section) {
   return {
     x: parsePixelValue(style.getPropertyValue('--section-grid-origin-x'), 0),
     y: parsePixelValue(style.getPropertyValue('--section-grid-origin-y'), 0)
+  };
+}
+
+export function getCardGridOriginPage(card, fallbackOrigin = { x: 0, y: 0 }) {
+  if (!card) return fallbackOrigin;
+
+  const windowObject = card.ownerDocument?.defaultView;
+  const scrollX = windowObject?.scrollX || 0;
+  const scrollY = windowObject?.scrollY || 0;
+  const rect = card.getBoundingClientRect();
+  const style = getComputedStyle(card);
+  const cardOriginX = parsePixelValue(
+    style.getPropertyValue('--card-grid-origin-x'),
+    fallbackOrigin.x
+  );
+  const cardOriginY = parsePixelValue(
+    style.getPropertyValue('--card-grid-origin-y'),
+    fallbackOrigin.y
+  );
+
+  return {
+    x: rect.left + scrollX - cardOriginX,
+    y: rect.top + scrollY - cardOriginY
   };
 }
 
