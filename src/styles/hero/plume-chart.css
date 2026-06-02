@@ -12,7 +12,6 @@
 .v-plume-reflection {
   opacity: 0.58;
   mix-blend-mode: screen;
-  filter: url(#vFactorySoftLightBlur);
 }
 
 .v-plume-shell-highlight {
