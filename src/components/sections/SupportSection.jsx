@@ -42,8 +42,8 @@ export default function SupportSection() {
           </p>
           <ul className="space-y-4">
             {SUPPORT_ITEMS.map((item) => (
-              <li key={item} className="flex items-start gap-3">
-                <span className="material-symbols-outlined shrink-0 text-[26px] leading-7 text-tertiary-fixed-dim">
+              <li key={item} className="flex items-center gap-3">
+                <span className="material-symbols-outlined inline-flex h-7 w-7 shrink-0 translate-y-[3px] items-center justify-center text-[26px] leading-none text-tertiary-fixed-dim">
                   check_circle
                 </span>
                 <span className="font-body text-md lg:text-lg leading-7">{item}</span>

@@ -35,17 +35,16 @@ const FIELD_LABEL_CLASS = [
   'text-on-surface-variant mb-2'
 ].join(' ');
 const FIELD_CONTROL_CLASS = [
-  'w-full rounded-md border-0 bg-[#cedaea]',
+  'contact-field-control w-full rounded-md border-2 border-transparent bg-[#cedaea]',
   'px-4 py-3 text-on-background transition-colors',
-  'focus:bg-[#edf3fa] focus:ring-0',
-  'focus:shadow-[inset_0_0_0_1px_rgba(32,54,88,0.72)]'
+  'focus:bg-[#edf3fa]'
 ].join(' ');
 const TEXT_FIELD_CLASS = `${FIELD_CONTROL_CLASS} placeholder:text-[rgba(32,54,88,0.5)]`;
 const SELECT_FIELD_CLASS = `${FIELD_CONTROL_CLASS} invalid:text-[rgba(32,54,88,0.5)]`;
 const FORM_MESSAGE_CLASS =
   'flex items-center justify-center rounded-md px-4 py-3 text-center text-sm font-medium';
 const FORM_PANEL_CLASS =
-  'section-grid-burst-disabled solution-card-surface rounded-xl border-t-4 border-[#203658] p-8 shadow-[0_4px_20px_rgba(19,27,46,0.04)]';
+  'contact-form-panel section-grid-burst-disabled solution-card-surface rounded-xl border-t-4 border-[#203658] p-8 shadow-[0_4px_20px_rgba(19,27,46,0.04)]';
 const FORM_PANEL_STYLE = getSolutionCardSurfaceStyle(
   CONTACT_FORM_SURFACE_OPACITY,
   CONTACT_FORM_SURFACE_HOVER_OPACITY,

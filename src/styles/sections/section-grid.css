@@ -271,7 +271,8 @@
     --section-cursor-size: 10px;
   }
 
-  .site-main-with-section-cursor :where(input, label, select, textarea, [contenteditable='true']) {
+  .site-main-with-section-cursor
+    :where(input, label, select, textarea, .contact-form-panel, [contenteditable='true']) {
     cursor: auto;
   }
 
@@ -280,6 +281,7 @@
       label:hover,
       select:hover,
       textarea:hover,
+      .contact-form-panel:hover,
       [contenteditable='true']:hover
     )
     .section-cursor-dot {

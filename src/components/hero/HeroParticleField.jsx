@@ -13,6 +13,7 @@ import {
 } from './heroParticleSim';
 
 const PARTICLE_EDGE_SAMPLE_SCALE = 0.8;
+const PARTICLE_FPS_DOWNSHIFT_DELAY_MS = 3000;
 const SVG_VIEWBOX = { width: 600, height: 540 };
 const FACTORY_PARTICLE_EXCLUSION_SHAPES = [
   [
@@ -125,9 +126,19 @@ export default function HeroParticleField({ factoryStageRef, pointerRef }) {
     let frameTimeoutId = null;
     let lastFrameTime = 0;
     let lastPhysicsTime = 0;
+    let activeFrameRateUntil = 0;
     let isVisible = true;
     let size = resizeCanvas(canvas, ctx);
     let particles = createParticles(size.width, size.height);
+
+    const shouldUseActiveFrameRate = (now) => {
+      if (isPointerActive(pointerRef.current, now)) {
+        activeFrameRateUntil = now + PARTICLE_FPS_DOWNSHIFT_DELAY_MS;
+        return true;
+      }
+
+      return now < activeFrameRateUntil;
+    };
 
     const draw = (now, isStatic = false, step = 1) => {
       ctx.clearRect(0, 0, size.width, size.height);
@@ -174,7 +185,7 @@ export default function HeroParticleField({ factoryStageRef, pointerRef }) {
     function render(now) {
       frameId = null;
 
-      const isActiveFrame = isPointerActive(pointerRef.current, now);
+      const isActiveFrame = shouldUseActiveFrameRate(now);
       const frameInterval = getFrameInterval(size.width, isActiveFrame);
       const timeSinceLastFrame = lastFrameTime > 0 ? now - lastFrameTime : frameInterval;
       if (timeSinceLastFrame < frameInterval) {
@@ -187,7 +198,7 @@ export default function HeroParticleField({ factoryStageRef, pointerRef }) {
       lastPhysicsTime = now;
       draw(now, false, computeFrameStep(elapsed));
 
-      const nextFrameIsActive = isPointerActive(pointerRef.current, now);
+      const nextFrameIsActive = shouldUseActiveFrameRate(now);
       scheduleFrame(nextFrameIsActive ? 0 : getFrameInterval(size.width, false));
     }
 

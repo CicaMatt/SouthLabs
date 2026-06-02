@@ -1,0 +1,8 @@
+.contact-field-control:focus,
+.contact-field-control:focus-visible {
+  border-color: #203658;
+  outline: none;
+  --tw-ring-color: transparent;
+  --tw-ring-shadow: 0 0 #0000;
+  box-shadow: none;
+}

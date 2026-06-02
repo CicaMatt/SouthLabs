@@ -178,7 +178,6 @@
   stroke-dasharray: 32 156;
   stroke-dashoffset: 188;
   pointer-events: none;
-  vector-effect: non-scaling-stroke;
   animation: vDoorSignalTravel 6.4s linear infinite;
 }
 
@@ -211,7 +210,6 @@
   stroke-dasharray: 34 118;
   stroke-dashoffset: 152;
   pointer-events: none;
-  vector-effect: non-scaling-stroke;
   animation: vWindowSweepTravel 9s linear infinite;
 }
 
