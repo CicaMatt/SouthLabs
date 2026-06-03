@@ -28,8 +28,7 @@ export function getRgbFromHex(hexColor) {
 export const SECTION_CURSOR_THEMES = [
   {
     id: 'hero',
-    color: '#95e3ff',
-    highlightOpacity: 0
+    color: '#95e3ff'
   },
   {
     id: 'siti-web',
@@ -41,8 +40,7 @@ export const SECTION_CURSOR_THEMES = [
   },
   {
     id: 'software-automazione',
-    color: SOFTWARE_SECTION_THEME_COLOR,
-    highlightOpacity: 0.75
+    color: SOFTWARE_SECTION_THEME_COLOR
   },
   {
     id: 'infrastrutture-hardware',
@@ -54,8 +52,7 @@ export const SECTION_CURSOR_THEMES = [
   },
   {
     id: 'manutenzione-supporto',
-    color: '#95e3ff',
-    highlightOpacity: 0.1875
+    color: '#95e3ff'
   },
   {
     id: 'contatti',

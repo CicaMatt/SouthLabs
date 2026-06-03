@@ -1,13 +1,8 @@
 import { SECTION_CURSOR_THEMES } from './themes';
-import { CARD_GRID_ANCHOR_SELECTOR } from './selectors';
 
 const SECTION_CURSOR_DOT_SIZE = 20;
-const SECTION_GRID_HIGHLIGHT_DISTANCE = 110;
-const SECTION_GRID_HIGHLIGHT_OPACITY = 0.25;
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-const getSectionHighlightOpacity = (theme) =>
-  theme.highlightOpacity ?? SECTION_GRID_HIGHLIGHT_OPACITY;
 
 function readElementPageRect(element, scrollX, scrollY) {
   const rect = element.getBoundingClientRect();
@@ -51,15 +46,8 @@ export function buildSectionCursorLayout(ownerDocument) {
       : [];
 
     entries.push({
-      cardAnchors: Array.from(element.querySelectorAll(CARD_GRID_ANCHOR_SELECTOR)).map(
-        (cardAnchor) => ({
-          element: cardAnchor,
-          rect: readElementPageRect(cardAnchor, scrollX, scrollY)
-        })
-      ),
       color: theme.color,
       element,
-      highlightOpacity: theme.highlightOpacity,
       rect: readElementPageRect(element, scrollX, scrollY),
       zones: theme.zones,
       zoneElements
@@ -67,16 +55,6 @@ export function buildSectionCursorLayout(ownerDocument) {
   });
 
   return { entries };
-}
-
-function makeHighlight(entry, opacity = getSectionHighlightOpacity(entry)) {
-  return {
-    cardAnchors: entry.cardAnchors,
-    color: entry.color,
-    opacity,
-    rect: entry.rect,
-    section: entry.element
-  };
 }
 
 const HIDDEN_ZONE_OVERLAY = {
@@ -140,38 +118,16 @@ export function getSectionCursorTheme(layout, pageX, pageY, dotSize = SECTION_CU
   if (currentIndex === -1) return null;
 
   const current = sectionEntries[currentIndex];
-  const highlights = [makeHighlight(current)];
 
   const topBorder = current.rect.top;
   const bottomBorder = current.rect.bottom;
-  const distanceFromTop = pageY - topBorder;
-  const distanceFromBottom = bottomBorder - pageY;
   const dotTop = pageY - dotSize / 2;
   const dotBottom = pageY + dotSize / 2;
-
-  if (currentIndex > 0 && distanceFromTop <= SECTION_GRID_HIGHLIGHT_DISTANCE) {
-    const neighbor = sectionEntries[currentIndex - 1];
-    const boundaryStrength = 1 - clamp(distanceFromTop / SECTION_GRID_HIGHLIGHT_DISTANCE, 0, 1);
-    highlights.push(
-      makeHighlight(neighbor, getSectionHighlightOpacity(neighbor) * boundaryStrength)
-    );
-  }
-
-  if (
-    currentIndex < sectionEntries.length - 1 &&
-    distanceFromBottom <= SECTION_GRID_HIGHLIGHT_DISTANCE
-  ) {
-    const neighbor = sectionEntries[currentIndex + 1];
-    const boundaryStrength = 1 - clamp(distanceFromBottom / SECTION_GRID_HIGHLIGHT_DISTANCE, 0, 1);
-    highlights.push(
-      makeHighlight(neighbor, getSectionHighlightOpacity(neighbor) * boundaryStrength)
-    );
-  }
 
   if (currentIndex > 0 && topBorder >= dotTop && topBorder <= dotBottom) {
     return applyZoneOverlay(
       {
-        highlights,
+        currentSection: current.element,
         topColor: sectionEntries[currentIndex - 1].color,
         bottomColor: current.color,
         split: `${clamp(((topBorder - dotTop) / dotSize) * 100, 0, 100).toFixed(2)}%`
@@ -190,7 +146,7 @@ export function getSectionCursorTheme(layout, pageX, pageY, dotSize = SECTION_CU
   ) {
     return applyZoneOverlay(
       {
-        highlights,
+        currentSection: current.element,
         topColor: current.color,
         bottomColor: sectionEntries[currentIndex + 1].color,
         split: `${clamp(((bottomBorder - dotTop) / dotSize) * 100, 0, 100).toFixed(2)}%`
@@ -204,7 +160,7 @@ export function getSectionCursorTheme(layout, pageX, pageY, dotSize = SECTION_CU
 
   return applyZoneOverlay(
     {
-      highlights,
+      currentSection: current.element,
       topColor: current.color,
       bottomColor: current.color,
       split: '100%'

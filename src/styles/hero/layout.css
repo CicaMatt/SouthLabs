@@ -149,7 +149,5 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
-  /* Soft shadow that blends with the dark background */
-  filter: drop-shadow(0 10px 30px rgba(2, 8, 24, 0.24));
   overflow: visible;
 }

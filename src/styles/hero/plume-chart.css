@@ -4,16 +4,6 @@
   isolation: isolate;
 }
 
-.v-plume-background {
-  fill: #203658;
-  fill-opacity: 0.16;
-  pointer-events: none;
-}
-
-.v-plume-shell-highlight {
-  animation: vTrendPulse 5.6s ease-in-out infinite;
-}
-
 .v-graph-halo-line {
   fill: none;
   stroke: url(#vGraphStroke);
