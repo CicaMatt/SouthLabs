@@ -103,15 +103,6 @@
     stroke-dashoffset: -152;
   }
 }
-@keyframes vGraphHaloPulse {
-  0%,
-  100% {
-    opacity: 0.18;
-  }
-  50% {
-    opacity: 0.48;
-  }
-}
 @keyframes vGraphSheenFlow {
   from {
     stroke-dashoffset: 310;
@@ -150,24 +141,6 @@
   }
   to {
     stroke-dashoffset: -180;
-  }
-}
-@keyframes vBarPulse {
-  0%,
-  100% {
-    stroke-opacity: 0.52;
-  }
-  50% {
-    stroke-opacity: 1;
-  }
-}
-@keyframes vTrendPulse {
-  0%,
-  100% {
-    stroke-opacity: 0.52;
-  }
-  50% {
-    stroke-opacity: 0.96;
   }
 }
 @keyframes vTrendArrowBoost {

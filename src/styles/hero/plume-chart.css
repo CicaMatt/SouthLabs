@@ -6,12 +6,14 @@
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-opacity: 0.18;
-  animation: vGraphHaloPulse 6.2s ease-in-out infinite;
+  /* Static opacity (midpoint of the former 0.18↔0.48 pulse) so this wide glow
+     stroke no longer re-rasterizes every frame. */
+  opacity: 0.33;
 }
 
 .v-graph-halo-bars {
+  /* Static opacity (≈ midpoint of the former 0.18↔0.48 pulse). */
   opacity: 0.34;
-  animation: vGraphHaloPulse 5.6s ease-in-out infinite;
 }
 .v-graph-halo-bars line {
   stroke: url(#vGraphColumnGlow);
@@ -45,30 +47,13 @@
   stroke: url(#vGraphColumnGlow);
   stroke-width: 4.8;
   stroke-linecap: round;
-  stroke-opacity: 0.66;
+  /* Static opacity (midpoint of the former 0.52↔1.0 pulse). The dashes still
+     flow via vBarDashFlow on the parent .v-bar-flow group. */
+  stroke-opacity: 0.76;
   stroke-dasharray: 12 10;
-  animation: vBarPulse 4.2s ease-in-out infinite;
 }
 .v-bar-flow {
   animation: vBarDashFlow 14s linear infinite;
-}
-.v-bar-1 {
-  animation-delay: 0s;
-}
-.v-bar-2 {
-  animation-delay: 0.18s;
-}
-.v-bar-3 {
-  animation-delay: 0.36s;
-}
-.v-bar-4 {
-  animation-delay: 0.54s;
-}
-.v-bar-5 {
-  animation-delay: 0.72s;
-}
-.v-bar-6 {
-  animation-delay: 0.9s;
 }
 
 .v-trend {
@@ -77,11 +62,10 @@
   stroke-width: 4.8;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-opacity: 0.92;
+  /* Static opacity (midpoint of the former 0.52↔0.96 pulse). Dash flow stays. */
+  stroke-opacity: 0.74;
   stroke-dasharray: 18 12;
-  animation:
-    vTrendPulse 4.7s ease-in-out infinite,
-    vTrendDashFlow 12.8s linear infinite;
+  animation: vTrendDashFlow 12.8s linear infinite;
 }
 
 .v-graph-sheen {
@@ -104,7 +88,9 @@
   animation: vTrendArrowBoost 6s ease-in-out infinite;
 }
 .v-plume-trend-out {
-  stroke-opacity: 0.98;
+  /* Matches the static .v-trend opacity above so the main trend line no longer
+     pulses (the arrow's stroke-opacity is driven by vTrendArrowBoost). */
+  stroke-opacity: 0.74;
 }
 
 /* Nodes */
