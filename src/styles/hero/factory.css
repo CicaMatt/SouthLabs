@@ -39,9 +39,9 @@
   stroke: #c9fbff;
   stroke-width: 2.4;
   stroke-linecap: round;
+  /* Static opacity (≈ midpoint of the former 0.14↔0.36 pulse). */
   stroke-opacity: 0.24;
   stroke-dasharray: 18 10;
-  animation: vPipeCollarPulse 4.8s ease-in-out infinite;
 }
 
 .v-pipe-flow-line {
@@ -51,9 +51,9 @@
   stroke-linecap: round;
   stroke-opacity: 0.86;
   stroke-dasharray: 9 13;
-  animation:
-    vPipeFlowDescend 8s linear infinite,
-    vPipeFlowPulse 4s ease-in-out infinite;
+  /* Static opacity (midpoint of the former 0.44↔1.0 pulse). Dash flow stays. */
+  opacity: 0.72;
+  animation: vPipeFlowDescend 8s linear infinite;
 }
 
 .v-door-perimeter-signal {

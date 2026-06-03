@@ -45,7 +45,10 @@
   width: 100%;
   height: 100%;
   opacity: 0.72;
-  mix-blend-mode: screen;
+  /* No mix-blend-mode: the canvas sits over the dark atmosphere gradient (the
+     factory SVG is layered on top, not behind), so normal compositing looks
+     all but identical to `screen` here while dropping the per-frame backdrop
+     read that blend modes force. */
   transform: translateZ(0);
   -webkit-mask-image: linear-gradient(
     90deg,

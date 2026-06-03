@@ -61,30 +61,12 @@
     stroke-dashoffset: -112;
   }
 }
-@keyframes vPipeCollarPulse {
-  0%,
-  100% {
-    stroke-opacity: 0.14;
-  }
-  50% {
-    stroke-opacity: 0.36;
-  }
-}
 @keyframes vPipeFlowDescend {
   from {
     stroke-dashoffset: 0;
   }
   to {
     stroke-dashoffset: 88;
-  }
-}
-@keyframes vPipeFlowPulse {
-  0%,
-  100% {
-    opacity: 0.44;
-  }
-  50% {
-    opacity: 1;
   }
 }
 @keyframes vDoorSignalTravel {

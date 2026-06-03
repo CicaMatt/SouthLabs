@@ -1,5 +1,5 @@
 const TAU = Math.PI * 2;
-const PARTICLE_DENSITY = 4400;
+const PARTICLE_DENSITY = 5000;
 const POINTER_RADIUS = 164;
 const POINTER_BURST_RADIUS_BOOST = 0.16;
 const POINTER_FORCE = 0.68;
@@ -7,9 +7,9 @@ const POINTER_BURST_FORCE = 1.32;
 const TOUCH_NUDGE_FORCE = 0.00205;
 const MAX_PIXEL_RATIO = 1.1;
 const MOBILE_FIELD_MAX_WIDTH = 700;
-const MOBILE_PARTICLE_DENSITY = 3900;
-const MOBILE_PARTICLE_MIN = 88;
-const MOBILE_PARTICLE_MAX = 132;
+const MOBILE_PARTICLE_DENSITY = 4400;
+const MOBILE_PARTICLE_MIN = 80;
+const MOBILE_PARTICLE_MAX = 118;
 const IDLE_MOTION_SPEED = 0.32;
 const DESKTOP_IDLE_ANCHOR_RADIUS = 12;
 const MOBILE_IDLE_ANCHOR_RADIUS = 9;
@@ -45,7 +45,7 @@ function getParticleCount(width, height) {
     );
   }
 
-  return clamp(Math.round((width * height) / PARTICLE_DENSITY), 125, 250);
+  return clamp(Math.round((width * height) / PARTICLE_DENSITY), 112, 220);
 }
 
 export function getFrameInterval(width, isActiveFrame) {
