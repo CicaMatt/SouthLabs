@@ -15,35 +15,6 @@ export const TOUCH_SCROLL_GUARD_CLASS = 'site-main--touch-scroll-guard';
 export const TOUCH_SCROLLING_CLASS = 'site-main--touch-scrolling';
 export const HERO_GRAPHIC_CURSOR_SMALL_CLASS = 'site-main--hero-graphic-cursor-small';
 export const HERO_GRAPHIC_SELECTOR = '.hero-graphic-hover-target';
-export const SECTION_CURSOR_SMALL_CLASS = 'site-main--section-cursor-small';
-export const SECTION_CURSOR_NATIVE_CLASS = 'site-main--section-cursor-native';
-export const SECTION_CURSOR_SMALL_TARGET_SELECTOR = [
-  'a',
-  'article',
-  'button',
-  'h1',
-  'h2',
-  'h3',
-  'h4',
-  'h5',
-  'h6',
-  'li',
-  'p',
-  'span',
-  '.group',
-  '.software-card-surface',
-  '.card-grid-anchor',
-  "[role='button']",
-  "[role='link']"
-].join(',');
-export const SECTION_CURSOR_NATIVE_TARGET_SELECTOR = [
-  'input',
-  'label',
-  'select',
-  'textarea',
-  '.contact-form-panel',
-  "[contenteditable='true']"
-].join(',');
 
 export function getSolutionCardSurfaceStyle(
   restOpacity,

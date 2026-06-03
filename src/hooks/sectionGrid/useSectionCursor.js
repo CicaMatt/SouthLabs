@@ -1,22 +1,14 @@
 import { useCallback, useRef } from 'react';
 import { buildSectionCursorLayout, getSectionCursorTheme } from './cursorTheme';
-import { HERO_GRAPHIC_CURSOR_SMALL_CLASS, SECTION_CURSOR_SMALL_CLASS } from './selectors';
+import { clearCardGridHighlight, updateCardGridHighlight } from './gridSurface';
 import { updateHeroGraphicCursorState } from './heroGraphicHitTest';
-
-const DEFAULT_SECTION_CURSOR_SIZE = 20;
-const SMALL_SECTION_CURSOR_SIZE = 10;
-
-function getSectionCursorDotSize(mainElement) {
-  return mainElement.classList.contains(SECTION_CURSOR_SMALL_CLASS) ||
-    mainElement.classList.contains(HERO_GRAPHIC_CURSOR_SMALL_CLASS)
-    ? SMALL_SECTION_CURSOR_SIZE
-    : DEFAULT_SECTION_CURSOR_SIZE;
-}
 
 export function useSectionCursor() {
   const sectionCursorFrameRef = useRef(0);
   const sectionCursorFrameKindRef = useRef(null);
   const lastSectionCursorPointRef = useRef(null);
+  const highlightedSectionsRef = useRef([]);
+  const highlightedCardGridAnchorsRef = useRef([]);
   const sectionCursorRef = useRef(null);
   const sectionCursorLayoutRef = useRef(null);
 
@@ -38,6 +30,12 @@ export function useSectionCursor() {
   );
 
   const clearSectionHighlights = useCallback(() => {
+    highlightedSectionsRef.current.forEach((section) => {
+      section.style.setProperty('--section-grid-highlight-opacity', '0');
+    });
+    highlightedSectionsRef.current = [];
+    highlightedCardGridAnchorsRef.current.forEach(clearCardGridHighlight);
+    highlightedCardGridAnchorsRef.current = [];
     sectionCursorRef.current?.style.setProperty('--section-cursor-opacity', '0');
   }, []);
 
@@ -66,23 +64,50 @@ export function useSectionCursor() {
 
     const { clientX, clientY, mainElement } = latestPoint;
 
+    updateHeroGraphicCursorState(mainElement, clientX, clientY);
+
     const windowObject = mainElement.ownerDocument.defaultView;
     const pageX = clientX + (windowObject?.scrollX || 0);
     const pageY = clientY + (windowObject?.scrollY || 0);
-    const dotSize = getSectionCursorDotSize(mainElement);
+    const dotSize = cursorElement.getBoundingClientRect().width || 20;
     const layout = getSectionCursorLayout(mainElement);
     const theme = getSectionCursorTheme(layout, pageX, pageY, dotSize);
     if (!theme) {
-      mainElement.classList.remove(HERO_GRAPHIC_CURSOR_SMALL_CLASS);
       clearSectionHighlights();
       return;
     }
 
-    if (theme.currentSection?.id === 'hero') {
-      updateHeroGraphicCursorState(mainElement, clientX, clientY);
-    } else {
-      mainElement.classList.remove(HERO_GRAPHIC_CURSOR_SMALL_CLASS);
-    }
+    const nextHighlightedSections = theme.highlights.map(({ section }) => section);
+    highlightedSectionsRef.current.forEach((section) => {
+      if (!nextHighlightedSections.includes(section)) {
+        section.style.setProperty('--section-grid-highlight-opacity', '0');
+      }
+    });
+
+    theme.highlights.forEach(({ section, color, opacity, rect }) => {
+      section.style.setProperty(
+        '--section-grid-highlight-x',
+        `${(pageX - rect.left).toFixed(2)}px`
+      );
+      section.style.setProperty('--section-grid-highlight-y', `${(pageY - rect.top).toFixed(2)}px`);
+      section.style.setProperty('--section-grid-highlight-color', color);
+      section.style.setProperty('--section-grid-highlight-opacity', opacity.toFixed(3));
+    });
+    highlightedSectionsRef.current = nextHighlightedSections;
+
+    const nextHighlightedCardGridAnchors = new Set();
+    theme.highlights.forEach(({ cardAnchors, color, opacity }) => {
+      cardAnchors.forEach(({ element: card, rect }) => {
+        updateCardGridHighlight(card, pageX, pageY, color, opacity, rect);
+        nextHighlightedCardGridAnchors.add(card);
+      });
+    });
+    highlightedCardGridAnchorsRef.current.forEach((card) => {
+      if (!nextHighlightedCardGridAnchors.has(card)) {
+        clearCardGridHighlight(card);
+      }
+    });
+    highlightedCardGridAnchorsRef.current = Array.from(nextHighlightedCardGridAnchors);
 
     cursorElement.style.setProperty('--section-cursor-x', `${clientX}px`);
     cursorElement.style.setProperty('--section-cursor-y', `${clientY}px`);

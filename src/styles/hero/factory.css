@@ -21,6 +21,11 @@
   stroke-linejoin: round;
 }
 
+.v-factory-cool-wash {
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
 .v-factory-depth-layer,
 .v-pipe-depth-layer {
   pointer-events: none;

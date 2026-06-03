@@ -6,7 +6,47 @@
   --section-grid-size: 72px;
   --section-grid-snap-padding: 0px;
   --section-grid-highlight-color: #1f4f8f;
+  --section-grid-highlight-opacity: 0;
+  --section-grid-highlight-x: 50%;
+  --section-grid-highlight-y: 50%;
   background-color: var(--section-bg);
+}
+
+.site-main-with-section-cursor > section.section-grid-bg:not(#hero) {
+  position: relative;
+  isolation: isolate;
+}
+
+.site-main-with-section-cursor > section.section-grid-bg:not(#hero)::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: var(--section-grid-highlight-opacity, 0);
+  background-image:
+    linear-gradient(var(--section-grid-highlight-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--section-grid-highlight-color) 1px, transparent 1px);
+  background-position: calc(-1px - var(--section-grid-origin-x, 0px))
+    calc(-1px - var(--section-grid-origin-y, 0px));
+  background-repeat: repeat;
+  background-size: var(--section-grid-size, 72px) var(--section-grid-size, 72px);
+  -webkit-mask-image: radial-gradient(
+    circle at var(--section-grid-highlight-x) var(--section-grid-highlight-y),
+    #000 0 46px,
+    transparent 154px
+  );
+  mask-image: radial-gradient(
+    circle at var(--section-grid-highlight-x) var(--section-grid-highlight-y),
+    #000 0 46px,
+    transparent 154px
+  );
+  transition: opacity 140ms ease-out;
+}
+
+.site-main-with-section-cursor > section.section-grid-bg:not(#hero) > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* Burst rendering lives on a single fixed-position `<canvas>` overlay; the
@@ -208,7 +248,26 @@
     cursor: none;
   }
 
-  .site-main-with-section-cursor.site-main--section-cursor-small .section-cursor-dot,
+  .site-main-with-section-cursor:has(
+      a:hover,
+      button:hover,
+      h1:hover,
+      h2:hover,
+      h3:hover,
+      h4:hover,
+      h5:hover,
+      h6:hover,
+      li:hover,
+      p:hover,
+      span:hover,
+      article:hover,
+      .group:hover,
+      .software-card-surface:hover,
+      .card-grid-anchor:hover,
+      [role='button']:hover,
+      [role='link']:hover
+    )
+    .section-cursor-dot,
   .site-main-with-section-cursor.site-main--hero-graphic-cursor-small .section-cursor-dot {
     --section-cursor-size: 10px;
   }
@@ -237,7 +296,15 @@
     cursor: wait;
   }
 
-  .site-main-with-section-cursor.site-main--section-cursor-native .section-cursor-dot {
+  .site-main-with-section-cursor:has(
+      input:hover,
+      label:hover,
+      select:hover,
+      textarea:hover,
+      .contact-form-panel:hover,
+      [contenteditable='true']:hover
+    )
+    .section-cursor-dot {
     opacity: 0;
   }
 }

@@ -1,12 +1,5 @@
 import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
-import {
-  HERO_GRAPHIC_CURSOR_SMALL_CLASS,
-  SECTION_CURSOR_NATIVE_CLASS,
-  SECTION_CURSOR_NATIVE_TARGET_SELECTOR,
-  SECTION_CURSOR_SMALL_CLASS,
-  SECTION_CURSOR_SMALL_TARGET_SELECTOR,
-  TOUCH_SCROLL_GUARD_CLASS
-} from './sectionGrid/selectors';
+import { HERO_GRAPHIC_CURSOR_SMALL_CLASS, TOUCH_SCROLL_GUARD_CLASS } from './sectionGrid/selectors';
 import { syncSectionGridOrigins } from './sectionGrid/gridSurface';
 import { useDesktopPinchGuard } from './sectionGrid/useDesktopPinchGuard';
 import { useSectionCursor } from './sectionGrid/useSectionCursor';
@@ -14,28 +7,6 @@ import { useSectionGridBurst } from './sectionGrid/useSectionGridBurst';
 import { useTouchGridGestures } from './sectionGrid/useTouchGridGestures';
 
 export { preventImageDefault } from './sectionGrid/inputDetection';
-
-function getPointerTargetElement(target) {
-  return target instanceof Element ? target : null;
-}
-
-function updateSectionCursorTargetState(mainElement, target) {
-  const targetElement = getPointerTargetElement(target);
-  const isNativeTarget = Boolean(targetElement?.closest(SECTION_CURSOR_NATIVE_TARGET_SELECTOR));
-  const isSmallTarget =
-    !isNativeTarget && Boolean(targetElement?.closest(SECTION_CURSOR_SMALL_TARGET_SELECTOR));
-
-  mainElement.classList.toggle(SECTION_CURSOR_NATIVE_CLASS, isNativeTarget);
-  mainElement.classList.toggle(SECTION_CURSOR_SMALL_CLASS, isSmallTarget);
-}
-
-function clearSectionCursorTargetState(mainElement) {
-  mainElement.classList.remove(
-    HERO_GRAPHIC_CURSOR_SMALL_CLASS,
-    SECTION_CURSOR_NATIVE_CLASS,
-    SECTION_CURSOR_SMALL_CLASS
-  );
-}
 
 export function useSectionGridInteractions() {
   const mainRef = useRef(null);
@@ -66,7 +37,7 @@ export function useSectionGridInteractions() {
     (event) => {
       if (handleTouchPointerLeave(event)) return;
 
-      clearSectionCursorTargetState(event.currentTarget);
+      event.currentTarget.classList.remove(HERO_GRAPHIC_CURSOR_SMALL_CLASS);
       clearSectionCursorPoint();
       hideSectionCursor();
     },
@@ -93,7 +64,6 @@ export function useSectionGridInteractions() {
     (event) => {
       if (handleTouchPointerMove(event)) return;
 
-      updateSectionCursorTargetState(event.currentTarget, event.target);
       trackSectionCursorPoint(event.currentTarget, event.clientX, event.clientY);
     },
     [handleTouchPointerMove, trackSectionCursorPoint]
@@ -182,9 +152,7 @@ export function useSectionGridInteractions() {
     () => () => {
       cleanupSectionCursor();
       cleanupTouchGridGestures(mainRef.current);
-      if (mainRef.current) {
-        clearSectionCursorTargetState(mainRef.current);
-      }
+      mainRef.current?.classList.remove(HERO_GRAPHIC_CURSOR_SMALL_CLASS);
       clearGridBursts();
     },
     [cleanupSectionCursor, cleanupTouchGridGestures, clearGridBursts]
