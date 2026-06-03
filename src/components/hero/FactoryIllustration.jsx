@@ -78,7 +78,7 @@ export default function FactoryIllustration() {
       xmlns="http://www.w3.org/2000/svg"
       className="v-svg hero-graphic-hover-target"
     >
-      {/* Reusable gradients, filters, and clip paths for the factory and plume layers. */}
+      {/* Reusable gradients and clip paths for the factory and plume layers. */}
       <defs>
         <linearGradient
           id="vPipeFlowStroke"
@@ -91,30 +91,6 @@ export default function FactoryIllustration() {
           <stop offset="0%" stopColor="#F4FEFF" stopOpacity="0.72" />
           <stop offset="48%" stopColor="#95E3FF" stopOpacity="0.46" />
           <stop offset="100%" stopColor="#5AB8E8" stopOpacity="0.22" />
-        </linearGradient>
-        <linearGradient
-          id="vPipeLeftEdgeStroke"
-          x1="248"
-          y1="214"
-          x2="236"
-          y2="340"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop offset="0%" stopColor="#E5F2F7" stopOpacity="0.44" />
-          <stop offset="58%" stopColor="#7AB5CB" stopOpacity="0.22" />
-          <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
-        </linearGradient>
-        <linearGradient
-          id="vPipeRightEdgeStroke"
-          x1="292"
-          y1="214"
-          x2="306"
-          y2="304"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop offset="0%" stopColor="#E5F2F7" stopOpacity="0.44" />
-          <stop offset="58%" stopColor="#7AB5CB" stopOpacity="0.22" />
-          <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
         </linearGradient>
         <path
           id="vFactoryShape"
@@ -212,29 +188,6 @@ export default function FactoryIllustration() {
           <stop offset="0%" stopColor="#5A99B5" stopOpacity="0.06" />
           <stop offset="50%" stopColor="#7AB1CC" stopOpacity="0.55" />
           <stop offset="100%" stopColor="#5A99B5" stopOpacity="0.06" />
-        </linearGradient>
-        <linearGradient
-          id="vFactoryCoolWash"
-          x1="126"
-          y1="264"
-          x2="494"
-          y2="500"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop offset="0%" stopColor="#95E3FF" stopOpacity="0.09" />
-          <stop offset="52%" stopColor="#95E3FF" stopOpacity="0.035" />
-          <stop offset="100%" stopColor="#95E3FF" stopOpacity="0" />
-        </linearGradient>
-        <linearGradient
-          id="vPipeCoolWash"
-          x1="252"
-          y1="210"
-          x2="306"
-          y2="336"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop offset="0%" stopColor="#95E3FF" stopOpacity="0.08" />
-          <stop offset="100%" stopColor="#95E3FF" stopOpacity="0" />
         </linearGradient>
       </defs>
 

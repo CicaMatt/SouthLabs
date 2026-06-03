@@ -8,76 +8,30 @@
   pointer-events: none;
 }
 
-.v-factory-footing {
-  stroke: #74a9bd;
-  stroke-width: 1.6;
-  stroke-opacity: 0.56;
-}
-
-.v-factory-shell {
-  stroke: #7db4c5;
-  stroke-width: 1.9;
-  stroke-opacity: 0.58;
-  stroke-linejoin: round;
-}
-
-.v-factory-cool-wash {
-  mix-blend-mode: screen;
-  pointer-events: none;
-}
-
 .v-factory-depth-layer,
 .v-pipe-depth-layer {
   pointer-events: none;
 }
 
-.v-factory-panel-ridge,
-.v-factory-panel-ridge-bridge,
-.v-factory-panel-ridge-base {
+.v-factory-panel-ridge {
   fill: none;
   stroke-linecap: round;
   stroke-linejoin: round;
-  mix-blend-mode: screen;
-}
-
-.v-factory-panel-ridge-base {
-  stroke: rgba(205, 250, 255, 0.08);
-  stroke-width: 0.62;
-}
-
-.v-factory-panel-ridge-bridge {
-  stroke: rgba(220, 252, 255, 0.12);
-  stroke-width: 0.66;
-}
-
-.v-factory-panel-ridge {
   stroke: rgba(220, 252, 255, 0.22);
   stroke-width: 0.68;
   stroke-dasharray: 9 5;
   animation: vFactoryPanelGlide 12s linear infinite;
 }
 
-.v-factory-roof-highlight,
-.v-factory-left-depth,
-.v-factory-right-depth {
+.v-factory-roof-highlight {
   fill: none;
   stroke: #9ce8ff;
   stroke-linecap: round;
   stroke-linejoin: round;
-  mix-blend-mode: screen;
-}
-
-.v-factory-roof-highlight {
   stroke-width: 1.9;
   stroke-opacity: 0.54;
   stroke-dasharray: 180 420;
   animation: vFactoryEdgeGlint 8.6s cubic-bezier(0.38, 0, 0.18, 1) infinite;
-}
-
-.v-factory-left-depth,
-.v-factory-right-depth {
-  stroke-width: 1.45;
-  stroke-opacity: 0.2;
 }
 
 .v-factory-crease {
@@ -89,25 +43,6 @@
   animation: vCreaseDashFlow 9s linear infinite;
 }
 
-.v-pipe-shell {
-  stroke: none;
-}
-
-.v-pipe-edge {
-  fill: none;
-  stroke-width: 2.2;
-  stroke-linecap: round;
-  stroke-opacity: 0.58;
-  mix-blend-mode: screen;
-}
-
-.v-pipe-left-edge {
-  stroke: url(#vPipeLeftEdgeStroke);
-}
-.v-pipe-right-edge {
-  stroke: url(#vPipeRightEdgeStroke);
-}
-
 .v-pipe-collar-line {
   fill: none;
   stroke: #c9fbff;
@@ -115,7 +50,6 @@
   stroke-linecap: round;
   stroke-opacity: 0.24;
   stroke-dasharray: 18 10;
-  mix-blend-mode: screen;
   animation: vPipeCollarPulse 4.8s ease-in-out infinite;
 }
 
@@ -126,37 +60,9 @@
   stroke-linecap: round;
   stroke-opacity: 0.86;
   stroke-dasharray: 9 13;
-  mix-blend-mode: screen;
   animation:
     vPipeFlowDescend 8s linear infinite,
     vPipeFlowPulse 4s ease-in-out infinite;
-}
-
-.v-pipe-top-edge {
-  fill: none;
-  stroke: #d9feff;
-  stroke-width: 2.4;
-  stroke-linecap: round;
-  stroke-opacity: 0.38;
-  mix-blend-mode: screen;
-}
-
-.v-pipe-outline {
-  fill: none;
-  stroke: #7db4c5;
-  stroke-width: 1.9;
-  stroke-opacity: 0.7;
-  stroke-linecap: round;
-}
-
-.v-factory-window {
-  fill: #95e3ff;
-  fill-opacity: 0.7;
-  stroke: #95e3ff;
-  stroke-width: 1.35;
-  stroke-opacity: 0.7;
-  transform-box: fill-box;
-  transform-origin: center;
 }
 
 .v-door-perimeter-signal {
@@ -173,17 +79,6 @@
 
 .v-door-perimeter-signal-b {
   animation-delay: -3.2s;
-}
-
-.v-factory-cutout {
-  fill: #95e3ff;
-  fill-opacity: 0.7;
-  stroke: #95e3ff;
-  stroke-width: 0.9;
-  stroke-opacity: 0.7;
-  stroke-linejoin: round;
-  transform-box: fill-box;
-  transform-origin: center;
 }
 
 .v-window-sweep {
@@ -208,43 +103,7 @@
   animation-delay: -4.5s;
 }
 
-.v-panel-edge-light,
-.v-panel-edge-depth {
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  pointer-events: none;
-  vector-effect: non-scaling-stroke;
-}
-
-.v-panel-edge-light {
-  stroke: #95e3ff;
-  stroke-width: 0.78;
-  stroke-opacity: 0.34;
-}
-
-.v-panel-edge-depth {
-  stroke: #95e3ff;
-  stroke-width: 0.84;
-  stroke-opacity: 0.18;
-}
-
-.v-panel-edge-light-soft {
-  stroke-opacity: 0.3;
-}
-.v-panel-edge-depth-soft {
-  stroke-opacity: 0.16;
-}
-
-.v-pipe-link {
-  stroke: #91ecff;
-  stroke-width: 2.2;
-  stroke-linecap: round;
-  stroke-opacity: 0.8;
-}
-
 .v-factory-trace-layer {
-  mix-blend-mode: screen;
   opacity: 0.68;
   animation: vFactoryTraceFlow 14s linear infinite;
 }

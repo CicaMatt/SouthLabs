@@ -72,14 +72,6 @@
   }
 }
 
-/* Keep the live hero SVG off the expensive filter/blend pipeline. */
-.hero-factory-stage .v-svg,
-.hero-factory-stage .v-svg [class^='v-'],
-.hero-factory-stage .v-svg [class*=' v-'] {
-  filter: none !important;
-  mix-blend-mode: normal !important;
-}
-
 .hero-factory-stage .v-float-group {
   will-change: auto;
 }
@@ -89,22 +81,15 @@
   .hero-reveal,
   .hero-factory-visual,
   .v-float-group,
-  .v-factory-footing,
-  .v-factory-shell,
   .v-factory-panel-ridge,
   .v-factory-roof-highlight,
   .v-factory-crease,
   .v-pipe-collar-line,
   .v-pipe-flow-line,
-  .v-pipe-outline,
-  .v-factory-window,
-  .v-factory-cutout,
   .v-door-perimeter-signal,
   .v-window-sweep,
-  .v-pipe-link,
   .v-factory-trace-layer,
   .v-factory-trace,
-  .v-plume-shell-highlight,
   .v-graph-halo-line,
   .v-graph-halo-bars,
   .v-graph-sheen,
