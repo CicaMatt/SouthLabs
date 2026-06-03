@@ -1,5 +1,10 @@
 import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
-import { HERO_GRAPHIC_CURSOR_SMALL_CLASS, TOUCH_SCROLL_GUARD_CLASS } from './sectionGrid/selectors';
+import {
+  HERO_GRAPHIC_CURSOR_SMALL_CLASS,
+  SECTION_CURSOR_COMPACT_CLASS,
+  SECTION_CURSOR_NATIVE_CLASS,
+  TOUCH_SCROLL_GUARD_CLASS
+} from './sectionGrid/selectors';
 import { syncSectionGridOrigins } from './sectionGrid/gridSurface';
 import { useDesktopPinchGuard } from './sectionGrid/useDesktopPinchGuard';
 import { useSectionCursor } from './sectionGrid/useSectionCursor';
@@ -37,7 +42,11 @@ export function useSectionGridInteractions() {
     (event) => {
       if (handleTouchPointerLeave(event)) return;
 
-      event.currentTarget.classList.remove(HERO_GRAPHIC_CURSOR_SMALL_CLASS);
+      event.currentTarget.classList.remove(
+        HERO_GRAPHIC_CURSOR_SMALL_CLASS,
+        SECTION_CURSOR_COMPACT_CLASS,
+        SECTION_CURSOR_NATIVE_CLASS
+      );
       clearSectionCursorPoint();
       hideSectionCursor();
     },
@@ -64,7 +73,7 @@ export function useSectionGridInteractions() {
     (event) => {
       if (handleTouchPointerMove(event)) return;
 
-      trackSectionCursorPoint(event.currentTarget, event.clientX, event.clientY);
+      trackSectionCursorPoint(event.currentTarget, event.clientX, event.clientY, event.target);
     },
     [handleTouchPointerMove, trackSectionCursorPoint]
   );
@@ -152,7 +161,11 @@ export function useSectionGridInteractions() {
     () => () => {
       cleanupSectionCursor();
       cleanupTouchGridGestures(mainRef.current);
-      mainRef.current?.classList.remove(HERO_GRAPHIC_CURSOR_SMALL_CLASS);
+      mainRef.current?.classList.remove(
+        HERO_GRAPHIC_CURSOR_SMALL_CLASS,
+        SECTION_CURSOR_COMPACT_CLASS,
+        SECTION_CURSOR_NATIVE_CLASS
+      );
       clearGridBursts();
     },
     [cleanupSectionCursor, cleanupTouchGridGestures, clearGridBursts]

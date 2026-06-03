@@ -1,9 +1,4 @@
 /* Plume/chart SVG presentation classes used by the hero illustration. */
-/* Plume */
-.v-plume-cloud {
-  isolation: isolate;
-}
-
 .v-graph-halo-line {
   fill: none;
   stroke: url(#vGraphStroke);

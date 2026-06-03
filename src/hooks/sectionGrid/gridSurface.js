@@ -8,7 +8,7 @@ const SECTION_GRID_SIZE = 72;
    across every section — that cascading shift is what reads as flicker. */
 const ORIGIN_REWRITE_EPSILON_PX = 1;
 
-function setStylePropertyIfChanged(element, propertyName, value) {
+export function setStylePropertyIfChanged(element, propertyName, value) {
   if (element.style.getPropertyValue(propertyName) !== value) {
     element.style.setProperty(propertyName, value);
   }
@@ -40,12 +40,9 @@ export function updateCardGridHighlight(
   opacity,
   cardRect = card.getBoundingClientRect()
 ) {
-  const resolvedColor =
-    getComputedStyle(card).getPropertyValue('--card-grid-effect-color').trim() || color;
-
   card.style.setProperty('--card-grid-highlight-x', `${(pointerX - cardRect.left).toFixed(2)}px`);
   card.style.setProperty('--card-grid-highlight-y', `${(pointerY - cardRect.top).toFixed(2)}px`);
-  setStylePropertyIfChanged(card, '--card-grid-highlight-color', resolvedColor);
+  setStylePropertyIfChanged(card, '--card-grid-highlight-color', color);
   card.style.setProperty('--card-grid-highlight-opacity', opacity.toFixed(3));
 }
 

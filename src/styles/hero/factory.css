@@ -4,15 +4,6 @@
   animation: vFloat 14s ease-in-out infinite;
 }
 
-.v-factory-base-cache {
-  pointer-events: none;
-}
-
-.v-factory-depth-layer,
-.v-pipe-depth-layer {
-  pointer-events: none;
-}
-
 .v-factory-panel-ridge {
   fill: none;
   stroke-linecap: round;
@@ -73,7 +64,6 @@
   stroke-linejoin: round;
   stroke-dasharray: 32 156;
   stroke-dashoffset: 188;
-  pointer-events: none;
   animation: vDoorSignalTravel 6.4s linear infinite;
 }
 
@@ -86,7 +76,6 @@
   stroke-linecap: round;
   stroke-dasharray: 34 118;
   stroke-dashoffset: 152;
-  pointer-events: none;
   animation: vWindowSweepTravel 9s linear infinite;
 }
 

@@ -5,66 +5,63 @@ const PLUME_TREND_ARROW_POINTS = '443,42 452,30 437,32';
 
 // Animated chart-like plume overlay that sits above the cached factory base.
 function PlumeChartOverlay() {
-  const plumeInnerMirrorTransform = 'translate(600 0) scale(-1 1)';
   return (
-    <g className="v-plume-cloud" transform="translate(600 0) scale(-1 1)">
-      <g transform={plumeInnerMirrorTransform}>
-        <polyline className="v-graph-halo-line" points={PLUME_TREND_POINTS} />
-        <polyline className="v-trend v-plume-trend-out" points={PLUME_TREND_POINTS} />
+    <g className="v-plume-cloud">
+      <polyline className="v-graph-halo-line" points={PLUME_TREND_POINTS} />
+      <polyline className="v-trend v-plume-trend-out" points={PLUME_TREND_POINTS} />
 
-        <g clipPath="url(#vPlumeClip)">
-          <g className="v-graph-halo-bars">
-            <line x1="208" y1="134" x2="208" y2="96" />
-            <line x1="246" y1="134" x2="246" y2="84" />
-            <line x1="286" y1="134" x2="286" y2="60" />
-            <line x1="326" y1="134" x2="326" y2="80" />
-            <line x1="364" y1="134" x2="364" y2="92" />
-            <line x1="400" y1="134" x2="400" y2="106" />
-          </g>
-
-          <line className="v-plume-baseline" x1="172" y1="134" x2="420" y2="134" />
-          <g className="v-bar-flow">
-            <line className="v-bar v-bar-1" x1="208" y1="134" x2="208" y2="96" />
-            <line className="v-bar v-bar-2" x1="246" y1="134" x2="246" y2="84" />
-            <line className="v-bar v-bar-3" x1="286" y1="134" x2="286" y2="60" />
-            <line className="v-bar v-bar-4" x1="326" y1="134" x2="326" y2="80" />
-            <line className="v-bar v-bar-5" x1="364" y1="134" x2="364" y2="92" />
-            <line className="v-bar v-bar-6" x1="400" y1="134" x2="400" y2="106" />
-          </g>
-
-          <line className="v-plume-side-link" x1="176" y1="122" x2="206" y2="122" />
-          <line
-            className="v-plume-side-link v-plume-side-link-b"
-            x1="342"
-            y1="108"
-            x2="408"
-            y2="108"
-          />
-
-          <circle cx="208" cy="122" r="6.5" fill="#E0F5FF" className="v-node" />
-          <circle cx="364" cy="108" r="6.2" fill="#E0F5FF" className="v-node v-node-b" />
-
-          <circle cx="248" cy="92" r="19" className="v-node-ring" />
-          <circle cx="248" cy="92" r="12.2" fill="#E0F5FF" className="v-node-orange" />
-          <circle cx="374" cy="74" r="18" className="v-node-ring v-node-ring-b" />
-          <circle
-            cx="374"
-            cy="74"
-            r="11.8"
-            fill="#E0F5FF"
-            className="v-node-orange v-node-orange-b"
-          />
-
-          <circle cx="248" cy="92" r="3.2" className="v-node-spark" />
-          <circle cx="374" cy="74" r="3" className="v-node-spark v-node-spark-b" />
+      <g clipPath="url(#vPlumeClip)">
+        <g className="v-graph-halo-bars">
+          <line x1="208" y1="134" x2="208" y2="96" />
+          <line x1="246" y1="134" x2="246" y2="84" />
+          <line x1="286" y1="134" x2="286" y2="60" />
+          <line x1="326" y1="134" x2="326" y2="80" />
+          <line x1="364" y1="134" x2="364" y2="92" />
+          <line x1="400" y1="134" x2="400" y2="106" />
         </g>
 
-        <polyline className="v-graph-sheen" points={PLUME_TREND_POINTS} />
-        <polyline
-          className="v-trend v-plume-trend-arrow v-plume-trend-out"
-          points={PLUME_TREND_ARROW_POINTS}
+        <line className="v-plume-baseline" x1="172" y1="134" x2="420" y2="134" />
+        <g className="v-bar-flow">
+          <line className="v-bar v-bar-1" x1="208" y1="134" x2="208" y2="96" />
+          <line className="v-bar v-bar-2" x1="246" y1="134" x2="246" y2="84" />
+          <line className="v-bar v-bar-3" x1="286" y1="134" x2="286" y2="60" />
+          <line className="v-bar v-bar-4" x1="326" y1="134" x2="326" y2="80" />
+          <line className="v-bar v-bar-5" x1="364" y1="134" x2="364" y2="92" />
+          <line className="v-bar v-bar-6" x1="400" y1="134" x2="400" y2="106" />
+        </g>
+
+        <line className="v-plume-side-link" x1="176" y1="122" x2="206" y2="122" />
+        <line
+          className="v-plume-side-link v-plume-side-link-b"
+          x1="342"
+          y1="108"
+          x2="408"
+          y2="108"
         />
+
+        <circle cx="208" cy="122" r="6.5" fill="#E0F5FF" className="v-node" />
+        <circle cx="364" cy="108" r="6.2" fill="#E0F5FF" className="v-node v-node-b" />
+
+        <circle cx="248" cy="92" r="19" className="v-node-ring" />
+        <circle cx="248" cy="92" r="12.2" fill="#E0F5FF" className="v-node-orange" />
+        <circle cx="374" cy="74" r="18" className="v-node-ring v-node-ring-b" />
+        <circle
+          cx="374"
+          cy="74"
+          r="11.8"
+          fill="#E0F5FF"
+          className="v-node-orange v-node-orange-b"
+        />
+
+        <circle cx="248" cy="92" r="3.2" className="v-node-spark" />
+        <circle cx="374" cy="74" r="3" className="v-node-spark v-node-spark-b" />
       </g>
+
+      <polyline className="v-graph-sheen" points={PLUME_TREND_POINTS} />
+      <polyline
+        className="v-trend v-plume-trend-arrow v-plume-trend-out"
+        points={PLUME_TREND_ARROW_POINTS}
+      />
     </g>
   );
 }
@@ -195,7 +192,6 @@ export default function FactoryIllustration() {
       <g className="v-float-group">
         <image
           href={factoryBaseImageUrl}
-          className="v-factory-base-cache"
           x="0"
           y="0"
           width="600"
@@ -203,13 +199,13 @@ export default function FactoryIllustration() {
           preserveAspectRatio="xMidYMid meet"
         />
 
-        <g clipPath="url(#vFactoryClip)" className="v-factory-depth-layer">
+        <g clipPath="url(#vFactoryClip)">
           <path className="v-factory-roof-highlight" d="M 126 391 L 380 264 L 494 337" />
         </g>
 
         <line className="v-factory-crease" x1="380" y1="264" x2="380" y2="500" />
 
-        <g clipPath="url(#vPipeClip)" className="v-pipe-depth-layer">
+        <g clipPath="url(#vPipeClip)">
           <path className="v-pipe-collar-line" d="M 248 236 L 294 236" />
           <path className="v-pipe-flow-line" d="M 271 222 L 271 312" />
         </g>

@@ -18,25 +18,7 @@ const PIPE_BODY_POLYGON = [
 const PIPE_TO_CLOUD_START = { x: 271, y: 166 };
 const PIPE_TO_CLOUD_END = { x: 271, y: 210 };
 const PIPE_TO_CLOUD_MAX_DISTANCE = 12;
-
-function getSvgPointForClientPoint(svgElement, clientX, clientY) {
-  const screenMatrix = svgElement.getScreenCTM?.();
-  if (!screenMatrix) return null;
-
-  try {
-    if (typeof svgElement.createSVGPoint === 'function') {
-      const point = svgElement.createSVGPoint();
-      point.x = clientX;
-      point.y = clientY;
-      return point.matrixTransform(screenMatrix.inverse());
-    }
-
-    const DOMPoint = svgElement.ownerDocument.defaultView?.DOMPoint;
-    return DOMPoint ? new DOMPoint(clientX, clientY).matrixTransform(screenMatrix.inverse()) : null;
-  } catch {
-    return null;
-  }
-}
+const FALLBACK_VIEWBOX = { x: 0, y: 0, width: 600, height: 540 };
 
 function isPointInRect(point, left, top, right, bottom) {
   return point.x >= left && point.x <= right && point.y >= top && point.y <= bottom;
@@ -88,9 +70,26 @@ function getPointToSegmentDistance(point, start, end) {
   return Math.hypot(point.x - closestX, point.y - closestY);
 }
 
-function isPointInHeroGraphic(svgElement, clientX, clientY) {
-  const point = getSvgPointForClientPoint(svgElement, clientX, clientY);
-  if (!point) return false;
+function getSvgPointForPagePoint(layout, pageX, pageY) {
+  const { pageRect, viewBox } = layout;
+  return {
+    x: viewBox.x + ((pageX - pageRect.left) / pageRect.width) * viewBox.width,
+    y: viewBox.y + ((pageY - pageRect.top) / pageRect.height) * viewBox.height
+  };
+}
+
+function isPointInHeroGraphic(layout, pageX, pageY) {
+  const { pageRect } = layout;
+  if (
+    pageX < pageRect.left ||
+    pageX > pageRect.right ||
+    pageY < pageRect.top ||
+    pageY > pageRect.bottom
+  ) {
+    return false;
+  }
+
+  const point = getSvgPointForPagePoint(layout, pageX, pageY);
 
   const pipeToCloudDistance = getPointToSegmentDistance(
     point,
@@ -108,28 +107,42 @@ function isPointInHeroGraphic(svgElement, clientX, clientY) {
   );
 }
 
-export function updateHeroGraphicCursorState(mainElement, clientX, clientY) {
+export function readHeroGraphicCursorLayout(mainElement) {
   const heroGraphic = mainElement.querySelector(HERO_GRAPHIC_SELECTOR);
-  if (!heroGraphic) {
+  if (!heroGraphic) return null;
+
+  const windowObject = mainElement.ownerDocument.defaultView;
+  const scrollX = windowObject?.scrollX || 0;
+  const scrollY = windowObject?.scrollY || 0;
+  const rect = heroGraphic.getBoundingClientRect();
+  if (rect.width <= 0 || rect.height <= 0) return null;
+
+  const viewBox = heroGraphic.viewBox?.baseVal;
+  const resolvedViewBox =
+    viewBox && viewBox.width > 0 && viewBox.height > 0
+      ? { x: viewBox.x, y: viewBox.y, width: viewBox.width, height: viewBox.height }
+      : FALLBACK_VIEWBOX;
+
+  return {
+    pageRect: {
+      left: rect.left + scrollX,
+      top: rect.top + scrollY,
+      right: rect.right + scrollX,
+      bottom: rect.bottom + scrollY,
+      width: rect.width,
+      height: rect.height
+    },
+    viewBox: resolvedViewBox
+  };
+}
+
+export function updateHeroGraphicCursorState(mainElement, heroGraphicLayout, pageX, pageY) {
+  if (!heroGraphicLayout) {
     mainElement.classList.remove(HERO_GRAPHIC_CURSOR_SMALL_CLASS);
-    return;
+    return false;
   }
 
-  const heroGraphicRect = heroGraphic.getBoundingClientRect();
-  const cursorIsOverGraphic = isPointInRect(
-    { x: clientX, y: clientY },
-    heroGraphicRect.left,
-    heroGraphicRect.top,
-    heroGraphicRect.right,
-    heroGraphicRect.bottom
-  );
-  if (!cursorIsOverGraphic) {
-    mainElement.classList.remove(HERO_GRAPHIC_CURSOR_SMALL_CLASS);
-    return;
-  }
-
-  mainElement.classList.toggle(
-    HERO_GRAPHIC_CURSOR_SMALL_CLASS,
-    isPointInHeroGraphic(heroGraphic, clientX, clientY)
-  );
+  const isOverGraphic = isPointInHeroGraphic(heroGraphicLayout, pageX, pageY);
+  mainElement.classList.toggle(HERO_GRAPHIC_CURSOR_SMALL_CLASS, isOverGraphic);
+  return isOverGraphic;
 }

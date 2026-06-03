@@ -248,26 +248,7 @@
     cursor: none;
   }
 
-  .site-main-with-section-cursor:has(
-      a:hover,
-      button:hover,
-      h1:hover,
-      h2:hover,
-      h3:hover,
-      h4:hover,
-      h5:hover,
-      h6:hover,
-      li:hover,
-      p:hover,
-      span:hover,
-      article:hover,
-      .group:hover,
-      .software-card-surface:hover,
-      .card-grid-anchor:hover,
-      [role='button']:hover,
-      [role='link']:hover
-    )
-    .section-cursor-dot,
+  .site-main-with-section-cursor.site-main--section-cursor-compact .section-cursor-dot,
   .site-main-with-section-cursor.site-main--hero-graphic-cursor-small .section-cursor-dot {
     --section-cursor-size: 10px;
   }
@@ -296,15 +277,7 @@
     cursor: wait;
   }
 
-  .site-main-with-section-cursor:has(
-      input:hover,
-      label:hover,
-      select:hover,
-      textarea:hover,
-      .contact-form-panel:hover,
-      [contenteditable='true']:hover
-    )
-    .section-cursor-dot {
+  .site-main-with-section-cursor.site-main--section-cursor-native .section-cursor-dot {
     opacity: 0;
   }
 }

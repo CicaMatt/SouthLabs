@@ -1,7 +1,7 @@
 import { SECTION_CURSOR_THEMES } from './themes';
 import { CARD_GRID_ANCHOR_SELECTOR } from './selectors';
 
-const SECTION_CURSOR_DOT_SIZE = 20;
+export const SECTION_CURSOR_DOT_SIZE = 20;
 const SECTION_GRID_HIGHLIGHT_DISTANCE = 110;
 const SECTION_GRID_HIGHLIGHT_OPACITY = 0.25;
 
@@ -33,6 +33,18 @@ function readCornerRadii(element) {
   };
 }
 
+function readCardGridAnchor(cardAnchor, scrollX, scrollY, fallbackColor) {
+  const view = cardAnchor.ownerDocument?.defaultView;
+  const customColor =
+    view?.getComputedStyle(cardAnchor).getPropertyValue('--card-grid-effect-color').trim() || '';
+
+  return {
+    color: customColor || fallbackColor,
+    element: cardAnchor,
+    rect: readElementPageRect(cardAnchor, scrollX, scrollY)
+  };
+}
+
 export function buildSectionCursorLayout(ownerDocument) {
   const windowObject = ownerDocument.defaultView;
   const scrollX = windowObject?.scrollX || 0;
@@ -52,10 +64,7 @@ export function buildSectionCursorLayout(ownerDocument) {
 
     entries.push({
       cardAnchors: Array.from(element.querySelectorAll(CARD_GRID_ANCHOR_SELECTOR)).map(
-        (cardAnchor) => ({
-          element: cardAnchor,
-          rect: readElementPageRect(cardAnchor, scrollX, scrollY)
-        })
+        (cardAnchor) => readCardGridAnchor(cardAnchor, scrollX, scrollY, theme.color)
       ),
       color: theme.color,
       element,

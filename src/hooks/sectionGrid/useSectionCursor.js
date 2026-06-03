@@ -1,14 +1,47 @@
 import { useCallback, useRef } from 'react';
-import { buildSectionCursorLayout, getSectionCursorTheme } from './cursorTheme';
-import { clearCardGridHighlight, updateCardGridHighlight } from './gridSurface';
-import { updateHeroGraphicCursorState } from './heroGraphicHitTest';
+import {
+  SECTION_CURSOR_DOT_SIZE,
+  buildSectionCursorLayout,
+  getSectionCursorTheme
+} from './cursorTheme';
+import {
+  SECTION_CURSOR_COMPACT_CLASS,
+  SECTION_CURSOR_COMPACT_TARGET_SELECTOR,
+  SECTION_CURSOR_NATIVE_CLASS,
+  SECTION_CURSOR_NATIVE_TARGET_SELECTOR
+} from './selectors';
+import {
+  clearCardGridHighlight,
+  setStylePropertyIfChanged,
+  updateCardGridHighlight
+} from './gridSurface';
+import { readHeroGraphicCursorLayout, updateHeroGraphicCursorState } from './heroGraphicHitTest';
+
+const SECTION_CURSOR_COMPACT_DOT_SIZE = 10;
+
+function getPointerTargetElement(target) {
+  return target instanceof Element ? target : null;
+}
+
+function updatePointerTargetCursorState(mainElement, target, forceCompact = false) {
+  const targetElement = getPointerTargetElement(target);
+  const usesNativeCursor = Boolean(targetElement?.closest(SECTION_CURSOR_NATIVE_TARGET_SELECTOR));
+  const isCompact =
+    !usesNativeCursor &&
+    (forceCompact || Boolean(targetElement?.closest(SECTION_CURSOR_COMPACT_TARGET_SELECTOR)));
+
+  mainElement.classList.toggle(SECTION_CURSOR_NATIVE_CLASS, usesNativeCursor);
+  mainElement.classList.toggle(SECTION_CURSOR_COMPACT_CLASS, isCompact);
+
+  return { isCompact, usesNativeCursor };
+}
 
 export function useSectionCursor() {
   const sectionCursorFrameRef = useRef(0);
   const sectionCursorFrameKindRef = useRef(null);
   const lastSectionCursorPointRef = useRef(null);
   const highlightedSectionsRef = useRef([]);
-  const highlightedCardGridAnchorsRef = useRef([]);
+  const highlightedCardGridAnchorsRef = useRef(new Set());
   const sectionCursorRef = useRef(null);
   const sectionCursorLayoutRef = useRef(null);
 
@@ -19,7 +52,10 @@ export function useSectionCursor() {
       return null;
     }
 
-    const layout = buildSectionCursorLayout(ownerDocument);
+    const layout = {
+      ...buildSectionCursorLayout(ownerDocument),
+      heroGraphic: readHeroGraphicCursorLayout(mainElement)
+    };
     sectionCursorLayoutRef.current = layout;
     return layout;
   }, []);
@@ -31,12 +67,14 @@ export function useSectionCursor() {
 
   const clearSectionHighlights = useCallback(() => {
     highlightedSectionsRef.current.forEach((section) => {
-      section.style.setProperty('--section-grid-highlight-opacity', '0');
+      setStylePropertyIfChanged(section, '--section-grid-highlight-opacity', '0');
     });
     highlightedSectionsRef.current = [];
     highlightedCardGridAnchorsRef.current.forEach(clearCardGridHighlight);
-    highlightedCardGridAnchorsRef.current = [];
-    sectionCursorRef.current?.style.setProperty('--section-cursor-opacity', '0');
+    highlightedCardGridAnchorsRef.current = new Set();
+    if (sectionCursorRef.current) {
+      setStylePropertyIfChanged(sectionCursorRef.current, '--section-cursor-opacity', '0');
+    }
   }, []);
 
   const hideSectionCursor = useCallback(() => {
@@ -62,15 +100,22 @@ export function useSectionCursor() {
     const latestPoint = lastSectionCursorPointRef.current;
     if (!cursorElement || !latestPoint) return;
 
-    const { clientX, clientY, mainElement } = latestPoint;
-
-    updateHeroGraphicCursorState(mainElement, clientX, clientY);
+    const { clientX, clientY, mainElement, target } = latestPoint;
 
     const windowObject = mainElement.ownerDocument.defaultView;
     const pageX = clientX + (windowObject?.scrollX || 0);
     const pageY = clientY + (windowObject?.scrollY || 0);
-    const dotSize = cursorElement.getBoundingClientRect().width || 20;
     const layout = getSectionCursorLayout(mainElement);
+    const isOverHeroGraphic = updateHeroGraphicCursorState(
+      mainElement,
+      layout?.heroGraphic,
+      pageX,
+      pageY
+    );
+    const cursorTargetState = updatePointerTargetCursorState(mainElement, target, isOverHeroGraphic);
+    const dotSize = cursorTargetState.isCompact
+      ? SECTION_CURSOR_COMPACT_DOT_SIZE
+      : SECTION_CURSOR_DOT_SIZE;
     const theme = getSectionCursorTheme(layout, pageX, pageY, dotSize);
     if (!theme) {
       clearSectionHighlights();
@@ -80,7 +125,7 @@ export function useSectionCursor() {
     const nextHighlightedSections = theme.highlights.map(({ section }) => section);
     highlightedSectionsRef.current.forEach((section) => {
       if (!nextHighlightedSections.includes(section)) {
-        section.style.setProperty('--section-grid-highlight-opacity', '0');
+        setStylePropertyIfChanged(section, '--section-grid-highlight-opacity', '0');
       }
     });
 
@@ -90,15 +135,19 @@ export function useSectionCursor() {
         `${(pageX - rect.left).toFixed(2)}px`
       );
       section.style.setProperty('--section-grid-highlight-y', `${(pageY - rect.top).toFixed(2)}px`);
-      section.style.setProperty('--section-grid-highlight-color', color);
-      section.style.setProperty('--section-grid-highlight-opacity', opacity.toFixed(3));
+      setStylePropertyIfChanged(section, '--section-grid-highlight-color', color);
+      setStylePropertyIfChanged(
+        section,
+        '--section-grid-highlight-opacity',
+        opacity.toFixed(3)
+      );
     });
     highlightedSectionsRef.current = nextHighlightedSections;
 
     const nextHighlightedCardGridAnchors = new Set();
     theme.highlights.forEach(({ cardAnchors, color, opacity }) => {
-      cardAnchors.forEach(({ element: card, rect }) => {
-        updateCardGridHighlight(card, pageX, pageY, color, opacity, rect);
+      cardAnchors.forEach(({ color: cardColor, element: card, rect }) => {
+        updateCardGridHighlight(card, pageX, pageY, cardColor || color, opacity, rect);
         nextHighlightedCardGridAnchors.add(card);
       });
     });
@@ -107,47 +156,56 @@ export function useSectionCursor() {
         clearCardGridHighlight(card);
       }
     });
-    highlightedCardGridAnchorsRef.current = Array.from(nextHighlightedCardGridAnchors);
+    highlightedCardGridAnchorsRef.current = nextHighlightedCardGridAnchors;
 
-    cursorElement.style.setProperty('--section-cursor-x', `${clientX}px`);
-    cursorElement.style.setProperty('--section-cursor-y', `${clientY}px`);
-    cursorElement.style.setProperty('--section-cursor-top-color', theme.topColor);
-    cursorElement.style.setProperty('--section-cursor-bottom-color', theme.bottomColor);
-    cursorElement.style.setProperty('--section-cursor-split', theme.split);
-    cursorElement.style.setProperty('--section-cursor-zone-color', theme.zoneColor);
-    cursorElement.style.setProperty(
+    cursorElement.style.transform = `translate3d(${clientX.toFixed(2)}px, ${clientY.toFixed(
+      2
+    )}px, 0) translate(-50%, -50%)`;
+    setStylePropertyIfChanged(cursorElement, '--section-cursor-top-color', theme.topColor);
+    setStylePropertyIfChanged(cursorElement, '--section-cursor-bottom-color', theme.bottomColor);
+    setStylePropertyIfChanged(cursorElement, '--section-cursor-split', theme.split);
+    setStylePropertyIfChanged(cursorElement, '--section-cursor-zone-color', theme.zoneColor);
+    setStylePropertyIfChanged(
+      cursorElement,
       '--section-cursor-zone-inset-top',
       `${theme.zoneInsetTop.toFixed(2)}%`
     );
-    cursorElement.style.setProperty(
+    setStylePropertyIfChanged(
+      cursorElement,
       '--section-cursor-zone-inset-right',
       `${theme.zoneInsetRight.toFixed(2)}%`
     );
-    cursorElement.style.setProperty(
+    setStylePropertyIfChanged(
+      cursorElement,
       '--section-cursor-zone-inset-bottom',
       `${theme.zoneInsetBottom.toFixed(2)}%`
     );
-    cursorElement.style.setProperty(
+    setStylePropertyIfChanged(
+      cursorElement,
       '--section-cursor-zone-inset-left',
       `${theme.zoneInsetLeft.toFixed(2)}%`
     );
-    cursorElement.style.setProperty(
+    setStylePropertyIfChanged(
+      cursorElement,
       '--section-cursor-zone-radius-tl',
       `${theme.zoneRadiusTopLeft.toFixed(2)}px`
     );
-    cursorElement.style.setProperty(
+    setStylePropertyIfChanged(
+      cursorElement,
       '--section-cursor-zone-radius-tr',
       `${theme.zoneRadiusTopRight.toFixed(2)}px`
     );
-    cursorElement.style.setProperty(
+    setStylePropertyIfChanged(
+      cursorElement,
       '--section-cursor-zone-radius-br',
       `${theme.zoneRadiusBottomRight.toFixed(2)}px`
     );
-    cursorElement.style.setProperty(
+    setStylePropertyIfChanged(
+      cursorElement,
       '--section-cursor-zone-radius-bl',
       `${theme.zoneRadiusBottomLeft.toFixed(2)}px`
     );
-    cursorElement.style.setProperty('--section-cursor-opacity', '1');
+    setStylePropertyIfChanged(cursorElement, '--section-cursor-opacity', '1');
   }, [clearSectionHighlights, getSectionCursorLayout]);
 
   const scheduleSectionCursorUpdate = useCallback(() => {
@@ -163,11 +221,12 @@ export function useSectionCursor() {
   }, [updateSectionCursorAtLatestPoint]);
 
   const trackSectionCursorPoint = useCallback(
-    (mainElement, clientX, clientY) => {
+    (mainElement, clientX, clientY, target) => {
       lastSectionCursorPointRef.current = {
         clientX,
         clientY,
-        mainElement
+        mainElement,
+        target
       };
       scheduleSectionCursorUpdate();
     },

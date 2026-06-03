@@ -33,7 +33,7 @@ function isFactoryCssAnimation(animation) {
   );
 }
 
-function getAccelerationRate(animation) {
+function getAnimationAccelerationRate(animation) {
   const target = animation.effect?.target;
   return target && typeof target.closest === 'function' && target.closest('.v-plume-cloud')
     ? PLUME_ACCELERATION_RATE
@@ -85,10 +85,12 @@ export function useFactoryAnimationAcceleration(factoryStageRef) {
 
     acceleratedAnimationsRef.current = runningAnimations.map((animation) => {
       const baseRate = previousBaseRates.get(animation) ?? getAnimationPlaybackRate(animation);
+      const peakRate = baseRate * getAnimationAccelerationRate(animation);
 
       return {
         animation,
         baseRate,
+        peakRate,
         startRate: getAnimationPlaybackRate(animation, baseRate)
       };
     });
@@ -97,8 +99,7 @@ export function useFactoryAnimationAcceleration(factoryStageRef) {
     const updateAcceleration = (timestamp) => {
       const elapsed = Math.max(0, timestamp - accelerationStart);
 
-      acceleratedAnimationsRef.current.forEach(({ animation, baseRate, startRate }) => {
-        const peakRate = baseRate * getAccelerationRate(animation);
+      acceleratedAnimationsRef.current.forEach(({ animation, baseRate, peakRate, startRate }) => {
         let nextRate = baseRate;
 
         if (elapsed < FACTORY_ACCELERATION_RAMP_UP_MS) {
