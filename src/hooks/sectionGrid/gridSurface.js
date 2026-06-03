@@ -38,10 +38,22 @@ export function updateCardGridHighlight(
   pointerY,
   color,
   opacity,
-  cardRect = card.getBoundingClientRect()
+  cardRect = card.getBoundingClientRect(),
+  gridSize = SECTION_GRID_SIZE
 ) {
-  card.style.setProperty('--card-grid-highlight-x', `${(pointerX - cardRect.left).toFixed(2)}px`);
-  card.style.setProperty('--card-grid-highlight-y', `${(pointerY - cardRect.top).toFixed(2)}px`);
+  const localX = pointerX - cardRect.left;
+  const localY = pointerY - cardRect.top;
+  const cell = gridSize || SECTION_GRID_SIZE;
+  card.style.setProperty('--card-grid-highlight-x', `${localX.toFixed(2)}px`);
+  card.style.setProperty('--card-grid-highlight-y', `${localY.toFixed(2)}px`);
+  card.style.setProperty(
+    '--card-spotlight-phase-x',
+    `${(((localX % cell) + cell) % cell).toFixed(2)}`
+  );
+  card.style.setProperty(
+    '--card-spotlight-phase-y',
+    `${(((localY % cell) + cell) % cell).toFixed(2)}`
+  );
   setStylePropertyIfChanged(card, '--card-grid-highlight-color', color);
   card.style.setProperty('--card-grid-highlight-opacity', opacity.toFixed(3));
 }

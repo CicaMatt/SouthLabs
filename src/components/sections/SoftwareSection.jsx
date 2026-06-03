@@ -75,7 +75,9 @@ function AutomationCard({ description, icon, title }) {
 function SoftwareAiFeatureCard() {
   return (
     <div className={FEATURE_CARD_CLASS} style={SOFTWARE_FEATURE_CARD_SURFACE_STYLE}>
-      <span aria-hidden="true" className="software-ai-grid-highlight" />
+      <span aria-hidden="true" className="software-ai-grid-highlight">
+        <span className="software-ai-grid-highlight-grid" />
+      </span>
       <span className="material-symbols-outlined relative z-10 mb-4 inline-flex h-7 w-7 origin-center items-center justify-center text-[28px] leading-none text-[var(--software-ai-accent)] transition-all duration-300 group-hover:scale-110">
         memory
       </span>

@@ -17,13 +17,51 @@
   isolation: isolate;
 }
 
-.site-main-with-section-cursor > section.section-grid-bg:not(#hero)::before {
-  content: '';
+/* Cursor-following highlight as a small, statically-painted "spotlight" that is
+   moved with `transform` only — pointer motion never repaints the section (or
+   the static grid behind it).
+
+   - The OUTER box (.section-grid-spotlight) is a fixed-size window that follows
+     the cursor via transform and carries a CONSTANT radial mask (rasterized
+     once). Its opacity tween fades the highlight in/out.
+   - The INNER box (.section-grid-spotlight-grid) holds the brighter grid,
+     positioned with the exact same `background-position` expression as the
+     static grid so the bright lines sit on top of the static lines. It is
+     counter-shifted by the cursor's position within one grid cell, which locks
+     the grid to the page while the window slides over it (the per-cell jumps
+     are invisible because the pattern repeats).
+
+   Net per-frame work: two compositor transforms + an opacity tween. Zero paint. */
+.section-grid-spotlight {
+  --spotlight-window: 432px;
   position: absolute;
-  inset: 0;
+  left: 0;
+  top: 0;
   z-index: 0;
+  width: var(--spotlight-window);
+  height: var(--spotlight-window);
   pointer-events: none;
+  overflow: hidden;
+  contain: strict;
   opacity: var(--section-grid-highlight-opacity, 0);
+  transform: translate3d(
+      var(--section-grid-highlight-x, -9999px),
+      var(--section-grid-highlight-y, -9999px),
+      0
+    )
+    translate(-50%, -50%);
+  transition: opacity 140ms ease-out;
+  will-change: transform, opacity;
+  -webkit-mask-image: radial-gradient(circle at center, #000 0 46px, transparent 154px);
+  mask-image: radial-gradient(circle at center, #000 0 46px, transparent 154px);
+}
+
+.section-grid-spotlight-grid {
+  /* Extends 144px (a multiple of every grid cell: 72/60) past the window on all
+     sides so the in-cell phase shift never exposes an uncovered edge, and so the
+     phase reduces to a plain `cursor mod cell`. */
+  position: absolute;
+  inset: -144px;
   background-image:
     linear-gradient(var(--section-grid-highlight-color) 1px, transparent 1px),
     linear-gradient(90deg, var(--section-grid-highlight-color) 1px, transparent 1px);
@@ -31,22 +69,25 @@
     calc(-1px - var(--section-grid-origin-y, 0px));
   background-repeat: repeat;
   background-size: var(--section-grid-size, 72px) var(--section-grid-size, 72px);
-  -webkit-mask-image: radial-gradient(
-    circle at var(--section-grid-highlight-x) var(--section-grid-highlight-y),
-    #000 0 46px,
-    transparent 154px
+  transform: translate3d(
+    calc(var(--spotlight-phase-x, 0) * -1px),
+    calc(var(--spotlight-phase-y, 0) * -1px),
+    0
   );
-  mask-image: radial-gradient(
-    circle at var(--section-grid-highlight-x) var(--section-grid-highlight-y),
-    #000 0 46px,
-    transparent 154px
-  );
-  transition: opacity 140ms ease-out;
+  will-change: transform;
 }
 
-.site-main-with-section-cursor > section.section-grid-bg:not(#hero) > * {
+.site-main-with-section-cursor
+  > section.section-grid-bg:not(#hero)
+  > *:not(.section-grid-spotlight) {
   position: relative;
   z-index: 1;
+}
+
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .section-grid-spotlight {
+    display: none;
+  }
 }
 
 /* Burst rendering lives on a single fixed-position `<canvas>` overlay; the

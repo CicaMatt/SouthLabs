@@ -62,6 +62,16 @@ function SectionBackground({ children, className = '' }) {
   );
 }
 
+// Cursor-following grid highlight. Painted once; moved by transform only.
+// See `.section-grid-spotlight` in styles/sections/section-grid.css.
+function SectionGridSpotlight() {
+  return (
+    <div aria-hidden="true" className="section-grid-spotlight">
+      <div className="section-grid-spotlight-grid" />
+    </div>
+  );
+}
+
 function SectionContent({ children, className = '', width = 'standard' }) {
   return (
     <div className={cx(SECTION_WIDTH_CLASS[width], SECTION_CONTAINER_GUTTER_CLASS, className)}>
@@ -110,6 +120,8 @@ export default function SectionShell({
       {background ? (
         <SectionBackground className={backgroundClassName}>{background}</SectionBackground>
       ) : null}
+
+      {resolvedGrid && variant !== 'hero' ? <SectionGridSpotlight /> : null}
 
       <SectionContent
         className={cx(variantConfig.contentClassName, contentClassName)}

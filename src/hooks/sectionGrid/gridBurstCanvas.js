@@ -23,6 +23,10 @@ const BURST_DURATION_MS = 800;
 const BURST_LINE_WIDTH = 2;
 const PEAK_PROGRESS = 0.1;
 const PEAK_OPACITY_FACTOR = 0.52;
+/* This canvas spans the whole viewport, so its fill cost scales with dpr². Cap
+   at 2 (matching the particle field) — 3× displays gain no visible crispness on
+   1–2px lines but pay 2.25× the fill. */
+const MAX_PIXEL_RATIO = 2;
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const lerp = (a, b, t) => a + (b - a) * t;
@@ -127,7 +131,7 @@ export function createGridBurstCanvasController(canvas) {
   let viewportHeight = 0;
 
   const sizeCanvas = () => {
-    dpr = windowObject.devicePixelRatio || 1;
+    dpr = Math.min(windowObject.devicePixelRatio || 1, MAX_PIXEL_RATIO);
     viewportWidth = windowObject.innerWidth || 0;
     viewportHeight = windowObject.innerHeight || 0;
     /* Set the backing-store size to physical pixels so output is crisp on

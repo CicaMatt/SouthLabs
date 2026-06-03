@@ -41,7 +41,9 @@ function InfrastructureCard({ alt, description, src, title }) {
   return (
     <div className={CARD_CLASS}>
       <div className={IMAGE_FRAME_CLASS}>
-        <span aria-hidden="true" className="software-ai-grid-highlight" />
+        <span aria-hidden="true" className="software-ai-grid-highlight">
+          <span className="software-ai-grid-highlight-grid" />
+        </span>
         <img alt={alt} className={IMAGE_CLASS} decoding="async" loading="lazy" src={src} />
       </div>
       <h3 className={CARD_TITLE_CLASS}>{title}</h3>

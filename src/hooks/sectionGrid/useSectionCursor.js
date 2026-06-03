@@ -19,6 +19,15 @@ import { readHeroGraphicCursorLayout, updateHeroGraphicCursorState } from './her
 
 const SECTION_CURSOR_COMPACT_DOT_SIZE = 10;
 
+/* Cursor position within one grid cell, used to counter-shift the spotlight's
+   inner grid so it stays page-locked while the masked window slides. The inner
+   grid extends a whole-cell multiple past the window, so a plain `value mod cell`
+   is the exact phase (no window/2 term needed). */
+function gridCellPhase(value, cellSize) {
+  const cell = cellSize || 72;
+  return (((value % cell) + cell) % cell).toFixed(2);
+}
+
 function getPointerTargetElement(target) {
   return target instanceof Element ? target : null;
 }
@@ -112,7 +121,11 @@ export function useSectionCursor() {
       pageX,
       pageY
     );
-    const cursorTargetState = updatePointerTargetCursorState(mainElement, target, isOverHeroGraphic);
+    const cursorTargetState = updatePointerTargetCursorState(
+      mainElement,
+      target,
+      isOverHeroGraphic
+    );
     const dotSize = cursorTargetState.isCompact
       ? SECTION_CURSOR_COMPACT_DOT_SIZE
       : SECTION_CURSOR_DOT_SIZE;
@@ -129,25 +142,22 @@ export function useSectionCursor() {
       }
     });
 
-    theme.highlights.forEach(({ section, color, opacity, rect }) => {
-      section.style.setProperty(
-        '--section-grid-highlight-x',
-        `${(pageX - rect.left).toFixed(2)}px`
-      );
-      section.style.setProperty('--section-grid-highlight-y', `${(pageY - rect.top).toFixed(2)}px`);
+    theme.highlights.forEach(({ section, color, opacity, rect, gridSize }) => {
+      const localX = pageX - rect.left;
+      const localY = pageY - rect.top;
+      section.style.setProperty('--section-grid-highlight-x', `${localX.toFixed(2)}px`);
+      section.style.setProperty('--section-grid-highlight-y', `${localY.toFixed(2)}px`);
+      section.style.setProperty('--spotlight-phase-x', gridCellPhase(localX, gridSize));
+      section.style.setProperty('--spotlight-phase-y', gridCellPhase(localY, gridSize));
       setStylePropertyIfChanged(section, '--section-grid-highlight-color', color);
-      setStylePropertyIfChanged(
-        section,
-        '--section-grid-highlight-opacity',
-        opacity.toFixed(3)
-      );
+      setStylePropertyIfChanged(section, '--section-grid-highlight-opacity', opacity.toFixed(3));
     });
     highlightedSectionsRef.current = nextHighlightedSections;
 
     const nextHighlightedCardGridAnchors = new Set();
-    theme.highlights.forEach(({ cardAnchors, color, opacity }) => {
+    theme.highlights.forEach(({ cardAnchors, color, opacity, gridSize }) => {
       cardAnchors.forEach(({ color: cardColor, element: card, rect }) => {
-        updateCardGridHighlight(card, pageX, pageY, cardColor || color, opacity, rect);
+        updateCardGridHighlight(card, pageX, pageY, cardColor || color, opacity, rect, gridSize);
         nextHighlightedCardGridAnchors.add(card);
       });
     });

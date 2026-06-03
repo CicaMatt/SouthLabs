@@ -62,12 +62,18 @@ export function buildSectionCursorLayout(ownerDocument) {
         }))
       : [];
 
+    const gridSize =
+      Number.parseFloat(
+        windowObject?.getComputedStyle(element).getPropertyValue('--section-grid-size')
+      ) || 72;
+
     entries.push({
       cardAnchors: Array.from(element.querySelectorAll(CARD_GRID_ANCHOR_SELECTOR)).map(
         (cardAnchor) => readCardGridAnchor(cardAnchor, scrollX, scrollY, theme.color)
       ),
       color: theme.color,
       element,
+      gridSize,
       highlightOpacity: theme.highlightOpacity,
       rect: readElementPageRect(element, scrollX, scrollY),
       zones: theme.zones,
@@ -82,6 +88,7 @@ function makeHighlight(entry, opacity = getSectionHighlightOpacity(entry)) {
   return {
     cardAnchors: entry.cardAnchors,
     color: entry.color,
+    gridSize: entry.gridSize,
     opacity,
     rect: entry.rect,
     section: entry.element

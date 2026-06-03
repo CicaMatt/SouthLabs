@@ -114,32 +114,51 @@
     background-position 420ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Same transform-only "spotlight" technique as the section highlight (see
+   styles/sections/section-grid.css): the outer window follows the pointer with
+   a transform + a constant radial mask, the inner grid is page-aligned and
+   counter-shifted by the in-cell phase. Zero paint per pointer move. */
 .software-ai-grid-highlight {
+  --spotlight-window: 432px;
   position: absolute;
-  inset: -2px;
+  left: 0;
+  top: 0;
   z-index: 1;
+  width: var(--spotlight-window);
+  height: var(--spotlight-window);
   pointer-events: none;
+  overflow: hidden;
+  contain: strict;
+  opacity: calc(var(--card-grid-highlight-opacity, 0) * var(--card-grid-highlight-impact, 1));
+  transform: translate3d(
+      var(--card-grid-highlight-x, -9999px),
+      var(--card-grid-highlight-y, -9999px),
+      0
+    )
+    translate(-50%, -50%);
+  transition: opacity 140ms ease-out;
+  will-change: transform, opacity;
+  -webkit-mask-image: radial-gradient(circle at center, #000 0 46px, transparent 154px);
+  mask-image: radial-gradient(circle at center, #000 0 46px, transparent 154px);
+}
+
+.software-ai-grid-highlight-grid {
+  position: absolute;
+  inset: -144px;
+  background-image:
+    linear-gradient(var(--card-grid-highlight-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--card-grid-highlight-color) 1px, transparent 1px);
   background-position: calc(-1px - var(--card-grid-origin-x, var(--section-grid-origin-x, 0px)))
     calc(-1px - var(--card-grid-origin-y, var(--section-grid-origin-y, 0px)));
   background-repeat: repeat;
   background-size: var(--section-grid-size, 72px) var(--section-grid-size, 72px);
-  transition:
-    opacity 140ms ease-out,
-    background-position 420ms cubic-bezier(0.22, 1, 0.36, 1);
-  opacity: calc(var(--card-grid-highlight-opacity, 0) * var(--card-grid-highlight-impact, 1));
-  background-image:
-    linear-gradient(var(--card-grid-highlight-color) 1px, transparent 1px),
-    linear-gradient(90deg, var(--card-grid-highlight-color) 1px, transparent 1px);
-  -webkit-mask-image: radial-gradient(
-    circle at var(--card-grid-highlight-x) var(--card-grid-highlight-y),
-    #000 0 46px,
-    transparent 154px
+  transform: translate3d(
+    calc(var(--card-spotlight-phase-x, 0) * -1px),
+    calc(var(--card-spotlight-phase-y, 0) * -1px),
+    0
   );
-  mask-image: radial-gradient(
-    circle at var(--card-grid-highlight-x) var(--card-grid-highlight-y),
-    #000 0 46px,
-    transparent 154px
-  );
+  transition: background-position 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
 }
 
 .software-ai-feature-card .software-ai-grid-highlight {
@@ -185,7 +204,6 @@
 }
 
 .infrastructure-image-frame .software-ai-grid-highlight {
-  inset: 0;
   opacity: calc(
     var(--card-grid-highlight-opacity, 0) * 0.67 * var(--card-grid-highlight-impact, 1)
   );
@@ -194,8 +212,17 @@
 .infrastructure-image-card.solution-card-surface--touch-selected .infrastructure-image-frame {
   --card-grid-highlight-color: var(--card-grid-effect-color) !important;
   --card-grid-highlight-opacity: 0.25;
-  --card-grid-highlight-x: 50%;
-  --card-grid-highlight-y: 50%;
+}
+
+/* Touch selection has no pointer to follow, so center the spotlight window on
+   the card (the pointer-driven transform would otherwise resolve `50%` against
+   the window, not the card). */
+.infrastructure-image-card.solution-card-surface--touch-selected
+  .infrastructure-image-frame
+  .software-ai-grid-highlight {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .infrastructure-image-frame > img {
@@ -286,7 +313,8 @@
 @media (prefers-reduced-motion: reduce) {
   .solution-card-surface,
   .software-ai-feature-card::before,
-  .software-ai-grid-highlight {
+  .software-ai-grid-highlight,
+  .software-ai-grid-highlight-grid {
     transition: none;
   }
 }
