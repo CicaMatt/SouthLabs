@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useFactoryAnimationAcceleration } from './useFactoryAnimationAcceleration';
+import { useFactoryFpsCap } from './useFactoryFpsCap';
 
 const FACTORY_OFFSCREEN_CLASS = 'hero-factory-stage--offscreen';
 
@@ -71,6 +72,7 @@ export function useHeroInteractions() {
   });
   const hoverLightPulseRef = useRef(null);
   const accelerateFactoryAnimations = useFactoryAnimationAcceleration(factoryStageRef);
+  useFactoryFpsCap(factoryStageRef);
 
   useEffect(
     () => () => {

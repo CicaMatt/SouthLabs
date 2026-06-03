@@ -115,3 +115,13 @@
 .hero-factory-stage.hero-factory-stage--offscreen *::after {
   animation-play-state: paused !important;
 }
+
+/* On high-refresh displays useFactoryFpsCap freezes the CSS clock here and
+   advances each animation's currentTime from a ~60fps rAF loop, halving the
+   main-thread repaints a 120Hz panel would otherwise drive. */
+.hero-factory-stage.hero-factory-stage--fps-capped,
+.hero-factory-stage.hero-factory-stage--fps-capped *,
+.hero-factory-stage.hero-factory-stage--fps-capped *::before,
+.hero-factory-stage.hero-factory-stage--fps-capped *::after {
+  animation-play-state: paused !important;
+}
