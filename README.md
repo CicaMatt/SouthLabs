@@ -43,8 +43,7 @@ src/
   features/
     hero/                    Animated hero: particle field, factory SVG + geometry,
                              and the hero interaction hooks
-    sectionGrid/             Section-grid interaction layer (cursor, bursts, touch,
-                             pinch guard) — entry point hook is useSectionGridInteractions.js
+    sectionGrid/             Section-grid interaction layer (cursor, bursts, touch) — entry point hook is useSectionGridInteractions.js
   components/
     ui/                      Shared building blocks (SectionShell, SectionHeader)
     layout/                  TopNavBar, Footer

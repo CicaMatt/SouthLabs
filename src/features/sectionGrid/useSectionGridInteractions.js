@@ -6,7 +6,6 @@ import {
   TOUCH_SCROLL_GUARD_CLASS
 } from './domSelectors';
 import { syncSectionGridOrigins } from './gridSurface';
-import { useDesktopPinchGuard } from './useDesktopPinchGuard';
 import { useSectionCursor } from './useSectionCursor';
 import { useSectionGridBurst } from './useSectionGridBurst';
 import { useTouchGridGestures } from './useTouchGridGestures';
@@ -35,8 +34,6 @@ export function useSectionGridInteractions() {
     handleTouchPointerUp,
     markTouchScrolling
   } = useTouchGridGestures({ triggerSectionGridBurstAtPoint });
-
-  useDesktopPinchGuard(mainRef);
 
   const handleMainPointerLeave = useCallback(
     (event) => {
