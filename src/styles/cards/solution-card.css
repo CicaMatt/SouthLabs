@@ -14,39 +14,72 @@
   --solution-card-bg-hover-opacity: var(--solution-card-bg-opacity);
   --solution-card-bg-current-opacity: var(--solution-card-bg-opacity);
   --card-grid-highlight-impact: 1;
+
+  /* Active "ring" treatment. The inset ring is always present in the box-shadow
+     (transparent at rest) so it can fade to/from the solid active ring —
+     box-shadow only animates between shadow lists with a matching layer count,
+     so it has to exist in both states. Cards opt in by setting a non-zero
+     --card-ring-width; surfaces that leave it at 0 (the infrastructure image
+     frames) never show a ring. Real hover (fine pointers only) and the
+     touch-selected class set the exact same active values, so the border fades
+     in/out identically whether driven by the cursor or by touch. */
+  --card-ring-rgb: 32, 54, 88;
+  --card-ring-width: 0px;
+  --card-ring-opacity: 0;
+  --card-lift-shadow: 0 8px 20px rgba(15, 34, 52, 0.07);
+
   background-color: rgba(
     var(--solution-card-bg-current-rgb),
     var(--solution-card-bg-current-opacity)
   );
-  box-shadow: 0 8px 20px rgba(15, 34, 52, 0.07);
+  box-shadow:
+    inset 0 0 0 var(--card-ring-width) rgba(var(--card-ring-rgb), var(--card-ring-opacity)),
+    var(--card-lift-shadow);
   transition-property:
     --solution-card-bg-current-opacity, background-color, border-color, box-shadow, transform;
   transition-duration: 420ms;
   transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.solution-card-surface:hover,
+/* Active state via a real hover — gated to fine pointers so a sticky :hover left
+   behind by a tap can never trigger it (that is what made touch differ before). */
+@media (hover: hover) and (pointer: fine) {
+  .solution-card-surface:hover {
+    --solution-card-bg-current-rgb: var(--solution-card-bg-hover-rgb);
+    --solution-card-bg-current-opacity: var(--solution-card-bg-hover-opacity);
+    --card-grid-highlight-impact: 0.52;
+  }
+
+  .section-grid-bg--web .solution-card-surface:hover,
+  .section-grid-bg--software .software-card-surface:hover {
+    --card-ring-opacity: 0.92;
+    --card-lift-shadow: 0 18px 34px rgba(15, 34, 52, 0.13);
+    border-color: rgb(var(--card-ring-rgb));
+  }
+}
+
+/* Active state via touch-selection — the same values as hover above, so the
+   transition behaves the same. Works on every pointer type. */
 .solution-card-surface.solution-card-surface--touch-selected {
   --solution-card-bg-current-rgb: var(--solution-card-bg-hover-rgb);
   --solution-card-bg-current-opacity: var(--solution-card-bg-hover-opacity);
+  --card-grid-highlight-impact: 0.52;
 }
 
-.solution-card-surface:hover,
-.solution-card-surface.solution-card-surface--touch-selected,
 .infrastructure-image-card.solution-card-surface--touch-selected .solution-card-surface {
   --card-grid-highlight-impact: 0.52;
 }
 
-.section-grid-bg--web .solution-card-surface {
-  border-color: rgba(32, 54, 88, 0.15);
+.section-grid-bg--web .solution-card-surface.solution-card-surface--touch-selected,
+.section-grid-bg--software .software-card-surface.solution-card-surface--touch-selected {
+  --card-ring-opacity: 0.92;
+  --card-lift-shadow: 0 18px 34px rgba(15, 34, 52, 0.13);
+  border-color: rgb(var(--card-ring-rgb));
 }
 
-.section-grid-bg--web .solution-card-surface:hover,
-.section-grid-bg--web .solution-card-surface.solution-card-surface--touch-selected {
-  border-color: #203658;
-  box-shadow:
-    inset 0 0 0 1.5px rgba(32, 54, 88, 0.92),
-    0 18px 34px rgba(15, 34, 52, 0.13);
+.section-grid-bg--web .solution-card-surface {
+  --card-ring-width: 1.5px;
+  border-color: rgba(32, 54, 88, 0.15);
 }
 
 /* Subtle AI feature-card effects for the software section. */
@@ -58,6 +91,8 @@
   --card-grid-highlight-opacity: 0;
   --card-grid-highlight-x: 50%;
   --card-grid-highlight-y: 50%;
+  --card-ring-rgb: var(--software-interaction-blue-rgb);
+  --card-ring-width: 2px;
   background-color: #122038;
   background-image: var(--site-deep-surface-gradient);
 }
@@ -66,18 +101,12 @@
   --software-card-selected-icon-color: var(--software-support-blue);
   --solution-card-bg-opacity: 0.1;
   --solution-card-bg-hover-opacity: 0.1;
+  --card-ring-rgb: var(--software-support-blue-rgb);
+  --card-ring-width: 1.5px;
 }
 
 .section-grid-bg--software .software-card-surface {
   border-color: rgba(var(--software-support-blue-rgb), 0.15);
-}
-
-.section-grid-bg--software .software-card-surface:hover,
-.section-grid-bg--software .software-card-surface.solution-card-surface--touch-selected {
-  border-color: var(--software-support-blue);
-  box-shadow:
-    inset 0 0 0 1.5px rgba(var(--software-support-blue-rgb), 0.92),
-    0 18px 34px rgba(15, 34, 52, 0.13);
 }
 
 @media (min-width: 1024px) {
@@ -167,13 +196,6 @@
   );
 }
 
-.section-grid-bg--software .software-ai-feature-card.solution-card-surface--touch-selected {
-  border-color: var(--software-ai-accent);
-  box-shadow:
-    inset 0 0 0 2px var(--software-ai-accent),
-    0 18px 34px rgba(15, 34, 52, 0.13);
-}
-
 .section-grid-bg--infrastructure
   .infrastructure-image-card.solution-card-surface--touch-selected
   img {
@@ -236,15 +258,6 @@
   }
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .section-grid-bg--software .software-ai-feature-card:hover {
-    border-color: var(--software-ai-accent);
-    box-shadow:
-      inset 0 0 0 2px var(--software-ai-accent),
-      0 18px 34px rgba(15, 34, 52, 0.13);
-  }
-}
-
 .solution-badge-material-icon {
   font-size: 17px !important;
 }
@@ -255,24 +268,12 @@
   }
 }
 
+/* On coarse/no-hover pointers a tap can leave a sticky :hover. The surface
+   border/background no longer reacts to :hover at all here (it is gated to fine
+   pointers), but the icon/link/image effects below still come from Tailwind
+   `group-hover:` utilities, so neutralize those and re-apply them for the
+   touch-selected card instead. */
 @media (hover: none), (pointer: coarse) {
-  .solution-card-surface:hover:not(.solution-card-surface--touch-selected) {
-    --solution-card-bg-current-opacity: var(--solution-card-bg-opacity);
-  }
-
-  .section-grid-bg--web .solution-card-surface:hover:not(.solution-card-surface--touch-selected) {
-    border-color: rgba(32, 54, 88, 0.15) !important;
-    box-shadow: 0 8px 20px rgba(15, 34, 52, 0.07) !important;
-    transform: none !important;
-  }
-
-  .section-grid-bg--software
-    .software-card-surface:hover:not(.solution-card-surface--touch-selected) {
-    border-color: rgba(var(--software-support-blue-rgb), 0.15) !important;
-    box-shadow: 0 8px 20px rgba(15, 34, 52, 0.07) !important;
-    transform: none !important;
-  }
-
   .section-grid-bg--software .group:hover > .material-symbols-outlined {
     --tw-scale-x: 1 !important;
     --tw-scale-y: 1 !important;
