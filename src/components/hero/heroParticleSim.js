@@ -17,7 +17,7 @@ const IDLE_ANCHOR_FOLLOW = 0.11;
 const FRAME_INTERVAL_MS = {
   active: 16,
   idleDesktop: 40,
-  idleMobile: 56
+  idleMobile: 40
 };
 
 export const BASE_FRAME_MS = 1000 / 60;
