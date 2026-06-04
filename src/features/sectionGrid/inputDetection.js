@@ -1,19 +1,5 @@
 const MOUSE_WHEEL_ZOOM_MIN_DELTA = 80;
 
-export function getTime(windowObject) {
-  return windowObject?.performance?.now?.() ?? Date.now();
-}
-
-function isImageTarget(target) {
-  return target instanceof HTMLElement && target.closest('img');
-}
-
-export function preventImageDefault(event) {
-  if (isImageTarget(event.target)) {
-    event.preventDefault();
-  }
-}
-
 export function isDesktopChromium(windowObject) {
   const navigatorObject = windowObject.navigator;
   const userAgent = navigatorObject.userAgent || '';

@@ -1,29 +1,10 @@
 import { SOLUTION_CARD_SURFACE_SELECTOR } from './domSelectors';
+import { hexToRgb } from '../../lib/color';
 
 export const SOFTWARE_SECTION_THEME_COLOR = '#95e3ff';
-export const SOFTWARE_SECTION_THEME_RGB = getRgbFromHex(SOFTWARE_SECTION_THEME_COLOR);
+export const SOFTWARE_SECTION_THEME_RGB = hexToRgb(SOFTWARE_SECTION_THEME_COLOR);
 export const SOFTWARE_SECTION_THEME_RGB_CSS = SOFTWARE_SECTION_THEME_RGB.join(', ');
 export const DEFAULT_SECTION_GRID_BURST_RGB = [31, 79, 143];
-
-export function getRgbFromHex(hexColor) {
-  const normalized = hexColor?.trim().replace('#', '');
-  if (!normalized) return null;
-
-  const expanded =
-    normalized.length === 3
-      ? normalized
-          .split('')
-          .map((character) => `${character}${character}`)
-          .join('')
-      : normalized;
-
-  if (!/^[\da-f]{6}$/i.test(expanded)) return null;
-
-  const value = Number.parseInt(expanded, 16);
-  if (!Number.isFinite(value)) return null;
-
-  return [(value >> 16) & 255, (value >> 8) & 255, value & 255];
-}
 
 export const SECTION_CURSOR_THEMES = [
   {

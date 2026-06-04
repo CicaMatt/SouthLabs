@@ -11,7 +11,7 @@ import { useSectionCursor } from './useSectionCursor';
 import { useSectionGridBurst } from './useSectionGridBurst';
 import { useTouchGridGestures } from './useTouchGridGestures';
 
-export { preventImageDefault } from './inputDetection';
+export { preventImageDefault } from '../../lib/dom';
 
 export function useSectionGridInteractions() {
   const mainRef = useRef(null);

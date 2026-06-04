@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
+import { addMediaQueryChangeListener } from '../../lib/dom';
 import {
-  addMediaQueryChangeListener,
   advanceParticle,
   computeForceState,
   computeFrameStep,

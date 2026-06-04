@@ -1,4 +1,5 @@
-const TAU = Math.PI * 2;
+import { TAU, clamp, smoothStep } from '../../lib/math';
+
 const PARTICLE_DENSITY = 5000;
 const POINTER_RADIUS = 164;
 const POINTER_BURST_RADIUS_BOOST = 0.16;
@@ -22,19 +23,6 @@ const FRAME_INTERVAL_MS = {
 
 export const BASE_FRAME_MS = 1000 / 60;
 export const MOBILE_FIELD_THRESHOLD = MOBILE_FIELD_MAX_WIDTH;
-
-const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-const smoothStep = (progress) => progress * progress * (3 - 2 * progress);
-
-export function addMediaQueryChangeListener(mediaQuery, listener) {
-  if (typeof mediaQuery.addEventListener === 'function') {
-    mediaQuery.addEventListener('change', listener);
-    return () => mediaQuery.removeEventListener('change', listener);
-  }
-
-  mediaQuery.addListener?.(listener);
-  return () => mediaQuery.removeListener?.(listener);
-}
 
 function getParticleCount(width, height) {
   if (width < MOBILE_FIELD_MAX_WIDTH) {

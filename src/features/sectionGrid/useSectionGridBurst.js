@@ -10,7 +10,9 @@ import {
   getSectionGridSize
 } from './gridBurst';
 import { createGridBurstCanvasController } from './gridBurstCanvas';
-import { getTime } from './inputDetection';
+import { getTime } from '../../lib/dom';
+import { clamp } from '../../lib/math';
+import { distancePointToRect, getElementPageRect } from '../../lib/geometry';
 import {
   CARD_GRID_ANCHOR_SELECTOR,
   GRID_BURST_DISABLED_SELECTOR,
@@ -25,26 +27,6 @@ const CARD_BURST_OUTER_MIN_ATTENUATION = 0.07;
 const CARD_BURST_OUTER_MAX_ATTENUATION = 0.25;
 const CARD_BURST_OUTER_MIN_PADDING = 24;
 const CARD_BURST_OUTER_MAX_PADDING = 72;
-
-const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-
-function getPointDistanceToRect(pageX, pageY, rect) {
-  const dx = pageX < rect.left ? rect.left - pageX : Math.max(pageX - rect.right, 0);
-  const dy = pageY < rect.top ? rect.top - pageY : Math.max(pageY - rect.bottom, 0);
-  return Math.hypot(dx, dy);
-}
-
-function getElementPageRect(element, scrollX, scrollY) {
-  const rect = element.getBoundingClientRect();
-  return {
-    bottom: rect.bottom + scrollY,
-    height: rect.height,
-    left: rect.left + scrollX,
-    right: rect.right + scrollX,
-    top: rect.top + scrollY,
-    width: rect.width
-  };
-}
 
 function getElementBorderRadius(element) {
   const style = getComputedStyle(element);
@@ -63,7 +45,7 @@ function getCardGridEffectZones(section, pageX, pageY, scrollX, scrollY, burstRa
 
       const rect = getElementPageRect(card, scrollX, scrollY);
       if (rect.width <= 0 || rect.height <= 0) return null;
-      if (getPointDistanceToRect(pageX, pageY, rect) > burstRadius) return null;
+      if (distancePointToRect(pageX, pageY, rect) > burstRadius) return null;
 
       return {
         card,
@@ -81,7 +63,7 @@ function getCardBurstAttenuationZones(section, pageX, pageY, scrollX, scrollY, b
       const rect = getElementPageRect(card, scrollX, scrollY);
       if (rect.width <= 0 || rect.height <= 0) return null;
 
-      const distance = getPointDistanceToRect(pageX, pageY, rect);
+      const distance = distancePointToRect(pageX, pageY, rect);
       if (distance > burstRadius + CARD_BURST_OUTER_MAX_PADDING) return null;
 
       const proximity = 1 - clamp(distance / CARD_BURST_PROXIMITY_RADIUS_PX, 0, 1);

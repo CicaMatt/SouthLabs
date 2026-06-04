@@ -1,14 +1,11 @@
 import SectionHeader from '../ui/SectionHeader';
 import SectionShell from '../ui/SectionShell';
-import {
-  SOLUTION_CARD_SURFACE_CLASS,
-  getLightSolutionCardSurfaceStyle
-} from './cardSurface';
+import { SOLUTION_CARD_SURFACE_CLASS, getLightSolutionCardSurfaceStyle } from './cardSurface';
 import wordpressLogo from '../../../media/icons/wordpress.png';
 import customWebAppImage from '../../../media/images/custom_web_app.png';
 import ecommerceImage from '../../../media/images/ecommerce.png';
 import seoOrientedImage from '../../../media/images/seo_oriented.png';
-import { cx } from '../../utils/classNames';
+import { cx } from '../../lib/classNames';
 
 const WORDPRESS_TITLE = 'Soluzioni WordPress';
 const WEB_CARD_SURFACE_OPACITY = 0.2;

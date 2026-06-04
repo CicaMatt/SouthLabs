@@ -10,11 +10,8 @@ import {
   SECTION_CURSOR_NATIVE_CLASS,
   SECTION_CURSOR_NATIVE_TARGET_SELECTOR
 } from './domSelectors';
-import {
-  clearCardGridHighlight,
-  setStylePropertyIfChanged,
-  updateCardGridHighlight
-} from './gridSurface';
+import { clearCardGridHighlight, updateCardGridHighlight } from './gridSurface';
+import { setStylePropertyIfChanged } from '../../lib/dom';
 import { readHeroGraphicCursorLayout, updateHeroGraphicCursorState } from './heroGraphicHitTest';
 
 const SECTION_CURSOR_COMPACT_DOT_SIZE = 10;

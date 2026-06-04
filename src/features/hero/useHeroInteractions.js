@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { clamp } from '../../lib/math';
 import { useFactoryAnimationAcceleration } from './useFactoryAnimationAcceleration';
 import { useFactoryFpsCap } from './useFactoryFpsCap';
 
@@ -15,8 +16,6 @@ const FACTORY_PARALLAX_EASE = 0.14;
 const HOVER_LIGHT_POSITION_EASE = 0.24;
 const HOVER_LIGHT_OPACITY_EASE = 0.22;
 const HOVER_LIGHT_SCALE_EASE = 0.18;
-
-const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
 function createPointerState() {
   return {

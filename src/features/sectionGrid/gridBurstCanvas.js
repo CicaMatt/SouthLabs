@@ -18,6 +18,7 @@
  * free with no scroll event listener needed. The rAF loop only runs while
  * there is at least one active burst.
  */
+import { clamp, lerp, smoothStep } from '../../lib/math';
 
 const BURST_DURATION_MS = 800;
 const BURST_LINE_WIDTH = 2;
@@ -27,18 +28,6 @@ const PEAK_OPACITY_FACTOR = 0.52;
    at 2 (matching the particle field) — 3× displays gain no visible crispness on
    1–2px lines but pay 2.25× the fill. */
 const MAX_PIXEL_RATIO = 2;
-
-const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-const lerp = (a, b, t) => a + (b - a) * t;
-
-/* Smoothed step within [from, to], producing the same eased feel as the
-   previous cubic-bezier(0.2, 0.72, 0.18, 1) CSS keyframes. We use a
-   smoothstep here — visually indistinguishable from the bezier for our timing
-   bands and avoids shipping a full bezier solver. */
-function smoothStep(t) {
-  const clamped = clamp(t, 0, 1);
-  return clamped * clamped * (3 - 2 * clamped);
-}
 
 /* Reconstruct radius and opacity from progress (0..1). */
 function sampleBurstShape(progress, maxRadius) {

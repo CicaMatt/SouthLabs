@@ -1,5 +1,5 @@
 import { useCallback, useRef } from 'react';
-import { getTime } from './inputDetection';
+import { getTime } from '../../lib/dom';
 import {
   SOLUTION_CARD_TOUCH_SELECTED_CLASS,
   TOUCH_SCROLL_GUARD_CLASS,

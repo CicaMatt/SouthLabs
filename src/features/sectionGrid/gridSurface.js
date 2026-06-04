@@ -1,4 +1,5 @@
 import { CARD_GRID_ANCHOR_SELECTOR } from './domSelectors';
+import { setStylePropertyIfChanged } from '../../lib/dom';
 
 const SECTION_GRID_SIZE = 72;
 
@@ -7,12 +8,6 @@ const SECTION_GRID_SIZE = 72;
    content slot-in) used to retrigger the grid `background-position` transitions
    across every section — that cascading shift is what reads as flicker. */
 const ORIGIN_REWRITE_EPSILON_PX = 1;
-
-export function setStylePropertyIfChanged(element, propertyName, value) {
-  if (element.style.getPropertyValue(propertyName) !== value) {
-    element.style.setProperty(propertyName, value);
-  }
-}
 
 function setPxStylePropertyIfMeaningfullyChanged(element, propertyName, nextPxValue) {
   const previousRaw = element.style.getPropertyValue(propertyName);

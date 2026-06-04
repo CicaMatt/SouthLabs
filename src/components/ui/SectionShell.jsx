@@ -2,7 +2,7 @@ import {
   SOFTWARE_SECTION_THEME_COLOR,
   SOFTWARE_SECTION_THEME_RGB_CSS
 } from '../../features/sectionGrid/sectionRegistry';
-import { cx } from '../../utils/classNames';
+import { cx } from '../../lib/classNames';
 
 const SECTION_PADDING_CLASS = {
   default: 'py-[5.5rem] lg:py-[6.75rem]',

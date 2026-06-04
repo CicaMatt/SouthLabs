@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
+import { clamp, lerp, smoothStep } from '../../lib/math';
 
 const FACTORY_ACCELERATION_RATE = 2.25;
 const PLUME_ACCELERATION_RATE = 1.75;
@@ -9,10 +10,6 @@ const FACTORY_ACCELERATION_TOTAL_MS =
   FACTORY_ACCELERATION_RAMP_UP_MS +
   FACTORY_ACCELERATION_HOLD_MS +
   FACTORY_ACCELERATION_RAMP_DOWN_MS;
-
-const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-const lerp = (start, end, progress) => start + (end - start) * progress;
-const smoothStep = (progress) => progress * progress * (3 - 2 * progress);
 
 function getAnimationPlaybackRate(animation, fallback = 1) {
   return Number.isFinite(animation.playbackRate) ? animation.playbackRate : fallback;

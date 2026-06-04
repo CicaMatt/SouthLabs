@@ -3,11 +3,12 @@
  * The actual rendering is delegated to the canvas controller in
  * `gridBurstCanvas.js` — that's where the animation lives. This file no
  * longer manipulates the DOM at all. */
-import { DEFAULT_SECTION_GRID_BURST_RGB, SECTION_CURSOR_THEMES, getRgbFromHex } from './sectionRegistry';
+import { DEFAULT_SECTION_GRID_BURST_RGB, SECTION_CURSOR_THEMES } from './sectionRegistry';
+import { hexToRgb } from '../../lib/color';
+import { clamp } from '../../lib/math';
+import { distancePointToRect } from '../../lib/geometry';
 
 const SECTION_GRID_SIZE = 72;
-
-const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
 function parsePixelValue(value, fallback = 0) {
   const parsed = Number.parseFloat(value);
@@ -16,14 +17,14 @@ function parsePixelValue(value, fallback = 0) {
 
 export function getSectionBurstRgb(section) {
   const color = SECTION_CURSOR_THEMES.find((theme) => theme.id === section.id)?.color || '#1f4f8f';
-  return getRgbFromHex(color) || DEFAULT_SECTION_GRID_BURST_RGB;
+  return hexToRgb(color) || DEFAULT_SECTION_GRID_BURST_RGB;
 }
 
 export function getCardGridEffectRgb(card) {
   if (!card) return null;
 
   const color = getComputedStyle(card).getPropertyValue('--card-grid-effect-color').trim();
-  return getRgbFromHex(color);
+  return hexToRgb(color);
 }
 
 export function getSectionBurstOpacityScale(section) {
@@ -74,13 +75,6 @@ export function getCardGridOriginPage(card, fallbackOrigin = { x: 0, y: 0 }) {
   };
 }
 
-function getPointToRectDistance(clientX, clientY, rect) {
-  const dx = clientX < rect.left ? rect.left - clientX : Math.max(clientX - rect.right, 0);
-  const dy = clientY < rect.top ? rect.top - clientY : Math.max(clientY - rect.bottom, 0);
-
-  return Math.hypot(dx, dy);
-}
-
 export function getGridBurstPoint(mainElement, section, clientX, clientY, pressure = 0.5) {
   const sectionRect = section.getBoundingClientRect();
   const gridSize = getSectionGridSize(section);
@@ -102,7 +96,7 @@ export function getGridBurstTargetSections(mainElement, clientX, clientY, burstO
 
   mainElement.querySelectorAll(':scope > section.section-grid-bg:not(#hero)').forEach((section) => {
     if (
-      getPointToRectDistance(clientX, clientY, section.getBoundingClientRect()) <= burstOuterRadius
+      distancePointToRect(clientX, clientY, section.getBoundingClientRect()) <= burstOuterRadius
     ) {
       targetSections.push(section);
     }

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import logoImage from '../../../media/logo/logo_image.png';
 import logoText from '../../../media/logo/logo_text.png';
-import { cx } from '../../utils/classNames';
+import { cx } from '../../lib/classNames';
 
 const NAV_DESKTOP_MIN_WIDTH = 768;
 const MOBILE_MENU_FADE_MS = 280;

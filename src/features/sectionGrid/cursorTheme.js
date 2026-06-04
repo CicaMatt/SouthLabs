@@ -1,25 +1,14 @@
 import { SECTION_CURSOR_THEMES } from './sectionRegistry';
 import { CARD_GRID_ANCHOR_SELECTOR } from './domSelectors';
+import { clamp } from '../../lib/math';
+import { getElementPageRect } from '../../lib/geometry';
 
 export const SECTION_CURSOR_DOT_SIZE = 20;
 const SECTION_GRID_HIGHLIGHT_DISTANCE = 110;
 const SECTION_GRID_HIGHLIGHT_OPACITY = 0.25;
 
-const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const getSectionHighlightOpacity = (theme) =>
   theme.highlightOpacity ?? SECTION_GRID_HIGHLIGHT_OPACITY;
-
-function readElementPageRect(element, scrollX, scrollY) {
-  const rect = element.getBoundingClientRect();
-  return {
-    left: rect.left + scrollX,
-    top: rect.top + scrollY,
-    right: rect.right + scrollX,
-    bottom: rect.bottom + scrollY,
-    width: rect.width,
-    height: rect.height
-  };
-}
 
 function readCornerRadii(element) {
   const view = element.ownerDocument?.defaultView;
@@ -41,7 +30,7 @@ function readCardGridAnchor(cardAnchor, scrollX, scrollY, fallbackColor) {
   return {
     color: customColor || fallbackColor,
     element: cardAnchor,
-    rect: readElementPageRect(cardAnchor, scrollX, scrollY)
+    rect: getElementPageRect(cardAnchor, scrollX, scrollY)
   };
 }
 
@@ -58,7 +47,7 @@ export function buildSectionCursorLayout(ownerDocument) {
       ? Array.from(element.querySelectorAll(theme.zones.selector)).map((zoneElement) => ({
           element: zoneElement,
           radii: readCornerRadii(zoneElement),
-          rect: readElementPageRect(zoneElement, scrollX, scrollY)
+          rect: getElementPageRect(zoneElement, scrollX, scrollY)
         }))
       : [];
 
@@ -75,7 +64,7 @@ export function buildSectionCursorLayout(ownerDocument) {
       element,
       gridSize,
       highlightOpacity: theme.highlightOpacity,
-      rect: readElementPageRect(element, scrollX, scrollY),
+      rect: getElementPageRect(element, scrollX, scrollY),
       zones: theme.zones,
       zoneElements
     });

@@ -7,7 +7,9 @@
       "Bash(perl -i -pe 's{'\\\\''\\\\.\\\\./\\\\.\\\\./features/sectionGrid/selectors'\\\\''}{'\\\\''./cardSurface'\\\\''}g' src/components/sections/WebSolutionsSection.jsx src/components/sections/SoftwareSection.jsx src/components/sections/SupportSection.jsx src/components/sections/ContactSection.jsx)",
       "Bash(perl -i -pe \"s{features/sectionGrid/themes}{features/sectionGrid/sectionRegistry}g\" src/components/ui/SectionShell.jsx)",
       "Bash(git add *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(perl -i -pe 's{'\\\\''\\\\.\\\\./\\\\.\\\\./utils/classNames'\\\\''}{'\\\\''../../lib/classNames'\\\\''}g' src/components/ui/SectionShell.jsx src/components/layout/TopNavBar.jsx src/components/sections/WebSolutionsSection.jsx)",
+      "Bash(git rm *)"
     ]
   }
 }
