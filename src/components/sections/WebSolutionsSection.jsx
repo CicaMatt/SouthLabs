@@ -236,7 +236,11 @@ function SolutionTextPanel({
 
 function SolutionCardShell({ children, className }) {
   return (
-    <article className={cx(SOLUTION_CARD_CLASSES.shell, className)} style={WEB_CARD_SURFACE_STYLE}>
+    <article
+      className={cx(SOLUTION_CARD_CLASSES.shell, className, 'focus:outline-none focus-visible:outline-none')}
+      style={WEB_CARD_SURFACE_STYLE}
+      tabIndex={0}
+    >
       {children}
     </article>
   );
