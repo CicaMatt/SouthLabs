@@ -1,4 +1,4 @@
-import { CARD_GRID_ANCHOR_SELECTOR } from './selectors';
+import { CARD_GRID_ANCHOR_SELECTOR } from './domSelectors';
 
 const SECTION_GRID_SIZE = 72;
 

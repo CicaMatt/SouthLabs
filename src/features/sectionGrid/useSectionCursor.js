@@ -9,7 +9,7 @@ import {
   SECTION_CURSOR_COMPACT_TARGET_SELECTOR,
   SECTION_CURSOR_NATIVE_CLASS,
   SECTION_CURSOR_NATIVE_TARGET_SELECTOR
-} from './selectors';
+} from './domSelectors';
 import {
   clearCardGridHighlight,
   setStylePropertyIfChanged,

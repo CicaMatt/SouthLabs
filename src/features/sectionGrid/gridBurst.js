@@ -3,7 +3,7 @@
  * The actual rendering is delegated to the canvas controller in
  * `gridBurstCanvas.js` — that's where the animation lives. This file no
  * longer manipulates the DOM at all. */
-import { DEFAULT_SECTION_GRID_BURST_RGB, SECTION_CURSOR_THEMES, getRgbFromHex } from './themes';
+import { DEFAULT_SECTION_GRID_BURST_RGB, SECTION_CURSOR_THEMES, getRgbFromHex } from './sectionRegistry';
 
 const SECTION_GRID_SIZE = 72;
 

@@ -1,4 +1,4 @@
-import { HERO_GRAPHIC_CURSOR_SMALL_CLASS, HERO_GRAPHIC_SELECTOR } from './selectors';
+import { HERO_GRAPHIC_CURSOR_SMALL_CLASS, HERO_GRAPHIC_SELECTOR } from './domSelectors';
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 

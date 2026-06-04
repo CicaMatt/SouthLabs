@@ -4,7 +4,7 @@ import {
   SECTION_CURSOR_COMPACT_CLASS,
   SECTION_CURSOR_NATIVE_CLASS,
   TOUCH_SCROLL_GUARD_CLASS
-} from './selectors';
+} from './domSelectors';
 import { syncSectionGridOrigins } from './gridSurface';
 import { useDesktopPinchGuard } from './useDesktopPinchGuard';
 import { useSectionCursor } from './useSectionCursor';

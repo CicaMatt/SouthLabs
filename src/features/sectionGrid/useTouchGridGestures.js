@@ -5,7 +5,7 @@ import {
   TOUCH_SCROLL_GUARD_CLASS,
   TOUCH_SCROLLING_CLASS,
   TOUCH_SELECTABLE_CARD_SELECTOR
-} from './selectors';
+} from './domSelectors';
 
 const TOUCH_TAP_MAX_DISTANCE = 10;
 const TOUCH_TAP_MAX_DURATION_MS = 650;

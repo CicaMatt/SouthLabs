@@ -1,13 +1,12 @@
+/* DOM selector strings and toggled class names that the section-grid
+ * interaction layer queries and flips at runtime. These mirror class names
+ * defined in the CSS and applied by the components — keep both sides in sync.
+ * Card-surface *styling* (the class applied to cards + style objects) lives in
+ * components/sections/cardSurface.js. */
+
 export const CARD_GRID_ANCHOR_SELECTOR = '.card-grid-anchor';
 export const GRID_BURST_DISABLED_SELECTOR = '.section-grid-burst-disabled';
 export const SOLUTION_CARD_SURFACE_SELECTOR = '.solution-card-surface';
-export const SOLUTION_CARD_SURFACE_CLASS = [
-  'solution-card-surface overflow-hidden rounded-xl',
-  'border-2',
-  'motion-reduce:transition-none'
-].join(' ');
-export const LIGHT_CARD_SURFACE_RGB = '251, 252, 254';
-export const LIGHT_CARD_SURFACE_HOVER_RGB = '226, 233, 243';
 export const TOUCH_SELECTABLE_CARD_SELECTOR = `${SOLUTION_CARD_SURFACE_SELECTOR}, .infrastructure-image-card`;
 export const SOLUTION_CARD_TOUCH_SELECTED_CLASS = 'solution-card-surface--touch-selected';
 export const TOUCH_SCROLL_GUARD_CLASS = 'site-main--touch-scroll-guard';
@@ -43,26 +42,3 @@ export const SECTION_CURSOR_NATIVE_TARGET_SELECTOR = [
   '.contact-form-panel',
   "[contenteditable='true']"
 ].join(',');
-
-export function getSolutionCardSurfaceStyle(
-  restOpacity,
-  hoverOpacity = restOpacity,
-  rgb = LIGHT_CARD_SURFACE_RGB,
-  hoverRgb = rgb
-) {
-  return {
-    '--solution-card-bg-rgb': rgb,
-    '--solution-card-bg-hover-rgb': hoverRgb,
-    '--solution-card-bg-opacity': `${restOpacity}`,
-    '--solution-card-bg-hover-opacity': `${hoverOpacity}`
-  };
-}
-
-export function getLightSolutionCardSurfaceStyle(restOpacity, hoverOpacity = restOpacity) {
-  return getSolutionCardSurfaceStyle(
-    restOpacity,
-    hoverOpacity,
-    LIGHT_CARD_SURFACE_RGB,
-    LIGHT_CARD_SURFACE_HOVER_RGB
-  );
-}

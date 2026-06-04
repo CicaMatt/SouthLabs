@@ -1,5 +1,5 @@
-import { SECTION_CURSOR_THEMES } from './themes';
-import { CARD_GRID_ANCHOR_SELECTOR } from './selectors';
+import { SECTION_CURSOR_THEMES } from './sectionRegistry';
+import { CARD_GRID_ANCHOR_SELECTOR } from './domSelectors';
 
 export const SECTION_CURSOR_DOT_SIZE = 20;
 const SECTION_GRID_HIGHLIGHT_DISTANCE = 110;

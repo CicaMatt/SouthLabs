@@ -4,7 +4,7 @@ import {
   SOLUTION_CARD_SURFACE_CLASS,
   getLightSolutionCardSurfaceStyle,
   getSolutionCardSurfaceStyle
-} from '../../features/sectionGrid/selectors';
+} from './cardSurface';
 
 const SOFTWARE_CARD_SURFACE_OPACITY = 0.25;
 const SOFTWARE_CARD_SURFACE_HOVER_OPACITY = 0.7;

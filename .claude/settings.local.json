@@ -2,7 +2,12 @@
   "permissions": {
     "allow": [
       "Bash(npm run *)",
-      "Bash(git mv *)"
+      "Bash(git mv *)",
+      "Bash(perl -i -pe \"s{'\\\\./selectors'}{'./domSelectors'}g; s{'\\\\./themes'}{'./sectionRegistry'}g\" src/features/sectionGrid/*.js)",
+      "Bash(perl -i -pe 's{'\\\\''\\\\.\\\\./\\\\.\\\\./features/sectionGrid/selectors'\\\\''}{'\\\\''./cardSurface'\\\\''}g' src/components/sections/WebSolutionsSection.jsx src/components/sections/SoftwareSection.jsx src/components/sections/SupportSection.jsx src/components/sections/ContactSection.jsx)",
+      "Bash(perl -i -pe \"s{features/sectionGrid/themes}{features/sectionGrid/sectionRegistry}g\" src/components/ui/SectionShell.jsx)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
     ]
   }
 }

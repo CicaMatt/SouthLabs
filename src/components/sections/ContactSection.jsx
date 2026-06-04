@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import SectionShell from '../ui/SectionShell';
-import { getSolutionCardSurfaceStyle } from '../../features/sectionGrid/selectors';
+import { getSolutionCardSurfaceStyle } from './cardSurface';
 
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xykodzgw';
 const HONEYPOT_FIELD_NAME = '_gotcha';

@@ -1,4 +1,4 @@
-import { SOLUTION_CARD_SURFACE_SELECTOR } from './selectors';
+import { SOLUTION_CARD_SURFACE_SELECTOR } from './domSelectors';
 
 export const SOFTWARE_SECTION_THEME_COLOR = '#95e3ff';
 export const SOFTWARE_SECTION_THEME_RGB = getRgbFromHex(SOFTWARE_SECTION_THEME_COLOR);

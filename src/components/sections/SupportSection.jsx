@@ -1,5 +1,5 @@
 import SectionShell from '../ui/SectionShell';
-import { getSolutionCardSurfaceStyle } from '../../features/sectionGrid/selectors';
+import { getSolutionCardSurfaceStyle } from './cardSurface';
 
 const SUPPORT_ITEMS = [
   'Manutenzione preventiva e correttiva programmata',
