@@ -7,10 +7,8 @@ import InfrastructureSection from './components/sections/InfrastructureSection';
 import SupportSection from './components/sections/SupportSection';
 import ContactSection from './components/sections/ContactSection';
 import ViewModeDebugger from './components/debug/ViewModeDebugger';
-import {
-  preventImageDefault,
-  useSectionGridInteractions
-} from './features/sectionGrid/useSectionGridInteractions';
+import { useSectionGridInteractions } from './features/sectionGrid';
+import { preventImageDefault } from './lib/dom';
 
 export default function App() {
   const { burstCanvasRef, mainRef, sectionCursorRef, mainEventHandlers } =
