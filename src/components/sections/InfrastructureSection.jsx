@@ -1,5 +1,5 @@
-import SectionHeader from '../SectionHeader';
-import SectionShell from '../SectionShell';
+import SectionHeader from '../ui/SectionHeader';
+import SectionShell from '../ui/SectionShell';
 import deskImage from '../../../media/images/desk.png';
 import serverImage from '../../../media/images/server.png';
 import securityImage from '../../../media/images/security.png';

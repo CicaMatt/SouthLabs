@@ -1,10 +1,10 @@
-import SectionHeader from '../SectionHeader';
-import SectionShell from '../SectionShell';
+import SectionHeader from '../ui/SectionHeader';
+import SectionShell from '../ui/SectionShell';
 import {
   SOLUTION_CARD_SURFACE_CLASS,
   getLightSolutionCardSurfaceStyle,
   getSolutionCardSurfaceStyle
-} from '../../hooks/sectionGrid/selectors';
+} from '../../features/sectionGrid/selectors';
 
 const SOFTWARE_CARD_SURFACE_OPACITY = 0.25;
 const SOFTWARE_CARD_SURFACE_HOVER_OPACITY = 0.7;

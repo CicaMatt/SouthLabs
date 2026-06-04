@@ -4,14 +4,14 @@ import {
   SECTION_CURSOR_COMPACT_CLASS,
   SECTION_CURSOR_NATIVE_CLASS,
   TOUCH_SCROLL_GUARD_CLASS
-} from './sectionGrid/selectors';
-import { syncSectionGridOrigins } from './sectionGrid/gridSurface';
-import { useDesktopPinchGuard } from './sectionGrid/useDesktopPinchGuard';
-import { useSectionCursor } from './sectionGrid/useSectionCursor';
-import { useSectionGridBurst } from './sectionGrid/useSectionGridBurst';
-import { useTouchGridGestures } from './sectionGrid/useTouchGridGestures';
+} from './selectors';
+import { syncSectionGridOrigins } from './gridSurface';
+import { useDesktopPinchGuard } from './useDesktopPinchGuard';
+import { useSectionCursor } from './useSectionCursor';
+import { useSectionGridBurst } from './useSectionGridBurst';
+import { useTouchGridGestures } from './useTouchGridGestures';
 
-export { preventImageDefault } from './sectionGrid/inputDetection';
+export { preventImageDefault } from './inputDetection';
 
 export function useSectionGridInteractions() {
   const mainRef = useRef(null);

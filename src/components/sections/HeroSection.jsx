@@ -1,7 +1,7 @@
-import SectionShell from '../SectionShell';
-import FactoryIllustration from '../hero/FactoryIllustration';
-import HeroParticleField from '../hero/HeroParticleField';
-import { useHeroInteractions } from '../hero/useHeroInteractions';
+import SectionShell from '../ui/SectionShell';
+import FactoryIllustration from '../../features/hero/FactoryIllustration';
+import HeroParticleField from '../../features/hero/HeroParticleField';
+import { useHeroInteractions } from '../../features/hero/useHeroInteractions';
 
 function HeroBackground({
   factoryParallaxRef,

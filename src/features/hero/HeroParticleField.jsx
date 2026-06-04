@@ -10,7 +10,7 @@ import {
   isPointerActive,
   resizeCanvas,
   resizeParticles
-} from './heroParticleSim';
+} from './particleField';
 
 const PARTICLE_EDGE_SAMPLE_SCALE = 0.8;
 const PARTICLE_FPS_DOWNSHIFT_DELAY_MS = 3000;

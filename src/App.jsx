@@ -10,7 +10,7 @@ import ViewModeDebugger from './components/debug/ViewModeDebugger';
 import {
   preventImageDefault,
   useSectionGridInteractions
-} from './hooks/useSectionGridInteractions';
+} from './features/sectionGrid/useSectionGridInteractions';
 
 export default function App() {
   const { burstCanvasRef, mainRef, sectionCursorRef, mainEventHandlers } =
