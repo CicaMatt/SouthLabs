@@ -44,12 +44,11 @@ src/
     hero/                    Animated hero: particle field, factory SVG + geometry,
                              and the hero interaction hooks
     sectionGrid/             Section-grid interaction layer (cursor, bursts, touch,
-                             pinch guard) — public API via its index.js barrel
+                             pinch guard) — entry point hook is useSectionGridInteractions.js
   components/
     ui/                      Shared building blocks (SectionShell, SectionHeader)
     layout/                  TopNavBar, Footer
     sections/                The six page sections + cardSurface styling helpers
-    debug/                   Dev-only ViewModeDebugger (DEV builds only)
   styles/                    CSS modules, imported via styles.css; class names are the
                              contract with the JS interaction layer
   privacy/                   Legal documents (loaded as raw HTML)
@@ -72,8 +71,6 @@ src/
 
 ## Deployment
 
-- **GitHub Pages** via `.github/workflows/deploy-pages.yml` (builds on push to `main`).
-  `vite.config.js` derives the correct `base` path automatically on CI.
 - **Vercel** via `vercel.json`; the same security headers are mirrored in
   `public/_headers` and in the Vite preview server. The Content‑Security‑Policy allows
   Google Fonts and Formspree only.

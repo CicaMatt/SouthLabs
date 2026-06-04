@@ -11,6 +11,8 @@ import { useSectionCursor } from './useSectionCursor';
 import { useSectionGridBurst } from './useSectionGridBurst';
 import { useTouchGridGestures } from './useTouchGridGestures';
 
+export const DEFAULT_SECTION_GRID_SIZE = 72;
+
 export function useSectionGridInteractions() {
   const mainRef = useRef(null);
   const {

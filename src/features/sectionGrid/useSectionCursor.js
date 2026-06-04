@@ -13,7 +13,7 @@ import {
 import { clearCardGridHighlight, updateCardGridHighlight } from './gridSurface';
 import { setStylePropertyIfChanged } from '../../lib/dom';
 import { readHeroGraphicCursorLayout, updateHeroGraphicCursorState } from './heroGraphicHitTest';
-import { DEFAULT_SECTION_GRID_SIZE } from './constants';
+import { DEFAULT_SECTION_GRID_SIZE } from './useSectionGridInteractions';
 
 const SECTION_CURSOR_COMPACT_DOT_SIZE = 10;
 

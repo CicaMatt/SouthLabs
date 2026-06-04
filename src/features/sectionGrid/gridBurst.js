@@ -7,7 +7,7 @@ import { DEFAULT_SECTION_GRID_BURST_RGB, SECTION_CURSOR_THEMES } from './section
 import { hexToRgb } from '../../lib/color';
 import { clamp } from '../../lib/math';
 import { distancePointToRect } from '../../lib/geometry';
-import { DEFAULT_SECTION_GRID_SIZE as SECTION_GRID_SIZE } from './constants';
+import { DEFAULT_SECTION_GRID_SIZE as SECTION_GRID_SIZE } from './useSectionGridInteractions';
 
 function parsePixelValue(value, fallback = 0) {
   const parsed = Number.parseFloat(value);

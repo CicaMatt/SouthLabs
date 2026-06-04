@@ -6,8 +6,7 @@ import SoftwareSection from './components/sections/SoftwareSection';
 import InfrastructureSection from './components/sections/InfrastructureSection';
 import SupportSection from './components/sections/SupportSection';
 import ContactSection from './components/sections/ContactSection';
-import ViewModeDebugger from './components/debug/ViewModeDebugger';
-import { useSectionGridInteractions } from './features/sectionGrid';
+import { useSectionGridInteractions } from './features/sectionGrid/useSectionGridInteractions';
 import { preventImageDefault } from './lib/dom';
 
 export default function App() {
@@ -28,7 +27,6 @@ export default function App() {
         <div ref={sectionCursorRef} aria-hidden="true" className="section-cursor-dot" />
       </main>
       <Footer />
-      {import.meta.env.DEV ? <ViewModeDebugger /> : null}
     </div>
   );
 }

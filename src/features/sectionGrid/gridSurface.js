@@ -1,6 +1,6 @@
 import { CARD_GRID_ANCHOR_SELECTOR } from './domSelectors';
 import { setStylePropertyIfChanged } from '../../lib/dom';
-import { DEFAULT_SECTION_GRID_SIZE as SECTION_GRID_SIZE } from './constants';
+import { DEFAULT_SECTION_GRID_SIZE as SECTION_GRID_SIZE } from './useSectionGridInteractions';
 
 /* Threshold under which an origin rewrite is treated as noise. Any sub-pixel
    change in section/card layout (font loading, image weight settling, async

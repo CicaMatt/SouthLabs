@@ -2,7 +2,7 @@ import { SECTION_CURSOR_THEMES } from './sectionRegistry';
 import { CARD_GRID_ANCHOR_SELECTOR } from './domSelectors';
 import { clamp } from '../../lib/math';
 import { getElementPageRect } from '../../lib/geometry';
-import { DEFAULT_SECTION_GRID_SIZE } from './constants';
+import { DEFAULT_SECTION_GRID_SIZE } from './useSectionGridInteractions';
 
 export const SECTION_CURSOR_DOT_SIZE = 20;
 const SECTION_GRID_HIGHLIGHT_DISTANCE = 110;
