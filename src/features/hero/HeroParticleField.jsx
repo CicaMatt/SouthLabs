@@ -11,30 +11,19 @@ import {
   resizeCanvas,
   resizeParticles
 } from './particleField';
+import {
+  FACTORY_BASE_STRIP_POLYGON,
+  FACTORY_BODY_POLYGON,
+  FACTORY_VIEWBOX,
+  PIPE_BODY_POLYGON
+} from './factoryGeometry';
 
 const PARTICLE_EDGE_SAMPLE_SCALE = 0.8;
 const PARTICLE_FPS_DOWNSHIFT_DELAY_MS = 3000;
-const SVG_VIEWBOX = { width: 600, height: 540 };
 const FACTORY_PARTICLE_EXCLUSION_SHAPES = [
-  [
-    [76, 500],
-    [544, 500],
-    [544, 520],
-    [76, 520]
-  ],
-  [
-    [126, 500],
-    [126, 391],
-    [380, 264],
-    [494, 337],
-    [494, 500]
-  ],
-  [
-    [236, 336],
-    [252, 210],
-    [290, 210],
-    [306, 301]
-  ]
+  FACTORY_BASE_STRIP_POLYGON,
+  FACTORY_BODY_POLYGON,
+  PIPE_BODY_POLYGON
 ];
 
 function createCanvasShape(shape, offsetX, offsetY, scaleX, scaleY) {
@@ -90,8 +79,8 @@ function createFactoryExclusion(canvas, factoryStage) {
 
   const offsetX = svgRect.left - canvasRect.left;
   const offsetY = svgRect.top - canvasRect.top;
-  const scaleX = svgRect.width / SVG_VIEWBOX.width;
-  const scaleY = svgRect.height / SVG_VIEWBOX.height;
+  const scaleX = svgRect.width / FACTORY_VIEWBOX.width;
+  const scaleY = svgRect.height / FACTORY_VIEWBOX.height;
 
   return FACTORY_PARTICLE_EXCLUSION_SHAPES.map((shape) =>
     createCanvasShape(shape, offsetX, offsetY, scaleX, scaleY)

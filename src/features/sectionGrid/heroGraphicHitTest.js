@@ -5,24 +5,21 @@ import {
   pointInPolygon,
   pointInRect
 } from '../../lib/geometry';
+import {
+  FACTORY_BASE_STRIP,
+  FACTORY_BODY_POLYGON as FACTORY_BODY_POINTS,
+  FACTORY_VIEWBOX,
+  PIPE_BODY_POLYGON as PIPE_BODY_POINTS
+} from '../hero/factoryGeometry';
 
-const FACTORY_BODY_POLYGON = [
-  { x: 126, y: 500 },
-  { x: 126, y: 391 },
-  { x: 380, y: 264 },
-  { x: 494, y: 337 },
-  { x: 494, y: 500 }
-];
-const PIPE_BODY_POLYGON = [
-  { x: 236, y: 336 },
-  { x: 252, y: 210 },
-  { x: 290, y: 210 },
-  { x: 306, y: 301 }
-];
+// The shared factory geometry is stored as [x, y] arrays; the hit test works
+// in { x, y } points, so adapt once at module load.
+const toPoint = ([x, y]) => ({ x, y });
+const FACTORY_BODY_POLYGON = FACTORY_BODY_POINTS.map(toPoint);
+const PIPE_BODY_POLYGON = PIPE_BODY_POINTS.map(toPoint);
 const PIPE_TO_CLOUD_START = { x: 271, y: 166 };
 const PIPE_TO_CLOUD_END = { x: 271, y: 210 };
 const PIPE_TO_CLOUD_MAX_DISTANCE = 12;
-const FALLBACK_VIEWBOX = { x: 0, y: 0, width: 600, height: 540 };
 
 function getSvgPointForPagePoint(layout, pageX, pageY) {
   const { pageRect, viewBox } = layout;
@@ -49,7 +46,13 @@ function isPointInHeroGraphic(layout, pageX, pageY) {
 
   return (
     pointInPolygon(point, FACTORY_BODY_POLYGON) ||
-    pointInRect(point, 76, 500, 544, 520) ||
+    pointInRect(
+      point,
+      FACTORY_BASE_STRIP.left,
+      FACTORY_BASE_STRIP.top,
+      FACTORY_BASE_STRIP.right,
+      FACTORY_BASE_STRIP.bottom
+    ) ||
     pointInPolygon(point, PIPE_BODY_POLYGON) ||
     pipeToCloudDistance <= PIPE_TO_CLOUD_MAX_DISTANCE ||
     pointInEllipse(point, 300, 102, 148, 88) ||
@@ -71,7 +74,7 @@ export function readHeroGraphicCursorLayout(mainElement) {
   const resolvedViewBox =
     viewBox && viewBox.width > 0 && viewBox.height > 0
       ? { x: viewBox.x, y: viewBox.y, width: viewBox.width, height: viewBox.height }
-      : FALLBACK_VIEWBOX;
+      : FACTORY_VIEWBOX;
 
   return {
     pageRect: {
