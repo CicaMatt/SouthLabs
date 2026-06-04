@@ -60,12 +60,8 @@ const SOFTWARE_AUTOMATION_CARD_SURFACE_STYLE = getLightSolutionCardSurfaceStyle(
 
 function AutomationCard({ description, icon, title }) {
   return (
-    <div
-      className={`${AUTOMATION_CARD_CLASS} focus:outline-none focus-visible:outline-none`}
-      style={SOFTWARE_AUTOMATION_CARD_SURFACE_STYLE}
-      tabIndex={0}
-    >
-      <span className="material-symbols-outlined mb-4 inline-flex h-7 w-7 origin-center items-center justify-center text-[28px] leading-none text-[var(--software-support-blue)] transition-all duration-300 group-hover:scale-110 group-focus-within:scale-110 group-[.solution-card-surface--touch-selected]:scale-110">
+    <div className={AUTOMATION_CARD_CLASS} style={SOFTWARE_AUTOMATION_CARD_SURFACE_STYLE}>
+      <span className="material-symbols-outlined mb-4 inline-flex h-7 w-7 origin-center items-center justify-center text-[28px] leading-none text-[var(--software-support-blue)] transition-all duration-300 group-hover:scale-110">
         {icon}
       </span>
       <h4 className="mb-2 min-h-[3rem] font-headline text-lg font-bold leading-snug text-on-background">
@@ -78,15 +74,11 @@ function AutomationCard({ description, icon, title }) {
 
 function SoftwareAiFeatureCard() {
   return (
-    <div
-      className={`${FEATURE_CARD_CLASS} focus:outline-none focus-visible:outline-none`}
-      style={SOFTWARE_FEATURE_CARD_SURFACE_STYLE}
-      tabIndex={0}
-    >
+    <div className={FEATURE_CARD_CLASS} style={SOFTWARE_FEATURE_CARD_SURFACE_STYLE}>
       <span aria-hidden="true" className="software-ai-grid-highlight">
         <span className="software-ai-grid-highlight-grid" />
       </span>
-      <span className="material-symbols-outlined relative z-10 mb-4 inline-flex h-7 w-7 origin-center items-center justify-center text-[28px] leading-none text-[var(--software-ai-accent)] transition-all duration-300 group-hover:scale-110 group-focus-within:scale-110 group-[.solution-card-surface--touch-selected]:scale-110">
+      <span className="material-symbols-outlined relative z-10 mb-4 inline-flex h-7 w-7 origin-center items-center justify-center text-[28px] leading-none text-[var(--software-ai-accent)] transition-all duration-300 group-hover:scale-110">
         memory
       </span>
       <h3 className="relative z-10 font-headline text-2xl font-bold mb-4">
@@ -101,7 +93,7 @@ function SoftwareAiFeatureCard() {
         href="#contatti"
       >
         Scopri cosa puoi fare con l&apos;AI
-        <span className="material-symbols-outlined ml-1 text-sm transition-transform duration-200 group-hover:translate-x-0.5 group-focus-within:translate-x-0.5 group-[.solution-card-surface--touch-selected]:translate-x-0.5">
+        <span className="material-symbols-outlined ml-1 text-sm transition-transform duration-200 group-hover:translate-x-0.5">
           arrow_forward
         </span>
       </a>

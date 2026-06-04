@@ -26,24 +26,12 @@
 }
 
 .solution-card-surface:hover,
-.solution-card-surface:focus,
-.solution-card-surface:focus-within,
-.solution-card-surface:focus-visible,
 .solution-card-surface.solution-card-surface--touch-selected {
   --solution-card-bg-current-rgb: var(--solution-card-bg-hover-rgb);
   --solution-card-bg-current-opacity: var(--solution-card-bg-hover-opacity);
 }
 
-.solution-card-surface:focus,
-.solution-card-surface:focus-within,
-.solution-card-surface:focus-visible {
-  outline: none;
-}
-
 .solution-card-surface:hover,
-.solution-card-surface:focus,
-.solution-card-surface:focus-within,
-.solution-card-surface:focus-visible,
 .solution-card-surface.solution-card-surface--touch-selected,
 .infrastructure-image-card.solution-card-surface--touch-selected .solution-card-surface {
   --card-grid-highlight-impact: 0.52;
@@ -54,9 +42,6 @@
 }
 
 .section-grid-bg--web .solution-card-surface:hover,
-.section-grid-bg--web .solution-card-surface:focus,
-.section-grid-bg--web .solution-card-surface:focus-within,
-.section-grid-bg--web .solution-card-surface:focus-visible,
 .section-grid-bg--web .solution-card-surface.solution-card-surface--touch-selected {
   border-color: #203658;
   box-shadow:
@@ -88,9 +73,6 @@
 }
 
 .section-grid-bg--software .software-card-surface:hover,
-.section-grid-bg--software .software-card-surface:focus,
-.section-grid-bg--software .software-card-surface:focus-within,
-.section-grid-bg--software .software-card-surface:focus-visible,
 .section-grid-bg--software .software-card-surface.solution-card-surface--touch-selected {
   border-color: var(--software-support-blue);
   box-shadow:
@@ -185,20 +167,11 @@
   );
 }
 
-.section-grid-bg--software .software-ai-feature-card:focus,
-.section-grid-bg--software .software-ai-feature-card:focus-within,
-.section-grid-bg--software .software-ai-feature-card:focus-visible,
 .section-grid-bg--software .software-ai-feature-card.solution-card-surface--touch-selected {
   border-color: var(--software-ai-accent);
   box-shadow:
     inset 0 0 0 2px var(--software-ai-accent),
     0 18px 34px rgba(15, 34, 52, 0.13);
-}
-
-.software-ai-feature-card.solution-card-surface--touch-selected,
-.software-ai-feature-card:focus,
-.software-ai-feature-card:focus-within {
-  --card-grid-highlight-opacity: 1;
 }
 
 .section-grid-bg--infrastructure
@@ -244,9 +217,6 @@
 /* Touch selection has no pointer to follow, so center the spotlight window on
    the card (the pointer-driven transform would otherwise resolve `50%` against
    the window, not the card). */
-.software-ai-feature-card.solution-card-surface--touch-selected .software-ai-grid-highlight,
-.software-ai-feature-card:focus .software-ai-grid-highlight,
-.software-ai-feature-card:focus-within .software-ai-grid-highlight,
 .infrastructure-image-card.solution-card-surface--touch-selected
   .infrastructure-image-frame
   .software-ai-grid-highlight {
@@ -267,10 +237,7 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .section-grid-bg--software .software-ai-feature-card:hover,
-  .section-grid-bg--software .software-ai-feature-card:focus,
-  .section-grid-bg--software .software-ai-feature-card:focus-within,
-  .section-grid-bg--software .software-ai-feature-card:focus-visible {
+  .section-grid-bg--software .software-ai-feature-card:hover {
     border-color: var(--software-ai-accent);
     box-shadow:
       inset 0 0 0 2px var(--software-ai-accent),
