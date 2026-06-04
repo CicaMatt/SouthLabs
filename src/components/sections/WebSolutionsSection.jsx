@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import SectionHeader from '../ui/SectionHeader';
 import SectionShell from '../ui/SectionShell';
 import { SOLUTION_CARD_SURFACE_CLASS, getLightSolutionCardSurfaceStyle } from './cardSurface';
@@ -235,26 +234,9 @@ function SolutionTextPanel({
   );
 }
 
-function SolutionCardShell({
-  children,
-  className,
-  isTouched,
-  onTouchStart,
-  onTouchEnd,
-  onTouchCancel
-}) {
+function SolutionCardShell({ children, className }) {
   return (
-    <article
-      className={cx(
-        SOLUTION_CARD_CLASSES.shell,
-        className,
-        isTouched && 'solution-card-surface--touched'
-      )}
-      style={WEB_CARD_SURFACE_STYLE}
-      onTouchStart={onTouchStart}
-      onTouchEnd={onTouchEnd}
-      onTouchCancel={onTouchCancel}
-    >
+    <article className={cx(SOLUTION_CARD_CLASSES.shell, className)} style={WEB_CARD_SURFACE_STYLE}>
       {children}
     </article>
   );
@@ -367,7 +349,6 @@ function TallDesktopBody({ card }) {
 }
 
 function SolutionCard({ card }) {
-  const [isTouched, setIsTouched] = useState(false);
   const stackedPreview = (
     <div className={card.stackedPreview.frameClassName}>
       <SolutionPreview
@@ -380,13 +361,7 @@ function SolutionCard({ card }) {
   );
 
   return (
-    <SolutionCardShell
-      className={card.shellClassName}
-      isTouched={isTouched}
-      onTouchStart={() => setIsTouched(true)}
-      onTouchEnd={() => setIsTouched(false)}
-      onTouchCancel={() => setIsTouched(false)}
-    >
+    <SolutionCardShell className={card.shellClassName}>
       <SolutionBadge card={card} className={card.badgeClassName} />
       <StackedSolutionBody
         align={card.stacked.align}
