@@ -25,28 +25,47 @@
   transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.solution-card-surface:hover,
 .solution-card-surface.solution-card-surface--touch-selected {
   --solution-card-bg-current-rgb: var(--solution-card-bg-hover-rgb);
   --solution-card-bg-current-opacity: var(--solution-card-bg-hover-opacity);
 }
 
-.solution-card-surface:hover,
+@media (hover: hover) {
+  .solution-card-surface:hover {
+    --solution-card-bg-current-rgb: var(--solution-card-bg-hover-rgb);
+    --solution-card-bg-current-opacity: var(--solution-card-bg-hover-opacity);
+  }
+}
+
 .solution-card-surface.solution-card-surface--touch-selected,
 .infrastructure-image-card.solution-card-surface--touch-selected .solution-card-surface {
   --card-grid-highlight-impact: 0.52;
+}
+
+@media (hover: hover) {
+  .solution-card-surface:hover {
+    --card-grid-highlight-impact: 0.52;
+  }
 }
 
 .section-grid-bg--web .solution-card-surface {
   border-color: rgba(32, 54, 88, 0.15);
 }
 
-.section-grid-bg--web .solution-card-surface:hover,
 .section-grid-bg--web .solution-card-surface.solution-card-surface--touch-selected {
   border-color: #203658;
   box-shadow:
     inset 0 0 0 1.5px rgba(32, 54, 88, 0.92),
     0 18px 34px rgba(15, 34, 52, 0.13);
+}
+
+@media (hover: hover) {
+  .section-grid-bg--web .solution-card-surface:hover {
+    border-color: #203658;
+    box-shadow:
+      inset 0 0 0 1.5px rgba(32, 54, 88, 0.92),
+      0 18px 34px rgba(15, 34, 52, 0.13);
+  }
 }
 
 /* Subtle AI feature-card effects for the software section. */
@@ -72,12 +91,20 @@
   border-color: rgba(var(--software-support-blue-rgb), 0.15);
 }
 
-.section-grid-bg--software .software-card-surface:hover,
 .section-grid-bg--software .software-card-surface.solution-card-surface--touch-selected {
   border-color: var(--software-support-blue);
   box-shadow:
     inset 0 0 0 1.5px rgba(var(--software-support-blue-rgb), 0.92),
     0 18px 34px rgba(15, 34, 52, 0.13);
+}
+
+@media (hover: hover) {
+  .section-grid-bg--software .software-card-surface:hover {
+    border-color: var(--software-support-blue);
+    box-shadow:
+      inset 0 0 0 1.5px rgba(var(--software-support-blue-rgb), 0.92),
+      0 18px 34px rgba(15, 34, 52, 0.13);
+  }
 }
 
 @media (min-width: 1024px) {
@@ -256,22 +283,6 @@
 }
 
 @media (hover: none), (pointer: coarse) {
-  .solution-card-surface:hover:not(.solution-card-surface--touch-selected) {
-    --solution-card-bg-current-opacity: var(--solution-card-bg-opacity);
-  }
-
-  .section-grid-bg--web .solution-card-surface:hover:not(.solution-card-surface--touch-selected) {
-    border-color: rgba(32, 54, 88, 0.15) !important;
-    box-shadow: 0 8px 20px rgba(15, 34, 52, 0.07) !important;
-    transform: none !important;
-  }
-
-  .section-grid-bg--software
-    .software-card-surface:hover:not(.solution-card-surface--touch-selected) {
-    border-color: rgba(var(--software-support-blue-rgb), 0.15) !important;
-    box-shadow: 0 8px 20px rgba(15, 34, 52, 0.07) !important;
-    transform: none !important;
-  }
 
   .section-grid-bg--software .group:hover > .material-symbols-outlined {
     --tw-scale-x: 1 !important;
