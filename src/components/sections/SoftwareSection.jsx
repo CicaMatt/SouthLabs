@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import SectionHeader from '../ui/SectionHeader';
 import SectionShell from '../ui/SectionShell';
 import {
@@ -59,8 +60,15 @@ const SOFTWARE_AUTOMATION_CARD_SURFACE_STYLE = getLightSolutionCardSurfaceStyle(
 );
 
 function AutomationCard({ description, icon, title }) {
+  const [isTouched, setIsTouched] = useState(false);
   return (
-    <div className={AUTOMATION_CARD_CLASS} style={SOFTWARE_AUTOMATION_CARD_SURFACE_STYLE}>
+    <div
+      className={`${AUTOMATION_CARD_CLASS}${isTouched ? ' solution-card-surface--touched' : ''}`}
+      style={SOFTWARE_AUTOMATION_CARD_SURFACE_STYLE}
+      onTouchStart={() => setIsTouched(true)}
+      onTouchEnd={() => setIsTouched(false)}
+      onTouchCancel={() => setIsTouched(false)}
+    >
       <span className="material-symbols-outlined mb-4 inline-flex h-7 w-7 origin-center items-center justify-center text-[28px] leading-none text-[var(--software-support-blue)] transition-all duration-300 group-hover:scale-110">
         {icon}
       </span>
@@ -73,8 +81,15 @@ function AutomationCard({ description, icon, title }) {
 }
 
 function SoftwareAiFeatureCard() {
+  const [isTouched, setIsTouched] = useState(false);
   return (
-    <div className={FEATURE_CARD_CLASS} style={SOFTWARE_FEATURE_CARD_SURFACE_STYLE}>
+    <div
+      className={`${FEATURE_CARD_CLASS}${isTouched ? ' solution-card-surface--touched' : ''}`}
+      style={SOFTWARE_FEATURE_CARD_SURFACE_STYLE}
+      onTouchStart={() => setIsTouched(true)}
+      onTouchEnd={() => setIsTouched(false)}
+      onTouchCancel={() => setIsTouched(false)}
+    >
       <span aria-hidden="true" className="software-ai-grid-highlight">
         <span className="software-ai-grid-highlight-grid" />
       </span>
