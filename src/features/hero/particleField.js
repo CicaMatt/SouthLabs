@@ -21,8 +21,7 @@ const FRAME_INTERVAL_MS = {
   idleMobile: 40
 };
 
-export const BASE_FRAME_MS = 1000 / 60;
-export const MOBILE_FIELD_THRESHOLD = MOBILE_FIELD_MAX_WIDTH;
+const BASE_FRAME_MS = 1000 / 60;
 
 function getParticleCount(width, height) {
   if (width < MOBILE_FIELD_MAX_WIDTH) {

@@ -2,6 +2,7 @@ import { SECTION_CURSOR_THEMES } from './sectionRegistry';
 import { CARD_GRID_ANCHOR_SELECTOR } from './domSelectors';
 import { clamp } from '../../lib/math';
 import { getElementPageRect } from '../../lib/geometry';
+import { DEFAULT_SECTION_GRID_SIZE } from './constants';
 
 export const SECTION_CURSOR_DOT_SIZE = 20;
 const SECTION_GRID_HIGHLIGHT_DISTANCE = 110;
@@ -54,7 +55,7 @@ export function buildSectionCursorLayout(ownerDocument) {
     const gridSize =
       Number.parseFloat(
         windowObject?.getComputedStyle(element).getPropertyValue('--section-grid-size')
-      ) || 72;
+      ) || DEFAULT_SECTION_GRID_SIZE;
 
     entries.push({
       cardAnchors: Array.from(element.querySelectorAll(CARD_GRID_ANCHOR_SELECTOR)).map(

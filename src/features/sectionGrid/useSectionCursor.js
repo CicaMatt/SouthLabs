@@ -13,6 +13,7 @@ import {
 import { clearCardGridHighlight, updateCardGridHighlight } from './gridSurface';
 import { setStylePropertyIfChanged } from '../../lib/dom';
 import { readHeroGraphicCursorLayout, updateHeroGraphicCursorState } from './heroGraphicHitTest';
+import { DEFAULT_SECTION_GRID_SIZE } from './constants';
 
 const SECTION_CURSOR_COMPACT_DOT_SIZE = 10;
 
@@ -21,7 +22,7 @@ const SECTION_CURSOR_COMPACT_DOT_SIZE = 10;
    grid extends a whole-cell multiple past the window, so a plain `value mod cell`
    is the exact phase (no window/2 term needed). */
 function gridCellPhase(value, cellSize) {
-  const cell = cellSize || 72;
+  const cell = cellSize || DEFAULT_SECTION_GRID_SIZE;
   return (((value % cell) + cell) % cell).toFixed(2);
 }
 

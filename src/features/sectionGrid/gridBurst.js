@@ -7,8 +7,7 @@ import { DEFAULT_SECTION_GRID_BURST_RGB, SECTION_CURSOR_THEMES } from './section
 import { hexToRgb } from '../../lib/color';
 import { clamp } from '../../lib/math';
 import { distancePointToRect } from '../../lib/geometry';
-
-const SECTION_GRID_SIZE = 72;
+import { DEFAULT_SECTION_GRID_SIZE as SECTION_GRID_SIZE } from './constants';
 
 function parsePixelValue(value, fallback = 0) {
   const parsed = Number.parseFloat(value);
@@ -75,7 +74,7 @@ export function getCardGridOriginPage(card, fallbackOrigin = { x: 0, y: 0 }) {
   };
 }
 
-export function getGridBurstPoint(mainElement, section, clientX, clientY, pressure = 0.5) {
+export function getGridBurstPoint(mainElement, section, pressure = 0.5) {
   const sectionRect = section.getBoundingClientRect();
   const gridSize = getSectionGridSize(section);
   const normalizedPressure = clamp(pressure || 0.5, 0.35, 1);

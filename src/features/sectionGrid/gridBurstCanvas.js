@@ -303,5 +303,5 @@ export function createGridBurstCanvasController(canvas) {
     windowObject.removeEventListener('load', handleResize);
   };
 
-  return { addBurst, clear, destroy, resize: sizeCanvas };
+  return { addBurst, clear, destroy };
 }

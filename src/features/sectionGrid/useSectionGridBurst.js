@@ -127,7 +127,7 @@ export function useSectionGridBurst() {
       if (now - lastGridBurstAtRef.current < SECTION_GRID_BURST_DELAY_INTERVAL_MS) return;
       lastGridBurstAtRef.current = now;
 
-      const burstPoint = getGridBurstPoint(mainElement, section, clientX, clientY, pressure);
+      const burstPoint = getGridBurstPoint(mainElement, section, pressure);
       const burstOuterRadius = burstPoint.maxRadius + SECTION_GRID_BURST_TARGET_MARGIN;
       const targetSections = getGridBurstTargetSections(
         mainElement,
