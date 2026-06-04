@@ -16,7 +16,7 @@ export default function ViewModeDebugger() {
   return (
     <div
       aria-hidden
-      className="pointer-events-none fixed bottom-3 right-3 z-[9999] flex items-center gap-2 rounded-full bg-black/80 px-3 py-1.5 font-mono text-xs font-semibold text-white shadow-lg backdrop-blur"
+      className="pointer-events-none fixed bottom-3 right-3 z-[9999] flex items-center gap-2 rounded-full bg-black/80 px-3 py-1.5 font-mono text-xs font-semibold text-white shadow-lg"
     >
       <span className="inline-block sm:hidden">xs (&lt;640)</span>
       <span className="hidden sm:inline-block md:hidden">sm (640–767)</span>

@@ -65,7 +65,7 @@ export default function HeroSection() {
             <br /> e innovazione,
             <br />
             per la crescita
-            <br className="2xl:hidden" /> del tuo{' '}
+            <br /> del tuo{' '}
             <span className="text-tertiary-fixed">business</span>
           </h1>
           <p className="font-body text-lg text-[#d4dbea] mb-12 max-w-2xl leading-relaxed lg:text-xl">

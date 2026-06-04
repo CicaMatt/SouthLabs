@@ -7,7 +7,7 @@ import { cx } from '../utils/classNames';
 const SECTION_PADDING_CLASS = {
   default: 'py-[5.5rem] lg:py-[6.75rem]',
   compact: 'py-[4.5rem] lg:py-[5.25rem]',
-  hero: 'pt-16 pb-28 lg:py-[5.75rem] 2xl:py-32'
+  hero: 'pt-16 pb-28 lg:py-[5.75rem]'
 };
 
 const SECTION_WIDTH_CLASS = {
