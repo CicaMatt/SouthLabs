@@ -26,14 +26,12 @@
 }
 
 .solution-card-surface:hover,
-.solution-card-surface:active,
 .solution-card-surface.solution-card-surface--touch-selected {
   --solution-card-bg-current-rgb: var(--solution-card-bg-hover-rgb);
   --solution-card-bg-current-opacity: var(--solution-card-bg-hover-opacity);
 }
 
 .solution-card-surface:hover,
-.solution-card-surface:active,
 .solution-card-surface.solution-card-surface--touch-selected,
 .infrastructure-image-card.solution-card-surface--touch-selected .solution-card-surface {
   --card-grid-highlight-impact: 0.52;
@@ -44,7 +42,6 @@
 }
 
 .section-grid-bg--web .solution-card-surface:hover,
-.section-grid-bg--web .solution-card-surface:active,
 .section-grid-bg--web .solution-card-surface.solution-card-surface--touch-selected {
   border-color: #203658;
   box-shadow:
@@ -76,7 +73,6 @@
 }
 
 .section-grid-bg--software .software-card-surface:hover,
-.section-grid-bg--software .software-card-surface:active,
 .section-grid-bg--software .software-card-surface.solution-card-surface--touch-selected {
   border-color: var(--software-support-blue);
   box-shadow:
@@ -171,7 +167,6 @@
   );
 }
 
-.section-grid-bg--software .software-ai-feature-card:active,
 .section-grid-bg--software .software-ai-feature-card.solution-card-surface--touch-selected {
   border-color: var(--software-ai-accent);
   box-shadow:
@@ -261,21 +256,21 @@
 }
 
 @media (hover: none), (pointer: coarse) {
-  .solution-card-surface:hover:not(.solution-card-surface--touch-selected):not(:active) {
+  .solution-card-surface:hover:not(.solution-card-surface--touch-selected) {
     --solution-card-bg-current-opacity: var(--solution-card-bg-opacity);
   }
 
-  .section-grid-bg--web .solution-card-surface:hover:not(.solution-card-surface--touch-selected):not(:active) {
-    border-color: rgba(32, 54, 88, 0.15);
-    box-shadow: 0 8px 20px rgba(15, 34, 52, 0.07);
-    transform: none;
+  .section-grid-bg--web .solution-card-surface:hover:not(.solution-card-surface--touch-selected) {
+    border-color: rgba(32, 54, 88, 0.15) !important;
+    box-shadow: 0 8px 20px rgba(15, 34, 52, 0.07) !important;
+    transform: none !important;
   }
 
   .section-grid-bg--software
-    .software-card-surface:hover:not(.solution-card-surface--touch-selected):not(:active) {
-    border-color: rgba(var(--software-support-blue-rgb), 0.15);
-    box-shadow: 0 8px 20px rgba(15, 34, 52, 0.07);
-    transform: none;
+    .software-card-surface:hover:not(.solution-card-surface--touch-selected) {
+    border-color: rgba(var(--software-support-blue-rgb), 0.15) !important;
+    box-shadow: 0 8px 20px rgba(15, 34, 52, 0.07) !important;
+    transform: none !important;
   }
 
   .section-grid-bg--software .group:hover > .material-symbols-outlined {
