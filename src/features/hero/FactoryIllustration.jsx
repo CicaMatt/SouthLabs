@@ -1,6 +1,6 @@
 import factoryBaseImageUrl from '../../../media/images/hero-factory-base.svg';
 
-const PLUME_TREND_POINTS = '206,119 248,92 314,108 374,74 452,30';
+const PLUME_TREND_POINTS = '206,119 248,92 326,108 374,74 452,30';
 const PLUME_TREND_ARROW_POINTS = '443,42 452,30 437,32';
 
 // Animated chart-like plume overlay that sits above the cached factory base.
@@ -33,17 +33,17 @@ function PlumeChartOverlay() {
 
         <line className="v-plume-side-link-halo" x1="180" y1="119" x2="206" y2="119" />
         <line className="v-plume-side-link" x1="180" y1="119" x2="206" y2="119" />
-        <line className="v-plume-side-link-halo" x1="342" y1="108" x2="408" y2="108" />
+        <line className="v-plume-side-link-halo" x1="326" y1="108" x2="408" y2="108" />
         <line
           className="v-plume-side-link v-plume-side-link-b"
-          x1="342"
+          x1="326"
           y1="108"
           x2="408"
           y2="108"
         />
 
         <circle cx="207.5" cy="119" r="6.5" fill="#E0F5FF" className="v-node" />
-        <circle cx="364" cy="108" r="6.2" fill="#E0F5FF" className="v-node v-node-b" />
+        <circle cx="326" cy="108" r="6.2" fill="#E0F5FF" className="v-node v-node-b" />
 
         <circle cx="246" cy="92" r="19" className="v-node-ring" />
         <circle cx="246" cy="92" r="12.2" fill="#E0F5FF" className="v-node-orange" />
