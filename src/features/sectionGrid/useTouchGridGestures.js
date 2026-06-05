@@ -185,7 +185,6 @@ export function useTouchGridGestures({ triggerSectionGridBurstAtPoint }) {
 
       const touchedCard = getTouchSelectableCardFromTarget(event.target);
       const isSelectedCardTap = touchedCard && touchSelectedCardRef.current === touchedCard;
-      const isInfrastructureCard = touchedCard?.classList.contains('infrastructure-image-card');
 
       if (touchedCard) {
         selectTouchCard(touchedCard);
@@ -193,7 +192,7 @@ export function useTouchGridGestures({ triggerSectionGridBurstAtPoint }) {
         clearTouchSelectedCard();
       }
 
-      if ((!touchedCard || isSelectedCardTap) && !isInfrastructureCard) {
+      if (!touchedCard || isSelectedCardTap) {
         triggerSectionGridBurstAtPoint({
           clientX: event.clientX,
           clientY: event.clientY,
