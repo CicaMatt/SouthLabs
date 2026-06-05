@@ -6,3 +6,49 @@
   --tw-ring-shadow: 0 0 #0000;
   box-shadow: none;
 }
+
+/* Invalid controls flagged by the custom validation in ContactSection.jsx.
+   The attribute selector outranks the Tailwind border/focus utilities so the
+   error border shows at rest and deepens on focus. */
+.contact-field-control[aria-invalid='true'] {
+  border-color: rgba(186, 26, 26, 0.5);
+}
+
+.contact-field-control[aria-invalid='true']:focus,
+.contact-field-control[aria-invalid='true']:focus-visible {
+  border-color: #ba1a1a;
+}
+
+/* Inline field alerts: minimal, style-coherent with the form's error tone. */
+.contact-field-alert {
+  animation: contact-field-alert-in 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.contact-field-alert-icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+  font-size: 18px;
+  line-height: 1;
+  font-variation-settings:
+    'FILL' 1,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 20;
+}
+
+@keyframes contact-field-alert-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-field-alert {
+    animation: none;
+  }
+}

@@ -42,6 +42,10 @@ const TEXT_FIELD_CLASS = `${FIELD_CONTROL_CLASS} placeholder:text-[rgba(32,54,88
 const SELECT_FIELD_CLASS = `${FIELD_CONTROL_CLASS} invalid:text-[rgba(32,54,88,0.5)]`;
 const FORM_MESSAGE_CLASS =
   'flex items-center justify-center rounded-md px-4 py-3 text-center text-sm font-medium';
+const FIELD_ALERT_CLASS = [
+  'contact-field-alert mt-2 flex items-start gap-1.5 rounded-md bg-error/10',
+  'px-3 py-2 text-sm font-medium text-error'
+].join(' ');
 const FORM_PANEL_CLASS =
   'contact-form-panel section-grid-burst-disabled solution-card-surface rounded-xl border-t-4 border-[#203658] p-8 shadow-[0_4px_20px_rgba(19,27,46,0.04)]';
 const FORM_PANEL_STYLE = getSolutionCardSurfaceStyle(
@@ -101,22 +105,94 @@ const INTEREST_OPTIONS = [
   'Assistenza Tecnica'
 ];
 
-function Field({ children, id, label }) {
+// Custom validation messages keyed by field name and ValidityState flag. We
+// suppress the browser's native validation bubbles (form noValidate) and render
+// these in style-coherent inline alerts instead, while still reusing the
+// required/pattern/type constraints already declared on each control.
+const GENERIC_FIELD_ERROR = 'Controlla questo campo.';
+const FIELD_ERROR_MESSAGES = {
+  name: {
+    valueMissing: 'Inserisci nome e cognome.',
+    patternMismatch: 'Inserisci nome e cognome.'
+  },
+  email: {
+    valueMissing: 'Inserisci la tua email.',
+    typeMismatch: 'Inserisci un indirizzo email valido.',
+    patternMismatch: 'Inserisci un indirizzo email valido.'
+  },
+  interest: {
+    valueMissing: "Seleziona un'area di interesse."
+  }
+};
+// DOM order, used to focus/scroll to the first offending control on submit.
+const VALIDATED_FIELD_NAMES = ['name', 'email', 'interest'];
+
+function getFieldErrorMessage(fieldName, validity) {
+  const messages = FIELD_ERROR_MESSAGES[fieldName] ?? {};
+  if (validity.valueMissing) return messages.valueMissing ?? GENERIC_FIELD_ERROR;
+  if (validity.typeMismatch) {
+    return messages.typeMismatch ?? messages.patternMismatch ?? GENERIC_FIELD_ERROR;
+  }
+  if (validity.patternMismatch) return messages.patternMismatch ?? GENERIC_FIELD_ERROR;
+  return GENERIC_FIELD_ERROR;
+}
+
+function collectFieldErrors(form) {
+  const errors = {};
+  VALIDATED_FIELD_NAMES.forEach((fieldName) => {
+    const control = form.elements[fieldName];
+    if (control && !control.validity.valid) {
+      errors[fieldName] = getFieldErrorMessage(fieldName, control.validity);
+    }
+  });
+  return errors;
+}
+
+function focusFirstInvalidField(form, errors) {
+  const firstInvalid = VALIDATED_FIELD_NAMES.find((fieldName) => errors[fieldName]);
+  const control = firstInvalid ? form.elements[firstInvalid] : null;
+  if (control && typeof control.focus === 'function') {
+    control.focus();
+  }
+}
+
+function FieldAlert({ id, message }) {
+  if (!message) return null;
+
+  return (
+    <p className={FIELD_ALERT_CLASS} id={id}>
+      <span aria-hidden="true" className="material-symbols-outlined contact-field-alert-icon">
+        error
+      </span>
+      <span>{message}</span>
+    </p>
+  );
+}
+
+function Field({ children, error, id, label, required = false }) {
   return (
     <div>
       <label className={FIELD_LABEL_CLASS} htmlFor={id}>
         {label}
+        {required && (
+          <span aria-hidden="true" className="ml-0.5">
+            *
+          </span>
+        )}
       </label>
       {children}
+      <FieldAlert id={`${id}-error`} message={error} />
     </div>
   );
 }
 
 function TextField({
   autoComplete,
+  error,
   id,
   label,
   maxLength,
+  onClearError,
   pattern,
   placeholder,
   required = false,
@@ -124,13 +200,16 @@ function TextField({
   type = 'text'
 }) {
   return (
-    <Field id={id} label={label}>
+    <Field error={error} id={id} label={label} required={required}>
       <input
+        aria-describedby={error ? `${id}-error` : undefined}
+        aria-invalid={error ? 'true' : undefined}
         autoComplete={autoComplete}
         className={TEXT_FIELD_CLASS}
         id={id}
         maxLength={maxLength}
         name={id}
+        onInput={onClearError}
         pattern={pattern}
         placeholder={placeholder}
         required={required}
@@ -180,7 +259,7 @@ function FormStatusMessage({ message, status }) {
 
   const toneClass =
     status === FORM_STATUS.succeeded
-      ? 'bg-primary-fixed text-on-primary-fixed'
+      ? 'bg-[#cedaea] text-on-primary-fixed'
       : 'bg-error/10 text-error';
 
   return (
@@ -203,10 +282,20 @@ function SubmitButton({ isSubmitting }) {
 // Contact form section. Submissions are sent to Formspree without adding a runtime dependency.
 export default function ContactSection() {
   const [formState, setFormState] = useState({ status: FORM_STATUS.idle, message: '' });
+  const [fieldErrors, setFieldErrors] = useState({});
   const formStartedAtRef = useRef(Date.now());
   const submissionInFlightRef = useRef(false);
   const [nameField, companyField, emailField] = CONTACT_FIELDS;
   const isSubmitting = formState.status === FORM_STATUS.submitting;
+
+  function clearFieldError(fieldName) {
+    setFieldErrors((previous) => {
+      if (!previous[fieldName]) return previous;
+      const next = { ...previous };
+      delete next[fieldName];
+      return next;
+    });
+  }
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -216,9 +305,13 @@ export default function ContactSection() {
     }
 
     const form = event.currentTarget;
-    if (!form.reportValidity()) {
+    const validationErrors = collectFieldErrors(form);
+    if (Object.keys(validationErrors).length > 0) {
+      setFieldErrors(validationErrors);
+      focusFirstInvalidField(form, validationErrors);
       return;
     }
+    setFieldErrors({});
 
     submissionInFlightRef.current = true;
 
@@ -261,6 +354,7 @@ export default function ContactSection() {
 
       form.reset();
       formStartedAtRef.current = Date.now();
+      setFieldErrors({});
       setFormState({
         status: FORM_STATUS.succeeded,
         message: FORM_MESSAGES.succeeded
@@ -293,6 +387,7 @@ export default function ContactSection() {
           action={FORMSPREE_ENDPOINT}
           className="relative space-y-6"
           method="POST"
+          noValidate
           onSubmit={handleSubmit}
         >
           <input name="_subject" type="hidden" value="Nuova richiesta dal sito SouthLabs" />
@@ -310,18 +405,29 @@ export default function ContactSection() {
             />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <TextField {...nameField} />
+            <TextField
+              {...nameField}
+              error={fieldErrors.name}
+              onClearError={() => clearFieldError('name')}
+            />
             <TextField {...companyField} />
           </div>
 
-          <TextField {...emailField} />
+          <TextField
+            {...emailField}
+            error={fieldErrors.email}
+            onClearError={() => clearFieldError('email')}
+          />
 
-          <Field id="interest" label="Area di Interesse">
+          <Field error={fieldErrors.interest} id="interest" label="Area di Interesse" required>
             <select
+              aria-describedby={fieldErrors.interest ? 'interest-error' : undefined}
+              aria-invalid={fieldErrors.interest ? 'true' : undefined}
               className={SELECT_FIELD_CLASS}
               defaultValue=""
               id="interest"
               name="interest"
+              onChange={() => clearFieldError('interest')}
               required
             >
               <option disabled value="">
@@ -342,7 +448,6 @@ export default function ContactSection() {
               name="message"
               placeholder="Descrivi il tuo progetto..."
               maxLength={FIELD_MAX_LENGTHS.message}
-              required
               rows="4"
             />
           </Field>

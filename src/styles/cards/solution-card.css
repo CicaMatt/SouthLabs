@@ -189,6 +189,13 @@
 }
 
 .software-ai-feature-card .software-ai-grid-highlight {
+  /* The feature card has a 2px border, so its static grid (::before) anchors to
+     the border box via inset: -2px — the same reference as --card-grid-origin and
+     the burst. The spotlight window is positioned at the padding box (left/top: 0),
+     i.e. 2px inside the border, so shift it back by that border width to keep the
+     hover grid lined up with the static grid and the burst. */
+  left: -2px;
+  top: -2px;
   opacity: calc(
     var(--card-grid-highlight-opacity, 0) * 0.25 * var(--card-grid-highlight-impact, 1)
   );
