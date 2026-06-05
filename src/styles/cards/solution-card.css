@@ -85,7 +85,6 @@
 /* Subtle AI feature-card effects for the software section. */
 .software-ai-feature-card,
 .software-ai-feature-card.software-card-surface {
-  --software-card-selected-icon-color: var(--software-ai-accent);
   --software-ai-grid-opacity: 0.5;
   --card-grid-highlight-color: var(--section-grid-highlight-color);
   --card-grid-highlight-opacity: 0;
@@ -98,7 +97,6 @@
 }
 
 .software-card-surface {
-  --software-card-selected-icon-color: var(--software-support-blue);
   --solution-card-bg-opacity: 0.1;
   --solution-card-bg-hover-opacity: 0.1;
   --card-ring-rgb: var(--software-support-blue-rgb);
@@ -277,7 +275,6 @@
   .section-grid-bg--software .group:hover > .material-symbols-outlined {
     --tw-scale-x: 1 !important;
     --tw-scale-y: 1 !important;
-    color: #515f74 !important;
   }
 
   .section-grid-bg--software
@@ -285,7 +282,6 @@
     > .material-symbols-outlined {
     --tw-scale-x: 1.1 !important;
     --tw-scale-y: 1.1 !important;
-    color: var(--software-card-selected-icon-color) !important;
     transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate))
       skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
       scaleY(var(--tw-scale-y)) !important;
