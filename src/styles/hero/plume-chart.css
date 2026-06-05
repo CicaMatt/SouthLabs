@@ -2,7 +2,7 @@
 .v-graph-halo-line {
   fill: none;
   stroke: url(#vGraphStroke);
-  stroke-width: 12;
+  stroke-width: 9;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-opacity: 0.18;
@@ -17,23 +17,41 @@
 }
 .v-graph-halo-bars line {
   stroke: url(#vGraphColumnGlow);
-  stroke-width: 13;
+  stroke-width: 9;
   stroke-linecap: round;
   stroke-opacity: 0.42;
 }
 
+.v-plume-baseline-halo {
+  fill: none;
+  stroke: url(#vGraphColumnGlow);
+  stroke-width: 9;
+  stroke-linecap: round;
+  stroke-opacity: 0.42;
+  /* Static wide glow behind the baseline, mirroring .v-graph-halo-bars. */
+  opacity: 0.34;
+}
 .v-plume-baseline {
   stroke: url(#vGraphColumnGlow);
-  stroke-width: 3.2;
+  stroke-width: 3.6;
   stroke-linecap: round;
   stroke-opacity: 0.92;
   stroke-dasharray: 16 12;
   animation: vPlumeBaselineFlow 15s linear infinite;
 }
 
+.v-plume-side-link-halo {
+  fill: none;
+  stroke: url(#vGraphStroke);
+  stroke-width: 9;
+  stroke-linecap: round;
+  stroke-opacity: 0.18;
+  /* Static wide glow behind the side links, mirroring .v-graph-halo-line. */
+  opacity: 0.33;
+}
 .v-plume-side-link {
   stroke: url(#vGraphStroke);
-  stroke-width: 3.8;
+  stroke-width: 3.6;
   stroke-linecap: round;
   stroke-opacity: 0.56;
   stroke-dasharray: 14 11;
@@ -45,7 +63,7 @@
 
 .v-bar {
   stroke: url(#vGraphColumnGlow);
-  stroke-width: 4.8;
+  stroke-width: 3.6;
   stroke-linecap: round;
   /* Static opacity (midpoint of the former 0.52↔1.0 pulse). The dashes still
      flow via vBarDashFlow on the parent .v-bar-flow group. */
@@ -59,7 +77,7 @@
 .v-trend {
   fill: none;
   stroke: url(#vGraphStroke);
-  stroke-width: 4.8;
+  stroke-width: 3.6;
   stroke-linecap: round;
   stroke-linejoin: round;
   /* Static opacity (midpoint of the former 0.52↔0.96 pulse). Dash flow stays. */

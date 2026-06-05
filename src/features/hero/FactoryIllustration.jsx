@@ -10,7 +10,7 @@ function PlumeChartOverlay() {
       <polyline className="v-graph-halo-line" points={PLUME_TREND_POINTS} />
       <polyline className="v-trend v-plume-trend-out" points={PLUME_TREND_POINTS} />
 
-      <g clipPath="url(#vPlumeClip)">
+      <g>
         <g className="v-graph-halo-bars">
           <line x1="208" y1="134" x2="208" y2="96" />
           <line x1="246" y1="134" x2="246" y2="84" />
@@ -20,7 +20,8 @@ function PlumeChartOverlay() {
           <line x1="400" y1="134" x2="400" y2="106" />
         </g>
 
-        <line className="v-plume-baseline" x1="172" y1="134" x2="420" y2="134" />
+        <line className="v-plume-baseline-halo" x1="170" y1="134" x2="414" y2="134" />
+        <line className="v-plume-baseline" x1="170" y1="134" x2="414" y2="134" />
         <g className="v-bar-flow">
           <line className="v-bar v-bar-1" x1="208" y1="134" x2="208" y2="96" />
           <line className="v-bar v-bar-2" x1="246" y1="134" x2="246" y2="84" />
@@ -30,7 +31,9 @@ function PlumeChartOverlay() {
           <line className="v-bar v-bar-6" x1="400" y1="134" x2="400" y2="106" />
         </g>
 
-        <line className="v-plume-side-link" x1="176" y1="122" x2="206" y2="122" />
+        <line className="v-plume-side-link-halo" x1="180" y1="122" x2="206" y2="122" />
+        <line className="v-plume-side-link" x1="180" y1="122" x2="206" y2="122" />
+        <line className="v-plume-side-link-halo" x1="342" y1="108" x2="408" y2="108" />
         <line
           className="v-plume-side-link v-plume-side-link-b"
           x1="342"
@@ -39,11 +42,11 @@ function PlumeChartOverlay() {
           y2="108"
         />
 
-        <circle cx="208" cy="122" r="6.5" fill="#E0F5FF" className="v-node" />
+        <circle cx="207.5" cy="122" r="6.5" fill="#E0F5FF" className="v-node" />
         <circle cx="364" cy="108" r="6.2" fill="#E0F5FF" className="v-node v-node-b" />
 
-        <circle cx="248" cy="92" r="19" className="v-node-ring" />
-        <circle cx="248" cy="92" r="12.2" fill="#E0F5FF" className="v-node-orange" />
+        <circle cx="246" cy="92" r="19" className="v-node-ring" />
+        <circle cx="246" cy="92" r="12.2" fill="#E0F5FF" className="v-node-orange" />
         <circle cx="374" cy="74" r="18" className="v-node-ring v-node-ring-b" />
         <circle
           cx="374"
@@ -53,7 +56,7 @@ function PlumeChartOverlay() {
           className="v-node-orange v-node-orange-b"
         />
 
-        <circle cx="248" cy="92" r="3.2" className="v-node-spark" />
+        <circle cx="246" cy="92" r="3.2" className="v-node-spark" />
         <circle cx="374" cy="74" r="3" className="v-node-spark v-node-spark-b" />
       </g>
 
@@ -127,33 +130,6 @@ export default function FactoryIllustration() {
         </clipPath>
         <clipPath id="vRightWindowClip">
           <use href="#vRightWindowShape" />
-        </clipPath>
-        {/* Plume cloud shape (logo-inspired) */}
-        <path
-          id="vPlumeShape"
-          d="
-            M 206 154
-            C 183 154, 164 137, 164 114
-            C 164 96, 175 81, 192 75
-            C 190 69, 190 63, 192 57
-            C 196 38, 212 25, 232 25
-            C 241 20, 258 12, 277 12
-            C 304 12, 327 25, 337 45
-            C 345 37, 357 33, 370 33
-            C 400 33, 424 56, 424 86
-            C 438 93, 448 108, 448 126
-            C 448 152, 427 173, 401 173
-            C 392 173, 384 171, 376 168
-            C 365 178, 351 184, 336 184
-            C 321 184, 307 178, 297 168
-            C 286 178, 272 186, 255 186
-            C 238 186, 223 178, 212 166
-            C 209 162, 207 158, 206 154
-            Z
-          "
-        />
-        <clipPath id="vPlumeClip">
-          <use href="#vPlumeShape" transform="translate(0 8.64) scale(1 0.92)" />
         </clipPath>
         <linearGradient
           id="vGraphStroke"
