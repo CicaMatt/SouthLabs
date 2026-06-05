@@ -1,7 +1,7 @@
 import factoryBaseImageUrl from '../../../media/images/hero-factory-base.svg';
 
-const PLUME_TREND_POINTS = '206,119 248,92 326,108 374,74 452,30';
-const PLUME_TREND_ARROW_POINTS = '443,42 452,30 437,32';
+const PLUME_TREND_POINTS = '206,116 248,92 326,108 374,74 452,18.75';
+const PLUME_TREND_ARROW_POINTS = '444.3,31.6 452,18.75 437.3,22.3';
 
 // Animated chart-like plume overlay that sits above the cached factory base.
 function PlumeChartOverlay() {
@@ -16,8 +16,8 @@ function PlumeChartOverlay() {
           <line x1="246" y1="134" x2="246" y2="84" />
           <line x1="286" y1="134" x2="286" y2="70" />
           <line x1="326" y1="134" x2="326" y2="50" />
-          <line x1="364" y1="134" x2="364" y2="92" />
-          <line x1="400" y1="134" x2="400" y2="106" />
+          <line x1="364" y1="134" x2="364" y2="100" />
+          <line x1="400" y1="134" x2="400" y2="100" />
         </g>
 
         <line className="v-plume-baseline-halo" x1="170" y1="134" x2="414" y2="134" />
@@ -27,23 +27,23 @@ function PlumeChartOverlay() {
           <line className="v-bar v-bar-2" x1="246" y1="134" x2="246" y2="84" />
           <line className="v-bar v-bar-3" x1="286" y1="134" x2="286" y2="70" />
           <line className="v-bar v-bar-4" x1="326" y1="134" x2="326" y2="50" />
-          <line className="v-bar v-bar-5" x1="364" y1="134" x2="364" y2="92" />
-          <line className="v-bar v-bar-6" x1="400" y1="134" x2="400" y2="106" />
+          <line className="v-bar v-bar-5" x1="364" y1="134" x2="364" y2="100" />
+          <line className="v-bar v-bar-6" x1="400" y1="134" x2="400" y2="100" />
         </g>
 
-        <line className="v-plume-side-link-halo" x1="180" y1="119" x2="206" y2="119" />
-        <line className="v-plume-side-link" x1="180" y1="119" x2="206" y2="119" />
-        <line className="v-plume-side-link-halo" x1="326" y1="108" x2="408" y2="108" />
+        <line className="v-plume-side-link-halo" x1="180" y1="116" x2="206" y2="116" />
+        <line className="v-plume-side-link" x1="180" y1="116" x2="206" y2="116" />
+        <line className="v-plume-side-link-halo" x1="326" y1="108" x2="414" y2="108" />
         <line
           className="v-plume-side-link v-plume-side-link-b"
           x1="326"
           y1="108"
-          x2="408"
+          x2="414"
           y2="108"
         />
 
-        <circle cx="207.5" cy="119" r="6.5" fill="#E0F5FF" className="v-node" />
-        <circle cx="326" cy="108" r="6.2" fill="#E0F5FF" className="v-node v-node-b" />
+        <circle cx="207.5" cy="116" r="6.5" fill="#E0F5FF" className="v-node" />
+        <circle cx="326" cy="108" r="8" fill="#E0F5FF" className="v-node v-node-b" />
 
         <circle cx="246" cy="92" r="19" className="v-node-ring" />
         <circle cx="246" cy="92" r="12.2" fill="#E0F5FF" className="v-node-orange" />
