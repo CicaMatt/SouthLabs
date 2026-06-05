@@ -1,6 +1,6 @@
 import factoryBaseImageUrl from '../../../media/images/hero-factory-base.svg';
 
-const PLUME_TREND_POINTS = '206,122 248,92 314,108 374,74 452,30';
+const PLUME_TREND_POINTS = '206,119 248,92 314,108 374,74 452,30';
 const PLUME_TREND_ARROW_POINTS = '443,42 452,30 437,32';
 
 // Animated chart-like plume overlay that sits above the cached factory base.
@@ -12,10 +12,10 @@ function PlumeChartOverlay() {
 
       <g>
         <g className="v-graph-halo-bars">
-          <line x1="208" y1="134" x2="208" y2="96" />
+          <line x1="208" y1="134" x2="208" y2="95" />
           <line x1="246" y1="134" x2="246" y2="84" />
-          <line x1="286" y1="134" x2="286" y2="60" />
-          <line x1="326" y1="134" x2="326" y2="80" />
+          <line x1="286" y1="134" x2="286" y2="70" />
+          <line x1="326" y1="134" x2="326" y2="50" />
           <line x1="364" y1="134" x2="364" y2="92" />
           <line x1="400" y1="134" x2="400" y2="106" />
         </g>
@@ -23,16 +23,16 @@ function PlumeChartOverlay() {
         <line className="v-plume-baseline-halo" x1="170" y1="134" x2="414" y2="134" />
         <line className="v-plume-baseline" x1="170" y1="134" x2="414" y2="134" />
         <g className="v-bar-flow">
-          <line className="v-bar v-bar-1" x1="208" y1="134" x2="208" y2="96" />
+          <line className="v-bar v-bar-1" x1="208" y1="134" x2="208" y2="95" />
           <line className="v-bar v-bar-2" x1="246" y1="134" x2="246" y2="84" />
-          <line className="v-bar v-bar-3" x1="286" y1="134" x2="286" y2="60" />
-          <line className="v-bar v-bar-4" x1="326" y1="134" x2="326" y2="80" />
+          <line className="v-bar v-bar-3" x1="286" y1="134" x2="286" y2="70" />
+          <line className="v-bar v-bar-4" x1="326" y1="134" x2="326" y2="50" />
           <line className="v-bar v-bar-5" x1="364" y1="134" x2="364" y2="92" />
           <line className="v-bar v-bar-6" x1="400" y1="134" x2="400" y2="106" />
         </g>
 
-        <line className="v-plume-side-link-halo" x1="180" y1="122" x2="206" y2="122" />
-        <line className="v-plume-side-link" x1="180" y1="122" x2="206" y2="122" />
+        <line className="v-plume-side-link-halo" x1="180" y1="119" x2="206" y2="119" />
+        <line className="v-plume-side-link" x1="180" y1="119" x2="206" y2="119" />
         <line className="v-plume-side-link-halo" x1="342" y1="108" x2="408" y2="108" />
         <line
           className="v-plume-side-link v-plume-side-link-b"
@@ -42,7 +42,7 @@ function PlumeChartOverlay() {
           y2="108"
         />
 
-        <circle cx="207.5" cy="122" r="6.5" fill="#E0F5FF" className="v-node" />
+        <circle cx="207.5" cy="119" r="6.5" fill="#E0F5FF" className="v-node" />
         <circle cx="364" cy="108" r="6.2" fill="#E0F5FF" className="v-node v-node-b" />
 
         <circle cx="246" cy="92" r="19" className="v-node-ring" />
