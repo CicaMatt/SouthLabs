@@ -154,67 +154,41 @@ export function getSectionCursorTheme(layout, pageX, pageY, dotSize = SECTION_CU
   const distanceFromBottom = bottomBorder - pageY;
   const dotTop = pageY - dotSize / 2;
   const dotBottom = pageY + dotSize / 2;
+  const hasPrevious = currentIndex > 0;
+  const hasNext = currentIndex < sectionEntries.length - 1;
 
-  if (currentIndex > 0 && distanceFromTop <= SECTION_GRID_HIGHLIGHT_DISTANCE) {
-    const neighbor = sectionEntries[currentIndex - 1];
-    const boundaryStrength = 1 - clamp(distanceFromTop / SECTION_GRID_HIGHLIGHT_DISTANCE, 0, 1);
+  const addNeighborHighlight = (neighborIndex, distance) => {
+    const neighbor = sectionEntries[neighborIndex];
+    const boundaryStrength = 1 - clamp(distance / SECTION_GRID_HIGHLIGHT_DISTANCE, 0, 1);
     highlights.push(
       makeHighlight(neighbor, getSectionHighlightOpacity(neighbor) * boundaryStrength)
     );
+  };
+
+  if (hasPrevious && distanceFromTop <= SECTION_GRID_HIGHLIGHT_DISTANCE) {
+    addNeighborHighlight(currentIndex - 1, distanceFromTop);
+  }
+  if (hasNext && distanceFromBottom <= SECTION_GRID_HIGHLIGHT_DISTANCE) {
+    addNeighborHighlight(currentIndex + 1, distanceFromBottom);
   }
 
-  if (
-    currentIndex < sectionEntries.length - 1 &&
-    distanceFromBottom <= SECTION_GRID_HIGHLIGHT_DISTANCE
-  ) {
-    const neighbor = sectionEntries[currentIndex + 1];
-    const boundaryStrength = 1 - clamp(distanceFromBottom / SECTION_GRID_HIGHLIGHT_DISTANCE, 0, 1);
-    highlights.push(
-      makeHighlight(neighbor, getSectionHighlightOpacity(neighbor) * boundaryStrength)
-    );
-  }
+  // When a section border falls within the cursor dot's vertical span, the dot
+  // straddles two sections: tint each half and split the fill at the border.
+  const splitAt = (border) => `${clamp(((border - dotTop) / dotSize) * 100, 0, 100).toFixed(2)}%`;
+  let topColor = current.color;
+  let bottomColor = current.color;
+  let split = '100%';
 
-  if (currentIndex > 0 && topBorder >= dotTop && topBorder <= dotBottom) {
-    return applyZoneOverlay(
-      {
-        highlights,
-        topColor: sectionEntries[currentIndex - 1].color,
-        bottomColor: current.color,
-        split: `${clamp(((topBorder - dotTop) / dotSize) * 100, 0, 100).toFixed(2)}%`
-      },
-      current,
-      pageX,
-      pageY,
-      dotSize
-    );
-  }
-
-  if (
-    currentIndex < sectionEntries.length - 1 &&
-    bottomBorder >= dotTop &&
-    bottomBorder <= dotBottom
-  ) {
-    return applyZoneOverlay(
-      {
-        highlights,
-        topColor: current.color,
-        bottomColor: sectionEntries[currentIndex + 1].color,
-        split: `${clamp(((bottomBorder - dotTop) / dotSize) * 100, 0, 100).toFixed(2)}%`
-      },
-      current,
-      pageX,
-      pageY,
-      dotSize
-    );
+  if (hasPrevious && topBorder >= dotTop && topBorder <= dotBottom) {
+    topColor = sectionEntries[currentIndex - 1].color;
+    split = splitAt(topBorder);
+  } else if (hasNext && bottomBorder >= dotTop && bottomBorder <= dotBottom) {
+    bottomColor = sectionEntries[currentIndex + 1].color;
+    split = splitAt(bottomBorder);
   }
 
   return applyZoneOverlay(
-    {
-      highlights,
-      topColor: current.color,
-      bottomColor: current.color,
-      split: '100%'
-    },
+    { highlights, topColor, bottomColor, split },
     current,
     pageX,
     pageY,

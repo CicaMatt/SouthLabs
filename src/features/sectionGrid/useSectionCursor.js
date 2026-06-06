@@ -12,6 +12,7 @@ import {
 } from './domSelectors';
 import { clearCardGridHighlight, updateCardGridHighlight } from './gridSurface';
 import { setStylePropertyIfChanged } from '../../lib/dom';
+import { positiveMod } from '../../lib/math';
 import { readHeroGraphicCursorLayout, updateHeroGraphicCursorState } from './heroGraphicHitTest';
 import { DEFAULT_SECTION_GRID_SIZE } from './useSectionGridInteractions';
 
@@ -23,7 +24,7 @@ const SECTION_CURSOR_COMPACT_DOT_SIZE = 10;
    is the exact phase (no window/2 term needed). */
 function gridCellPhase(value, cellSize) {
   const cell = cellSize || DEFAULT_SECTION_GRID_SIZE;
-  return (((value % cell) + cell) % cell).toFixed(2);
+  return positiveMod(value, cell).toFixed(2);
 }
 
 function getPointerTargetElement(target) {
@@ -173,46 +174,18 @@ export function useSectionCursor() {
     setStylePropertyIfChanged(cursorElement, '--section-cursor-bottom-color', theme.bottomColor);
     setStylePropertyIfChanged(cursorElement, '--section-cursor-split', theme.split);
     setStylePropertyIfChanged(cursorElement, '--section-cursor-zone-color', theme.zoneColor);
-    setStylePropertyIfChanged(
-      cursorElement,
-      '--section-cursor-zone-inset-top',
-      `${theme.zoneInsetTop.toFixed(2)}%`
-    );
-    setStylePropertyIfChanged(
-      cursorElement,
-      '--section-cursor-zone-inset-right',
-      `${theme.zoneInsetRight.toFixed(2)}%`
-    );
-    setStylePropertyIfChanged(
-      cursorElement,
-      '--section-cursor-zone-inset-bottom',
-      `${theme.zoneInsetBottom.toFixed(2)}%`
-    );
-    setStylePropertyIfChanged(
-      cursorElement,
-      '--section-cursor-zone-inset-left',
-      `${theme.zoneInsetLeft.toFixed(2)}%`
-    );
-    setStylePropertyIfChanged(
-      cursorElement,
-      '--section-cursor-zone-radius-tl',
-      `${theme.zoneRadiusTopLeft.toFixed(2)}px`
-    );
-    setStylePropertyIfChanged(
-      cursorElement,
-      '--section-cursor-zone-radius-tr',
-      `${theme.zoneRadiusTopRight.toFixed(2)}px`
-    );
-    setStylePropertyIfChanged(
-      cursorElement,
-      '--section-cursor-zone-radius-br',
-      `${theme.zoneRadiusBottomRight.toFixed(2)}px`
-    );
-    setStylePropertyIfChanged(
-      cursorElement,
-      '--section-cursor-zone-radius-bl',
-      `${theme.zoneRadiusBottomLeft.toFixed(2)}px`
-    );
+    for (const [property, value, unit] of [
+      ['--section-cursor-zone-inset-top', theme.zoneInsetTop, '%'],
+      ['--section-cursor-zone-inset-right', theme.zoneInsetRight, '%'],
+      ['--section-cursor-zone-inset-bottom', theme.zoneInsetBottom, '%'],
+      ['--section-cursor-zone-inset-left', theme.zoneInsetLeft, '%'],
+      ['--section-cursor-zone-radius-tl', theme.zoneRadiusTopLeft, 'px'],
+      ['--section-cursor-zone-radius-tr', theme.zoneRadiusTopRight, 'px'],
+      ['--section-cursor-zone-radius-br', theme.zoneRadiusBottomRight, 'px'],
+      ['--section-cursor-zone-radius-bl', theme.zoneRadiusBottomLeft, 'px']
+    ]) {
+      setStylePropertyIfChanged(cursorElement, property, `${value.toFixed(2)}${unit}`);
+    }
     setStylePropertyIfChanged(cursorElement, '--section-cursor-opacity', '1');
   }, [clearSectionHighlights, getSectionCursorLayout]);
 
@@ -241,23 +214,6 @@ export function useSectionCursor() {
     [scheduleSectionCursorUpdate]
   );
 
-  const refreshSectionCursor = useCallback(
-    (mainElement) => {
-      sectionCursorLayoutRef.current = null;
-
-      const lastPoint = lastSectionCursorPointRef.current;
-      if (!lastPoint) return;
-
-      measureSectionCursorLayout(mainElement);
-      lastSectionCursorPointRef.current = {
-        ...lastPoint,
-        mainElement
-      };
-      scheduleSectionCursorUpdate();
-    },
-    [measureSectionCursorLayout, scheduleSectionCursorUpdate]
-  );
-
   const updateSectionCursor = useCallback(
     (mainElement) => {
       const lastPoint = lastSectionCursorPointRef.current;
@@ -270,6 +226,19 @@ export function useSectionCursor() {
       scheduleSectionCursorUpdate();
     },
     [scheduleSectionCursorUpdate]
+  );
+
+  // Re-measure section/card geometry (after a layout change), then repaint the
+  // cursor at the last known point.
+  const refreshSectionCursor = useCallback(
+    (mainElement) => {
+      sectionCursorLayoutRef.current = null;
+      if (!lastSectionCursorPointRef.current) return;
+
+      measureSectionCursorLayout(mainElement);
+      updateSectionCursor(mainElement);
+    },
+    [measureSectionCursorLayout, updateSectionCursor]
   );
 
   const refreshSectionCursorLayout = useCallback(

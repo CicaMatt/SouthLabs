@@ -8,3 +8,6 @@ export const lerp = (a, b, t) => a + (b - a) * t;
 
 /* Hermite smoothstep. Callers pass an already-normalised [0, 1] progress. */
 export const smoothStep = (t) => t * t * (3 - 2 * t);
+
+/* Modulo that always returns a non-negative result (unlike JS `%` for negatives). */
+export const positiveMod = (value, modulus) => ((value % modulus) + modulus) % modulus;

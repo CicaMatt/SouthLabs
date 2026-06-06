@@ -75,20 +75,6 @@ export function useSectionGridInteractions() {
     [handleTouchPointerMove, trackSectionCursorPoint]
   );
 
-  const handleMainPointerUp = useCallback(
-    (event) => {
-      handleTouchPointerUp(event);
-    },
-    [handleTouchPointerUp]
-  );
-
-  const handleMainPointerCancel = useCallback(
-    (event) => {
-      handleTouchPointerCancel(event);
-    },
-    [handleTouchPointerCancel]
-  );
-
   useLayoutEffect(() => {
     const mainElement = mainRef.current;
     if (!mainElement) return undefined;
@@ -174,10 +160,10 @@ export function useSectionGridInteractions() {
     burstCanvasRef,
     mainEventHandlers: {
       onPointerLeave: handleMainPointerLeave,
-      onPointerCancel: handleMainPointerCancel,
+      onPointerCancel: handleTouchPointerCancel,
       onPointerDown: handleMainPointerDown,
       onPointerMove: handleMainPointerMove,
-      onPointerUp: handleMainPointerUp
+      onPointerUp: handleTouchPointerUp
     }
   };
 }

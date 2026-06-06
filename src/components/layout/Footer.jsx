@@ -82,12 +82,13 @@ function FooterColumn({ children, title }) {
 }
 
 function ContactCopyButton({ copied, label, onCopy }) {
+  const actionLabel = copied ? `${label} copiato` : `Copia ${label}`;
   return (
     <button
-      aria-label={copied ? `${label} copiato` : `Copia ${label}`}
+      aria-label={actionLabel}
       className={FOOTER_COPY_BUTTON_CLASS}
       onClick={onCopy}
-      title={copied ? `${label} copiato` : `Copia ${label}`}
+      title={actionLabel}
       type="button"
     >
       <span

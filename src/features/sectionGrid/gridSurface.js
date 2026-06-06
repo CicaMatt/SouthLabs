@@ -1,5 +1,6 @@
 import { CARD_GRID_ANCHOR_SELECTOR } from './domSelectors';
 import { setStylePropertyIfChanged } from '../../lib/dom';
+import { positiveMod } from '../../lib/math';
 import { DEFAULT_SECTION_GRID_SIZE as SECTION_GRID_SIZE } from './useSectionGridInteractions';
 
 /* Threshold under which an origin rewrite is treated as noise. Any sub-pixel
@@ -40,14 +41,8 @@ export function updateCardGridHighlight(
   const cell = gridSize || SECTION_GRID_SIZE;
   card.style.setProperty('--card-grid-highlight-x', `${localX.toFixed(2)}px`);
   card.style.setProperty('--card-grid-highlight-y', `${localY.toFixed(2)}px`);
-  card.style.setProperty(
-    '--card-spotlight-phase-x',
-    `${(((localX % cell) + cell) % cell).toFixed(2)}`
-  );
-  card.style.setProperty(
-    '--card-spotlight-phase-y',
-    `${(((localY % cell) + cell) % cell).toFixed(2)}`
-  );
+  card.style.setProperty('--card-spotlight-phase-x', positiveMod(localX, cell).toFixed(2));
+  card.style.setProperty('--card-spotlight-phase-y', positiveMod(localY, cell).toFixed(2));
   setStylePropertyIfChanged(card, '--card-grid-highlight-color', color);
   card.style.setProperty('--card-grid-highlight-opacity', opacity.toFixed(3));
 }
