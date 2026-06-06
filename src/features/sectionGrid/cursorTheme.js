@@ -114,11 +114,26 @@ function applyZoneOverlay(theme, current, pageX, pageY, dotSize) {
     if (dotRight <= rect.left || dotLeft >= rect.right) continue;
     if (dotBottom <= rect.top || dotTop >= rect.bottom) continue;
 
-    const insetTop = clamp(((rect.top - dotTop) / dotSize) * 100, 0, 100);
-    const insetRight = clamp(((dotRight - rect.right) / dotSize) * 100, 0, 100);
-    const insetBottom = clamp(((dotBottom - rect.bottom) / dotSize) * 100, 0, 100);
-    const insetLeft = clamp(((rect.left - dotLeft) / dotSize) * 100, 0, 100);
+    // How far each box edge sits inside the dot (px, can go negative once the
+    // edge passes the far side of the dot). These drive both the clip insets and
+    // the corner-fade below.
+    const topInside = rect.top - dotTop;
+    const rightInside = dotRight - rect.right;
+    const bottomInside = dotBottom - rect.bottom;
+    const leftInside = rect.left - dotLeft;
+
+    const insetTop = clamp((topInside / dotSize) * 100, 0, 100);
+    const insetRight = clamp((rightInside / dotSize) * 100, 0, 100);
+    const insetBottom = clamp((bottomInside / dotSize) * 100, 0, 100);
+    const insetLeft = clamp((leftInside / dotSize) * 100, 0, 100);
     const { tl, tr, br, bl } = radii;
+
+    // Keep a corner at the box's true radius while it's in view, then ease it to
+    // 0 over the final `r` px as the corner slides off the dot onto a side. The
+    // curved part of the box edge spans exactly `r` px, so an adjacent edge that
+    // has travelled past the dot by `r` means the corner has fully exited.
+    const cornerFade = (edgeA, edgeB, r) =>
+      r <= 0 ? 0 : Math.min(clamp((edgeA + r) / r, 0, 1), clamp((edgeB + r) / r, 0, 1));
 
     return {
       ...theme,
@@ -127,10 +142,10 @@ function applyZoneOverlay(theme, current, pageX, pageY, dotSize) {
       zoneInsetRight: insetRight,
       zoneInsetBottom: insetBottom,
       zoneInsetLeft: insetLeft,
-      zoneRadiusTopLeft: insetTop > 0 && insetLeft > 0 ? tl : 0,
-      zoneRadiusTopRight: insetTop > 0 && insetRight > 0 ? tr : 0,
-      zoneRadiusBottomRight: insetBottom > 0 && insetRight > 0 ? br : 0,
-      zoneRadiusBottomLeft: insetBottom > 0 && insetLeft > 0 ? bl : 0
+      zoneRadiusTopLeft: tl * cornerFade(topInside, leftInside, tl),
+      zoneRadiusTopRight: tr * cornerFade(topInside, rightInside, tr),
+      zoneRadiusBottomRight: br * cornerFade(bottomInside, rightInside, br),
+      zoneRadiusBottomLeft: bl * cornerFade(bottomInside, leftInside, bl)
     };
   }
 
