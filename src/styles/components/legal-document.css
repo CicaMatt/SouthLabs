@@ -60,6 +60,7 @@
 .legal-document-content ul {
   margin: 0.8rem 0 1.05rem;
   padding-left: 1.2rem;
+  list-style: disc outside;
 }
 
 .legal-document-content li {
@@ -68,7 +69,7 @@
 }
 
 .legal-document-content li::marker {
-  color: #1557d4;
+  color: #203658;
 }
 
 .legal-document-content li > p {
