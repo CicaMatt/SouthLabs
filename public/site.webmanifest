@@ -1,0 +1,30 @@
+{
+  "name": "SouthLabs - Consulenza Informatica",
+  "short_name": "SouthLabs",
+  "description": "Consulenza informatica e innovazione per la crescita del tuo business.",
+  "lang": "it",
+  "dir": "ltr",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "theme_color": "#203658",
+  "background_color": "#f7f9fb",
+  "icons": [
+    {
+      "src": "favicon-32x32.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "android-chrome-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "type": "image/png",
+      "sizes": "180x180"
+    }
+  ]
+}
