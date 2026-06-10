@@ -8,6 +8,11 @@ const FACTORY_OFFSCREEN_CLASS = 'hero-factory-stage--offscreen';
 const DEFAULT_POINTER = { pctX: 72, pctY: 42, shiftX: 0.18, shiftY: -0.1 };
 const POINTER_BURST_MS = 460;
 const TOUCH_PARTICLE_NUDGE_MS = 720;
+// A touch only triggers the particle burst if it's a deliberate tap — finger
+// barely moved and lifted quickly — so scroll gestures don't set it off.
+const TOUCH_TAP_MAX_DISTANCE = 10;
+const TOUCH_TAP_MAX_DISTANCE_SQUARED = TOUCH_TAP_MAX_DISTANCE * TOUCH_TAP_MAX_DISTANCE;
+const TOUCH_TAP_MAX_DURATION_MS = 650;
 const HOVER_LIGHT_ACTIVE_OPACITY = 0.95;
 const HOVER_LIGHT_CORE_OPACITY = 0.82;
 const HOVER_LIGHT_PULSE_MS = 1040;
@@ -70,6 +75,12 @@ export function useHeroInteractions() {
     targetScale: 0.92
   });
   const hoverLightPulseRef = useRef(null);
+  // Last pointer position in *viewport* coords (plus the hero element), so the
+  // hover light can be re-pinned to the cursor while the page scrolls and no
+  // pointermove fires. See the scroll effect below.
+  const lastPointerViewportRef = useRef(null);
+  // Tracks an in-progress touch so pointerup can tell a tap from a scroll.
+  const touchGestureRef = useRef(null);
   const accelerateFactoryAnimations = useFactoryAnimationAcceleration(factoryStageRef);
   useFactoryFpsCap(factoryStageRef);
 
@@ -121,6 +132,70 @@ export function useHeroInteractions() {
     return () => {
       observer.disconnect();
       documentObject.removeEventListener('visibilitychange', updateFactoryPauseState);
+    };
+  }, []);
+
+  // The hover light is positioned with hero-local coords, so scrolling (which
+  // emits no pointermove) would leave it pinned to the hero content and drift
+  // away from the cursor. Re-derive the local position from the cursor's fixed
+  // viewport point and the hero's current rect on each scroll frame so the
+  // light stays under the cursor. Leaving the hero is handled by pointerleave.
+  useEffect(() => {
+    const hoverLight = hoverLightRef.current;
+    const windowObject = hoverLight?.ownerDocument.defaultView;
+    if (!hoverLight || !windowObject) return undefined;
+
+    let scrollFrame = 0;
+    const realignHoverLight = () => {
+      scrollFrame = 0;
+      const record = lastPointerViewportRef.current;
+      if (!record || !record.heroElement) return;
+
+      const { clientX, clientY } = record;
+      const bounds = record.heroElement.getBoundingClientRect();
+      const withinHero =
+        clientX >= bounds.left &&
+        clientX <= bounds.right &&
+        clientY >= bounds.top &&
+        clientY <= bounds.bottom;
+
+      const motion = hoverLightMotionRef.current;
+      if (!withinHero) {
+        motion.targetOpacity = 0;
+        motion.opacity = 0;
+        hoverLight.style.opacity = '0';
+        return;
+      }
+
+      const localX = clientX - bounds.left;
+      const localY = clientY - bounds.top;
+      // Snap (no easing) so the light holds its viewport position while the
+      // page scrolls underneath it, matching the section-grid cursor.
+      motion.x = localX;
+      motion.y = localY;
+      motion.targetX = localX;
+      motion.targetY = localY;
+      motion.targetOpacity = HOVER_LIGHT_ACTIVE_OPACITY;
+      motion.targetScale = 1;
+      motion.initialized = true;
+      pointerRef.current.x = localX;
+      pointerRef.current.y = localY;
+
+      hoverLight.style.opacity = motion.opacity.toFixed(3);
+      hoverLight.style.transform =
+        `translate3d(${localX.toFixed(2)}px, ${localY.toFixed(2)}px, 0) ` +
+        `translate(-50%, -50%) scale(${motion.scale.toFixed(3)})`;
+    };
+
+    const onScroll = () => {
+      if (scrollFrame) return;
+      scrollFrame = windowObject.requestAnimationFrame(realignHoverLight);
+    };
+
+    windowObject.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      if (scrollFrame) windowObject.cancelAnimationFrame(scrollFrame);
+      windowObject.removeEventListener('scroll', onScroll);
     };
   }, []);
 
@@ -236,6 +311,14 @@ export function useHeroInteractions() {
     pulse.oncancel = clearPulse;
   };
 
+  const recordViewportPointer = (event) => {
+    lastPointerViewportRef.current = {
+      clientX: event.clientX,
+      clientY: event.clientY,
+      heroElement: event.currentTarget
+    };
+  };
+
   const applyPointer = (pointer, isActive) => {
     Object.assign(pointerRef.current, pointer, {
       active: isActive,
@@ -261,6 +344,8 @@ export function useHeroInteractions() {
   const endPointer = () => {
     pointerRef.current.active = false;
     pointerRef.current.repelActive = false;
+    lastPointerViewportRef.current = null;
+    touchGestureRef.current = null;
     scheduleFactoryParallax(DEFAULT_POINTER, false);
     scheduleHoverLight(pointerRef.current, false);
   };
@@ -285,9 +370,18 @@ export function useHeroInteractions() {
 
   const handlePointerMove = (event) => {
     if (event.pointerType === 'touch') {
+      const gesture = touchGestureRef.current;
+      if (gesture && gesture.pointerId === event.pointerId && !gesture.moved) {
+        const deltaX = event.clientX - gesture.startX;
+        const deltaY = event.clientY - gesture.startY;
+        if (deltaX * deltaX + deltaY * deltaY > TOUCH_TAP_MAX_DISTANCE_SQUARED) {
+          gesture.moved = true;
+        }
+      }
       if (pointerRef.current.repelActive) applyTouchPointer(readPointerFromEvent(event), true);
       return;
     }
+    recordViewportPointer(event);
     applyPointer(readPointerFromEvent(event), true);
   };
 
@@ -295,11 +389,19 @@ export function useHeroInteractions() {
     const pointer = readPointerFromEvent(event);
     if (event.pointerType === 'touch') {
       applyTouchPointer(pointer, true);
-      triggerPointerBurst(pointer);
-      triggerTouchParticleNudge(pointer);
+      // Hold off on the particle burst until pointerup, when we know whether
+      // this was a tap or the start of a scroll.
+      touchGestureRef.current = {
+        pointerId: event.pointerId,
+        startX: event.clientX,
+        startY: event.clientY,
+        startedAt: performance.now(),
+        moved: false
+      };
       accelerateFactoryAnimations();
       return;
     }
+    recordViewportPointer(event);
     applyPointer(pointer, true);
     triggerPointerBurst(pointer);
     triggerHoverLightPulse();
@@ -307,7 +409,22 @@ export function useHeroInteractions() {
   };
 
   const handlePointerUp = (event) => {
-    if (event.pointerType === 'touch') endPointer();
+    if (event.pointerType !== 'touch') return;
+
+    const gesture = touchGestureRef.current;
+    const isTap =
+      gesture &&
+      gesture.pointerId === event.pointerId &&
+      !gesture.moved &&
+      performance.now() - gesture.startedAt <= TOUCH_TAP_MAX_DURATION_MS;
+
+    if (isTap) {
+      const pointer = readPointerFromEvent(event);
+      triggerPointerBurst(pointer);
+      triggerTouchParticleNudge(pointer);
+    }
+
+    endPointer();
   };
 
   return {

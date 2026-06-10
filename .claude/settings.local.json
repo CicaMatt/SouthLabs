@@ -10,7 +10,8 @@
       "Bash(git commit *)",
       "Bash(perl -i -pe 's{'\\\\''\\\\.\\\\./\\\\.\\\\./utils/classNames'\\\\''}{'\\\\''../../lib/classNames'\\\\''}g' src/components/ui/SectionShell.jsx src/components/layout/TopNavBar.jsx src/components/sections/WebSolutionsSection.jsx)",
       "Bash(git rm *)",
-      "Bash(echo \"=== EXIT: $? ===\")"
+      "Bash(echo \"=== EXIT: $? ===\")",
+      "Bash(npx eslint *)"
     ]
   }
 }
