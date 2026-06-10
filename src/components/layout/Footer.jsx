@@ -314,7 +314,7 @@ export default function Footer() {
       </div>
 
       <div className="site-footer-bottom-row border-t border-[#95e3ff]/10">
-        <div className="site-footer-bottom-content mx-auto flex h-full max-w-7xl flex-row items-center justify-center gap-[clamp(2.5rem,18vw,10rem)] px-4 text-center font-inter text-[10px] uppercase tracking-[0.06em] text-[#d4dbea]/80 min-[390px]:text-xs min-[390px]:tracking-[0.08em] sm:gap-40 sm:px-6 md:px-8">
+        <div className="site-footer-bottom-content mx-auto flex h-full max-w-7xl flex-row items-center justify-center gap-[clamp(1.25rem,6vw,10rem)] px-4 text-center font-inter text-[10px] uppercase tracking-[0.06em] text-[#d4dbea]/80 min-[390px]:text-xs min-[390px]:tracking-[0.08em] sm:gap-40 sm:px-6 md:px-8">
           <span>P.IVA: 06403770651</span>
           <span>© 2026 SouthLabs.</span>
         </div>
